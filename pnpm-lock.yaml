@@ -138,12 +138,6 @@ importers:
         specifier: ^2.1.6
         version: 2.1.6(typescript@5.5.4)
 
-  apps/daedalus_client:
-    dependencies:
-      '@modrinth/daedalus':
-        specifier: workspace:*
-        version: link:../../packages/daedalus
-
   apps/frontend:
     dependencies:
       '@formatjs/intl-localematcher':
@@ -307,8 +301,6 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.5.4)
-
-  packages/daedalus: {}
 
   packages/eslint-config-custom:
     devDependencies:
