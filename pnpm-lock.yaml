@@ -23,22 +23,6 @@ importers:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.5.4)
 
-  apps/app:
-    dependencies:
-      '@modrinth/app-frontend':
-        specifier: workspace:*
-        version: link:../app-frontend
-      '@modrinth/app-lib':
-        specifier: workspace:*
-        version: link:../../packages/app-lib
-      '@modrinth/daedalus':
-        specifier: workspace:*
-        version: link:../../packages/daedalus
-    devDependencies:
-      '@tauri-apps/cli':
-        specifier: 2.1.0
-        version: 2.1.0
-
   apps/app-frontend:
     dependencies:
       '@modrinth/assets':
@@ -153,8 +137,6 @@ importers:
       vue-tsc:
         specifier: ^2.1.6
         version: 2.1.6(typescript@5.5.4)
-
-  apps/app-playground: {}
 
   apps/daedalus_client:
     dependencies:
