@@ -23,7 +23,7 @@ export const DEFAULT_FEATURE_FLAGS = validateValues({
   showAdsWithPlus: false,
 
   // Feature toggles
-  projectTypesPrimaryNav: false,
+  projectTypesPrimaryNav: true,
   oldProjectCards: true,
   newProjectCards: false,
   projectBackground: false,
