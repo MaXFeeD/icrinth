@@ -280,9 +280,6 @@
           <template #notifications> <BellIcon aria-hidden="true" /> Notifications </template>
           <template #saved> <BookmarkIcon aria-hidden="true" /> Saved projects </template>
           <template #servers> <ServerIcon aria-hidden="true" /> My servers </template>
-          <template #plus>
-            <ArrowBigUpDashIcon aria-hidden="true" /> Upgrade to Modrinth+
-          </template>
           <template #settings> <SettingsIcon aria-hidden="true" /> Settings </template>
           <template #flags> <ReportIcon aria-hidden="true" /> Feature flags </template>
           <template #projects> <BoxIcon aria-hidden="true" /> Projects </template>
@@ -819,12 +816,6 @@ const userMenuOptions = computed(() => {
     {
       id: "profile",
       link: `/user/${auth.value.user.username}`,
-    },
-    {
-      id: "plus",
-      link: "/plus",
-      color: "purple",
-      shown: !flags.value.hidePlusPromoInUserMenu && !isPermission(auth.value.user.badges, 1 << 0),
     },
     {
       id: "notifications",

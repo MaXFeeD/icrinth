@@ -305,9 +305,6 @@
             <div v-for="badge in badges" :key="badge">
               <StaffBadge v-if="badge === 'staff'" class="h-14 w-14" />
               <ModBadge v-else-if="badge === 'mod'" class="h-14 w-14" />
-              <nuxt-link v-else-if="badge === 'plus'" to="/plus">
-                <PlusBadge class="h-14 w-14" />
-              </nuxt-link>
               <TenMClubBadge v-else-if="badge === '10m-club'" class="h-14 w-14" />
               <EarlyAdopterBadge v-else-if="badge === 'early-adopter'" class="h-14 w-14" />
               <AlphaTesterBadge v-else-if="badge === 'alpha-tester'" class="h-14 w-14" />
@@ -351,7 +348,6 @@ import { reportUser } from "~/utils/report-helpers.ts";
 
 import StaffBadge from "~/assets/images/badges/staff.svg?component";
 import ModBadge from "~/assets/images/badges/mod.svg?component";
-import PlusBadge from "~/assets/images/badges/plus.svg?component";
 import TenMClubBadge from "~/assets/images/badges/10m-club.svg?component";
 import EarlyAdopterBadge from "~/assets/images/badges/early-adopter.svg?component";
 import AlphaTesterBadge from "~/assets/images/badges/alpha-tester.svg?component";
@@ -568,10 +564,6 @@ const badges = computed(() => {
 
   if (user.value.role === "moderator") {
     badges.push("mod");
-  }
-
-  if (isPermission(user.value.badges, 1 << 0)) {
-    badges.push("plus");
   }
 
   if (sumDownloads.value > 10000000) {

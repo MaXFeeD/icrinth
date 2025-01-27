@@ -25,24 +25,6 @@
               Your subscription payment failed. Please update your payment method.
             </span>
           </template>
-
-          <span v-else>Become a subscriber to Modrinth Plus!</span>
-          <ModrinthPlusIcon class="h-8 w-min" />
-          <div class="flex flex-col gap-2">
-            <span class="font-bold">Benefits</span>
-            <div class="flex items-center gap-2">
-              <CheckCircleIcon class="h-5 w-5 text-brand" />
-              <span> Ad-free browsing on modrinth.com and Modrinth App </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <CheckCircleIcon class="h-5 w-5 text-brand" />
-              <span>Modrinth+ badge on your profile</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <CheckCircleIcon class="h-5 w-5 text-brand" />
-              <span>Support Modrinth and creators directly</span>
-            </div>
-          </div>
         </div>
         <div class="flex w-full flex-wrap justify-between gap-4 xl:w-auto xl:flex-col">
           <div class="flex flex-col gap-1 xl:ml-auto xl:text-right">
@@ -503,7 +485,6 @@ import {
   CurrencyIcon,
   CheckCircleIcon,
   RightArrowIcon,
-  ModrinthPlusIcon,
   UpdatedIcon,
   HistoryIcon,
 } from "@modrinth/assets";
