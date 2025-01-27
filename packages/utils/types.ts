@@ -187,7 +187,7 @@ export interface PayoutData {
   payout_address: string
 }
 
-export type UserRole = 'admin' | 'moderator' | 'pyro' | 'developer'
+export type UserRole = 'admin' | 'moderator' | 'developer'
 
 export enum UserBadge {
   MIDAS = 1 << 0,

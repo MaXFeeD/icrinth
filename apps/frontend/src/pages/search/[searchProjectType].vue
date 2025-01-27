@@ -10,40 +10,8 @@
       <div class="search-background"></div>
     </Teleport>
     <section class="normal-page__header mb-4 flex flex-col gap-4">
-      <template v-if="server">
-        <div
-          class="flex flex-wrap items-center justify-between gap-3 border-0 border-b border-solid border-divider pb-4"
-        >
-          <nuxt-link
-            :to="`/servers/manage/${server.serverId}/content`"
-            tabindex="-1"
-            class="flex flex-col gap-4 text-primary"
-          >
-            <span class="flex items-center gap-2">
-              <Avatar :src="server.general.image" size="48px" />
-              <span class="flex flex-col gap-2">
-                <span class="bold font-extrabold text-contrast">
-                  {{ server.general.name }}
-                </span>
-                <span class="flex items-center gap-2 font-semibold text-secondary">
-                  <GameIcon class="h-5 w-5 text-secondary" />
-                  {{ server.general.loader }} {{ server.general.mc_version }}
-                </span>
-              </span>
-            </span>
-          </nuxt-link>
-          <ButtonStyled>
-            <nuxt-link :to="`/servers/manage/${server.serverId}/content`">
-              <LeftArrowIcon /> Back to server
-            </nuxt-link>
-          </ButtonStyled>
-        </div>
-        <h1 class="m-0 text-xl font-extrabold leading-none text-contrast">
-          Install content to server
-        </h1>
-      </template>
       <NavTabs
-        v-if="!server && !flags.projectTypesPrimaryNav"
+        v-if="!flags.projectTypesPrimaryNav"
         :links="selectableProjectTypes"
         class="hidden md:flex"
       />
@@ -54,12 +22,7 @@
       }"
       aria-label="Filters"
     >
-      <AdPlaceholder
-        v-if="
-          (!auth.user || !isPermission(auth.user.badges, 1 << 0) || flags.showAdsWithPlus) &&
-          !server
-        "
-      />
+      <AdPlaceholder v-if="!auth.user || !isPermission(auth.user.badges, 1 << 0) || flags.showAdsWithPlus" />
       <div v-if="filtersMenuOpen" class="fixed inset-0 z-40 bg-bg"></div>
       <div
         class="flex flex-col gap-3"
@@ -85,40 +48,13 @@
             </button>
           </ButtonStyled>
         </div>
-        <div v-if="server && projectType.id === 'modpack'" class="rounded-2xl bg-bg-raised">
-          <div class="flex flex-row items-center gap-2 px-6 py-4 text-contrast">
-            <h3 class="m-0 text-lg">Options</h3>
-          </div>
-          <div class="flex flex-row items-center justify-between gap-2 px-6">
-            <label for="erase-data-on-install"> Erase all data on install </label>
-            <input
-              id="erase-data-on-install"
-              v-model="eraseDataOnInstall"
-              label="Erase all data on install"
-              class="switch stylized-toggle flex-none"
-              type="checkbox"
-            />
-          </div>
-          <div class="px-6 py-4 text-sm">
-            If enabled, existing mods, worlds, and configurations, will be deleted before installing
-            the selected modpack.
-          </div>
-        </div>
-        <div v-if="server && projectType.id !== 'modpack'" class="rounded-2xl bg-bg-raised p-4">
-          <Checkbox
-            v-model="serverHideInstalled"
-            label="Hide installed content"
-            class="filter-checkbox"
-            @update:model-value="updateSearchResults()"
-          />
-        </div>
         <SearchSidebarFilter
           v-for="filter in filters.filter((f) => f.display !== 'none')"
           :key="`filter-${filter.id}`"
           v-model:selected-filters="currentFilters"
           v-model:toggled-groups="toggledGroups"
           v-model:overridden-provided-filter-types="overriddenProvidedFilterTypes"
-          :provided-filters="serverFilters"
+          :provided-filters="providedFilters"
           :filter-type="filter"
           :class="
             filtersMenuOpen
@@ -133,13 +69,6 @@
           <template #header>
             <h3 class="m-0 text-lg">{{ filter.formatted_name }}</h3>
           </template>
-          <template #locked-game_version>
-            {{ formatMessage(messages.gameVersionProvidedByServer) }}
-          </template>
-          <template #locked-mod_loader>
-            {{ formatMessage(messages.modLoaderProvidedByServer) }}
-          </template>
-          <template #sync-button> {{ formatMessage(messages.syncFilterButton) }} </template>
         </SearchSidebarFilter>
       </div>
     </aside>
@@ -212,9 +141,8 @@
         <SearchFilterControl
           v-model:selected-filters="currentFilters"
           :filters="filters.filter((f) => f.display !== 'none')"
-          :provided-filters="serverFilters"
+          :provided-filters="providedFilters"
           :overridden-provided-filter-types="overriddenProvidedFilterTypes"
-          :provided-message="messages.providedByServer"
         />
         <LogoAnimated v-if="searchLoading && !noLoad" />
         <div v-else-if="results && results.hits && results.hits.length === 0" class="no-results">
@@ -249,37 +177,10 @@
                 :server-side="result.server_side"
                 :categories="result.display_categories"
                 :search="true"
-                :show-updated-date="!server && currentSortType.name !== 'newest'"
-                :show-created-date="!server"
+                :show-updated-date="currentSortType.name !== 'newest'"
                 :hide-loaders="['resourcepack', 'datapack'].includes(projectType.id)"
                 :color="result.color"
-              >
-                <template v-if="server">
-                  <button
-                    v-if="
-                      result.installed ||
-                      server.content.data.find((x) => x.project_id === result.project_id) ||
-                      server.general?.project?.id === result.project_id
-                    "
-                    disabled
-                    class="btn btn-outline btn-primary"
-                  >
-                    <CheckIcon />
-                    Installed
-                  </button>
-                  <button
-                    v-else-if="result.installing"
-                    disabled
-                    class="btn btn-outline btn-primary"
-                  >
-                    Installing...
-                  </button>
-                  <button v-else class="btn btn-outline btn-primary" @click="serverInstall(result)">
-                    <DownloadIcon />
-                    Install
-                  </button>
-                </template>
-              </ProjectCard>
+              />
               <NuxtLink
                 v-if="flags.newProjectCards"
                 :to="`/${projectType.id}/${result.slug ? result.slug : result.project_id}`"
@@ -306,8 +207,6 @@
 <script setup>
 import {
   Pagination,
-  Checkbox,
-  Avatar,
   SearchSidebarFilter,
   useSearch,
   DropdownSelect,
@@ -316,7 +215,7 @@ import {
   NewProjectCard,
   SearchFilterControl,
 } from "@modrinth/ui";
-import { CheckIcon, DownloadIcon, GameIcon, LeftArrowIcon, XIcon } from "@modrinth/assets";
+import { XIcon } from "@modrinth/assets";
 import { computed } from "vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
 import LogoAnimated from "~/components/brand/LogoAnimated.vue";
@@ -359,78 +258,8 @@ router.afterEach(() => {
 
 const projectTypes = computed(() => [projectType.value.id]);
 
-const server = ref();
-const serverHideInstalled = ref(false);
-const eraseDataOnInstall = ref(false);
-
-const PERSISTENT_QUERY_PARAMS = ["sid", "shi"];
-
-await updateServerContext();
-
-watch(route, () => {
-  updateServerContext();
-});
-
-async function updateServerContext() {
-  if (route.query.sid && (!server.value || server.value.serverId !== route.query.sid)) {
-    if (!auth.value.user) {
-      router.push("/auth/sign-in?redirect=" + encodeURIComponent(route.fullPath));
-    } else if (route.query.sid !== null) {
-      server.value = await usePyroServer(route.query.sid, ["general", "content"]);
-    }
-  }
-
-  if (
-    server.value &&
-    server.value.serverId !== route.query.sid &&
-    route.name.startsWith("search")
-  ) {
-    server.value = undefined;
-  }
-
-  if (route.query.shi && projectType.value.id !== "modpack" && server.value) {
-    serverHideInstalled.value = route.query.shi === "true";
-  }
-}
-
-const serverFilters = computed(() => {
-  const filters = [];
-  if (server.value) {
-    const gameVersion = server.value.general?.mc_version;
-    if (gameVersion) {
-      filters.push({
-        type: "game_version",
-        option: gameVersion,
-      });
-    }
-
-    const platform = server.value.general?.loader?.toLowerCase();
-
-    const modLoaders = ["fabric", "forge", "quilt", "neoforge"];
-
-    if (platform && modLoaders.includes(platform)) {
-      filters.push({
-        type: "mod_loader",
-        option: platform,
-      });
-    }
-
-    if (serverHideInstalled.value) {
-      const installedMods = server.value.content?.data
-        .filter((x) => x.project_id)
-        .map((x) => x.project_id);
-
-      installedMods
-        ?.map((x) => ({
-          type: "project_id",
-          option: `project_id:${x}`,
-          negative: true,
-        }))
-        .forEach((x) => filters.push(x));
-    }
-  }
-  return filters;
-});
+// There should be predefined filters, but we doesn't have those
+const providedFilters = computed(() => []);
 
 const maxResultsForView = ref({
   list: [5, 10, 15, 20, 50, 100],
@@ -461,64 +290,7 @@ const {
 
   // Functions
   createPageParams,
-} = useSearch(projectTypes, tags, serverFilters);
-
-const messages = defineMessages({
-  gameVersionProvidedByServer: {
-    id: "search.filter.locked.server-game-version.title",
-    defaultMessage: "Game version is provided by the server",
-  },
-  modLoaderProvidedByServer: {
-    id: "search.filter.locked.server-loader.title",
-    defaultMessage: "Loader is provided by the server",
-  },
-  providedByServer: {
-    id: "search.filter.locked.server",
-    defaultMessage: "Provided by the server",
-  },
-  syncFilterButton: {
-    id: "search.filter.locked.server.sync",
-    defaultMessage: "Sync with server",
-  },
-});
-
-async function serverInstall(project) {
-  project.installing = true;
-  try {
-    const versions = await useBaseFetch(`project/${project.project_id}/version`, {}, false, true);
-
-    const version =
-      versions.find(
-        (x) =>
-          x.game_versions.includes(server.value.general.mc_version) &&
-          x.loaders.includes(server.value.general.loader.toLowerCase()),
-      ) ?? versions[0];
-
-    if (projectType.value.id === "modpack") {
-      await server.value.general?.reinstall(
-        route.query.sid,
-        false,
-        project.project_id,
-        version.id,
-        undefined,
-        eraseDataOnInstall.value,
-      );
-      project.installed = true;
-      navigateTo(`/servers/manage/${route.query.sid}/options/loader`);
-    } else if (projectType.value.id === "mod") {
-      await server.value.content.install("mod", version.project_id, version.id);
-      await server.value.refresh(["content"]);
-      project.installed = true;
-    } else if (projectType.value.id === "plugin") {
-      await server.value.content.install("plugin", version.project_id, version.id);
-      await server.value.refresh(["content"]);
-      project.installed = true;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-  project.installing = false;
-}
+} = useSearch(projectTypes, tags, providedFilters);
 
 const noLoad = ref(false);
 const {
@@ -567,26 +339,7 @@ function updateSearchResults() {
   refreshSearch();
 
   if (import.meta.client) {
-    const persistentParams = {};
-
-    for (const [key, value] of Object.entries(route.query)) {
-      if (PERSISTENT_QUERY_PARAMS.includes(key)) {
-        persistentParams[key] = value;
-      }
-    }
-
-    if (serverHideInstalled.value) {
-      persistentParams.shi = "true";
-    } else {
-      delete persistentParams.shi;
-    }
-
-    const params = {
-      ...persistentParams,
-      ...createPageParams(),
-    };
-
-    router.replace({ path: route.path, query: params });
+    router.replace({ path: route.path, query: createPageParams() });
   }
 }
 

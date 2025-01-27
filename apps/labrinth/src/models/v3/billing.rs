@@ -21,12 +21,6 @@ pub struct Product {
 #[serde(tag = "type", rename_all = "kebab-case")]
 pub enum ProductMetadata {
     Midas,
-    Pyro {
-        cpu: u32,
-        ram: u32,
-        swap: u32,
-        storage: u32,
-    },
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Serialize, Deserialize, Debug)]
@@ -100,7 +94,6 @@ pub struct UserSubscription {
     pub interval: PriceDuration,
     pub status: SubscriptionStatus,
     pub created: DateTime<Utc>,
-    pub metadata: Option<SubscriptionMetadata>,
 }
 
 impl From<crate::database::models::user_subscription_item::UserSubscriptionItem>
@@ -116,7 +109,6 @@ impl From<crate::database::models::user_subscription_item::UserSubscriptionItem>
             interval: x.interval,
             status: x.status,
             created: x.created,
-            metadata: x.metadata,
         }
     }
 }
@@ -143,12 +135,6 @@ impl SubscriptionStatus {
             SubscriptionStatus::Unprovisioned => "unprovisioned",
         }
     }
-}
-
-#[derive(Serialize, Deserialize)]
-#[serde(tag = "type", rename_all = "kebab-case")]
-pub enum SubscriptionMetadata {
-    Pyro { id: String },
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, Serialize, Deserialize, Debug)]

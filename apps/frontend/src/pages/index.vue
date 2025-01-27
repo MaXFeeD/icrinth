@@ -13,7 +13,6 @@
             >
               {{ projectType.display }}s <br />
             </strong>
-            <strong class="main-header-strong">servers <br /></strong>
             <strong class="main-header-strong">mods</strong>
           </span>
         </div>
@@ -1168,7 +1167,7 @@ async function updateSearchProjects() {
   > span {
     position: absolute;
     top: 0;
-    animation: slide 12s infinite;
+    animation: slide 10s infinite;
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused !important;
@@ -1177,36 +1176,32 @@ async function updateSearchProjects() {
 
   @keyframes slide {
     0%,
-    10% {
+    13% {
       top: 0;
     }
-    13%,
-    23% {
+    17%,
+    30% {
       top: -1.2em;
     }
-    26%,
-    36% {
+    33%,
+    46% {
       top: -2.4em;
     }
-    39%,
-    49% {
+    50%,
+    63% {
       top: -3.6em;
     }
-    52%,
-    62% {
+    66%,
+    79% {
       top: -4.8em;
     }
-    65%,
-    75% {
+    83%,
+    96% {
       top: -6em;
-    }
-    78%,
-    88% {
-      top: -7.2em;
     }
     99.99997%,
     99.99998% {
-      top: -8.4em;
+      top: -7.2em;
     }
     99.99999% {
       top: 0;

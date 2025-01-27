@@ -69,9 +69,6 @@
       <div v-for="subscription in subscriptionCharges" :key="subscription.id" class="card">
         <span class="font-extrabold text-contrast">
           <template v-if="subscription.product.metadata.type === 'midas'"> Modrinth Plus </template>
-          <template v-else-if="subscription.product.metadata.type === 'pyro'">
-            Modrinth Servers
-          </template>
           <template v-else> Unknown product </template>
           <template v-if="subscription.interval">
             {{ subscription.interval }}

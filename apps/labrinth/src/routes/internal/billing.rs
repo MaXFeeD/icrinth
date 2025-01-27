@@ -7,8 +7,8 @@ use crate::database::models::{
 use crate::database::redis::RedisPool;
 use crate::models::billing::{
     Charge, ChargeStatus, ChargeType, PaymentPlatform, Price, PriceDuration,
-    Product, ProductMetadata, ProductPrice, SubscriptionMetadata,
-    SubscriptionStatus, UserSubscription,
+    Product, ProductMetadata, ProductPrice, SubscriptionStatus,
+    UserSubscription,
 };
 use crate::models::ids::base62_impl::{parse_base62, to_base62};
 use crate::models::pats::Scopes;
@@ -20,7 +20,6 @@ use chrono::Utc;
 use log::{info, warn};
 use rust_decimal::prelude::ToPrimitive;
 use rust_decimal::Decimal;
-use serde::Serialize;
 use serde_with::serde_derive::Deserialize;
 use sqlx::{PgPool, Postgres, Transaction};
 use std::collections::{HashMap, HashSet};
@@ -47,7 +46,6 @@ pub fn config(cfg: &mut web::ServiceConfig) {
             .service(edit_payment_method)
             .service(remove_payment_method)
             .service(charges)
-            .service(active_servers)
             .service(initiate_payment)
             .service(stripe_webhook)
             .service(refund_charge),
@@ -908,55 +906,6 @@ pub struct ActiveServersQuery {
     pub subscription_status: Option<SubscriptionStatus>,
 }
 
-#[get("active_servers")]
-pub async fn active_servers(
-    req: HttpRequest,
-    pool: web::Data<PgPool>,
-    query: web::Query<ActiveServersQuery>,
-) -> Result<HttpResponse, ApiError> {
-    let master_key = dotenvy::var("PYRO_API_KEY")?;
-
-    if req
-        .head()
-        .headers()
-        .get("X-Master-Key")
-        .is_none_or(|it| it.as_bytes() != master_key.as_bytes())
-    {
-        return Err(ApiError::CustomAuthentication(
-            "Invalid master key".to_string(),
-        ));
-    }
-
-    let servers =
-        user_subscription_item::UserSubscriptionItem::get_all_servers(
-            query.subscription_status,
-            &**pool,
-        )
-        .await?;
-
-    #[derive(Serialize)]
-    struct ActiveServer {
-        pub user_id: crate::models::ids::UserId,
-        pub server_id: String,
-        pub interval: PriceDuration,
-    }
-
-    let server_ids = servers
-        .into_iter()
-        .filter_map(|x| {
-            x.metadata.as_ref().map(|metadata| match metadata {
-                SubscriptionMetadata::Pyro { id } => ActiveServer {
-                    user_id: x.user_id.into(),
-                    server_id: id.clone(),
-                    interval: x.interval,
-                },
-            })
-        })
-        .collect::<Vec<ActiveServer>>();
-
-    Ok(HttpResponse::Ok().json(server_ids))
-}
-
 #[derive(Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum PaymentRequestType {
@@ -976,22 +925,12 @@ pub enum ChargeRequestType {
     },
 }
 
-#[derive(Deserialize, Serialize)]
-#[serde(tag = "type", rename_all = "snake_case")]
-pub enum PaymentRequestMetadata {
-    Pyro {
-        server_name: Option<String>,
-        source: serde_json::Value,
-    },
-}
-
 #[derive(Deserialize)]
 pub struct PaymentRequest {
     #[serde(flatten)]
     pub type_: PaymentRequestType,
     pub charge: ChargeRequestType,
     pub existing_payment_intent: Option<stripe::PaymentIntentId>,
-    pub metadata: Option<PaymentRequestMetadata>,
 }
 
 fn infer_currency_code(country: &str) -> String {
@@ -1307,13 +1246,6 @@ pub async fn initiate_payment(
         let mut metadata = HashMap::new();
         metadata.insert("modrinth_user_id".to_string(), to_base62(user.id.0));
 
-        if let Some(payment_metadata) = &payment_request.metadata {
-            metadata.insert(
-                "modrinth_payment_metadata".to_string(),
-                serde_json::to_string(&payment_metadata)?,
-            );
-        }
-
         if let Some(charge_id) = charge_id {
             metadata.insert(
                 "modrinth_charge_id".to_string(),
@@ -1398,7 +1330,6 @@ pub async fn stripe_webhook(
             pub charge_item: crate::database::models::charge_item::ChargeItem,
             pub user_subscription_item:
                 Option<user_subscription_item::UserSubscriptionItem>,
-            pub payment_metadata: Option<PaymentRequestMetadata>,
         }
 
         async fn get_payment_intent_metadata(
@@ -1430,10 +1361,6 @@ pub async fn stripe_webhook(
                 } else {
                     break 'metadata;
                 };
-
-                let payment_metadata = metadata
-                    .get("modrinth_payment_metadata")
-                    .and_then(|x| serde_json::from_str(x).ok());
 
                 let charge_id = if let Some(charge_id) = metadata
                     .get("modrinth_charge_id")
@@ -1580,7 +1507,6 @@ pub async fn stripe_webhook(
                                     interval,
                                     created: Utc::now(),
                                     status: SubscriptionStatus::Unprovisioned,
-                                    metadata: None,
                                 };
 
                                 if charge_status != ChargeStatus::Failed {
@@ -1633,7 +1559,6 @@ pub async fn stripe_webhook(
                     product_item: product,
                     charge_item: charge,
                     user_subscription_item: subscription,
-                    payment_metadata,
                 });
             }
 
@@ -1698,121 +1623,6 @@ pub async fn stripe_webhook(
                             )
                             .execute(&mut *transaction)
                             .await?;
-                        }
-                        ProductMetadata::Pyro {
-                            ram,
-                            cpu,
-                            swap,
-                            storage,
-                        } => {
-                            if let Some(ref subscription) =
-                                metadata.user_subscription_item
-                            {
-                                let client = reqwest::Client::new();
-
-                                if let Some(SubscriptionMetadata::Pyro { id }) =
-                                    &subscription.metadata
-                                {
-                                    client
-                                        .post(format!(
-                                            "https://archon.pyro.host/modrinth/v0/servers/{}/unsuspend",
-                                            id
-                                        ))
-                                        .header("X-Master-Key", dotenvy::var("PYRO_API_KEY")?)
-                                        .send()
-                                        .await?
-                                        .error_for_status()?;
-
-                                    client.post(format!(
-                                        "https://archon.pyro.host/modrinth/v0/servers/{}/reallocate",
-                                        id
-                                    ))
-                                    .header("X-Master-Key", dotenvy::var("PYRO_API_KEY")?)
-                                    .json(&serde_json::json!({
-                                        "memory_mb": ram,
-                                        "cpu": cpu,
-                                        "swap_mb": swap,
-                                        "storage_mb": storage,
-                                    }))
-                                    .send()
-                                    .await?
-                                    .error_for_status()?;
-                                } else {
-                                    let (server_name, source) = if let Some(
-                                        PaymentRequestMetadata::Pyro {
-                                            ref server_name,
-                                            ref source,
-                                        },
-                                    ) =
-                                        metadata.payment_metadata
-                                    {
-                                        (server_name.clone(), source.clone())
-                                    } else {
-                                        // Create a server with the latest version of Minecraft
-                                        let minecraft_versions = crate::database::models::legacy_loader_fields::MinecraftGameVersion::list(
-                                            Some("release"),
-                                            None,
-                                            &**pool,
-                                            &redis,
-                                        ).await?;
-
-                                        (
-                                            None,
-                                            serde_json::json!({
-                                                "loader": "Vanilla",
-                                                "game_version": minecraft_versions.first().map(|x| x.version.clone()),
-                                                "loader_version": ""
-                                            }),
-                                        )
-                                    };
-
-                                    let server_name = server_name
-                                        .unwrap_or_else(|| {
-                                            format!(
-                                                "{}'s server",
-                                                metadata.user_item.username
-                                            )
-                                        });
-
-                                    #[derive(Deserialize)]
-                                    struct PyroServerResponse {
-                                        uuid: String,
-                                    }
-
-                                    let res = client
-                                        .post("https://archon.pyro.host/modrinth/v0/servers/create")
-                                        .header("X-Master-Key", dotenvy::var("PYRO_API_KEY")?)
-                                        .json(&serde_json::json!({
-                                            "user_id": to_base62(metadata.user_item.id.0 as u64),
-                                            "name": server_name,
-                                            "specs": {
-                                                "memory_mb": ram,
-                                                "cpu": cpu,
-                                                "swap_mb": swap,
-                                                "storage_mb": storage,
-                                            },
-                                            "source": source,
-                                            "payment_interval": metadata.charge_item.subscription_interval.map(|x| match x {
-                                                PriceDuration::Monthly => 1,
-                                                PriceDuration::Yearly => 12,
-                                            })
-                                        }))
-                                        .send()
-                                        .await?
-                                        .error_for_status()?
-                                        .json::<PyroServerResponse>()
-                                        .await?;
-
-                                    if let Some(ref mut subscription) =
-                                        metadata.user_subscription_item
-                                    {
-                                        subscription.metadata =
-                                            Some(SubscriptionMetadata::Pyro {
-                                                id: res.uuid,
-                                            });
-                                    }
-                                }
-                            }
                         }
                     }
 
@@ -2156,36 +1966,6 @@ pub async fn subscription_task(pool: PgPool, redis: RedisPool) {
                         .await?;
 
                         true
-                    }
-                    ProductMetadata::Pyro { .. } => {
-                        if let Some(SubscriptionMetadata::Pyro { id }) =
-                            &subscription.metadata
-                        {
-                            let res = reqwest::Client::new()
-                                .post(format!(
-                                    "https://archon.pyro.host/modrinth/v0/servers/{}/suspend",
-                                    id
-                                ))
-                                .header("X-Master-Key", dotenvy::var("PYRO_API_KEY")?)
-                                .json(&serde_json::json!({
-                                    "reason": if charge.status == ChargeStatus::Cancelled {
-                                        "cancelled"
-                                    } else {
-                                        "paymentfailed"
-                                    }
-                                }))
-                                .send()
-                                .await;
-
-                            if let Err(e) = res {
-                                warn!("Error suspending pyro server: {:?}", e);
-                                false
-                            } else {
-                                true
-                            }
-                        } else {
-                            true
-                        }
                     }
                 };
 

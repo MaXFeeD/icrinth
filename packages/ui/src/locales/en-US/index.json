@@ -86,9 +86,6 @@
   "label.scopes": {
     "defaultMessage": "Scopes"
   },
-  "label.servers": {
-    "defaultMessage": "Servers"
-  },
   "label.settings": {
     "defaultMessage": "Settings"
   },

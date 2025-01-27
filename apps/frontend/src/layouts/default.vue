@@ -207,21 +207,6 @@
             </TeleportOverflowMenu>
           </ButtonStyled>
 
-          <ButtonStyled
-            type="transparent"
-            :highlighted="
-              route.name?.startsWith('servers') ||
-              (route.name?.startsWith('search-') && route.query.sid)
-            "
-            :highlighted-style="
-              route.name === 'servers' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/servers">
-              <ServerIcon aria-hidden="true" />
-              Host a server
-            </nuxt-link>
-          </ButtonStyled>
           <ButtonStyled type="transparent" :highlighted="route.name === 'app'">
             <nuxt-link to="/app">
               <DownloadIcon aria-hidden="true" />
@@ -279,7 +264,6 @@
           <template #profile> <UserIcon aria-hidden="true" /> Profile </template>
           <template #notifications> <BellIcon aria-hidden="true" /> Notifications </template>
           <template #saved> <BookmarkIcon aria-hidden="true" /> Saved projects </template>
-          <template #servers> <ServerIcon aria-hidden="true" /> My servers </template>
           <template #settings> <SettingsIcon aria-hidden="true" /> Settings </template>
           <template #flags> <ReportIcon aria-hidden="true" /> Feature flags </template>
           <template #projects> <BoxIcon aria-hidden="true" /> Projects </template>
@@ -358,10 +342,6 @@
             <NuxtLink class="iconified-button" to="/dashboard/collections">
               <LibraryIcon class="icon" />
               {{ formatMessage(commonMessages.collectionsLabel) }}
-            </NuxtLink>
-            <NuxtLink class="iconified-button" to="/servers/manage">
-              <ServerIcon class="icon" />
-              {{ formatMessage(commonMessages.serversLabel) }}
             </NuxtLink>
             <NuxtLink
               v-if="auth.user.role === 'moderator' || auth.user.role === 'admin'"
@@ -550,9 +530,7 @@
 </template>
 <script setup>
 import {
-  ArrowBigUpDashIcon,
   BookmarkIcon,
-  ServerIcon,
   LogInIcon,
   DownloadIcon,
   LibraryIcon,
@@ -824,10 +802,6 @@ const userMenuOptions = computed(() => {
     {
       id: "saved",
       link: "/dashboard/collections",
-    },
-    {
-      id: "servers",
-      link: "/servers/manage",
     },
     {
       id: "flags",
