@@ -7,7 +7,6 @@
     "web:dev": "turbo run dev --filter=@modrinth/frontend",
     "web:build": "turbo run build --filter=@modrinth/frontend",
     "web:intl:extract": "pnpm run --filter=@modrinth/frontend intl:extract",
-    "docs:dev": "turbo run dev --filter=@modrinth/docs",
     "app:intl:extract": "pnpm run --filter=@modrinth/app-frontend intl:extract",
     "pages:build": "NITRO_PRESET=cloudflare-pages pnpm --filter frontend run build",
     "build": "turbo run build --continue",
