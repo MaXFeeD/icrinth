@@ -3,9 +3,8 @@
     <h1>Content Rules</h1>
 
     <p>
-      These Content Rules are to be considered part of our
-      <nuxt-link to="/legal/terms">Terms of Use</nuxt-link> and apply to any and all User
-      Contributions, Gaming Content, and use of Interactive Services (collectively, "Content").
+      These Content Rules are apply to any and all User Contributions, Gaming Content,
+      and use of Interactive Services (collectively, "Content").
     </p>
 
     <p>
@@ -37,9 +36,7 @@
       <li>
         Violate the legal rights (including the rights of publicity and privacy) of others or
         contain any material that could give rise to any civil or criminal liability under
-        applicable laws or regulations or that otherwise may be in conflict with our
-        <nuxt-link to="/legal/terms">Terms of Use</nuxt-link> or
-        <nuxt-link to="/legal/privacy">Privacy Policy</nuxt-link>.
+        applicable laws or regulations.
       </li>
       <li>
         Promote any illegal activity, or advocate, promote or assist any unlawful act, including
@@ -103,34 +100,7 @@
       translations into other languages if desired.
     </p>
 
-    <h2 id="cheats-and-hacks">3. Cheats and Hacks</h2>
-
-    <p>
-      Projects cannot contain or download "cheats", which we define as a client-side modification
-      that:
-    </p>
-    <ol>
-      <li>is advertised as a "cheat", "hack", or "hacked client"</li>
-      <li>
-        gives an unfair advantage in a multiplayer setting over other players that do not have a
-        comparable modification and does not provide a server-side opt-out
-      </li>
-      <li>
-        contains any of the following functions without requiring a server-side opt-in:
-        <ol type="a">
-          <li>X-ray or the ability to see through opaque blocks</li>
-          <li>aim bot or aim assist</li>
-          <li>flight, speed, or other movement modifications</li>
-          <li>automatic or assisted PvP combat</li>
-          <li>
-            active client-side hiding of third party modifications that have server-side opt-outs
-          </li>
-          <li>item duplication</li>
-        </ol>
-      </li>
-    </ol>
-
-    <h2 id="copyright-and-legality-of-content">4. Copyright and Reuploads</h2>
+    <h2 id="copyright-and-legality-of-content">3. Copyright and Reuploads</h2>
 
     <p>
       You must own or have the necessary licenses, rights, consents, and permissions to store,
@@ -144,7 +114,7 @@
       which have diverged substantially from the original project.
     </p>
 
-    <h2 id="miscellaneous">5. Miscellaneous</h2>
+    <h2 id="miscellaneous">4. Miscellaneous</h2>
 
     <p>
       There are certain other small aspects to creating projects that all authors should attempt to

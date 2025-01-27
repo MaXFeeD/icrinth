@@ -509,17 +509,11 @@
             >{{ config.public.hash.substring(0, 7) }}</a
           >
         </p>
-        <p>© Rinth, Inc.</p>
+        <p>© Horizon Team</p>
       </div>
       <div class="links links-1" role="region" aria-label="Legal">
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.companyTitle) }}</h4>
-        <nuxt-link to="/legal/terms"> {{ formatMessage(footerMessages.terms) }}</nuxt-link>
-        <nuxt-link to="/legal/privacy"> {{ formatMessage(footerMessages.privacy) }}</nuxt-link>
         <nuxt-link to="/legal/rules"> {{ formatMessage(footerMessages.rules) }}</nuxt-link>
-        <a :target="$external()" href="https://careers.modrinth.com">
-          {{ formatMessage(footerMessages.careers) }}
-          <span v-if="false" class="count-bubble">0</span>
-        </a>
       </div>
       <div class="links links-2" role="region" aria-label="Resources">
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.resourcesTitle) }}</h4>
