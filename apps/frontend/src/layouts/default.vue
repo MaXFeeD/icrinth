@@ -517,27 +517,18 @@
       </div>
       <div class="links links-2" role="region" aria-label="Resources">
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.resourcesTitle) }}</h4>
-        <a :target="$external()" href="https://support.modrinth.com">
+        <a :target="$external()" href="https://vk.me/core_engine">
           {{ formatMessage(footerMessages.support) }}
         </a>
-        <a :target="$external()" href="https://blog.modrinth.com">
-          {{ formatMessage(footerMessages.blog) }}
-        </a>
-        <a :target="$external()" href="https://docs.modrinth.com">
+        <a :target="$external()" href="https://nernar.github.io/docs">
           {{ formatMessage(footerMessages.docs) }}
-        </a>
-        <a :target="$external()" href="https://status.modrinth.com">
-          {{ formatMessage(footerMessages.status) }}
         </a>
       </div>
       <div class="links links-3" role="region" aria-label="Interact">
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.interactTitle) }}</h4>
-        <a rel="noopener" :target="$external()" href="https://discord.modrinth.com"> Discord </a>
-        <a rel="noopener" :target="$external()" href="https://x.com/modrinth"> X (Twitter) </a>
-        <a rel="noopener" :target="$external()" href="https://floss.social/@modrinth"> Mastodon </a>
-        <a rel="noopener" :target="$external()" href="https://crowdin.com/project/modrinth">
-          Crowdin
-        </a>
+        <a rel="noopener" :target="$external()" href="https://discord.gg/UbmjP8zeFz"> Discord </a>
+        <a rel="noopener" :target="$external()" href="https://vk.com/core_engine"> VK </a>
+        <a rel="noopener" :target="$external()" href="https://www.reddit.com/r/innercore_mods"> Reddit </a>
       </div>
       <div class="buttons">
         <nuxt-link class="btn btn-outline btn-primary" to="/app">
