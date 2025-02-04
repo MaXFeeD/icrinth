@@ -377,20 +377,6 @@
           @click="developerModeIncrement()"
         />
         <p class="mb-4">
-          <IntlFormatted :message-id="footerMessages.openSource">
-            <template #github-link="{ children }">
-              <a
-                :target="$external()"
-                href="https://github.com/modrinth"
-                class="text-link"
-                rel="noopener"
-              >
-                <component :is="() => children" />
-              </a>
-            </template>
-          </IntlFormatted>
-        </p>
-        <p class="mb-4">
           {{ config.public.branch }}@<a
             :target="$external()"
             :href="
@@ -585,10 +571,6 @@ const messages = defineMessages({
 });
 
 const footerMessages = defineMessages({
-  openSource: {
-    id: "layout.footer.open-source",
-    defaultMessage: "Modrinth is <github-link>open source</github-link>.",
-  },
   companyTitle: {
     id: "layout.footer.company.title",
     defaultMessage: "Company",

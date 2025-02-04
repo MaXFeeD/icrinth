@@ -96,7 +96,7 @@
 
 <script setup>
 const description =
-  "The Copyright Policy of Modrinth, an open source modding platform focused on Minecraft.";
+  "The Copyright Policy of Modrinth, an modding platform focused on Minecraft.";
 
 useSeoMeta({
   title: "Copyright Policy - Modrinth",
