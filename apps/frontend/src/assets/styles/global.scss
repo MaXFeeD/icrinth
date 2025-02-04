@@ -56,9 +56,9 @@ html {
   --color-text-inverted: var(--color-bg);
   --color-bg-inverted: var(--color-text);
 
-  --color-brand: var(--color-green);
-  --color-brand-highlight: rgba(0, 175, 92, 0.25);
-  --color-brand-shadow: rgba(0, 175, 92, 0.7);
+  --color-brand: #1aa6b7;
+  --color-brand-highlight: rgba(26, 167, 183, 0.25);
+  --color-brand-shadow: rgba(26, 167, 183, 0.7);
   --color-brand-inverted: #ffffff;
 
   --tab-underline-hovered: #e2e8f0;
@@ -182,9 +182,9 @@ html {
   --color-text-inverted: var(--color-bg);
   --color-bg-inverted: var(--color-text);
 
-  --color-brand: var(--color-green);
-  --color-brand-highlight: rgba(27, 217, 106, 0.25);
-  --color-brand-shadow: rgba(27, 217, 106, 0.7);
+  --color-brand: #88fefe;
+  --color-brand-highlight: rgba(29, 190, 210, 0.25);
+  --color-brand-shadow: rgba(29, 190, 210, 0.7);
   --color-brand-inverted: #000;
 
   --tab-underline-hovered: #414146;
@@ -310,8 +310,6 @@ html {
   --color-secondary: #777a74;
   --color-contrast: #e6e2d1;
 
-  --color-brand: #4d9227;
-  --color-brand-highlight: #25421e;
   --color-ad: var(--color-brand-highlight);
   --color-ad-raised: var(--color-brand);
   --color-ad-contrast: black;
