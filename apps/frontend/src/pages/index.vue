@@ -3,23 +3,22 @@
     <div class="landing-hero">
       <ModrinthIcon class="modrinth-icon" />
       <h1 class="main-header">
-        The place for Minecraft
+        Your pocket launcher with
         <div class="animate-strong">
           <span>
             <strong
-              v-for="projectType in tags.projectTypes"
-              :key="projectType.id"
+              v-for="category in categories"
               class="main-header-strong"
             >
-              {{ projectType.display }}s <br />
+              {{ category }}
+            <br />
             </strong>
-            <strong class="main-header-strong">mods</strong>
+            <strong class="main-header-strong">{{ categories[0] }}</strong>
           </span>
         </div>
       </h1>
       <h2>
-        Discover, play, and share Minecraft content through our open-source platform built for the
-        community.
+        Discover, share and just have fun with your favourite modifications and something brand new.
       </h2>
       <div class="button-group">
         <ButtonStyled color="brand" size="large">
@@ -64,7 +63,7 @@
       <div class="users-section">
         <div class="section-header">
           <div class="section-label green">For Players</div>
-          <h2 class="section-tagline">Discover over 10,000 creations</h2>
+          <h2 class="section-tagline">Discover hundreds of creations</h2>
           <p class="section-description">
             From magical biomes to cursed dungeons, you can be sure to find content to bring your
             gameplay to the next level.
@@ -187,56 +186,6 @@
             </div>
           </div>
         </div>
-        <div class="feature-blob">
-          <div class="blob-text">
-            <h3>Play with your favorite launcher</h3>
-            <p>
-              Modrinth's open-source API lets launchers add deep integration with Modrinth. You can
-              use Modrinth through
-              <nuxt-link class="title-link" to="/app">our own app</nuxt-link> and some of the most
-              popular launchers like ATLauncher, MultiMC, and Prism Launcher.
-            </p>
-          </div>
-          <div class="blob-demonstration gradient-border">
-            <div class="launcher-view">
-              <img
-                v-if="$theme.active === 'light'"
-                src="https://cdn.modrinth.com/landing-new/launcher-light.webp"
-                alt="launcher graphic"
-                class="minecraft-screen"
-              />
-              <img
-                v-else
-                src="https://cdn.modrinth.com/landing-new/launcher.webp"
-                alt="launcher graphic"
-                class="minecraft-screen"
-              />
-              <div class="launcher-graphics">
-                <a
-                  rel="noopener"
-                  href="https://prismlauncher.org/"
-                  class="graphic gradient-border"
-                  title="Prism Launcher"
-                  aria-label="Prism Launcher"
-                >
-                  <PrismLauncherLogo aria-hidden="true" />
-                </a>
-                <nuxt-link to="/app" class="graphic gradient-border" aria-label="Modrinth App">
-                  <ModrinthIcon aria-hidden="true" />
-                </nuxt-link>
-                <a
-                  rel="noopener"
-                  href="https://atlauncher.com/"
-                  class="graphic gradient-border"
-                  title="ATLauncher"
-                  aria-label="ATLauncher"
-                >
-                  <ATLauncherLogo aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="creator-section">
@@ -244,7 +193,7 @@
         <div class="section-label blue">For Creators</div>
         <h2 class="section-tagline">Share your content with the world</h2>
         <p class="section-description">
-          Give an online home to your creations and reach a massive audience of dedicated players
+          Give an online home to your creations and reach a massive audience of dedicated players.
         </p>
       </div>
       <div class="features">
@@ -301,7 +250,7 @@
           <h3>Team Management</h3>
           <p>Invite your teammates and manage roles and permissions with ease</p>
         </div>
-        <div class="feature gradient-border">
+        <!-- div class="feature gradient-border">
           <div class="icon gradient-border">
             <svg viewBox="0 0 42 30" fill="none">
               <path
@@ -325,35 +274,7 @@
           </div>
           <h3>Monetization</h3>
           <p>Get paid ad revenue from your project pages and withdraw your funds at any time</p>
-        </div>
-        <div class="feature gradient-border">
-          <div class="icon gradient-border">
-            <svg viewBox="0 0 42 39" fill="none">
-              <path
-                d="M5.1875 0.875C2.81787 0.875 0.875 2.81787 0.875 5.1875C0.875 7.55713 2.81787 9.5 5.1875 9.5C5.8501 9.5 6.46777 9.33154 7.0293 9.06201L13.5767 15.6094C12.8242 16.7437 12.375 18.1025 12.375 19.5625C12.375 20.708 12.667 21.7861 13.1611 22.752L7.42236 27.3901C6.771 26.9971 6.00732 26.75 5.1875 26.75C2.81787 26.75 0.875 28.6929 0.875 31.0625C0.875 33.4321 2.81787 35.375 5.1875 35.375C7.55713 35.375 9.5 33.4321 9.5 31.0625C9.5 30.5571 9.39893 30.0854 9.23047 29.6362L14.9355 25.0093C16.1934 26.0762 17.7993 26.75 19.5625 26.75C20.3374 26.75 21.0674 26.5928 21.7637 26.3682L24.8296 31.2759C24.2456 32.0171 23.875 32.9268 23.875 33.9375C23.875 36.3071 25.8179 38.25 28.1875 38.25C30.5571 38.25 32.5 36.3071 32.5 33.9375C32.5 31.5679 30.5571 29.625 28.1875 29.625C27.873 29.625 27.5586 29.6699 27.2554 29.7261L24.2793 24.9419C25.2339 24.0996 25.9639 23.0103 26.3682 21.7637L32.5562 23.0327C32.8594 25.1216 34.6562 26.75 36.8125 26.75C39.1821 26.75 41.125 24.8071 41.125 22.4375C41.125 20.0679 39.1821 18.125 36.8125 18.125C35.2627 18.125 33.9038 18.9785 33.1401 20.2139L26.6826 18.8887C26.5029 17.0132 25.6157 15.3511 24.2568 14.1719L27.2441 9.3877C27.5474 9.45508 27.8618 9.5 28.1875 9.5C30.5571 9.5 32.5 7.55713 32.5 5.1875C32.5 2.81787 30.5571 0.875 28.1875 0.875C25.8179 0.875 23.875 2.81787 23.875 5.1875C23.875 6.18701 24.2344 7.10791 24.8184 7.83789L21.7524 12.7568C21.0562 12.5322 20.3262 12.375 19.5625 12.375C18.1025 12.375 16.7437 12.8242 15.6094 13.5767L9.06201 7.0293C9.33154 6.46777 9.5 5.8501 9.5 5.1875C9.5 2.81787 7.55713 0.875 5.1875 0.875ZM5.1875 3.75C5.99609 3.75 6.625 4.37891 6.625 5.1875C6.625 5.99609 5.99609 6.625 5.1875 6.625C4.37891 6.625 3.75 5.99609 3.75 5.1875C3.75 4.37891 4.37891 3.75 5.1875 3.75ZM28.1875 3.75C28.9961 3.75 29.625 4.37891 29.625 5.1875C29.625 5.99609 28.9961 6.625 28.1875 6.625C27.3789 6.625 26.75 5.99609 26.75 5.1875C26.75 4.37891 27.3789 3.75 28.1875 3.75ZM19.5625 15.25C21.9658 15.25 23.875 17.1592 23.875 19.5625C23.875 21.1123 23.0664 22.4487 21.8535 23.2124C21.7075 23.2686 21.5728 23.3359 21.4492 23.437C20.8765 23.7065 20.2363 23.875 19.5625 23.875C17.1592 23.875 15.25 21.9658 15.25 19.5625C15.25 17.1592 17.1592 15.25 19.5625 15.25ZM36.8125 21C37.6211 21 38.25 21.6289 38.25 22.4375C38.25 23.2461 37.6211 23.875 36.8125 23.875C36.0039 23.875 35.375 23.2461 35.375 22.4375C35.375 21.6289 36.0039 21 36.8125 21ZM5.1875 29.625C5.99609 29.625 6.625 30.2539 6.625 31.0625C6.625 31.8711 5.99609 32.5 5.1875 32.5C4.37891 32.5 3.75 31.8711 3.75 31.0625C3.75 30.2539 4.37891 29.625 5.1875 29.625ZM28.1875 32.5C28.9961 32.5 29.625 33.1289 29.625 33.9375C29.625 34.7461 28.9961 35.375 28.1875 35.375C27.3789 35.375 26.75 34.7461 26.75 33.9375C26.75 33.1289 27.3789 32.5 28.1875 32.5Z"
-                fill="url(#paint0_linear_127_281)"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_127_281"
-                  x1="21"
-                  y1="0.875"
-                  x2="21"
-                  y2="38.25"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <h3>Diverse Ecosystem</h3>
-          <p>
-            Integrate with your build tools through Minotaur for automatic uploads right when you
-            release a new version
-          </p>
-        </div>
+        </div -->
         <div class="feature gradient-border">
           <div class="icon gradient-border">
             <svg viewBox="0 0 39 39" fill="none">
@@ -521,8 +442,6 @@ import { CompassIcon, LogInIcon, DashboardIcon, NewspaperIcon } from "@modrinth/
 import SearchIcon from "~/assets/images/utils/search.svg?component";
 import CalendarIcon from "~/assets/images/utils/calendar.svg?component";
 import ModrinthIcon from "~/assets/images/logo.svg?component";
-import PrismLauncherLogo from "~/assets/images/external/prism.svg?component";
-import ATLauncherLogo from "~/assets/images/external/atlauncher.svg?component";
 import Avatar from "~/components/ui/Avatar.vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
 
@@ -532,7 +451,14 @@ const searchQuery = ref("leave");
 const sortType = ref("relevance");
 
 const auth = await useAuth();
-const tags = useTags();
+const categories = [
+  "endless exploration",
+  "technology modpacks",
+  "mystical rituals",
+  "construction tools",
+  "gameplay mechanics",
+  "breathtaking worlds"
+];
 
 const newProjects = homePageProjects.slice(0, 40);
 const val = Math.ceil(newProjects.length / 3);
@@ -781,7 +707,7 @@ async function updateSearchProjects() {
       }
 
       @media screen and (min-width: 1238px) {
-        padding: 5rem 1rem;
+        padding: 3rem 1rem;
 
         .blob-text {
           margin-top: 5rem;
