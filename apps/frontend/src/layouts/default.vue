@@ -68,153 +68,73 @@
         </NuxtLink>
       </div>
       <div
-        :class="`col-span-2 row-start-2 flex flex-wrap justify-center ${flags.projectTypesPrimaryNav ? 'gap-2' : 'gap-4'} lg:col-span-1 lg:row-start-auto`"
+        :class="`col-span-2 row-start-2 flex flex-wrap justify-center gap-2 lg:col-span-1 lg:row-start-auto`"
       >
-        <template v-if="flags.projectTypesPrimaryNav">
-          <ButtonStyled
-            type="transparent"
-            :highlighted="route.name === 'search-mods' || route.path.startsWith('/mod/')"
-            :highlighted-style="
-              route.name === 'search-mods' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/mods"> <BoxIcon aria-hidden="true" /> Mods </nuxt-link>
-          </ButtonStyled>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="
-              route.name === 'search-resourcepacks' || route.path.startsWith('/resourcepack/')
-            "
-            :highlighted-style="
-              route.name === 'search-resourcepacks' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/resourcepacks">
-              <PaintBrushIcon aria-hidden="true" /> Resource Packs
-            </nuxt-link>
-          </ButtonStyled>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="route.name === 'search-datapacks' || route.path.startsWith('/datapack/')"
-            :highlighted-style="
-              route.name === 'search-datapacks' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/datapacks"> <BracesIcon aria-hidden="true" /> Data Packs </nuxt-link>
-          </ButtonStyled>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="route.name === 'search-modpacks' || route.path.startsWith('/modpack/')"
-            :highlighted-style="
-              route.name === 'search-modpacks' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/modpacks"> <PackageOpenIcon aria-hidden="true" /> Modpacks </nuxt-link>
-          </ButtonStyled>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="route.name === 'search-shaders' || route.path.startsWith('/shader/')"
-            :highlighted-style="
-              route.name === 'search-shaders' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/shaders"> <GlassesIcon aria-hidden="true" /> Shaders </nuxt-link>
-          </ButtonStyled>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="route.name === 'search-plugins' || route.path.startsWith('/plugin/')"
-            :highlighted-style="
-              route.name === 'search-plugins' ? 'main-nav-primary' : 'main-nav-secondary'
-            "
-          >
-            <nuxt-link to="/plugins"> <PlugIcon aria-hidden="true" /> Plugins </nuxt-link>
-          </ButtonStyled>
-        </template>
-        <template v-else>
-          <ButtonStyled
-            type="transparent"
-            :highlighted="isDiscovering || isDiscoveringSubpage"
-            :highlighted-style="isDiscoveringSubpage ? 'main-nav-secondary' : 'main-nav-primary'"
-          >
-            <TeleportOverflowMenu
-              :options="[
-                {
-                  id: 'mods',
-                  action: '/mods',
-                },
-                {
-                  id: 'resourcepacks',
-                  action: '/resourcepacks',
-                },
-                {
-                  id: 'datapacks',
-                  action: '/datapacks',
-                },
-                {
-                  id: 'shaders',
-                  action: '/shaders',
-                },
-                {
-                  id: 'modpacks',
-                  action: '/modpacks',
-                },
-                {
-                  id: 'plugins',
-                  action: '/plugins',
-                },
-              ]"
-              hoverable
-            >
-              <BoxIcon
-                v-if="route.name === 'search-mods' || route.path.startsWith('/mod/')"
-                aria-hidden="true"
-              />
-              <PaintBrushIcon
-                v-else-if="
-                  route.name === 'search-resourcepacks' || route.path.startsWith('/resourcepack/')
-                "
-                aria-hidden="true"
-              />
-              <BracesIcon
-                v-else-if="route.name === 'search-datapacks' || route.path.startsWith('/datapack/')"
-                aria-hidden="true"
-              />
-              <PackageOpenIcon
-                v-else-if="route.name === 'search-modpacks' || route.path.startsWith('/modpack/')"
-                aria-hidden="true"
-              />
-              <GlassesIcon
-                v-else-if="route.name === 'search-shaders' || route.path.startsWith('/shader/')"
-                aria-hidden="true"
-              />
-              <PlugIcon
-                v-else-if="route.name === 'search-plugins' || route.path.startsWith('/plugin/')"
-                aria-hidden="true"
-              />
-              <CompassIcon v-else aria-hidden="true" />
-              <span class="hidden md:contents">Discover content</span>
-              <span class="contents md:hidden">Discover</span>
-              <DropdownIcon aria-hidden="true" class="h-5 w-5 text-secondary" />
-
-              <template #mods> <BoxIcon aria-hidden="true" /> Mods </template>
-              <template #resourcepacks>
-                <PaintBrushIcon aria-hidden="true" /> Resource Packs
-              </template>
-              <template #datapacks> <BracesIcon aria-hidden="true" /> Data Packs </template>
-              <template #plugins> <PlugIcon aria-hidden="true" /> Plugins </template>
-              <template #shaders> <GlassesIcon aria-hidden="true" /> Shaders </template>
-              <template #modpacks> <PackageOpenIcon aria-hidden="true" /> Modpacks </template>
-            </TeleportOverflowMenu>
-          </ButtonStyled>
-
-          <ButtonStyled type="transparent" :highlighted="route.name === 'app'">
-            <nuxt-link to="/app">
-              <DownloadIcon aria-hidden="true" />
-              <span class="hidden md:contents">Get Modrinth App</span>
-              <span class="contents md:hidden">Modrinth App</span>
-            </nuxt-link>
-          </ButtonStyled>
-        </template>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-mods' || route.path.startsWith('/mod/')"
+          :highlighted-style="
+            route.name === 'search-mods' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/mods"> <BoxIcon aria-hidden="true" /> Mods </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="
+            route.name === 'search-resourcepacks' || route.path.startsWith('/resourcepack/')
+          "
+          :highlighted-style="
+            route.name === 'search-resourcepacks' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/resourcepacks">
+            <PaintBrushIcon aria-hidden="true" /> Resource Packs
+          </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-datapacks' || route.path.startsWith('/datapack/')"
+          :highlighted-style="
+            route.name === 'search-datapacks' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/datapacks"> <BracesIcon aria-hidden="true" /> Data Packs </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-modpacks' || route.path.startsWith('/modpack/')"
+          :highlighted-style="
+            route.name === 'search-modpacks' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/modpacks"> <PackageOpenIcon aria-hidden="true" /> Modpacks </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-shaders' || route.path.startsWith('/shader/')"
+          :highlighted-style="
+            route.name === 'search-shaders' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/shaders"> <GlassesIcon aria-hidden="true" /> Shaders </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-plugins' || route.path.startsWith('/plugin/')"
+          :highlighted-style="
+            route.name === 'search-plugins' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/plugins"> <PlugIcon aria-hidden="true" /> Plugins </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled type="transparent" :highlighted="route.name === 'app'">
+          <nuxt-link to="/app">
+            <DownloadIcon aria-hidden="true" />
+            <span class="hidden md:contents">Get Modrinth App</span>
+            <span class="contents md:hidden">Modrinth App</span>
+          </nuxt-link>
+        </ButtonStyled>
       </div>
       <div class="flex items-center gap-2">
         <ButtonStyled type="transparent">
@@ -505,7 +425,9 @@
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.interactTitle) }}</h4>
         <a rel="noopener" :target="$external()" href="https://discord.gg/UbmjP8zeFz"> Discord </a>
         <a rel="noopener" :target="$external()" href="https://vk.com/core_engine"> VK </a>
-        <a rel="noopener" :target="$external()" href="https://www.reddit.com/r/innercore_mods"> Reddit </a>
+        <a rel="noopener" :target="$external()" href="https://www.reddit.com/r/innercore_mods">
+          Reddit
+        </a>
       </div>
       <div class="buttons">
         <nuxt-link class="btn btn-outline btn-primary" to="/app">
@@ -569,7 +491,6 @@ import ModalCreation from "~/components/ui/ModalCreation.vue";
 import { getProjectTypeMessage } from "~/utils/i18n-project-type.ts";
 import CollectionCreateModal from "~/components/ui/CollectionCreateModal.vue";
 import OrganizationCreateModal from "~/components/ui/OrganizationCreateModal.vue";
-import TeleportOverflowMenu from "~/components/ui/servers/TeleportOverflowMenu.vue";
 
 const { formatMessage } = useVIntl();
 

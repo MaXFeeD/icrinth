@@ -9,20 +9,15 @@
     <Teleport v-if="flags.searchBackground" to="#absolute-background-teleport">
       <div class="search-background"></div>
     </Teleport>
-    <section class="normal-page__header mb-4 flex flex-col gap-4">
-      <NavTabs
-        v-if="!flags.projectTypesPrimaryNav"
-        :links="selectableProjectTypes"
-        class="hidden md:flex"
-      />
-    </section>
     <aside
       :class="{
         'normal-page__sidebar': true,
       }"
       aria-label="Filters"
     >
-      <AdPlaceholder v-if="!auth.user || !isPermission(auth.user.badges, 1 << 0) || flags.showAdsWithPlus" />
+      <AdPlaceholder
+        v-if="!auth.user || !isPermission(auth.user.badges, 1 << 0) || flags.showAdsWithPlus"
+      />
       <div v-if="filtersMenuOpen" class="fixed inset-0 z-40 bg-bg"></div>
       <div
         class="flex flex-col gap-3"
@@ -365,17 +360,6 @@ function setClosestMaxResults() {
     });
   }
 }
-
-const selectableProjectTypes = computed(() => {
-  return [
-    { label: "Mods", href: `/mods` },
-    { label: "Resource Packs", href: `/resourcepacks` },
-    { label: "Data Packs", href: `/datapacks` },
-    { label: "Shaders", href: `/shaders` },
-    { label: "Modpacks", href: `/modpacks` },
-    { label: "Plugins", href: `/plugins` },
-  ];
-});
 
 const ogTitle = computed(
   () => `Search ${projectType.value.display}s${query.value ? " | " + query.value : ""}`,
