@@ -552,15 +552,13 @@
             <multiselect
               v-model="version.game_versions"
               :options="
-                showSnapshots
-                  ? tags.gameVersions.map((x) => x.version)
-                  : tags.gameVersions
-                      .filter((it) => it.version_type === 'release')
-                      .map((x) => x.version)
+                tags.gameVersions
+                  .filter((it) => it.version_type === 'release')
+                  .map((x) => x.version)
               "
               :loading="tags.gameVersions.length === 0"
               :multiple="true"
-              :searchable="true"
+              :searchable="false"
               :show-no-results="false"
               :close-on-select="false"
               :clear-on-select="false"
@@ -569,13 +567,6 @@
               :hide-selected="true"
               :custom-label="(version) => version"
               placeholder="Choose versions..."
-            />
-            <Checkbox
-              v-model="showSnapshots"
-              label="Show all versions"
-              description="Show all versions"
-              style="margin-top: 0.5rem"
-              :border="false"
             />
           </template>
           <span v-else>{{ $formatVersion(version.game_versions) }}</span>
@@ -916,8 +907,6 @@ export default defineNuxtComponent({
       dependencyAddMode: "project",
       newDependencyType: "required",
       newDependencyId: "",
-
-      showSnapshots: false,
 
       newFiles: [],
       deleteFiles: [],

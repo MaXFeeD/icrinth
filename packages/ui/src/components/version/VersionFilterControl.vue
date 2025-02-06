@@ -17,14 +17,10 @@
         v-model="selectedGameVersions"
         :options="filterOptions.gameVersion"
         :dropdown-id="`${baseId}-game-version`"
-        search
         @change="updateFilters"
       >
         <FilterIcon class="h-5 w-5 text-secondary" />
         Game versions
-        <template #footer>
-          <Checkbox v-model="showSnapshots" class="mx-1" :label="`Show all versions`" />
-        </template>
       </ManySelect>
       <ManySelect
         v-model="selectedChannels"
@@ -80,7 +76,7 @@
 
 <script setup lang="ts">
 import { FilterIcon, XCircleIcon, XIcon } from '@modrinth/assets'
-import { ManySelect, Checkbox } from '../index'
+import { ManySelect } from '../index'
 import { type Version, formatCategory, type GameVersionTag } from '@modrinth/utils'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -97,8 +93,6 @@ const emit = defineEmits(['update:query'])
 const allChannels = ref(['release', 'beta', 'alpha'])
 
 const route = useRoute()
-
-const showSnapshots = ref(false)
 
 type FilterType = 'channel' | 'gameVersion' | 'platform'
 type Filter = string
@@ -132,7 +126,7 @@ const filterOptions = computed(() => {
     const gameVersions = props.gameVersions.filter((x) => gameVersionSet.has(x.version))
 
     filters.gameVersion = gameVersions
-      .filter((x) => (showSnapshots.value ? true : x.version_type === 'release'))
+      .filter((x) => x.version_type === 'release')
       .map((x) => x.version)
   }
   if (platformSet.size > 0) {

@@ -192,26 +192,15 @@ export function useSearch(
         display: 'scrollable',
         query_param: 'v',
         supports_negative_filter: false,
-        toggle_groups: [
-          {
-            id: 'all_versions',
-            formatted_name: formatMessage(
-              defineMessage({
-                id: 'search.filter_type.game_version.all_versions',
-                defaultMessage: 'Show all versions',
-              }),
-            ),
-            query_param: 'h',
-          },
-        ],
-        searchable: true,
-        options: tags.value.gameVersions.map((gameVersion) => ({
-          id: gameVersion.version,
-          toggle_group: gameVersion.version_type !== 'release' ? 'all_versions' : undefined,
-          value: `versions:${gameVersion.version}`,
-          query_value: gameVersion.version,
-          method: 'or',
-        })),
+        searchable: false,
+        options: tags.value.gameVersions
+          .filter((gameVersion) => gameVersion.version_type === 'release')
+          .map((gameVersion) => ({
+            id: gameVersion.version,
+            value: `versions:${gameVersion.version}`,
+            query_value: gameVersion.version,
+            method: 'or',
+          })),
         ordering: projectTypes.value.includes('mod') ? 2 : undefined,
       },
       {

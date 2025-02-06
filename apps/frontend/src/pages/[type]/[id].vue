@@ -267,29 +267,9 @@
                   currentGameVersion ? `Game version: ${currentGameVersion}` : "Select game version"
                 }}
               </template>
-              <div class="iconified-input mb-2 flex w-full">
-                <label for="game-versions-filtering" hidden>Search game versions...</label>
-                <SearchIcon aria-hidden="true" />
-                <input
-                  id="game-versions-filtering"
-                  ref="gameVersionFilterInput"
-                  v-model="versionFilter"
-                  type="search"
-                  autocomplete="off"
-                  placeholder="Search game versions..."
-                />
-              </div>
               <ScrollablePanel :class="project.game_versions.length > 4 ? 'h-[15rem]' : ''">
                 <ButtonStyled
-                  v-for="gameVersion in project.game_versions
-                    .filter(
-                      (x) =>
-                        (versionFilter && x.includes(versionFilter)) ||
-                        (!versionFilter &&
-                          (showAllVersions || (!x.includes('w') && !x.includes('-')))),
-                    )
-                    .slice()
-                    .reverse()"
+                  v-for="gameVersion in project.game_versions.slice().reverse()"
                   :key="gameVersion"
                   :color="currentGameVersion === gameVersion ? 'brand' : 'standard'"
                 >
@@ -326,12 +306,6 @@
                   </button>
                 </ButtonStyled>
               </ScrollablePanel>
-              <Checkbox
-                v-model="showAllVersions"
-                class="mx-1"
-                :label="`Show all versions`"
-                :disabled="!!versionFilter"
-              />
             </Accordion>
             <ButtonStyled v-if="project.loaders.length === 1">
               <div class="disabled button-like">
@@ -886,11 +860,6 @@ const overTheTopDownloadAnimation = ref();
 
 const userSelectedGameVersion = ref(null);
 const userSelectedPlatform = ref(null);
-const showAllVersions = ref(false);
-
-const gameVersionFilterInput = ref();
-
-const versionFilter = ref("");
 
 const baseId = useId();
 
@@ -1428,7 +1397,6 @@ function closeDownloadModal(event) {
   downloadModal.value.hide(event);
   userSelectedPlatform.value = null;
   userSelectedGameVersion.value = null;
-  showAllVersions.value = false;
 }
 
 function triggerDownloadAnimation() {
