@@ -31,9 +31,9 @@
           {{ members[message.author_id].username }}
         </AutoLink>
         <ScaleIcon v-if="members[message.author_id].role === 'moderator'" v-tooltip="'Moderator'" />
-        <ModrinthIcon
+        <IcmodsIcon
           v-else-if="members[message.author_id].role === 'admin'"
-          v-tooltip="'Modrinth Team'"
+          v-tooltip="'Horizon Team'"
         />
         <MicrophoneIcon
           v-if="report && message.author_id === report.reporterUser.id"
@@ -100,11 +100,11 @@ import {
   TrashIcon,
   MicrophoneIcon,
   LockIcon,
-  ModrinthIcon,
+  IcmodsIcon,
   ScaleIcon,
-} from "@modrinth/assets";
-import { AutoLink, OverflowMenu } from "@modrinth/ui";
-import { renderString } from "@modrinth/utils";
+} from "@icmods/assets";
+import { AutoLink, OverflowMenu } from "@icmods/ui";
+import { renderString } from "@icmods/utils";
 import Avatar from "~/components/ui/Avatar.vue";
 import Badge from "~/components/ui/Badge.vue";
 import { isStaff } from "~/helpers/users.js";

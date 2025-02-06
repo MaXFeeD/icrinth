@@ -10,7 +10,7 @@
             Go home
           </nuxt-link>
           <a
-            href="https://discord.modrinth.com"
+            href="https://discord.gg/UbmjP8zeFz"
             class="iconified-button raised-button"
             rel="noopener"
           >

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Avatar, ButtonStyled, OverflowMenu } from '@modrinth/ui'
+import { Avatar, ButtonStyled, OverflowMenu } from '@icmods/ui'
 import {
   UserPlusIcon,
   MoreVerticalIcon,
@@ -7,7 +7,7 @@ import {
   SettingsIcon,
   TrashIcon,
   XIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import { ref, onUnmounted, watch, computed } from 'vue'
 import { friend_listener } from '@/helpers/events'
 import { friends, friend_statuses, add_friend, remove_friend } from '@/helpers/friends'

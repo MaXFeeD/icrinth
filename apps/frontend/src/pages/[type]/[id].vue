@@ -205,7 +205,7 @@
       </template>
       <template #default>
         <div class="mx-auto flex max-w-[40rem] flex-col gap-4 md:w-[30rem]">
-          <div class="modrinth-app-section contents">
+          <div class="horizon-section contents">
             <div class="mx-auto flex w-fit flex-col">
               <ButtonStyled color="brand">
                 <a
@@ -213,17 +213,17 @@
                   :href="`modrinth://mod/${project.slug}`"
                   @click="() => installWithApp()"
                 >
-                  <ModrinthIcon aria-hidden="true" />
-                  Install with Modrinth App
+                  <HorizonIcon aria-hidden="true" />
+                  Install with Horizon
                   <ExternalIcon aria-hidden="true" />
                 </a>
               </ButtonStyled>
-              <Accordion ref="getModrinthAppAccordion">
+              <Accordion ref="getHorizonAccordion">
                 <nuxt-link
                   class="mt-2 flex justify-center text-brand-blue hover:underline"
                   to="/app"
                 >
-                  Don't have Modrinth App?
+                  Don't have Horizon?
                 </nuxt-link>
               </Accordion>
             </div>
@@ -801,13 +801,12 @@ import {
   PlusIcon,
   ReportIcon,
   ScaleIcon,
-  SearchIcon,
   SettingsIcon,
   TagsIcon,
   UsersIcon,
   VersionIcon,
   WrenchIcon,
-} from "@modrinth/assets";
+} from "@icmods/assets";
 import {
   Avatar,
   ButtonStyled,
@@ -822,12 +821,13 @@ import {
   ProjectSidebarDetails,
   ProjectSidebarLinks,
   ScrollablePanel,
-} from "@modrinth/ui";
-import VersionSummary from "@modrinth/ui/src/components/version/VersionSummary.vue";
-import { formatCategory, isRejected, isStaff, isUnderReview, renderString } from "@modrinth/utils";
+} from "@icmods/ui";
+import VersionSummary from "@icmods/ui/src/components/version/VersionSummary.vue";
+import { formatCategory, isRejected, isStaff, isUnderReview, renderString } from "@icmods/utils";
 import { navigateTo } from "#app";
 import dayjs from "dayjs";
-import ModrinthIcon from "~/assets/images/utils/modrinth.svg?component";
+// TODO: There should be Horizon, but we haven't those...
+import HorizonIcon from "~/assets/images/logo.svg?component";
 import Accordion from "~/components/ui/Accordion.vue";
 import AdPlaceholder from "~/components/ui/AdPlaceholder.vue";
 import AutomaticAccordion from "~/components/ui/AutomaticAccordion.vue";
@@ -891,13 +891,13 @@ const currentPlatform = computed(() => {
 
 function installWithApp() {
   setTimeout(() => {
-    getModrinthAppAccordion.value.open();
+    getHorizonAccordion.value.open();
   }, 1500);
 }
 
 const gameVersionAccordion = ref();
 const platformAccordion = ref();
-const getModrinthAppAccordion = ref();
+const getHorizonAccordion = ref();
 
 const formatRelativeTime = useRelativeTime();
 
@@ -1221,7 +1221,7 @@ const description = computed(
   () =>
     `${project.value.description} - Download the Minecraft ${projectTypeDisplay.value} ${
       project.value.title
-    } by ${members.value.find((x) => x.is_owner)?.user?.username || "a Creator"} on Modrinth`,
+    } by ${members.value.find((x) => x.is_owner)?.user?.username || "a Creator"} on Inner Core Mods`,
 );
 
 if (!route.name.startsWith("type-id-settings")) {
@@ -1566,7 +1566,7 @@ const navLinks = computed(() => {
 }
 
 @media (hover: none) and (max-width: 767px) {
-  .modrinth-app-section {
+  .horizon-section {
     display: none;
   }
 }

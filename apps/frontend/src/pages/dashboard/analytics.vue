@@ -12,7 +12,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Analytics - Modrinth",
+  title: "Analytics - Inner Core Mods",
 });
 
 const auth = await useAuth();

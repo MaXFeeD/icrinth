@@ -86,11 +86,11 @@
 </template>
 
 <script setup>
-import { UserIcon, SaveIcon, UploadIcon, UndoIcon, XIcon } from "@modrinth/assets";
-import { Avatar, FileInput, Button, commonMessages } from "@modrinth/ui";
+import { UserIcon, SaveIcon, UploadIcon, UndoIcon, XIcon } from "@icmods/assets";
+import { Avatar, FileInput, Button, commonMessages } from "@icmods/ui";
 
 useHead({
-  title: "Profile settings - Modrinth",
+  title: "Profile settings - Inner Core Mods",
 });
 
 definePageMeta({
@@ -107,7 +107,7 @@ const messages = defineMessages({
   description: {
     id: "settings.profile.description",
     defaultMessage:
-      "Your profile information is publicly viewable on Modrinth and through the <docs-link>Modrinth API</docs-link>.",
+      "Your profile information is publicly viewable on Inner Core Mods and through the <docs-link>Inner Core Mods API</docs-link>.",
   },
   profilePicture: {
     id: "settings.profile.profile-picture.title",

@@ -17,7 +17,7 @@ export const acceptFileFromProjectType = (projectType) => {
     case "mod":
       return ".jar,.zip,.litemod,application/java-archive,application/x-java-archive,application/zip";
     case "modpack":
-      return ".mrpack,application/x-modrinth-modpack+zip,application/zip";
+      return ".mrpack,application/x-icmods-modpack+zip,application/zip";
     default:
       return "*";
   }

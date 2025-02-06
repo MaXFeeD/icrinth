@@ -23,7 +23,7 @@ pub fn send_email_raw(
 ) -> Result<(), MailError> {
     let email = Message::builder()
         .from(Mailbox::new(
-            Some("Modrinth".to_string()),
+            Some("Inner Core Mods".to_string()),
             Address::new("no-reply", "mail.modrinth.com")?,
         ))
         .to(to.parse()?)

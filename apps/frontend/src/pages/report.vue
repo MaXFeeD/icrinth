@@ -7,14 +7,14 @@
           <div>
             <p>
               Modding should be safe for everyone, so we take abuse and malicious intent seriously
-              at Modrinth. If you encounter content that violates our
+              at Inner Core Mods. If you encounter content that violates our
               <nuxt-link class="text-link" to="/legal/terms">Terms of Service</nuxt-link> or our
               <nuxt-link class="text-link" to="/legal/rules">Rules</nuxt-link>, please report it to
               us here.
             </p>
             <p>
-              This form is intended exclusively for reporting abuse or harmful content to Modrinth
-              staff. For bugs related to specific projects, please use the project's designated
+              This form is intended exclusively for reporting abuse or harmful content to Inner Core
+              Mods staff. For bugs related to specific projects, please use the project's designated
               Issues link or Discord channel.
             </p>
             <p>
@@ -92,8 +92,8 @@
 </template>
 
 <script setup lang="ts">
-import { Card, Button, MarkdownEditor, DropdownSelect } from "@modrinth/ui";
-import { SaveIcon } from "@modrinth/assets";
+import { Card, Button, MarkdownEditor, DropdownSelect } from "@icmods/ui";
+import { SaveIcon } from "@icmods/assets";
 import { useImageUpload } from "~/composables/image-upload.ts";
 
 const tags = useTags();

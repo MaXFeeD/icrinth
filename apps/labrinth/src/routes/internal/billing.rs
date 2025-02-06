@@ -1746,7 +1746,7 @@ pub async fn stripe_webhook(
 
                         let _ = send_email(
                             email,
-                            "Payment Failed for Modrinth",
+                            "Payment Failed for Inner Core Mods",
                             &format!("Our attempt to collect payment for {money} from the payment card on file was unsuccessful."),
                             "Please visit the following link below to update your payment method or contact your card provider. If the button does not work, you can copy the link and paste it into your browser.",
                             Some(("Update billing settings", &format!("{}/{}", dotenvy::var("SITE_URL")?,  dotenvy::var("SITE_BILLING_PATH")?))),

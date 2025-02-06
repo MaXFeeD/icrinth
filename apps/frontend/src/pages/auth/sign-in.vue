@@ -133,8 +133,8 @@ import {
   SSOGitLabIcon,
   KeyIcon,
   MailIcon,
-} from "@modrinth/assets";
-import { commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { commonMessages } from "@icmods/ui";
 import HCaptcha from "@/components/ui/HCaptcha.vue";
 
 const { formatMessage } = useVIntl();
@@ -181,7 +181,7 @@ const messages = defineMessages({
 
 useHead({
   title() {
-    return `${formatMessage(messages.signInTitle)} - Modrinth`;
+    return `${formatMessage(messages.signInTitle)} - Inner Core Mods`;
   },
 });
 
@@ -261,11 +261,6 @@ async function begin2FASignIn() {
 }
 
 async function finishSignIn(token) {
-  if (route.query.launcher) {
-    await navigateTo(`https://launcher-files.modrinth.com/?code=${token}`, { external: true });
-    return;
-  }
-
   if (token) {
     await useAuth(token);
     await useUser();

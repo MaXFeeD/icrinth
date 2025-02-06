@@ -63,7 +63,7 @@
       class="experimental-styles-within desktop-only relative z-[5] mx-auto grid max-w-[1280px] grid-cols-[1fr_auto] items-center gap-2 px-6 py-4 lg:grid-cols-[auto_1fr_auto]"
     >
       <div>
-        <NuxtLink to="/" aria-label="Modrinth home page">
+        <NuxtLink to="/" aria-label="Inner Core Mods home page">
           <BrandTextLogo aria-hidden="true" class="h-7 w-auto text-contrast" />
         </NuxtLink>
       </div>
@@ -89,14 +89,14 @@
           <nuxt-link to="/modpacks"> <PackageOpenIcon aria-hidden="true" /> Modpacks </nuxt-link>
         </ButtonStyled>
         <ButtonStyled
-          v-if="!cosmetics.hideModrinthAppPromos"
+          v-if="!cosmetics.hideHorizonPromos"
           type="transparent"
           :highlighted="route.name === 'app'"
         >
           <nuxt-link to="/app">
             <DownloadIcon aria-hidden="true" />
-            <span class="hidden md:contents">Get Modrinth App</span>
-            <span class="contents md:hidden">Modrinth App</span>
+            <span class="hidden md:contents">Get Horizon</span>
+            <span class="contents md:hidden">Horizon</span>
           </nuxt-link>
         </ButtonStyled>
       </div>
@@ -334,7 +334,7 @@
       <slot id="main" />
     </main>
     <footer>
-      <div class="logo-info" role="region" aria-label="Modrinth information">
+      <div class="logo-info" role="region" aria-label="Inner Core Mods information">
         <BrandTextLogo
           aria-hidden="true"
           class="text-logo button-base mx-auto mb-4 lg:mx-0"
@@ -382,7 +382,7 @@
       <div class="buttons">
         <nuxt-link class="btn btn-outline btn-primary" to="/app">
           <DownloadIcon aria-hidden="true" />
-          {{ formatMessage(messages.getModrinthApp) }}
+          {{ formatMessage(messages.getHorizon) }}
         </nuxt-link>
         <button class="iconified-button raised-button" @click="changeTheme">
           <MoonIcon v-if="$theme.active === 'light'" aria-hidden="true" />
@@ -429,8 +429,8 @@ import {
   XIcon as CrossIcon,
   ScaleIcon as ModerationIcon,
   BellIcon as NotificationIcon,
-} from "@modrinth/assets";
-import { Button, ButtonStyled, OverflowMenu, Avatar, commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { Button, ButtonStyled, OverflowMenu, Avatar, commonMessages } from "@icmods/ui";
 
 import ModalCreation from "~/components/ui/ModalCreation.vue";
 import { getProjectTypeMessage } from "~/utils/i18n-project-type.ts";
@@ -456,7 +456,7 @@ const userPopoutId = useId();
 const verifyEmailBannerMessages = defineMessages({
   title: {
     id: "layout.banner.verify-email.title",
-    defaultMessage: "For security purposes, please verify your email address on Modrinth.",
+    defaultMessage: "For security purposes, please verify your email address on Inner Core Mods.",
   },
   action: {
     id: "layout.banner.verify-email.action",
@@ -467,7 +467,7 @@ const verifyEmailBannerMessages = defineMessages({
 const addEmailBannerMessages = defineMessages({
   title: {
     id: "layout.banner.add-email.title",
-    defaultMessage: "For security purposes, please enter your email on Modrinth.",
+    defaultMessage: "For security purposes, please enter your email on Inner Core Mods.",
   },
   action: {
     id: "layout.banner.add-email.button",
@@ -490,12 +490,12 @@ const subscriptionPaymentFailedBannerMessages = defineMessages({
 const stagingBannerMessages = defineMessages({
   title: {
     id: "layout.banner.staging.title",
-    defaultMessage: "You’re viewing Modrinth’s staging environment.",
+    defaultMessage: "You’re viewing Inner Core Mods staging environment.",
   },
   description: {
     id: "layout.banner.staging.description",
     defaultMessage:
-      "The staging environment is completely separate from the production Modrinth database. This is used for testing and debugging purposes, and may be running in-development versions of the Modrinth backend or frontend newer than the production instance.",
+      "The staging environment is completely separate from the production Inner Core Mods database. This is used for testing and debugging purposes, and may be running in-development versions of the Inner Core Mods backend or frontend newer than the production instance.",
   },
 });
 
@@ -519,9 +519,9 @@ const messages = defineMessages({
     id: "layout.avatar.alt",
     defaultMessage: "Your avatar",
   },
-  getModrinthApp: {
-    id: "layout.action.get-modrinth-app",
-    defaultMessage: "Get Modrinth App",
+  getHorizon: {
+    id: "layout.action.get-horizon",
+    defaultMessage: "Get Horizon",
   },
   changeTheme: {
     id: "layout.action.change-theme",
@@ -590,25 +590,25 @@ useHead({
   ],
 });
 useSeoMeta({
-  title: "Modrinth",
+  title: "Inner Core Mods",
   description: () =>
     formatMessage({
       id: "layout.meta.description",
       defaultMessage:
-        "Download Minecraft mods, plugins, datapacks, shaders, resourcepacks, and modpacks on Modrinth. " +
-        "Discover and publish projects on Modrinth with a modern, easy to use interface and API.",
+        "Download Inner Core mods and modpacks on Inner Core Mods. " +
+        "Discover and publish projects on Inner Core Mods with a modern, easy to use interface and API.",
     }),
-  publisher: "Modrinth",
+  publisher: "Horizon Team",
   themeColor: "#1bd96a",
   colorScheme: "dark light",
 
   // OpenGraph
-  ogTitle: "Modrinth",
-  ogSiteName: "Modrinth",
+  ogTitle: "Inner Core Mods",
+  ogSiteName: "icmods",
   ogDescription: () =>
     formatMessage({
       id: "layout.meta.og-description",
-      defaultMessage: "Discover and publish Minecraft content!",
+      defaultMessage: "Discover and publish Inner Core content!",
     }),
   ogType: "website",
   ogImage: "https://cdn.modrinth.com/modrinth-new.png",
@@ -815,7 +815,7 @@ function hideStagingBanner() {
 
 <style lang="scss">
 @import "~/assets/styles/global.scss";
-// @import '@modrinth/assets';
+// @import '@icmods/assets';
 
 .layout {
   min-height: 100vh;

@@ -30,7 +30,7 @@ export const DEFAULT_FEATURE_FLAGS = validateValues({
   // advancedRendering: true,
   // externalLinksNewTab: true,
   // notUsingBlockers: false,
-  // hideModrinthAppPromos: false,
+  // hideHorizonPromos: false,
   // preferredDarkTheme: 'dark',
   // hideStagingBanner: false,
 

@@ -108,7 +108,7 @@
     "message": "Уже зарегистрированы?"
   },
   "auth.sign-up.subscribe.label": {
-    "message": "Подписаться на новости о Modrinth"
+    "message": "Подписаться на новости о Inner Core Mods"
   },
   "auth.sign-up.title": {
     "message": "Регистрация"
@@ -153,7 +153,7 @@
     "message": "Подтверждение электронной почты"
   },
   "auth.welcome.checkbox.subscribe": {
-    "message": "Подписаться на получение новостей Modrinth"
+    "message": "Подписаться на получение новостей Inner Core Mods"
   },
   "auth.welcome.description": {
     "message": "Благодарим за создание учетной записи. Теперь вы можете следить за проектами и создавать свои, получать уведомления о любимых проектах и многое другое!"
@@ -162,7 +162,7 @@
     "message": "Создавая учётную запись, вы соглашаетесь с нашими <terms-link>условиями</terms-link> и <privacy-policy-link>политикой конфиденциальности</privacy-policy-link>."
   },
   "auth.welcome.long-title": {
-    "message": "Добро пожаловать на Modrinth!"
+    "message": "Добро пожаловать на Inner Core Mods!"
   },
   "auth.welcome.title": {
     "message": "Добро пожаловать"
@@ -216,7 +216,7 @@
     "message": "Вы действительно хотите удалить эту коллекцию?"
   },
   "collection.description": {
-    "message": "{description} - Загляните на страничку {name}, коллекцию {username} на Modrinth"
+    "message": "{description} - Загляните на страничку {name}, коллекцию {username} на Inner Core Mods"
   },
   "collection.description.following": {
     "message": "Создана автоматически на основе всех отслеживаемых проектов."
@@ -350,8 +350,8 @@
   "layout.action.change-theme": {
     "message": "Изменить тему"
   },
-  "layout.action.get-modrinth-app": {
-    "message": "Скачать приложение Modrinth"
+  "layout.action.get-horizon": {
+    "message": "Скачать Horizon"
   },
   "layout.avatar.alt": {
     "message": "Аватар"
@@ -363,10 +363,10 @@
     "message": "В целях безопасности требуется указать ваш электронный адрес."
   },
   "layout.banner.staging.description": {
-    "message": "Страница тестирования – это копия основного сайта Modrinth. Она нужна в целях тестирования и поиска ошибок в более новых по сравнению с обычной версиях бэкенда или фронтэнда Modrinth."
+    "message": "Страница тестирования – это копия основного сайта Inner Core Mods. Она нужна в целях тестирования и поиска ошибок в более новых по сравнению с обычной версиях бэкенда или фронтэнда Inner Core Mods."
   },
   "layout.banner.staging.title": {
-    "message": "Вы находитесь на странице тестирования Modrinth."
+    "message": "Вы находитесь на странице тестирования Inner Core Mods."
   },
   "layout.banner.verify-email.action": {
     "message": "Отправить письмо ещё раз"
@@ -395,9 +395,6 @@
   "layout.footer.legal-disclaimer": {
     "message": "НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНОЙ УСЛУГОЙ MINECRAFT. НЕ ОДОБРЕНО И НЕ СВЯЗАНО С КОМПАНИЕЙ MOJANG ИЛИ MICROSOFT."
   },
-  "layout.footer.open-source": {
-    "message": "Modrinth – <github-link>проект с открытым исходным кодом</github-link>."
-  },
   "layout.footer.resources.blog": {
     "message": "Блог"
   },
@@ -417,10 +414,10 @@
     "message": "Меню"
   },
   "layout.meta.description": {
-    "message": "Скачивайте моды, плагины, наборы ресурсов, данных, шейдеры и сборки модов для Minecraft. Узнавайте про новые и публикуйте свои проекты на Modrinth благодаря удобному современному интерфейсу и API."
+    "message": "Скачивайте моды и сборки модов для Inner Core. Узнавайте про новые и публикуйте свои проекты на Inner Core Mods благодаря удобному современному интерфейсу и API."
   },
   "layout.meta.og-description": {
-    "message": "Исследуйте и делитесь контентом для Minecraft!"
+    "message": "Исследуйте и делитесь контентом для Inner Core!"
   },
   "layout.nav.home": {
     "message": "Главная"
@@ -459,10 +456,10 @@
     "message": "Организации"
   },
   "profile.meta.description": {
-    "message": "Скачивайте проекты {username} на Modrinth"
+    "message": "Скачивайте проекты {username} на Inner Core Mods"
   },
   "profile.meta.description-with-bio": {
-    "message": "{bio} — Скачивайте проекты {username} на Modrinth"
+    "message": "{bio} — Скачивайте проекты {username} на Inner Core Mods"
   },
   "profile.stats.downloads": {
     "message": "{count, plural, one {<stat>{count}</stat> скачивание} few {<stat>{count}</stat> скачивания} many {<stat>{count}</stat> скачиваний} other {<stat>{count}</stat> скачиваний}}"
@@ -693,7 +690,7 @@
     "message": "Запись жалоб"
   },
   "scopes.sessionAccess.description": {
-    "message": "Просмотр сеансов, созданных Modrinth"
+    "message": "Просмотр сеансов, созданных Inner Core"
   },
   "scopes.sessionAccess.label": {
     "message": "Доступ к сеансам"
@@ -792,7 +789,7 @@
     "message": "Отключить режим разработчика"
   },
   "settings.display.banner.developer-mode.description": {
-    "message": "<strong>Режим разработчика</strong> активирован. Он позволит вам видеть внутренние идентификаторы различных элементов на Modrinth, что может быть полезно, если вы используете API Modrinth. Чтобы включить или отключить режим разработчика, нажмите на логотип Modrinth внизу страницы 5 раз."
+    "message": "<strong>Режим разработчика</strong> активирован. Он позволит вам видеть внутренние идентификаторы различных элементов на Inner Core Mods, что может быть полезно, если вы используете API Inner Core Mods. Чтобы включить или отключить режим разработчика, нажмите на логотип Inner Core Mods внизу страницы 5 раз."
   },
   "settings.display.flags.description": {
     "message": "Переключение отдельных функций на этом устройстве."
@@ -834,16 +831,16 @@
     "message": "Особые эффекты"
   },
   "settings.display.sidebar.external-links-new-tab.description": {
-    "message": "Ссылки, ведущие за пределы Modrinth, должны открываться в новой вкладке. Независимо от этой настройки, ссылки на том же домене и в описаниях Markdown будут открываться в той же вкладке, а ссылки на рекламные и редактирование страниц будут открываться в новой вкладке."
+    "message": "Ссылки, ведущие за пределы Inner Core Mods, должны открываться в новой вкладке. Независимо от этой настройки, ссылки на том же домене и в описаниях Markdown будут открываться в той же вкладке, а ссылки на рекламные и редактирование страниц будут открываться в новой вкладке."
   },
   "settings.display.sidebar.external-links-new-tab.title": {
     "message": "Открывать внешние ссылки в новой вкладке"
   },
   "settings.display.sidebar.hide-app-promos.description": {
-    "message": "Убрать кнопку «Загрузить Modrinth App» с поисковых страниц. Ссылку на раздел с Modrinth App всё ещё можно найти на главной странице или в нижней части интерфейса."
+    "message": "Убрать кнопку «Скачть Horizon» с поисковых страниц. Ссылку на раздел с Horizon всё ещё можно найти на главной странице или в нижней части интерфейса."
   },
   "settings.display.sidebar.hide-app-promos.title": {
-    "message": "Скрыть кнопки загрузки Modrinth App"
+    "message": "Скрыть кнопки загрузки Horizon"
   },
   "settings.display.sidebar.right-aligned-project-sidebar.description": {
     "message": "Помещает боковую панель с информацией о проекте справа от содержимого страницы."
@@ -861,7 +858,7 @@
     "message": "Тёмная"
   },
   "settings.display.theme.description": {
-    "message": "Выберите предпочитаемую тему Modrinth на этом устройстве."
+    "message": "Выберите предпочитаемую тему Inner Core Mods на этом устройстве."
   },
   "settings.display.theme.light": {
     "message": "Светлая"
@@ -933,7 +930,7 @@
     "message": "Создать токен доступа"
   },
   "settings.pats.description": {
-    "message": "Токены доступа можно использовать для обращения к API Modrinth. Смотрите <doc-link>документацию к нему</doc-link>. Токены доступа можно создавать и удалять в любое время."
+    "message": "Токены доступа можно использовать для обращения к API Inner Core Mods. Смотрите <doc-link>документацию к нему</doc-link>. Токены доступа можно создавать и удалять в любое время."
   },
   "settings.pats.modal.create.action": {
     "message": "Создать токен доступа"
@@ -990,7 +987,7 @@
     "message": "О себе"
   },
   "settings.profile.description": {
-    "message": "Информация в вашем профиле доступна публично на Modrinth и через <docs-link>Modrinth API</docs-link>."
+    "message": "Информация в вашем профиле доступна публично на Inner Core Mods и через <docs-link>Inner Core Mods API</docs-link>."
   },
   "settings.profile.profile-info": {
     "message": "Информация в профиле"
@@ -1020,7 +1017,7 @@
     "message": "Текущая сессия"
   },
   "settings.sessions.description": {
-    "message": "Ниже представлены все устройства, с которых осуществлён вход в вашу учётную запись Modrinth. Вы можете управлять сеансом каждого из них по отдельности.\n\nЕсли среди них присутствует незнакомое устройство, незамедлительно завершите его сеанс и смените пароль своей учётной записи."
+    "message": "Ниже представлены все устройства, с которых осуществлён вход в вашу учётную запись Inner Core. Вы можете управлять сеансом каждого из них по отдельности.\n\nЕсли среди них присутствует незнакомое устройство, незамедлительно завершите его сеанс и смените пароль своей учётной записи."
   },
   "settings.sessions.last-accessed-ago": {
     "message": "Активность: {ago}"

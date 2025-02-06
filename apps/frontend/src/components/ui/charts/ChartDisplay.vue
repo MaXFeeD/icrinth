@@ -300,9 +300,9 @@
 </template>
 
 <script setup lang="ts">
-import { Button, Card, DropdownSelect } from "@modrinth/ui";
-import { formatMoney, formatNumber, formatCategoryHeader } from "@modrinth/utils";
-import { UpdatedIcon, DownloadIcon } from "@modrinth/assets";
+import { Button, Card, DropdownSelect } from "@icmods/ui";
+import { formatMoney, formatNumber, formatCategoryHeader } from "@icmods/utils";
+import { UpdatedIcon, DownloadIcon } from "@icmods/assets";
 import dayjs from "dayjs";
 import { computed } from "vue";
 

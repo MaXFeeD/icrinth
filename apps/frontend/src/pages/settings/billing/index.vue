@@ -314,7 +314,7 @@ import {
   ButtonStyled,
   CopyCode,
   commonMessages,
-} from "@modrinth/ui";
+} from "@icmods/ui";
 import {
   PlusIcon,
   XIcon,
@@ -329,8 +329,8 @@ import {
   RightArrowIcon,
   UpdatedIcon,
   HistoryIcon,
-} from "@modrinth/assets";
-import { calculateSavings, formatPrice, createStripeElements, getCurrency } from "@modrinth/utils";
+} from "@icmods/assets";
+import { calculateSavings, formatPrice, createStripeElements, getCurrency } from "@icmods/utils";
 import { ref, computed } from "vue";
 import { products } from "~/generated/state.json";
 
@@ -392,7 +392,7 @@ const messages = defineMessages({
   },
   subscriptionDescription: {
     id: "settings.billing.subscription.description",
-    defaultMessage: "Manage your Modrinth subscriptions.",
+    defaultMessage: "Manage your Inner Core Mods subscriptions.",
   },
   paymentMethodTitle: {
     id: "settings.billing.payment_method.title",

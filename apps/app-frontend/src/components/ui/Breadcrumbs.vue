@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import { ChevronRightIcon, ChevronLeftIcon } from '@modrinth/assets'
-import { Button } from '@modrinth/ui'
+import { ChevronRightIcon, ChevronLeftIcon } from '@icmods/assets'
+import { Button } from '@icmods/ui'
 import { useBreadcrumbs } from '@/store/breadcrumbs'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'

@@ -8,7 +8,7 @@ import {
   TwitterIcon,
   MastodonIcon,
   RedditIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import { computed, ref, nextTick } from 'vue'
 import QrcodeVue from 'qrcode.vue'
 import { Button, Modal } from '../index'
@@ -20,7 +20,7 @@ const props = defineProps({
   },
   shareTitle: {
     type: String,
-    default: 'Modrinth',
+    default: 'Inner Core Mods',
   },
   shareText: {
     type: String,

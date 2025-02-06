@@ -51,8 +51,8 @@ import {
   OrganizationIcon,
   LibraryIcon,
   ChartIcon,
-} from "@modrinth/assets";
-import { commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { commonMessages } from "@icmods/ui";
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 

@@ -207,8 +207,8 @@ import {
   UpdatedIcon,
   UploadIcon,
   XIcon,
-} from '@modrinth/assets'
-import { Avatar, Button, Checkbox, Chips } from '@modrinth/ui'
+} from '@icmods/assets'
+import { Avatar, Button, Checkbox, Chips } from '@icmods/ui'
 import { computed, onUnmounted, ref, shallowRef } from 'vue'
 import { get_loaders } from '@/helpers/tags'
 import { create } from '@/helpers/profile'

@@ -3,7 +3,7 @@
     <ModalConfirm
       ref="modal_confirm"
       title="Are you sure you want to delete your account?"
-      description="This will **immediately delete all of your user data and follows**. This will not delete your projects. Deleting your account cannot be reversed.<br><br>If you need help with your account, get support on the [Modrinth Discord](https://discord.modrinth.com)."
+      description="This will **immediately delete all of your user data and follows**. This will not delete your projects. Deleting your account cannot be reversed.<br><br>If you need help with your account, get support on the [Inner Core Discord](https://discord.gg/UbmjP8zeFz)."
       proceed-label="Delete this account"
       :confirmation-text="auth.user.username"
       :has-to-type="true"
@@ -180,7 +180,7 @@
               v-if="twoFactorSecret"
               :value="`otpauth://totp/${encodeURIComponent(
                 auth.user.email,
-              )}?secret=${twoFactorSecret}&issuer=Modrinth`"
+              )}?secret=${twoFactorSecret}&issuer=icmods`"
               :size="250"
               :margin="2"
               level="H"
@@ -374,7 +374,7 @@
     <section id="data-export" class="universal-card">
       <h2>Data export</h2>
       <p>
-        Request a copy of all your personal data you have uploaded to Modrinth. This may take
+        Request a copy of all your personal data you have uploaded to Inner Core Mods. This may take
         several minutes to complete.
       </p>
       <a v-if="generated" class="iconified-button" :href="generated" download="export.json">
@@ -419,7 +419,7 @@ import {
   UpdatedIcon,
   XIcon,
   DownloadIcon,
-} from "@modrinth/assets";
+} from "@icmods/assets";
 import QrcodeVue from "qrcode.vue";
 import GitHubIcon from "assets/icons/auth/sso-github.svg";
 import MicrosoftIcon from "assets/icons/auth/sso-microsoft.svg";
@@ -432,7 +432,7 @@ import ModalConfirm from "~/components/ui/ModalConfirm.vue";
 import Modal from "~/components/ui/Modal.vue";
 
 useHead({
-  title: "Account settings - Modrinth",
+  title: "Account settings - Inner Core Mods",
 });
 
 definePageMeta({

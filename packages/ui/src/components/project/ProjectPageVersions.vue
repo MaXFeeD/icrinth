@@ -178,10 +178,10 @@ import {
   type GameVersionTag,
   type PlatformTag,
   type Version,
-} from '@modrinth/utils'
+} from '@icmods/utils'
 
 import { commonMessages } from '../../utils/common-messages'
-import { CalendarIcon, DownloadIcon, StarIcon } from '@modrinth/assets'
+import { CalendarIcon, DownloadIcon, StarIcon } from '@icmods/assets'
 import { Pagination, VersionChannelIndicator, VersionFilterControl } from '../index'
 import { useVIntl } from '@vintl/vintl'
 import { type Ref, ref, computed } from 'vue'

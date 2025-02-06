@@ -52,7 +52,7 @@
   </div>
 </template>
 <script setup>
-import { SettingsIcon, RightArrowIcon } from "@modrinth/assets";
+import { SettingsIcon, RightArrowIcon } from "@icmods/assets";
 
 const { formatMessage } = useVIntl();
 
@@ -115,7 +115,7 @@ const failedVerificationMessages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.title)} - Modrinth`,
+  title: () => `${formatMessage(messages.title)} - Inner Core Mods`,
 });
 
 const auth = await useAuth();

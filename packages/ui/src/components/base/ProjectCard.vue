@@ -68,8 +68,8 @@
 </template>
 
 <script setup>
-import { HeartIcon, DownloadIcon, EditIcon, CalendarIcon } from '@modrinth/assets'
-import { formatNumber } from '@modrinth/utils'
+import { HeartIcon, DownloadIcon, EditIcon, CalendarIcon } from '@icmods/assets'
+import { formatNumber } from '@icmods/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime.js'
 import { defineComponent } from 'vue'
@@ -85,7 +85,7 @@ export default defineComponent({
   props: {
     id: {
       type: String,
-      default: 'modrinth-0',
+      default: 'icmods-0',
     },
     type: {
       type: String,

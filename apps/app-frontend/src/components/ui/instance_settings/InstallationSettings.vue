@@ -9,8 +9,8 @@ import {
   SpinnerIcon,
   UnplugIcon,
   UnlinkIcon,
-} from '@modrinth/assets'
-import { Avatar, Checkbox, Chips, ButtonStyled, TeleportDropdownMenu } from '@modrinth/ui'
+} from '@icmods/assets'
+import { Avatar, Checkbox, Chips, ButtonStyled, TeleportDropdownMenu } from '@icmods/ui'
 import { computed, type ComputedRef, type Ref, ref, shallowRef, watch } from 'vue'
 import { edit, install, update_repair_modrinth } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
@@ -24,7 +24,7 @@ import {
   type PlatformTag,
   type Project,
   type Version,
-} from '@modrinth/utils'
+} from '@icmods/utils'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
 import { get_project, get_version_many } from '@/helpers/cache'
 import ModpackVersionModal from '@/components/ui/ModpackVersionModal.vue'

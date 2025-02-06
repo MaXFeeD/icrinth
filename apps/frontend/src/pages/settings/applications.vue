@@ -148,9 +148,9 @@
       </button>
     </div>
     <p>
-      Applications can be used to authenticate Modrinth's users with your products. For more
+      Applications can be used to authenticate Inner Core users with your products. For more
       information, see
-      <a class="text-link" href="https://docs.modrinth.com">Modrinth's API documentation</a>.
+      <a class="text-link" href="https://docs.modrinth.com">Inner Core Mods API documentation</a>.
     </p>
     <div v-for="app in usersApps" :key="app.id" class="universal-card recessed token mt-4">
       <div class="token-info">
@@ -215,7 +215,7 @@
   </div>
 </template>
 <script setup>
-import { UploadIcon, PlusIcon, XIcon, TrashIcon, EditIcon, SaveIcon } from "@modrinth/assets";
+import { UploadIcon, PlusIcon, XIcon, TrashIcon, EditIcon, SaveIcon } from "@icmods/assets";
 import {
   CopyCode,
   ConfirmModal,
@@ -224,7 +224,7 @@ import {
   Avatar,
   FileInput,
   commonSettingsMessages,
-} from "@modrinth/ui";
+} from "@icmods/ui";
 import Modal from "~/components/ui/Modal.vue";
 
 import {
@@ -242,7 +242,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Applications - Modrinth",
+  title: "Applications - Inner Core Mods",
 });
 
 const data = useNuxtApp();

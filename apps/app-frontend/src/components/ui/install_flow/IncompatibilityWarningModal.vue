@@ -57,9 +57,9 @@
 
 <script setup>
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
-import { XIcon, DownloadIcon } from '@modrinth/assets'
-import { Button } from '@modrinth/ui'
-import { formatCategory } from '@modrinth/utils'
+import { XIcon, DownloadIcon } from '@icmods/assets'
+import { Button } from '@icmods/ui'
+import { formatCategory } from '@icmods/utils'
 import { add_project_from_version as installMod } from '@/helpers/profile'
 import { ref } from 'vue'
 import { handleError } from '@/store/state.js'

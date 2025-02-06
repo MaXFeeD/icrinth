@@ -311,8 +311,8 @@ import {
   SaveIcon,
   SortAscendingIcon as AscendingIcon,
   SortDescendingIcon as DescendingIcon,
-} from "@modrinth/assets";
-import { commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { commonMessages } from "@icmods/ui";
 
 import Badge from "~/components/ui/Badge.vue";
 import Checkbox from "~/components/ui/Checkbox.vue";
@@ -377,7 +377,7 @@ export default defineNuxtComponent({
     };
   },
   head: {
-    title: "Projects - Modrinth",
+    title: "Projects - Inner Core Mods",
   },
   created() {
     this.UPLOAD_VERSION = 1 << 0;

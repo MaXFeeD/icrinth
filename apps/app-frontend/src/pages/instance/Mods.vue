@@ -266,7 +266,7 @@ import {
   TrashIcon,
   UpdatedIcon,
   XIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import {
   Button,
   ButtonStyled,
@@ -274,8 +274,8 @@ import {
   OverflowMenu,
   Pagination,
   Toggle,
-} from '@modrinth/ui'
-import { formatProjectType } from '@modrinth/utils'
+} from '@icmods/ui'
+import { formatProjectType } from '@icmods/utils'
 import type { ComputedRef } from 'vue'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { defineMessages, useVIntl } from '@vintl/vintl'

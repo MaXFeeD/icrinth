@@ -12,6 +12,6 @@ const auth = await useAuth();
 const route = useNativeRoute();
 
 useHead({
-  title: `Report ${route.params.id} - Modrinth`,
+  title: `Report ${route.params.id} - Inner Core Mods`,
 });
 </script>

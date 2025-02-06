@@ -17,8 +17,8 @@ import {
   RightArrowIcon,
   SettingsIcon,
   XIcon,
-} from '@modrinth/assets'
-import { Avatar, Button, ButtonStyled, Notifications, OverflowMenu } from '@modrinth/ui'
+} from '@icmods/assets'
+import { Avatar, Button, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
 import { useLoading, useTheming } from '@/store/state'
 import ModrinthAppLogo from '@/assets/modrinth_app.svg?component'
 import AccountsCard from '@/components/ui/AccountsCard.vue'
@@ -47,7 +47,7 @@ import { useInstall } from '@/store/install.js'
 import { invoke } from '@tauri-apps/api/core'
 import { get_opening_command, initialize_state } from '@/helpers/state'
 import { saveWindowState, StateFlags } from '@tauri-apps/plugin-window-state'
-import { renderString } from '@modrinth/utils'
+import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
 import { check } from '@tauri-apps/plugin-updater'
 import NavButton from '@/components/ui/NavButton.vue'

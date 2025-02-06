@@ -6,7 +6,7 @@
         :link-stack="[{ href: '/settings/billing', label: 'Billing and subscriptions' }]"
       />
       <h2>Past charges</h2>
-      <p>All of your past charges to your Modrinth account will be listed here:</p>
+      <p>All of your past charges to your Inner Core account will be listed here:</p>
       <div
         v-for="charge in charges"
         :key="charge.id"
@@ -15,7 +15,7 @@
         <div class="flex flex-col gap-1">
           <div class="flex items-center gap-1">
             <span class="font-bold text-primary">
-              <template v-if="charge.product.metadata.type === 'midas'"> Modrinth Plus </template>
+              <template v-if="charge.product.metadata.type === 'midas'"> Inner Core Plus </template>
               <template v-else> Unknown product </template>
               <template v-if="charge.subscription_interval">
                 {{ charge.subscription_interval }}
@@ -35,8 +35,8 @@
   </div>
 </template>
 <script setup>
-import { Breadcrumbs, Badge } from "@modrinth/ui";
-import { formatPrice } from "@modrinth/utils";
+import { Breadcrumbs, Badge } from "@icmods/ui";
+import { formatPrice } from "@icmods/utils";
 import { products } from "~/generated/state.json";
 
 definePageMeta({

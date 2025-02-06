@@ -88,8 +88,8 @@
 </template>
 
 <script setup>
-import { CheckIcon, ClipboardCopyIcon, ShareIcon, TrashIcon } from '@modrinth/assets'
-import { Button, Card, Checkbox, DropdownSelect } from '@modrinth/ui'
+import { CheckIcon, ClipboardCopyIcon, ShareIcon, TrashIcon } from '@icmods/assets'
+import { Button, Card, Checkbox, DropdownSelect } from '@icmods/ui'
 import {
   delete_logs_by_filename,
   get_logs,

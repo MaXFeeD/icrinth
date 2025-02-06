@@ -310,8 +310,8 @@ import {
   SaveIcon,
   SortAscendingIcon,
   SortDescendingIcon,
-} from "@modrinth/assets";
-import { Button, Modal, Avatar, CopyCode, Badge, Checkbox, commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { Button, Modal, Avatar, CopyCode, Badge, Checkbox, commonMessages } from "@icmods/ui";
 
 import ModalCreation from "~/components/ui/ModalCreation.vue";
 import OrganizationProjectTransferModal from "~/components/ui/OrganizationProjectTransferModal.vue";

@@ -1,7 +1,7 @@
 export const BASE62_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 export type Base62Char = (typeof BASE62_CHARS)[number]
 
-export type ModrinthId = `${Base62Char}`[]
+export type IcmodsId = `${Base62Char}`[]
 
 export type Environment = 'required' | 'optional' | 'unsupported' | 'unknown'
 
@@ -43,7 +43,7 @@ export interface GalleryImage {
 }
 
 export interface Project {
-  id: ModrinthId
+  id: IcmodsId
   project_type: ProjectType
   slug: string
   title: string
@@ -65,8 +65,8 @@ export interface Project {
   client_side: Environment
   server_side: Environment
 
-  team: ModrinthId
-  thread_id: ModrinthId
+  team: IcmodsId
+  thread_id: IcmodsId
 
   issues_url?: string
   source_url?: string
@@ -82,7 +82,7 @@ export interface Project {
   game_versions: GameVersion[]
   loaders: Platform[]
 
-  versions: ModrinthId[]
+  versions: IcmodsId[]
   gallery?: GalleryImage[]
 
   license: {
@@ -94,7 +94,7 @@ export interface Project {
 }
 
 export interface SearchResult {
-  id: ModrinthId
+  id: IcmodsId
   project_type: ProjectType
   slug: string
   title: string
@@ -172,9 +172,9 @@ export interface Version {
   loaders: Platform[]
   featured: boolean
   status: VersionStatus
-  id: ModrinthId
-  project_id: ModrinthId
-  author_id: ModrinthId
+  id: IcmodsId
+  project_id: IcmodsId
+  author_id: IcmodsId
   date_published: string
   downloads: number
   files: VersionFile[]
@@ -206,7 +206,7 @@ export interface User {
   email?: string
   bio?: string
   payout_data?: PayoutData
-  id: ModrinthId
+  id: IcmodsId
   avatar_url: string
   created: string
   role: UserRole
@@ -233,7 +233,7 @@ export enum TeamMemberPermission {
 export type TeamMemberPermissions = number
 
 export interface TeamMember {
-  team_id: ModrinthId
+  team_id: IcmodsId
   user: User
   role: string
   permissions: TeamMemberPermissions

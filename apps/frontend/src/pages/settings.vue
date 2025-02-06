@@ -88,8 +88,8 @@ import {
   KeyIcon,
   LanguagesIcon,
   CardIcon,
-} from "@modrinth/assets";
-import { commonMessages, commonSettingsMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { commonMessages, commonSettingsMessages } from "@icmods/ui";
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 import MonitorSmartphoneIcon from "~/assets/images/utils/monitor-smartphone.svg?component";

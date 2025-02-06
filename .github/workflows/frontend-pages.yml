@@ -7,7 +7,7 @@ on:
 
 jobs:
   wait:
-    if: github.repository_owner == 'modrinth'
+    if: github.repository_owner == 'icmods'
     runs-on: ubuntu-latest
     permissions:
       contents: read

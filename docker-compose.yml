@@ -19,7 +19,7 @@ services:
     volumes:
       - meilisearch-data:/data.ms
     environment:
-      MEILI_MASTER_KEY: modrinth
+      MEILI_MASTER_KEY: icmods
       MEILI_HTTP_PAYLOAD_SIZE_LIMIT: 107374182400
   redis:
     image: redis:alpine

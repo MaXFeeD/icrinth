@@ -112,14 +112,7 @@ export const getAuthUrl = (provider, redirect = "") => {
     redirect = route.path;
   }
 
-  let fullURL;
-  if (route.query.launcher) {
-    fullURL = `https://launcher-files.modrinth.com`;
-  } else {
-    fullURL = `${config.public.siteUrl}${redirect}`;
-  }
-
-  return `${config.public.apiBaseUrl}auth/init?provider=${provider}&url=${fullURL}`;
+  return `${config.public.apiBaseUrl}auth/init?provider=${provider}&url=${config.public.siteUrl}${redirect}`;
 };
 
 export const removeAuthProvider = async (provider) => {

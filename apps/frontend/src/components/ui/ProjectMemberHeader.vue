@@ -276,7 +276,7 @@ const nags = computed(() => [
     title: "Add external links",
     id: "add-links",
     description:
-      "Add any relevant links targeted outside of Modrinth, such as sources, issues, or a Discord invite.",
+      "Add any relevant links targeted outside of Inner Core Mods, such as sources, issues, or a Discord invite.",
     status: "suggestion",
     link: {
       path: "settings/links",
@@ -335,7 +335,7 @@ const nags = computed(() => [
     title: "Resubmit for review",
     id: "resubmit-for-review",
     description: `Your project has been ${props.project.status} by
-            Modrinth's staff. In most cases, you can resubmit for review after
+            Inner Core Mods staff. In most cases, you can resubmit for review after
             addressing the staff's message.`,
     status: "review",
     link: {

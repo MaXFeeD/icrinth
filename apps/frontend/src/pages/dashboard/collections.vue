@@ -94,8 +94,8 @@
   </div>
 </template>
 <script setup>
-import { BoxIcon, SearchIcon, XIcon, PlusIcon, LinkIcon, LockIcon } from "@modrinth/assets";
-import { Avatar, Button, commonMessages } from "@modrinth/ui";
+import { BoxIcon, SearchIcon, XIcon, PlusIcon, LinkIcon, LockIcon } from "@icmods/assets";
+import { Avatar, Button, commonMessages } from "@icmods/ui";
 import WorldIcon from "~/assets/images/utils/world.svg?component";
 import CollectionCreateModal from "~/components/ui/CollectionCreateModal.vue";
 
@@ -130,7 +130,7 @@ definePageMeta({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.collectionsLongTitle)} - Modrinth`,
+  title: () => `${formatMessage(messages.collectionsLongTitle)} - Inner Core Mods`,
 });
 
 const auth = await useAuth();

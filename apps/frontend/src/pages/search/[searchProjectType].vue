@@ -4,7 +4,7 @@
     :class="{ 'alt-layout': !cosmetics.rightSearchLayout }"
   >
     <Head>
-      <Title>Search {{ projectType.display }}s - Modrinth</Title>
+      <Title>Search {{ projectType.display }}s - Inner Core Mods</Title>
     </Head>
     <Teleport v-if="flags.searchBackground" to="#absolute-background-teleport">
       <div class="search-background"></div>
@@ -208,8 +208,8 @@ import {
   ButtonStyled,
   NewProjectCard,
   SearchFilterControl,
-} from "@modrinth/ui";
-import { XIcon } from "@modrinth/assets";
+} from "@icmods/ui";
+import { XIcon } from "@icmods/assets";
 import { computed } from "vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
 import LogoAnimated from "~/components/brand/LogoAnimated.vue";
@@ -365,7 +365,7 @@ const ogTitle = computed(
 );
 const description = computed(
   () =>
-    `Search and browse thousands of Minecraft ${projectType.value.display}s on Modrinth with instant, accurate search results. Our filters help you quickly find the best Minecraft ${projectType.value.display}s.`,
+    `Search and browse thousands of Inner Core ${projectType.value.display}s on Inner Core Mods with instant, accurate search results. Our filters help you quickly find the best Inner Core ${projectType.value.display}s.`,
 );
 
 useSeoMeta({

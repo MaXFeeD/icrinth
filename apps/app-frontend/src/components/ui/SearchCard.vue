@@ -117,9 +117,9 @@
 </template>
 
 <script setup>
-import { TagsIcon, DownloadIcon, HeartIcon, PlusIcon, CheckIcon } from '@modrinth/assets'
-import { ButtonStyled, Avatar } from '@modrinth/ui'
-import { formatNumber, formatCategory } from '@modrinth/utils'
+import { TagsIcon, DownloadIcon, HeartIcon, PlusIcon, CheckIcon } from '@icmods/assets'
+import { ButtonStyled, Avatar } from '@icmods/ui'
+import { formatNumber, formatCategory } from '@icmods/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { ref, computed } from 'vue'

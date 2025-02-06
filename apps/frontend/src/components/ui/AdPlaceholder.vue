@@ -6,12 +6,11 @@
     <div
       class="absolute top-0 flex items-center justify-center overflow-hidden rounded-2xl bg-bg-raised"
     >
-      <div id="modrinth-rail-1" />
+      <div id="icmods-rail-1" />
     </div>
   </div>
 </template>
 <script setup>
-
 useHead({
   link: [
     {
@@ -35,7 +34,7 @@ onMounted(() => {
   tude.cmd.push(function () {
     tude.refreshAdsViaDivMappings([
       {
-        divId: "modrinth-rail-1",
+        divId: "icmods-rail-1",
         baseDivId: "pb-slot-square-2",
         targeting: {
           location: "web",

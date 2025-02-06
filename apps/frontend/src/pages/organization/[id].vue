@@ -251,7 +251,7 @@ import {
   CheckIcon,
   XIcon,
   ClipboardCopyIcon,
-} from "@modrinth/assets";
+} from "@icmods/assets";
 import {
   Avatar,
   ButtonStyled,
@@ -259,7 +259,7 @@ import {
   ContentPageHeader,
   OverflowMenu,
   commonMessages,
-} from "@modrinth/ui";
+} from "@icmods/ui";
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 import ModalCreation from "~/components/ui/ModalCreation.vue";
@@ -470,7 +470,7 @@ provide("organizationContext", {
 });
 
 const title = `${organization.value.name} - Organization`;
-const description = `${organization.value.description} - View the organization ${organization.value.name} on Modrinth`;
+const description = `${organization.value.description} - View the organization ${organization.value.name} on Inner Core Mods`;
 
 useSeoMeta({
   title,

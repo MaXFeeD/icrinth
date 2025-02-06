@@ -23,11 +23,7 @@
 </template>
 
 <script setup>
-import {
-  ScaleIcon,
-  ShieldIcon,
-  CopyrightIcon,
-} from "@modrinth/assets";
+import { ScaleIcon, ShieldIcon, CopyrightIcon } from "@icmods/assets";
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 

@@ -556,7 +556,7 @@ impl AuthProvider {
             AuthProvider::GitHub => {
                 let response = reqwest::Client::new()
                     .get("https://api.github.com/user")
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("token {token}"))
                     .send()
                     .await?;
@@ -607,7 +607,7 @@ impl AuthProvider {
 
                 let discord_user: DiscordUser = reqwest::Client::new()
                     .get("https://discord.com/api/v10/users/@me")
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("Bearer {token}"))
                     .send()
                     .await?
@@ -640,7 +640,7 @@ impl AuthProvider {
 
                 let microsoft_user: MicrosoftUser = reqwest::Client::new()
                     .get("https://graph.microsoft.com/v1.0/me?$select=id,displayName,mail,userPrincipalName")
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("Bearer {token}"))
                     .send()
                     .await?.json().await?;
@@ -672,7 +672,7 @@ impl AuthProvider {
 
                 let gitlab_user: GitLabUser = reqwest::Client::new()
                     .get("https://gitlab.com/api/v4/user")
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("Bearer {token}"))
                     .send()
                     .await?
@@ -698,7 +698,7 @@ impl AuthProvider {
 
                 let google_user: GoogleUser = reqwest::Client::new()
                     .get("https://www.googleapis.com/userinfo/v2/me")
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("Bearer {token}"))
                     .send()
                     .await?
@@ -793,7 +793,7 @@ impl AuthProvider {
                     .get(format!(
                         "{api_url}identity/openidconnect/userinfo?schema=openid"
                     ))
-                    .header(reqwest::header::USER_AGENT, "Modrinth")
+                    .header(reqwest::header::USER_AGENT, "icmods")
                     .header(AUTHORIZATION, format!("Bearer {token}"))
                     .send()
                     .await?
@@ -1160,7 +1160,7 @@ pub async fn auth_callback(
                     send_email(
                         email,
                         "Authentication method added",
-                        &format!("When logging into Modrinth, you can now log in using the {} authentication provider.", provider.as_str()),
+                        &format!("When logging into Inner Core Mods, you can now log in using the {} authentication provider.", provider.as_str()),
                         "If you did not make this change, please contact us immediately through our support channels on Discord or via email (support@modrinth.com).",
                         None,
                     )?;
@@ -1270,7 +1270,7 @@ pub async fn delete_auth_provider(
             send_email(
                 email,
                 "Authentication method removed",
-                &format!("When logging into Modrinth, you can no longer log in using the {} authentication provider.", delete_provider.provider.as_str()),
+                &format!("When logging into Inner Core Mods, you can no longer log in using the {} authentication provider.", delete_provider.provider.as_str()),
                 "If you did not make this change, please contact us immediately through our support channels on Discord or via email (support@modrinth.com).",
                 None,
             )?;
@@ -1386,7 +1386,7 @@ pub async fn create_account_with_password(
         .is_some()
     {
         return Err(ApiError::InvalidInput(
-            "Email is already registered on Modrinth!".to_string(),
+            "Email is already registered on Inner Core Mods!".to_string(),
         ));
     }
 
@@ -1432,7 +1432,7 @@ pub async fn create_account_with_password(
     send_email_verify(
         new_account.email.clone(),
         flow,
-        &format!("Welcome to Modrinth, {}!", new_account.username),
+        &format!("Welcome to Inner Core Mods, {}!", new_account.username),
     )?;
 
     if new_account.sign_up_newsletter.unwrap_or(false) {
@@ -1783,7 +1783,7 @@ pub async fn finish_2fa_flow(
             send_email(
                 email,
                 "Two-factor authentication enabled",
-                "When logging into Modrinth, you can now enter a code generated by your authenticator app in addition to entering your usual email address and password.",
+                "When logging into Inner Core Mods, you can now enter a code generated by your authenticator app in addition to entering your usual email address and password.",
                 "If you did not make this change, please contact us immediately through our support channels on Discord or via email (support@modrinth.com).",
                 None,
             )?;
@@ -1882,7 +1882,7 @@ pub async fn remove_2fa(
         send_email(
             email,
             "Two-factor authentication removed",
-            "When logging into Modrinth, you no longer need two-factor authentication to gain access.",
+            "When logging into Inner Core Mods, you no longer need two-factor authentication to gain access.",
             "If you did not make this change, please contact us immediately through our support channels on Discord or via email (support@modrinth.com).",
             None,
         )?;

@@ -540,7 +540,7 @@ impl TestFile {
             TestFile::BasicZip => Some("application/zip"),
 
             TestFile::BasicModpackRandom { .. } => {
-                Some("application/x-modrinth-modpack+zip")
+                Some("application/x-icmods-modpack+zip")
             }
         }
         .map(|s| s.to_string())

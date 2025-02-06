@@ -96,10 +96,10 @@
 
 <script setup>
 const description =
-  "The Copyright Policy of Modrinth, an modding platform focused on Minecraft.";
+  "The Copyright Policy of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Copyright Policy - Modrinth",
+  title: "Copyright Policy - Inner Core Mods",
   description,
   ogTitle: "Copyright Policy",
   ogDescription: description,

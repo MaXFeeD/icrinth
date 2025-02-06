@@ -1,5 +1,5 @@
 <script setup>
-import { MoonIcon, RadioButtonChecked, RadioButtonIcon, SunIcon } from '@modrinth/assets'
+import { MoonIcon, RadioButtonChecked, RadioButtonIcon, SunIcon } from '@icmods/assets'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 
 const { formatMessage } = useVIntl()
@@ -30,7 +30,7 @@ const colorTheme = defineMessages({
   },
   description: {
     id: 'settings.display.theme.description',
-    defaultMessage: 'Select your preferred color theme for Modrinth on this device.',
+    defaultMessage: 'Select your preferred color theme for Inner Core Mods on this device.',
   },
   system: {
     id: 'settings.display.theme.system',

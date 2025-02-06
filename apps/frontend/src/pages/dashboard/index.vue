@@ -101,7 +101,7 @@ import NotificationItem from "~/components/ui/NotificationItem.vue";
 import { fetchExtraNotificationData, groupNotifications } from "~/helpers/notifications.js";
 
 useHead({
-  title: "Dashboard - Modrinth",
+  title: "Dashboard - Inner Core Mods",
 });
 
 const auth = await useAuth();

@@ -616,7 +616,7 @@
   </div>
 </template>
 <script>
-import { ButtonStyled, ConfirmModal, MarkdownEditor } from "@modrinth/ui";
+import { ButtonStyled, ConfirmModal, MarkdownEditor } from "@icmods/ui";
 import { Multiselect } from "vue-multiselect";
 import { acceptFileFromProjectType } from "~/helpers/fileUtils.js";
 import { inferVersionInfo } from "~/helpers/infer.js";
@@ -873,7 +873,7 @@ export default defineNuxtComponent({
       () =>
         `Download ${props.project.title} ${
           version.version_number
-        } on Modrinth. Supports ${data.$formatVersion(version.game_versions)} ${version.loaders
+        } on Inner Core Mods. Supports ${data.$formatVersion(version.game_versions)} ${version.loaders
           .map((x) => x.charAt(0).toUpperCase() + x.slice(1))
           .join(" & ")}. Published on ${data
           .$dayjs(version.date_published)

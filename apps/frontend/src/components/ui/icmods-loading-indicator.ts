@@ -2,7 +2,7 @@ import { computed, defineComponent, h, onBeforeUnmount, ref, watch } from "vue";
 import { startLoading, stopLoading, useNuxtApp } from "#imports";
 
 export default defineComponent({
-  name: "ModrinthLoadingIndicator",
+  name: "IcmodsLoadingIndicator",
   props: {
     throttle: {
       type: Number,

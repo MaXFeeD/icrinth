@@ -75,9 +75,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ClientIcon, MonitorSmartphoneIcon, ServerIcon, UserIcon } from '@modrinth/assets'
-import { formatCategory, getVersionsToDisplay } from '@modrinth/utils'
-import type { GameVersionTag, PlatformTag } from '@modrinth/utils'
+import { ClientIcon, MonitorSmartphoneIcon, ServerIcon, UserIcon } from '@icmods/assets'
+import { formatCategory, getVersionsToDisplay } from '@icmods/utils'
+import type { GameVersionTag, PlatformTag } from '@icmods/utils'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 import { useRouter } from 'vue-router'
 import TagItem from '../base/TagItem.vue'

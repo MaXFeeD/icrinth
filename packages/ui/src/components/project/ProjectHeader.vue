@@ -53,10 +53,10 @@
   </ContentPageHeader>
 </template>
 <script setup lang="ts">
-import { DownloadIcon, HeartIcon, TagsIcon } from '@modrinth/assets'
+import { DownloadIcon, HeartIcon, TagsIcon } from '@icmods/assets'
 import Avatar from '../base/Avatar.vue'
 import ContentPageHeader from '../base/ContentPageHeader.vue'
-import { formatCategory, formatNumber, type Project } from '@modrinth/utils'
+import { formatCategory, formatNumber, type Project } from '@icmods/utils'
 import { useRouter } from 'vue-router'
 import TagItem from '../base/TagItem.vue'
 import ProjectStatusBadge from './ProjectStatusBadge.vue'

@@ -158,7 +158,7 @@ import {
   UpdatedIcon,
   LockOpenIcon,
   DropdownIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import { Button, Checkbox, ScrollablePanel } from '../index'
 import { computed, ref } from 'vue'
 import ButtonStyled from '../base/ButtonStyled.vue'

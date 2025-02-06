@@ -4,7 +4,7 @@
 
     <!-- User roles -->
     <template v-else-if="type === 'admin'">
-      <ModrinthIcon aria-hidden="true" /> {{ formatMessage(messages.modrinthTeamLabel) }}
+      <IcmodsIcon aria-hidden="true" /> {{ formatMessage(messages.horizonTeamLabel) }}
     </template>
     <template v-else-if="type === 'moderator'">
       <ScaleIcon aria-hidden="true" /> {{ formatMessage(messages.moderatorLabel) }}
@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import {
-  ModrinthIcon,
+  IcmodsIcon,
   ScaleIcon,
   BoxIcon,
   ListIcon,
@@ -88,8 +88,8 @@ import {
   CheckIcon,
   LockIcon,
   CalendarIcon,
-} from '@modrinth/assets'
-import { capitalizeString } from '@modrinth/utils'
+} from '@icmods/assets'
+import { capitalizeString } from '@icmods/utils'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 
 const messages = defineMessages({
@@ -129,9 +129,9 @@ const messages = defineMessages({
     id: 'omorphia.component.badge.label.moderator',
     defaultMessage: 'Moderator',
   },
-  modrinthTeamLabel: {
-    id: 'omorphia.component.badge.label.modrinth-team',
-    defaultMessage: 'Modrinth Team',
+  horizonTeamLabel: {
+    id: 'omorphia.component.badge.label.horizon-team',
+    defaultMessage: 'Horizon Team',
   },
   pendingLabel: {
     id: 'omorphia.component.badge.label.pending',

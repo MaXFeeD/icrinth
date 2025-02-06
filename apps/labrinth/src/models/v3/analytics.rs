@@ -9,7 +9,7 @@ pub struct Download {
     pub domain: String,
     pub site_path: String,
 
-    // Modrinth User ID for logged in users, default 0
+    // Inner Core Mods User ID for logged in users, default 0
     pub user_id: u64,
     // default is 0 if unknown
     pub project_id: u64,
@@ -30,9 +30,9 @@ pub struct PageView {
     pub domain: String,
     pub site_path: String,
 
-    // Modrinth User ID for logged in users
+    // Inner Core Mods User ID for logged in users
     pub user_id: u64,
-    // Modrinth Project ID (used for payouts)
+    // Inner Core Mods Project ID (used for payouts)
     pub project_id: u64,
     // whether this view will be monetized / counted for payouts
     pub monetized: bool,
@@ -50,11 +50,11 @@ pub struct Playtime {
     pub recorded: i64,
     pub seconds: u64,
 
-    // Modrinth User ID for logged in users (unused atm)
+    // Inner Core Mods User ID for logged in users (unused atm)
     pub user_id: u64,
-    // Modrinth Project ID
+    // Inner Core Mods Project ID
     pub project_id: u64,
-    // Modrinth Version ID
+    // Inner Core Mods Version ID
     pub version_id: u64,
 
     pub loader: String,

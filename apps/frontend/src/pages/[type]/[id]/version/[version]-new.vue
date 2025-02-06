@@ -82,9 +82,9 @@ import {
   FileIcon,
   MoreVerticalIcon,
   ShareIcon,
-} from "@modrinth/assets";
-import { ButtonStyled, VersionChannelIndicator } from "@modrinth/ui";
-import { formatBytes, renderHighlightedString } from "@modrinth/utils";
+} from "@icmods/assets";
+import { ButtonStyled, VersionChannelIndicator } from "@icmods/ui";
+import { formatBytes, renderHighlightedString } from "@icmods/utils";
 
 const router = useRouter();
 

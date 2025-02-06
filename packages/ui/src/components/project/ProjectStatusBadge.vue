@@ -13,12 +13,12 @@ import {
   LinkIcon,
   UnknownIcon,
   XIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import { useVIntl, defineMessage, type MessageDescriptor } from '@vintl/vintl'
 import type { Component } from 'vue'
 import { computed } from 'vue'
 import Badge from '../base/SimpleBadge.vue'
-import type { ProjectStatus } from '@modrinth/utils'
+import type { ProjectStatus } from '@icmods/utils'
 
 const props = defineProps<{
   status: ProjectStatus

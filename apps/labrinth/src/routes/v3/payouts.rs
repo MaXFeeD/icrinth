@@ -490,8 +490,8 @@ pub async fn create_payout(
                     json! ({
                         "sender_batch_header": {
                             "sender_batch_id": format!("{}-payouts", Utc::now().to_rfc3339()),
-                            "email_subject": "You have received a payment from Modrinth!",
-                            "email_message": "Thank you for creating projects on Modrinth. Please claim this payment within 30 days.",
+                            "email_subject": "You have received a payment from Inner Core Mods!",
+                            "email_message": "Thank you for creating projects on Inner Core Mods. Please claim this payment within 30 days.",
                         },
                         "items": [{
                             "amount": {
@@ -499,7 +499,7 @@ pub async fn create_payout(
                                 "value": transfer.to_string()
                             },
                             "receiver": address,
-                            "note": "Payment from Modrinth creator monetization program",
+                            "note": "Payment from Inner Core creator monetization program",
                             "recipient_type": wallet_type,
                             "recipient_wallet": wallet,
                             "sender_item_id": crate::models::ids::PayoutId::from(payout_id),
@@ -930,8 +930,8 @@ pub async fn platform_revenue(
                 let revenue = revenue.unwrap_or(Decimal::ZERO);
                 let impressions = impressions.unwrap_or(0);
 
-                // Modrinth's share of ad revenue
-                let modrinth_cut = Decimal::from(1) / Decimal::from(4);
+                // Inner Core Mods share of ad revenue
+                let icmods_cut = Decimal::from(1) / Decimal::from(4);
                 // Clean.io fee (ad antimalware). Per 1000 impressions.
                 let clean_io_fee = Decimal::from(8) / Decimal::from(1000);
 
@@ -939,7 +939,7 @@ pub async fn platform_revenue(
                     - (clean_io_fee * Decimal::from(impressions)
                         / Decimal::from(1000));
 
-                let payout = net_revenue * (Decimal::from(1) - modrinth_cut);
+                let payout = net_revenue * (Decimal::from(1) - icmods_cut);
 
                 revenue_data.push(RevenueData {
                     time: start as u64,

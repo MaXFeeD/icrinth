@@ -109,8 +109,8 @@
 </template>
 
 <script setup>
-import { BoxIcon, SettingsIcon, TransferIcon, XIcon } from "@modrinth/assets";
-import { Button, Modal, Checkbox, CopyCode, Avatar } from "@modrinth/ui";
+import { BoxIcon, SettingsIcon, TransferIcon, XIcon } from "@icmods/assets";
+import { Button, Modal, Checkbox, CopyCode, Avatar } from "@icmods/ui";
 
 const modalOpen = ref(null);
 

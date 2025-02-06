@@ -99,7 +99,7 @@
     "message": "Username"
   },
   "auth.sign-up.legal-dislaimer": {
-    "message": "By creating an account, you agree to Modrinth's <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>."
+    "message": "By creating an account, you agree to Inner Core Mods <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>."
   },
   "auth.sign-up.notification.password-mismatch.text": {
     "message": "Passwords do not match!"
@@ -111,7 +111,7 @@
     "message": "Already have an account?"
   },
   "auth.sign-up.subscribe.label": {
-    "message": "Subscribe to updates about Modrinth"
+    "message": "Subscribe to updates about Inner Core Mods"
   },
   "auth.sign-up.title": {
     "message": "Sign Up"
@@ -156,16 +156,16 @@
     "message": "Verify Email"
   },
   "auth.welcome.checkbox.subscribe": {
-    "message": "Subscribe to updates about Modrinth"
+    "message": "Subscribe to updates about Inner Core Mods"
   },
   "auth.welcome.description": {
     "message": "Thank you for creating an account. You can now follow and create projects, receive updates about your favorite projects, and more!"
   },
   "auth.welcome.label.tos": {
-    "message": "By creating an account, you have agreed to Modrinth's <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>."
+    "message": "By creating an account, you have agreed to Inner Core Mods <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>."
   },
   "auth.welcome.long-title": {
-    "message": "Welcome to Modrinth!"
+    "message": "Welcome to Inner Core Mods!"
   },
   "auth.welcome.title": {
     "message": "Welcome"
@@ -192,7 +192,7 @@
     "message": "Are you sure you want to delete this collection?"
   },
   "collection.description": {
-    "message": "{description} - View the collection {name} by {username} on Modrinth"
+    "message": "{description} - View the collection {name} by {username} on Inner Core Mods"
   },
   "collection.description.following": {
     "message": "Auto-generated collection of all the projects you're following."
@@ -257,8 +257,8 @@
   "layout.action.change-theme": {
     "message": "Change theme"
   },
-  "layout.action.get-modrinth-app": {
-    "message": "Get Modrinth App"
+  "layout.action.get-horizon": {
+    "message": "Get Horizon"
   },
   "layout.avatar.alt": {
     "message": "Your avatar"
@@ -267,13 +267,13 @@
     "message": "Visit account settings"
   },
   "layout.banner.add-email.title": {
-    "message": "For security purposes, please enter your email on Modrinth."
+    "message": "For security purposes, please enter your email on Inner Core Mods."
   },
   "layout.banner.staging.description": {
-    "message": "The staging environment is completely separate from the production Modrinth database. This is used for testing and debugging purposes, and may be running in-development versions of the Modrinth backend or frontend newer than the production instance."
+    "message": "The staging environment is completely separate from the production Inner Core Mods database. This is used for testing and debugging purposes, and may be running in-development versions of the Inner Core Mods backend or frontend newer than the production instance."
   },
   "layout.banner.staging.title": {
-    "message": "You’re viewing Modrinth’s staging environment."
+    "message": "You’re viewing Inner Core Mods staging environment."
   },
   "layout.banner.subscription-payment-failed.button": {
     "message": "Update billing info"
@@ -285,7 +285,7 @@
     "message": "Re-send verification email"
   },
   "layout.banner.verify-email.title": {
-    "message": "For security purposes, please verify your email address on Modrinth."
+    "message": "For security purposes, please verify your email address on Inner Core Mods."
   },
   "layout.footer.company.careers": {
     "message": "Careers"
@@ -327,10 +327,10 @@
     "message": "Toggle menu"
   },
   "layout.meta.description": {
-    "message": "Download Minecraft mods, plugins, datapacks, shaders, resourcepacks, and modpacks on Modrinth. Discover and publish projects on Modrinth with a modern, easy to use interface and API."
+    "message": "Download Inner Core mods and modpacks on Inner Core Mods. Discover and publish projects on Inner Core Mods with a modern, easy to use interface and API."
   },
   "layout.meta.og-description": {
-    "message": "Discover and publish Minecraft content!"
+    "message": "Discover and publish Inner Core content!"
   },
   "layout.nav.home": {
     "message": "Home"
@@ -375,10 +375,10 @@
     "message": "Organizations"
   },
   "profile.meta.description": {
-    "message": "Download {username}'s projects on Modrinth"
+    "message": "Download {username}'s projects on Inner Core Mods"
   },
   "profile.meta.description-with-bio": {
-    "message": "{bio} - Download {username}'s projects on Modrinth"
+    "message": "{bio} - Download {username}'s projects on Inner Core Mods"
   },
   "profile.stats.downloads": {
     "message": "{count, plural, one {<stat>{count}</stat> project download} other {<stat>{count}</stat> project downloads}}"
@@ -651,7 +651,7 @@
     "message": "Write reports"
   },
   "scopes.sessionAccess.description": {
-    "message": "Access modrinth-issued sessions"
+    "message": "Access icmods-issued sessions"
   },
   "scopes.sessionAccess.label": {
     "message": "Access sessions"
@@ -813,7 +813,7 @@
     "message": "Visa"
   },
   "settings.billing.subscription.description": {
-    "message": "Manage your Modrinth subscriptions."
+    "message": "Manage your Inner Core subscriptions."
   },
   "settings.billing.subscription.title": {
     "message": "Subscriptions"
@@ -822,7 +822,7 @@
     "message": "Deactivate developer mode"
   },
   "settings.display.banner.developer-mode.description": {
-    "message": "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Modrinth that may be helpful if you're a developer using the Modrinth API. Click on the Modrinth logo at the bottom of the page 5 times to toggle developer mode."
+    "message": "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Inner Core Mods that may be helpful if you're a developer using the Inner Core Mods API. Click on the icmods logo at the bottom of the page 5 times to toggle developer mode."
   },
   "settings.display.flags.description": {
     "message": "Enable or disable certain features on this device."
@@ -867,16 +867,16 @@
     "message": "Advanced rendering"
   },
   "settings.display.sidebar.external-links-new-tab.description": {
-    "message": "Make links which go outside of Modrinth open in a new tab. No matter this setting, links on the same domain and in Markdown descriptions will open in the same tab, and links on ads and edit pages will open in a new tab."
+    "message": "Make links which go outside of Inner Core Mods open in a new tab. No matter this setting, links on the same domain and in Markdown descriptions will open in the same tab, and links on ads and edit pages will open in a new tab."
   },
   "settings.display.sidebar.external-links-new-tab.title": {
     "message": "Open external links in new tab"
   },
   "settings.display.sidebar.hide-app-promos.description": {
-    "message": "Hides the \"Get Modrinth App\" buttons from primary navigation. The Modrinth App page can still be found on the landing page or in the footer."
+    "message": "Hides the \"Get Horizon\" buttons from primary navigation. The Horizon page can still be found on the landing page or in the footer."
   },
   "settings.display.sidebar.hide-app-promos.title": {
-    "message": "Hide Modrinth App promotions"
+    "message": "Hide Horizon promotions"
   },
   "settings.display.sidebar.left-aligned-content-sidebar.title": {
     "message": "Left-aligned sidebar on content pages"
@@ -891,7 +891,7 @@
     "message": "Right-aligned filters sidebar on search pages"
   },
   "settings.display.theme.description": {
-    "message": "Select your preferred color theme for Modrinth on this device."
+    "message": "Select your preferred color theme for Inner Core Mods on this device."
   },
   "settings.display.theme.title": {
     "message": "Color theme"
@@ -942,7 +942,7 @@
     "message": "Create a PAT"
   },
   "settings.pats.description": {
-    "message": "PATs can be used to access Modrinth's API. For more information, see <doc-link>Modrinth's API documentation</doc-link>. They can be created and revoked at any time."
+    "message": "PATs can be used to access Inner Core Mods API. For more information, see <doc-link>Inner Core Mods API documentation</doc-link>. They can be created and revoked at any time."
   },
   "settings.pats.modal.create.action": {
     "message": "Create PAT"
@@ -996,7 +996,7 @@
     "message": "Bio"
   },
   "settings.profile.description": {
-    "message": "Your profile information is publicly viewable on Modrinth and through the <docs-link>Modrinth API</docs-link>."
+    "message": "Your profile information is publicly viewable on Inner Core Mods and through the <docs-link>Inner Core Mods API</docs-link>."
   },
   "settings.profile.profile-info": {
     "message": "Profile information"
@@ -1023,7 +1023,7 @@
     "message": "Current session"
   },
   "settings.sessions.description": {
-    "message": "Here are all the devices that are currently logged in with your Modrinth account. You can log out of each one individually.\n\nIf you see an entry you don't recognize, log out of that device and change your Modrinth account password immediately."
+    "message": "Here are all the devices that are currently logged in with your Inner Core account. You can log out of each one individually.\n\nIf you see an entry you don't recognize, log out of that device and change your Inner Core account password immediately."
   },
   "settings.sessions.last-accessed-ago": {
     "message": "Last accessed {ago}"

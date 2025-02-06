@@ -103,7 +103,7 @@ bitflags::bitflags! {
         // delete an organization
         const ORGANIZATION_DELETE = 1 << 38;
 
-        // only accessible by modrinth-issued sessions
+        // only accessible by icmods-issued sessions
         const SESSION_ACCESS = 1 << 39;
 
         const NONE = 0b0;

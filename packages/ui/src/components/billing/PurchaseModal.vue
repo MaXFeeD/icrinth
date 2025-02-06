@@ -2,7 +2,7 @@
   <NewModal ref="purchaseModal">
     <template #title>
       <span class="text-contrast text-xl font-extrabold">
-        <template v-if="product.metadata.type === 'midas'">Subscribe to Modrinth Plus!</template>
+        <template v-if="product.metadata.type === 'midas'">Subscribe to Inner Core Plus!</template>
         <template v-else>Purchase product</template>
       </span>
     </template>
@@ -98,8 +98,7 @@
         <div class="r-4 rounded-xl bg-bg p-4">
           <p class="my-2 text-lg font-bold text-primary">Purchase details</p>
           <div class="mb-2 flex justify-between">
-            <span class="text-secondary">Modrinth+ {{ selectedPlan }}</span
-            >
+            <span class="text-secondary">Inner Core+ {{ selectedPlan }}</span>
             <span class="text-secondary text-end">
               {{ formatPrice(locale, price.prices.intervals[selectedPlan], price.currency_code) }} /
               {{ selectedPlan }}
@@ -222,11 +221,7 @@
           <XIcon />
           Cancel
         </button>
-        <button
-          class="btn btn-primary"
-          :disabled="paymentLoading"
-          @click="beginPurchaseFlow(true)"
-        >
+        <button class="btn btn-primary" :disabled="paymentLoading" @click="beginPurchaseFlow(true)">
           <RightArrowIcon />
           Select
         </button>
@@ -277,9 +272,9 @@ import {
   RadioButtonIcon,
   RightArrowIcon,
   XIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import AnimatedLogo from '../brand/AnimatedLogo.vue'
-import { getCurrency, calculateSavings, formatPrice, createStripeElements } from '@modrinth/utils'
+import { getCurrency, calculateSavings, formatPrice, createStripeElements } from '@icmods/utils'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 import { Multiselect } from 'vue-multiselect'
 

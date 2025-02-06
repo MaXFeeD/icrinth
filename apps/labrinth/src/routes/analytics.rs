@@ -20,7 +20,7 @@ use url::Url;
 pub const FILTERED_HEADERS: &[&str] = &[
     "authorization",
     "cookie",
-    "modrinth-admin",
+    "icmods-admin",
     // we already retrieve/use these elsewhere- so they are unneeded
     "user-agent",
     "cf-connecting-ip",

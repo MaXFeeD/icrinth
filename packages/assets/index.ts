@@ -1,7 +1,7 @@
 // NOTE: re-export using consts to help TypeScript resolve the proper type
 
 // Branding
-import _ModrinthIcon from './branding/logo.svg?component'
+import _IcmodsIcon from './branding/logo.svg?component'
 import _FourOhFourNotFound from './branding/404.svg?component'
 
 // External Icons
@@ -189,7 +189,7 @@ import _Heading3Icon from './icons/heading-3.svg?component'
 
 import './omorphia.scss'
 
-export const ModrinthIcon = _ModrinthIcon
+export const IcmodsIcon = _IcmodsIcon
 export const FourOhFourNotFound = _FourOhFourNotFound
 export const SSODiscordIcon = _SSODiscordIcon
 export const SSOGitHubIcon = _SSOGitHubIcon

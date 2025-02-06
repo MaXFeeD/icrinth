@@ -71,8 +71,8 @@
   </NewModal>
 </template>
 <script setup>
-import { XIcon, PlusIcon } from "@modrinth/assets";
-import { ButtonStyled, NewModal } from "@modrinth/ui";
+import { XIcon, PlusIcon } from "@icmods/assets";
+import { ButtonStyled, NewModal } from "@icmods/ui";
 
 const router = useNativeRouter();
 

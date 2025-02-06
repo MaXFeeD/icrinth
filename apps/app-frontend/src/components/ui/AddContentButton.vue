@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DropdownIcon, PlusIcon, FolderOpenIcon } from '@modrinth/assets'
-import { ButtonStyled, OverflowMenu } from '@modrinth/ui'
+import { DropdownIcon, PlusIcon, FolderOpenIcon } from '@icmods/assets'
+import { ButtonStyled, OverflowMenu } from '@icmods/ui'
 import { open } from '@tauri-apps/plugin-dialog'
 import { add_project_from_path } from '@/helpers/profile.js'
 import { handleError } from '@/store/notifications.js'

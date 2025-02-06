@@ -41,7 +41,7 @@
   </span>
 </template>
 <script setup lang="ts">
-import { GlobeIcon, ClientIcon, ServerIcon, InfoIcon } from '@modrinth/assets'
+import { GlobeIcon, ClientIcon, ServerIcon, InfoIcon } from '@icmods/assets'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 
 const messages = defineMessages({

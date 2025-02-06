@@ -12,12 +12,12 @@
       </p>
       <div v-else-if="isUnderReview(project)">
         <p>
-          Modrinth's team of content moderators work hard to review all submitted projects.
+          Inner Core Mods team of content moderators work hard to review all submitted projects.
           Typically, you can expect a new project to be reviewed within 24 to 48 hours. Please keep
           in mind that larger projects, especially modpacks, may require more time to review.
           Certain holidays or events may also lead to delays depending on moderator availability.
-          Modrinth's moderators will leave a message below if they have any questions or concerns
-          for you.
+          Inner Core Mods moderators will leave a message below if they have any questions or
+          concerns for you.
         </p>
         <p>
           If your review has taken more than 48 hours, check our
@@ -33,7 +33,7 @@
       </div>
       <template v-else-if="isRejected(project)">
         <p>
-          Your project does not currently meet Modrinth's
+          Your project does not currently meet Inner Core Mods
           <nuxt-link to="/legal/rules" class="text-link" target="_blank">content rules</nuxt-link>
           and the moderators have requested you make changes before it can be approved. Read the
           messages from the moderators below and address their comments before resubmitting.
@@ -74,10 +74,10 @@
     <section id="messages" class="universal-card">
       <h2>Messages</h2>
       <p>
-        This is a private conversation thread with the Modrinth moderators. They may message you
-        with issues concerning this project. This thread is only checked when you submit your
+        This is a private conversation thread with the Inner Core Mods moderators. They may message
+        you with issues concerning this project. This thread is only checked when you submit your
         project for review. For additional inquiries, contact
-        <a href="https://support.modrinth.com">Modrinth support</a>.
+        <a href="https://vk.me/core_engine">Inner Core Mods support</a>.
       </p>
       <ConversationThread
         v-if="thread"
@@ -92,8 +92,8 @@
   </div>
 </template>
 <script setup>
-import { ExitIcon, CheckIcon, IssuesIcon } from "@modrinth/assets";
-import { Badge } from "@modrinth/ui";
+import { ExitIcon, CheckIcon, IssuesIcon } from "@icmods/assets";
+import { Badge } from "@icmods/ui";
 import ConversationThread from "~/components/ui/thread/ConversationThread.vue";
 import {
   getProjectLink,

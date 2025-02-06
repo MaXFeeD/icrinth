@@ -68,7 +68,9 @@
     <div class="normal-page__content">
       <div v-for="subscription in subscriptionCharges" :key="subscription.id" class="card">
         <span class="font-extrabold text-contrast">
-          <template v-if="subscription.product.metadata.type === 'midas'"> Modrinth Plus </template>
+          <template v-if="subscription.product.metadata.type === 'midas'">
+            Inner Core Plus
+          </template>
           <template v-else> Unknown product </template>
           <template v-if="subscription.interval">
             {{ subscription.interval }}
@@ -111,9 +113,9 @@
   </div>
 </template>
 <script setup>
-import { Badge, NewModal, ButtonStyled, DropdownSelect, Toggle } from "@modrinth/ui";
-import { formatPrice } from "@modrinth/utils";
-import { CheckIcon, XIcon } from "@modrinth/assets";
+import { Badge, NewModal, ButtonStyled, DropdownSelect, Toggle } from "@icmods/ui";
+import { formatPrice } from "@icmods/utils";
+import { CheckIcon, XIcon } from "@icmods/assets";
 import { products } from "~/generated/state.json";
 
 const route = useRoute();

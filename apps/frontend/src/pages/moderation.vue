@@ -5,7 +5,7 @@
         <h1>Moderation</h1>
         <NavStack>
           <NavStackItem link="/moderation" label="Overview">
-            <ModrinthIcon aria-hidden="true" />
+            <IcmodsIcon aria-hidden="true" />
           </NavStackItem>
           <NavStackItem link="/moderation/review" label="Review projects">
             <ModerationIcon aria-hidden="true" />
@@ -25,7 +25,7 @@
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 
-import ModrinthIcon from "~/assets/images/utils/modrinth.svg?component";
+import IcmodsIcon from "~/assets/images/logo.svg?component";
 import ModerationIcon from "~/assets/images/sidebar/admin.svg?component";
 import ReportIcon from "~/assets/images/utils/report.svg?component";
 

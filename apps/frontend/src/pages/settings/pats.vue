@@ -202,8 +202,8 @@
   </div>
 </template>
 <script setup>
-import { PlusIcon, XIcon, TrashIcon, EditIcon, SaveIcon } from "@modrinth/assets";
-import { Checkbox, ConfirmModal, commonSettingsMessages, commonMessages } from "@modrinth/ui";
+import { PlusIcon, XIcon, TrashIcon, EditIcon, SaveIcon } from "@icmods/assets";
+import { Checkbox, ConfirmModal, commonSettingsMessages, commonMessages } from "@icmods/ui";
 
 import {
   hasScope,
@@ -266,7 +266,7 @@ const messages = defineMessages({
   description: {
     id: "settings.pats.description",
     defaultMessage:
-      "PATs can be used to access Modrinth's API. For more information, see <doc-link>Modrinth's API documentation</doc-link>. They can be created and revoked at any time.",
+      "PATs can be used to access Inner Core Mods API. For more information, see <doc-link>Inner Core Mods API documentation</doc-link>. They can be created and revoked at any time.",
   },
   create: {
     id: "settings.pats.action.create",
@@ -306,7 +306,7 @@ definePageMeta({
 });
 
 useHead({
-  title: `${formatMessage(commonSettingsMessages.pats)} - Modrinth`,
+  title: `${formatMessage(commonSettingsMessages.pats)} - Inner Core Mods`,
 });
 
 const data = useNuxtApp();

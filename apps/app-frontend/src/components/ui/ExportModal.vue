@@ -1,6 +1,6 @@
 <script setup>
-import { XIcon, PlusIcon } from '@modrinth/assets'
-import { Button, Checkbox } from '@modrinth/ui'
+import { XIcon, PlusIcon } from '@icmods/assets'
+import { Button, Checkbox } from '@icmods/ui'
 import { PackageIcon, VersionIcon } from '@/assets/icons'
 import { ref } from 'vue'
 import { export_profile_mrpack, get_pack_export_candidates } from '@/helpers/profile.js'

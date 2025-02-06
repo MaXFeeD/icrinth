@@ -294,8 +294,8 @@ import {
   InfoIcon,
   ImageIcon,
   TransferIcon,
-} from "@modrinth/assets";
-import { ConfirmModal } from "@modrinth/ui";
+} from "@icmods/assets";
+import { ConfirmModal } from "@icmods/ui";
 import FileInput from "~/components/ui/FileInput.vue";
 import DropArea from "~/components/ui/DropArea.vue";
 import Modal from "~/components/ui/Modal.vue";
@@ -323,7 +323,7 @@ const props = defineProps({
 });
 
 const title = `${props.project.title} - Gallery`;
-const description = `View ${props.project.gallery.length} images of ${props.project.title} on Modrinth.`;
+const description = `View ${props.project.gallery.length} images of ${props.project.title} on Inner Core Mods.`;
 
 useSeoMeta({
   title,

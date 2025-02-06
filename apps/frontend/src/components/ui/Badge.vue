@@ -7,10 +7,10 @@
     <template v-if="color"> <span class="circle" /> {{ capitalizeString(type) }}</template>
 
     <!-- User roles -->
-    <template v-else-if="type === 'admin'"> <ModrinthIcon /> Modrinth Team</template>
+    <template v-else-if="type === 'admin'"> <IcmodsIcon /> Horizon Team</template>
     <template v-else-if="type === 'moderator'"> <ModeratorIcon /> Moderator</template>
     <template v-else-if="type === 'creator'"><CreatorIcon /> Creator</template>
-    <template v-else-if="type === 'plus'"><PlusIcon /> Modrinth Plus</template>
+    <template v-else-if="type === 'plus'"><PlusIcon /> Inner Core Plus</template>
 
     <!-- Project statuses -->
     <template v-else-if="type === 'approved'"><GlobeIcon /> Public</template>
@@ -44,7 +44,7 @@
 import {
   GlobeIcon,
   LinkIcon,
-  ModrinthIcon,
+  IcmodsIcon,
   PlusIcon,
   ScaleIcon as ModeratorIcon,
   BoxIcon as CreatorIcon,
@@ -56,8 +56,8 @@ import {
   LockIcon,
   CalendarIcon,
   XCircleIcon as CloseIcon,
-} from "@modrinth/assets";
-import { capitalizeString } from "@modrinth/utils";
+} from "@icmods/assets";
+import { capitalizeString } from "@icmods/utils";
 
 defineProps({
   type: {

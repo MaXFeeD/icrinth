@@ -1,4 +1,4 @@
-import type { ModrinthId } from '@modrinth/utils'
+import type { ModrinthId } from '@icmods/utils'
 
 type GameInstance = {
   path: string

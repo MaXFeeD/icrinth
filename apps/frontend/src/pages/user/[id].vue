@@ -67,8 +67,8 @@
               user.bio
                 ? user.bio
                 : projects.length === 0
-                  ? "A Modrinth user."
-                  : "A Modrinth creator."
+                  ? "A Inner Core user."
+                  : "A Inner Core creator."
             }}
           </template>
           <template #stats>
@@ -333,14 +333,14 @@ import {
   CurrencyIcon,
   InfoIcon,
   CheckIcon,
-} from "@modrinth/assets";
+} from "@icmods/assets";
 import {
   OverflowMenu,
   ButtonStyled,
   ContentPageHeader,
   commonMessages,
   NewModal,
-} from "@modrinth/ui";
+} from "@icmods/ui";
 import { isStaff } from "~/helpers/users.js";
 import NavTabs from "~/components/ui/NavTabs.vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
@@ -418,11 +418,11 @@ const messages = defineMessages({
   },
   profileMetaDescription: {
     id: "profile.meta.description",
-    defaultMessage: "Download {username}'s projects on Modrinth",
+    defaultMessage: "Download {username}'s projects on Inner Core Mods",
   },
   profileMetaDescriptionWithBio: {
     id: "profile.meta.description-with-bio",
-    defaultMessage: "{bio} - Download {username}'s projects on Modrinth",
+    defaultMessage: "{bio} - Download {username}'s projects on Inner Core Mods",
   },
   profileNoProjectsLabel: {
     id: "profile.label.no-projects",
@@ -508,7 +508,7 @@ if (user.value.username !== route.params.id) {
   await navigateTo(`/user/${user.value.username}`, { redirectCode: 301 });
 }
 
-const title = computed(() => `${user.value.username} - Modrinth`);
+const title = computed(() => `${user.value.username} - Inner Core Mods`);
 const description = computed(() =>
   user.value.bio
     ? formatMessage(messages.profileMetaDescriptionWithBio, {
@@ -552,8 +552,8 @@ const sumDownloads = computed(() => {
 });
 
 const joinDate = computed(() => new Date(user.value.created));
-const MODRINTH_BETA_END_DATE = new Date("2022-02-27T08:00:00.000Z");
-const MODRINTH_ALPHA_END_DATE = new Date("2020-11-30T08:00:00.000Z");
+const ICMODS_BETA_END_DATE = new Date("2025-05-31T08:00:00.000Z");
+const ICMODS_ALPHA_END_DATE = new Date("2025-05-31T08:00:00.000Z");
 
 const badges = computed(() => {
   const badges = [];
@@ -578,9 +578,9 @@ const badges = computed(() => {
     badges.push("early-adopter");
   }
 
-  if (isPermission(user.value.badges, 1 << 4) || joinDate.value < MODRINTH_ALPHA_END_DATE) {
+  if (isPermission(user.value.badges, 1 << 4) || joinDate.value < ICMODS_ALPHA_END_DATE) {
     badges.push("alpha-tester");
-  } else if (isPermission(user.value.badges, 1 << 4) || joinDate.value < MODRINTH_BETA_END_DATE) {
+  } else if (isPermission(user.value.badges, 1 << 4) || joinDate.value < ICMODS_BETA_END_DATE) {
     badges.push("beta-tester");
   }
 

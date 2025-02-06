@@ -90,7 +90,7 @@
 
     <h3>Amount</h3>
     <p>
-      You are initiating a transfer of your revenue from Modrinth's Creator Monetization Program.
+      You are initiating a transfer of your revenue from Inner Core Creator Monetization Program.
       How much of your
       <strong>{{ $formatMoney(userBalance.available) }}</strong> balance would you like to transfer
       transfer to {{ selectedMethod.name }}?
@@ -195,8 +195,8 @@ import {
   RadioButtonChecked,
   XIcon,
   TransferIcon,
-} from "@modrinth/assets";
-import { Chips, Checkbox, Breadcrumbs } from "@modrinth/ui";
+} from "@icmods/assets";
+import { Chips, Checkbox, Breadcrumbs } from "@icmods/ui";
 import { all } from "iso-3166-1";
 import VenmoIcon from "~/assets/images/external/venmo.svg?component";
 

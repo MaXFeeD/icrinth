@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
-      title: "Modrinth",
+      title: "Inner Core Mods",
       link: [
         // The type is necessary because the linter can't always compare this very nested/complex type on itself
         ...preloadedFonts.map((font): object => {
@@ -74,7 +74,7 @@ export default defineNuxtConfig({
           rel: "search",
           type: "application/opensearchdescription+xml",
           href: "/opensearch.xml",
-          title: "Modrinth mods",
+          title: "Inner Core Mods",
         },
       ],
     },
@@ -240,7 +240,7 @@ export default defineNuxtConfig({
         const omorphiaLocales: string[] = [];
         const omorphiaLocaleSets = new Map<string, { files: { from: string }[] }>();
 
-        for await (const localeDir of globIterate("node_modules/@modrinth/ui/src/locales/*", {
+        for await (const localeDir of globIterate("node_modules/@icmods/ui/src/locales/*", {
           posix: true,
         })) {
           const tag = basename(localeDir);
@@ -326,8 +326,8 @@ export default defineNuxtConfig({
       production: isProduction(),
       featureFlagOverrides: getFeatureFlagOverrides(),
 
-      owner: process.env.VERCEL_GIT_REPO_OWNER || "modrinth",
-      slug: process.env.VERCEL_GIT_REPO_SLUG || "code",
+      owner: process.env.VERCEL_GIT_REPO_OWNER || "Horizon Team",
+      slug: process.env.VERCEL_GIT_REPO_SLUG || "icmods",
       branch:
         process.env.VERCEL_GIT_COMMIT_REF ||
         process.env.CF_PAGES_BRANCH ||

@@ -67,8 +67,8 @@
   </div>
 </template>
 <script setup>
-import { SendIcon, MailIcon, KeyIcon } from "@modrinth/assets";
-import { commonMessages } from "@modrinth/ui";
+import { SendIcon, MailIcon, KeyIcon } from "@icmods/assets";
+import { commonMessages } from "@icmods/ui";
 import HCaptcha from "@/components/ui/HCaptcha.vue";
 
 const { formatMessage } = useVIntl();
@@ -146,7 +146,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.title)} - Modrinth`,
+  title: () => `${formatMessage(messages.title)} - Inner Core Mods`,
 });
 
 const auth = await useAuth();

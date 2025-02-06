@@ -80,8 +80,8 @@
 </template>
 
 <script setup>
-import { Button, Avatar, commonMessages } from "@modrinth/ui";
-import { XIcon, CheckIcon } from "@modrinth/assets";
+import { Button, Avatar, commonMessages } from "@icmods/ui";
+import { XIcon, CheckIcon } from "@icmods/assets";
 import { useBaseFetch } from "@/composables/fetch.js";
 import { useAuth } from "@/composables/auth.js";
 

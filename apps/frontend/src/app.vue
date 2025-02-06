@@ -1,11 +1,11 @@
 <template>
   <NuxtLayout>
-    <ModrinthLoadingIndicator />
+    <IcmodsLoadingIndicator />
     <Notifications />
     <NuxtPage />
   </NuxtLayout>
 </template>
 <script setup lang="ts">
-import ModrinthLoadingIndicator from "~/components/ui/modrinth-loading-indicator.ts";
+import IcmodsLoadingIndicator from "~/components/ui/icmods-loading-indicator";
 import Notifications from "~/components/ui/Notifications.vue";
 </script>

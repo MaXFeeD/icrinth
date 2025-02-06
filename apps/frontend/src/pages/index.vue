@@ -1,17 +1,14 @@
 <template>
   <div>
     <div class="landing-hero">
-      <ModrinthIcon class="modrinth-icon" />
+      <IcmodsIcon class="icmods-icon" />
       <h1 class="main-header">
         Your pocket launcher with
         <div class="animate-strong">
           <span>
-            <strong
-              v-for="category in categories"
-              class="main-header-strong"
-            >
+            <strong v-for="category in categories" class="main-header-strong">
               {{ category }}
-            <br />
+              <br />
             </strong>
             <strong class="main-header-strong">{{ categories[0] }}</strong>
           </span>
@@ -73,8 +70,8 @@
           <div class="blob-text">
             <h3>Find what you want, quickly and easily</h3>
             <p>
-              Modrinth's lightning-fast search and powerful filters let you find what you want as
-              you type.
+              Inner Core Mods lightning-fast search and powerful filters let you find what you want
+              as you type.
             </p>
           </div>
           <div class="blob-demonstration gradient-border bigger">
@@ -324,7 +321,7 @@
           </div>
           <h3>Constantly Evolving</h3>
           <p>
-            Get the best modding experience possible with constant updates from the Modrinth team
+            Get the best modding experience possible with constant updates from the Horizon team
           </p>
         </div>
       </div>
@@ -335,7 +332,7 @@
         viewBox="0 0 865 512"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        class="light-height modrinth-icon"
+        class="light-height icmods-icon"
       >
         <g clip-path="url(#clip0_419_237)">
           <rect x="176" width="512" height="512" fill="url(#paint0_linear_419_237)" />
@@ -384,7 +381,7 @@
         viewBox="0 0 512 512"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        class="modrinth-icon"
+        class="icmods-icon"
       >
         <g clip-path="url(#clip0_127_331)">
           <rect width="512" height="512" fill="url(#paint0_linear_127_331)" />
@@ -421,14 +418,12 @@
       <div class="overlay">
         <h2 class="main-header">
           Read more about <br />
-          <strong class="main-header-strong">Modrinth</strong>
+          <strong class="main-header-strong">Inner Core</strong>
         </h2>
         <ButtonStyled color="brand">
-          <a
-            href="https://blog.modrinth.com/?utm_source=website&utm_source=homepage&utm_campaign=newsletter"
-          >
+          <a href="https://vk.com/core_engine">
             <NewspaperIcon />
-            Visit the blog
+            Visit the group
           </a>
         </ButtonStyled>
       </div>
@@ -437,11 +432,11 @@
 </template>
 <script setup>
 import { Multiselect } from "vue-multiselect";
-import { ButtonStyled } from "@modrinth/ui";
-import { CompassIcon, LogInIcon, DashboardIcon, NewspaperIcon } from "@modrinth/assets";
+import { ButtonStyled } from "@icmods/ui";
+import { CompassIcon, LogInIcon, DashboardIcon, NewspaperIcon } from "@icmods/assets";
 import SearchIcon from "~/assets/images/utils/search.svg?component";
 import CalendarIcon from "~/assets/images/utils/calendar.svg?component";
-import ModrinthIcon from "~/assets/images/logo.svg?component";
+import IcmodsIcon from "~/assets/images/logo.svg?component";
 import Avatar from "~/components/ui/Avatar.vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
 
@@ -457,7 +452,7 @@ const categories = [
   "mystical rituals",
   "construction tools",
   "gameplay mechanics",
-  "breathtaking worlds"
+  "breathtaking worlds",
 ];
 
 const newProjects = homePageProjects.slice(0, 40);
@@ -493,7 +488,7 @@ async function updateSearchProjects() {
   text-align: center;
   flex-direction: column;
 
-  .modrinth-icon {
+  .icmods-icon {
     width: 13rem;
     height: 13rem;
     margin-bottom: 2.5rem;
@@ -978,7 +973,7 @@ async function updateSearchProjects() {
   padding: 1rem 1rem 2rem 1rem;
   overflow: hidden;
 
-  .modrinth-icon {
+  .icmods-icon {
     z-index: 2;
     width: auto;
     height: 32rem;

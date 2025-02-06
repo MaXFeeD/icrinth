@@ -3,7 +3,7 @@
     <h1>Security Notice</h1>
 
     <p>
-      This is the security notice for all Modrinth repositories. The notice explains how
+      This is the security notice for all Inner Core Mods repositories. The notice explains how
       vulnerabilities should be reported.
     </p>
     <h2>Reporting a Vulnerability</h2>
@@ -54,10 +54,10 @@
 
 <script setup>
 const description =
-  "The Security Notice of Modrinth, an modding platform focused on Minecraft.";
+  "The Security Notice of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Security Notice - Modrinth",
+  title: "Security Notice - Inner Core Mods",
   description,
   ogTitle: "Security Notice",
   ogDescription: description,

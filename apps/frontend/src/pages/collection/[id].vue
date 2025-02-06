@@ -379,7 +379,7 @@ import {
   UpdatedIcon,
   LibraryIcon,
   BoxIcon,
-} from "@modrinth/assets";
+} from "@icmods/assets";
 import {
   PopoutMenu,
   FileInput,
@@ -387,7 +387,7 @@ import {
   Avatar,
   Button,
   commonMessages,
-} from "@modrinth/ui";
+} from "@icmods/ui";
 
 import WorldIcon from "assets/images/utils/world.svg";
 import UpToDate from "assets/images/illustrations/up_to_date.svg";
@@ -405,7 +405,7 @@ const formatCompactNumber = useCompactNumber();
 const messages = defineMessages({
   collectionDescription: {
     id: "collection.description",
-    defaultMessage: "{description} - View the collection {name} by {username} on Modrinth",
+    defaultMessage: "{description} - View the collection {name} by {username} on Inner Core Mods",
   },
   collectionLabel: {
     id: "collection.label.collection",

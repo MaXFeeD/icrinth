@@ -36,20 +36,20 @@
   </div>
 </template>
 <script setup>
-import { Checkbox, commonMessages } from "@modrinth/ui";
-import { RightArrowIcon } from "@modrinth/assets";
+import { Checkbox, commonMessages } from "@icmods/ui";
+import { RightArrowIcon } from "@icmods/assets";
 
 const { formatMessage } = useVIntl();
 
 const messages = defineMessages({
   subscribeCheckbox: {
     id: "auth.welcome.checkbox.subscribe",
-    defaultMessage: "Subscribe to updates about Modrinth",
+    defaultMessage: "Subscribe to updates about Inner Core Mods",
   },
   tosLabel: {
     id: "auth.welcome.label.tos",
     defaultMessage:
-      "By creating an account, you have agreed to Modrinth's <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>.",
+      "By creating an account, you have agreed to Inner Core Mods <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>.",
   },
   welcomeDescription: {
     id: "auth.welcome.description",
@@ -58,7 +58,7 @@ const messages = defineMessages({
   },
   welcomeLongTitle: {
     id: "auth.welcome.long-title",
-    defaultMessage: "Welcome to Modrinth!",
+    defaultMessage: "Welcome to Inner Core Mods!",
   },
   welcomeTitle: {
     id: "auth.welcome.title",
@@ -67,7 +67,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.welcomeTitle)} - Modrinth`,
+  title: () => `${formatMessage(messages.welcomeTitle)} - Inner Core Mods`,
 });
 
 const subscribe = ref(true);

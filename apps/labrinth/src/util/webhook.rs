@@ -298,7 +298,7 @@ pub async fn send_slack_webhook(
                     },
                     {
                         "type": "mrkdwn",
-                        "text": format!("{} on Modrinth • <!date^{}^{{date_short_pretty}} at {{time}}|Unknown date>", metadata.display_project_type, Utc::now().timestamp())
+                        "text": format!("{} on Inner Core Mods • <!date^{}^{{date_short_pretty}} at {{time}}|Unknown date>", metadata.display_project_type, Utc::now().timestamp())
                     }
                 ]
             })
@@ -429,7 +429,7 @@ pub async fn send_discord_webhook(
                 .gallery_image
                 .map(|x| DiscordEmbedImage { url: Some(x) }),
             footer: Some(DiscordEmbedFooter {
-                text: format!("{} on Modrinth", project.display_project_type),
+                text: format!("{} on Inner Core Mods", project.display_project_type),
                 icon_url: Some(
                     "https://cdn-raw.modrinth.com/modrinth-new.png".to_string(),
                 ),
@@ -445,7 +445,7 @@ pub async fn send_discord_webhook(
                     "https://cdn.modrinth.com/Modrinth_Dark_Logo.png"
                         .to_string(),
                 ),
-                username: Some("Modrinth Release".to_string()),
+                username: Some("Inner Core Mods Release".to_string()),
                 embeds: vec![embed],
                 content: message,
             })

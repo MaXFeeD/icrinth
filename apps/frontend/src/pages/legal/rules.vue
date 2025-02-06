@@ -3,8 +3,8 @@
     <h1>Content Rules</h1>
 
     <p>
-      These Content Rules are apply to any and all User Contributions, Gaming Content,
-      and use of Interactive Services (collectively, "Content").
+      These Content Rules are apply to any and all User Contributions, Gaming Content, and use of
+      Interactive Services (collectively, "Content").
     </p>
 
     <p>
@@ -104,7 +104,7 @@
 
     <p>
       You must own or have the necessary licenses, rights, consents, and permissions to store,
-      share, and distribute the Content that is uploaded under your Modrinth account.
+      share, and distribute the Content that is uploaded under your Inner Core account.
     </p>
 
     <p>
@@ -147,10 +147,10 @@
 
 <script setup>
 const description =
-  "The Content Rules of Modrinth, an modding platform focused on Minecraft.";
+  "The Content Rules of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Content Rules - Modrinth",
+  title: "Content Rules - Inner Core Mods",
   description,
   ogTitle: "Content Rules",
   ogDescription: description,

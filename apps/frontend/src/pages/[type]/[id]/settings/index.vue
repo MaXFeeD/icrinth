@@ -217,8 +217,8 @@
         </h3>
       </div>
       <p>
-        Removes your project from Modrinth's servers and search. Clicking on this will delete your
-        project, so be extra careful!
+        Removes your project from Inner Core Mods servers and search. Clicking on this will delete
+        your project, so be extra careful!
       </p>
       <button
         type="button"
@@ -236,7 +236,7 @@
 <script setup>
 import { Multiselect } from "vue-multiselect";
 
-import { formatProjectStatus } from "@modrinth/utils";
+import { formatProjectStatus } from "@icmods/utils";
 import Avatar from "~/components/ui/Avatar.vue";
 import ModalConfirm from "~/components/ui/ModalConfirm.vue";
 import FileInput from "~/components/ui/FileInput.vue";

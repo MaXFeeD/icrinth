@@ -146,17 +146,17 @@
         />
       </div>
       <div class="adjacent-input small">
-        <label for="modrinth-app-promos">
+        <label for="horizon-promos">
           <span class="label__title">
-            {{ formatMessage(toggleFeatures.hideModrinthAppPromosTitle) }}
+            {{ formatMessage(toggleFeatures.hideHorizonPromosTitle) }}
           </span>
           <span class="label__description">
-            {{ formatMessage(toggleFeatures.hideModrinthAppPromosDescription) }}
+            {{ formatMessage(toggleFeatures.hideHorizonPromosDescription) }}
           </span>
         </label>
         <input
-          id="modrinth-app-promos"
-          v-model="cosmetics.hideModrinthAppPromos"
+          id="horizon-promos"
+          v-model="cosmetics.hideHorizonPromos"
           class="switch stylized-toggle"
           type="checkbox"
         />
@@ -198,15 +198,15 @@
 </template>
 
 <script setup lang="ts">
-import { CodeIcon, RadioButtonChecked, RadioButtonIcon } from "@modrinth/assets";
-import { Button, ThemeSelector } from "@modrinth/ui";
+import { CodeIcon, RadioButtonChecked, RadioButtonIcon } from "@icmods/assets";
+import { Button, ThemeSelector } from "@icmods/ui";
 import MessageBanner from "~/components/ui/MessageBanner.vue";
 import type { DisplayLocation } from "~/plugins/cosmetics";
 import { formatProjectType } from "~/plugins/shorthands.js";
 import { isDarkTheme, type Theme } from "~/plugins/theme/index.ts";
 
 useHead({
-  title: "Display settings - Modrinth",
+  title: "Display settings - Inner Core Mods",
 });
 
 const { formatMessage } = useVIntl();
@@ -215,7 +215,7 @@ const developerModeBanner = defineMessages({
   description: {
     id: "settings.display.banner.developer-mode.description",
     defaultMessage:
-      "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Modrinth that may be helpful if you're a developer using the Modrinth API. Click on the Modrinth logo at the bottom of the page 5 times to toggle developer mode.",
+      "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Inner Core Mods that may be helpful if you're a developer using the Inner Core Mods API. Click on the Inner Core Mods logo at the bottom of the page 5 times to toggle developer mode.",
   },
   deactivate: {
     id: "settings.display.banner.developer-mode.button",
@@ -230,7 +230,7 @@ const colorTheme = defineMessages({
   },
   description: {
     id: "settings.display.theme.description",
-    defaultMessage: "Select your preferred color theme for Modrinth on this device.",
+    defaultMessage: "Select your preferred color theme for Inner Core Mods on this device.",
   },
 });
 
@@ -303,16 +303,16 @@ const toggleFeatures = defineMessages({
   externalLinksNewTabDescription: {
     id: "settings.display.sidebar.external-links-new-tab.description",
     defaultMessage:
-      "Make links which go outside of Modrinth open in a new tab. No matter this setting, links on the same domain and in Markdown descriptions will open in the same tab, and links on ads and edit pages will open in a new tab.",
+      "Make links which go outside of Inner Core Mods open in a new tab. No matter this setting, links on the same domain and in Markdown descriptions will open in the same tab, and links on ads and edit pages will open in a new tab.",
   },
-  hideModrinthAppPromosTitle: {
+  hideHorizonPromosTitle: {
     id: "settings.display.sidebar.hide-app-promos.title",
-    defaultMessage: "Hide Modrinth App promotions",
+    defaultMessage: "Hide Horizon promotions",
   },
-  hideModrinthAppPromosDescription: {
+  hideHorizonPromosDescription: {
     id: "settings.display.sidebar.hide-app-promos.description",
     defaultMessage:
-      'Hides the "Get Modrinth App" buttons from primary navigation. The Modrinth App page can still be found on the landing page or in the footer.',
+      'Hides the "Get Horizon" buttons from primary navigation. The Horizon page can still be found on the landing page or in the footer.',
   },
   rightAlignedFiltersSidebarTitle: {
     id: "settings.display.sidebar.right-aligned-filters-sidebar.title",

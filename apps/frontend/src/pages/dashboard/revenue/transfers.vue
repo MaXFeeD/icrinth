@@ -6,7 +6,7 @@
         :link-stack="[{ href: '/dashboard/revenue', label: 'Revenue' }]"
       />
       <h2>Transfer history</h2>
-      <p>All of your withdrawals from your Modrinth balance will be listed here:</p>
+      <p>All of your withdrawals from your Inner Core Mods balance will be listed here:</p>
       <div class="input-group">
         <DropdownSelect
           v-model="selectedYear"
@@ -94,9 +94,9 @@
   </div>
 </template>
 <script setup>
-import { XIcon, PayPalIcon, UnknownIcon } from "@modrinth/assets";
-import { capitalizeString } from "@modrinth/utils";
-import { Badge, Breadcrumbs, DropdownSelect } from "@modrinth/ui";
+import { XIcon, PayPalIcon, UnknownIcon } from "@icmods/assets";
+import { capitalizeString } from "@icmods/utils";
+import { Badge, Breadcrumbs, DropdownSelect } from "@icmods/ui";
 import dayjs from "dayjs";
 import TremendousIcon from "~/assets/images/external/tremendous.svg?component";
 import VenmoIcon from "~/assets/images/external/venmo-small.svg?component";
@@ -105,7 +105,7 @@ const vintl = useVIntl();
 const { formatMessage } = vintl;
 
 useHead({
-  title: "Transfer history - Modrinth",
+  title: "Transfer history - Inner Core Mods",
 });
 
 const data = await useNuxtApp();

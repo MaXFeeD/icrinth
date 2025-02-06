@@ -8,8 +8,8 @@ import {
   SpinnerIcon,
   StopCircleIcon,
   TimerIcon,
-} from '@modrinth/assets'
-import { Avatar, ButtonStyled } from '@modrinth/ui'
+} from '@icmods/assets'
+import { Avatar, ButtonStyled } from '@icmods/ui'
 import { convertFileSrc } from '@tauri-apps/api/core'
 import { finish_install, kill, run } from '@/helpers/profile'
 import { get_by_profile_path } from '@/helpers/process'
@@ -20,7 +20,7 @@ import { handleSevereError } from '@/store/error.js'
 import { trackEvent } from '@/helpers/analytics'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatCategory } from '@modrinth/utils'
+import { formatCategory } from '@icmods/utils'
 
 dayjs.extend(relativeTime)
 

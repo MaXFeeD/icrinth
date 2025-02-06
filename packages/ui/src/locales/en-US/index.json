@@ -131,8 +131,8 @@
   "omorphia.component.badge.label.moderator": {
     "defaultMessage": "Moderator"
   },
-  "omorphia.component.badge.label.modrinth-team": {
-    "defaultMessage": "Modrinth Team"
+  "omorphia.component.badge.label.horizon-team": {
+    "defaultMessage": "Horizon Team"
   },
   "omorphia.component.badge.label.pending": {
     "defaultMessage": "Pending"
@@ -405,7 +405,7 @@
     "defaultMessage": "Dark"
   },
   "settings.display.theme.description": {
-    "defaultMessage": "Select your preferred color theme for Modrinth on this device."
+    "defaultMessage": "Select your preferred color theme for Inner Core Mods on this device."
   },
   "settings.display.theme.light": {
     "defaultMessage": "Light"

@@ -35,7 +35,7 @@
 import { formatNumber } from "~/plugins/shorthands.js";
 
 useHead({
-  title: "Staff overview - Modrinth",
+  title: "Staff overview - Inner Core Mods",
 });
 
 const { data: stats } = await useAsyncData("statistics", () => useBaseFetch("statistics"));

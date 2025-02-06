@@ -9,7 +9,7 @@
     />
     <h2 class="text-2xl">{{ formatMessage(commonSettingsMessages.authorizedApps) }}</h2>
     <p>
-      When you authorize an application with your Modrinth account, you grant it access to your
+      When you authorize an application with your Inner Core account, you grant it access to your
       account. You can manage and review access to your account here at any time.
     </p>
     <div v-if="appInfoLookup.length === 0" class="universal-card recessed">
@@ -88,8 +88,8 @@
   </div>
 </template>
 <script setup>
-import { Button, ConfirmModal, Avatar, commonSettingsMessages } from "@modrinth/ui";
-import { TrashIcon, CheckIcon } from "@modrinth/assets";
+import { Button, ConfirmModal, Avatar, commonSettingsMessages } from "@icmods/ui";
+import { TrashIcon, CheckIcon } from "@icmods/assets";
 import { useScopes } from "~/composables/auth/scopes.ts";
 
 const { formatMessage } = useVIntl();
@@ -103,7 +103,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Authorizations - Modrinth",
+  title: "Authorizations - Inner Core Mods",
 });
 
 const { data: usersApps, refresh } = await useAsyncData("userAuthorizations", () =>

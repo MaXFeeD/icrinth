@@ -149,13 +149,13 @@ importers:
       '@ltd/j-toml':
         specifier: ^1.38.0
         version: 1.38.0
-      '@modrinth/assets':
+      '@icmods/assets':
         specifier: workspace:*
         version: link:../../packages/assets
-      '@modrinth/ui':
+      '@icmods/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@modrinth/utils':
+      '@icmods/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       '@pinia/nuxt':
@@ -349,10 +349,10 @@ importers:
       '@codemirror/view':
         specifier: ^6.22.1
         version: 6.28.4
-      '@modrinth/assets':
+      '@icmods/assets':
         specifier: workspace:*
         version: link:../assets
-      '@modrinth/utils':
+      '@icmods/utils':
         specifier: workspace:*
         version: link:../utils
       '@types/markdown-it':

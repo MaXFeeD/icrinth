@@ -288,9 +288,12 @@ import {
   XIcon,
   UploadIcon,
   InfoIcon,
-} from '@modrinth/assets'
-import { markdownCommands, modrinthMarkdownEditorKeymap } from '@modrinth/utils/codemirror'
-import { renderHighlightedString } from '@modrinth/utils/highlight'
+} from '@icmods/assets'
+import {
+  markdownCommands,
+  icmodsMarkdownEditorKeymap,
+} from '@icmods/utils/codemirror'
+import { renderHighlightedString } from '@icmods/utils/highlight'
 import Modal from '../modal/Modal.vue'
 import Button from './Button.vue'
 import Toggle from './Toggle.vue'
@@ -433,7 +436,7 @@ onMounted(() => {
       eventHandlers,
       updateListener,
       keymap.of([indentWithTab]),
-      keymap.of(modrinthMarkdownEditorKeymap),
+      keymap.of(icmodsMarkdownEditorKeymap),
       history(),
       markdown({
         addKeymap: false,

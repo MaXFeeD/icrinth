@@ -149,13 +149,7 @@
   </ContextMenu>
 </template>
 <script setup>
-import {
-  Avatar,
-  ButtonStyled,
-  ContentPageHeader,
-  LoadingIndicator,
-  OverflowMenu,
-} from '@modrinth/ui'
+import { Avatar, ButtonStyled, ContentPageHeader, LoadingIndicator, OverflowMenu } from '@icmods/ui'
 import {
   CheckCircleIcon,
   ClipboardCopyIcon,
@@ -178,7 +172,7 @@ import {
   UpdatedIcon,
   UserPlusIcon,
   XIcon,
-} from '@modrinth/assets'
+} from '@icmods/assets'
 import { finish_install, get, get_full_path, kill, run } from '@/helpers/profile'
 import { get_by_profile_path } from '@/helpers/process'
 import { process_listener, profile_listener } from '@/helpers/events'

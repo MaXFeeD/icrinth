@@ -1,5 +1,5 @@
 <script setup>
-import { Card } from "@modrinth/ui";
+import { Card } from "@icmods/ui";
 import VueApexCharts from "vue3-apexcharts";
 
 // let VueApexCharts

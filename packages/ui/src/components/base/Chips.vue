@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup>
-import { CheckIcon } from '@modrinth/assets'
+import { CheckIcon } from '@icmods/assets'
 </script>
 <script>
 import { defineComponent } from 'vue'

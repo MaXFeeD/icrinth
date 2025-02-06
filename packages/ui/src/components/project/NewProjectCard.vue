@@ -64,9 +64,9 @@
 </template>
 
 <script setup>
-import { TagsIcon, DownloadIcon, HeartIcon, HistoryIcon } from '@modrinth/assets'
+import { TagsIcon, DownloadIcon, HeartIcon, HistoryIcon } from '@icmods/assets'
 import Avatar from '../base/Avatar.vue'
-import { formatNumber, formatCategory } from '@modrinth/utils'
+import { formatNumber, formatCategory } from '@icmods/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 

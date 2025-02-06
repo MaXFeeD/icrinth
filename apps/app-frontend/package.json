@@ -1,5 +1,5 @@
 {
-  "name": "@modrinth/app-frontend",
+  "name": "@icmods/app-frontend",
   "private": true,
   "version": "0.9.2",
   "type": "module",
@@ -12,9 +12,9 @@
     "intl:extract": "formatjs extract \"{,src/components,src/composables,src/helpers,src/pages,src/store}/**/*.{vue,ts,tsx,js,jsx,mts,cts,mjs,cjs}\" --ignore '**/*.d.ts' --ignore 'node_modules' --out-file src/locales/en-US/index.json --format crowdin --preserve-whitespace"
   },
   "dependencies": {
-    "@modrinth/assets": "workspace:*",
-    "@modrinth/ui": "workspace:*",
-    "@modrinth/utils": "workspace:*",
+    "@icmods/assets": "workspace:*",
+    "@icmods/ui": "workspace:*",
+    "@icmods/utils": "workspace:*",
     "@sentry/vue": "^8.27.0",
     "@tauri-apps/api": "^2.1.1",
     "@tauri-apps/plugin-dialog": "^2.2.0",

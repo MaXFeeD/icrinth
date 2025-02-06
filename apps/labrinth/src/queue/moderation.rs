@@ -142,10 +142,10 @@ impl ModerationMessage {
 
     pub fn body(&self) -> String {
         match self {
-            ModerationMessage::NoPrimaryFile => "Please attach a file to this version. All files on Modrinth must have files associated with their versions.\n".to_string(),
+            ModerationMessage::NoPrimaryFile => "Please attach a file to this version. All files on Inner Core Mods must have files associated with their versions.\n".to_string(),
             ModerationMessage::PackFilesNotAllowed { files, .. } => {
                 let mut str = "".to_string();
-                str.push_str("This pack redistributes copyrighted material. Please refer to [Modrinth's guide on obtaining modpack permissions](https://support.modrinth.com/en/articles/8797527-obtaining-modpack-permissions) for more information.\n\n");
+                str.push_str("This pack redistributes copyrighted material. Please refer to [Inner Core Mods guide on obtaining modpack permissions](https://support.modrinth.com/en/articles/8797527-obtaining-modpack-permissions) for more information.\n\n");
 
                 let mut attribute_mods = Vec::new();
                 let mut no_mods = Vec::new();
@@ -192,13 +192,13 @@ impl ModerationMessage {
                 }
 
                 print_mods(attribute_mods, "The following content has attribution requirements, meaning that you must link back to the page where you originally found this content in your modpack description or version changelog (e.g. linking a mod's CurseForge page if you got it from CurseForge):", &mut str);
-                print_mods(no_mods, "The following content is not allowed in Modrinth modpacks due to licensing restrictions. Please contact the author(s) directly for permission or remove the content from your modpack:", &mut str);
-                print_mods(permanent_no_mods, "The following content is not allowed in Modrinth modpacks, regardless of permission obtained. This may be because it breaks Modrinth's content rules or because the authors, upon being contacted for permission, have declined. Please remove the content from your modpack:", &mut str);
+                print_mods(no_mods, "The following content is not allowed in Inner Core modpacks due to licensing restrictions. Please contact the author(s) directly for permission or remove the content from your modpack:", &mut str);
+                print_mods(permanent_no_mods, "The following content is not allowed in Inner Core modpacks, regardless of permission obtained. This may be because it breaks Inner Core Mods content rules or because the authors, upon being contacted for permission, have declined. Please remove the content from your modpack:", &mut str);
                 print_mods(unidentified_mods, "The following content could not be identified. Please provide proof of its origin along with proof that you have permission to include it:", &mut str);
 
                 str
             },
-            ModerationMessage::MissingGalleryImage => "We ask that resource packs like yours show off their content using images in the Gallery, or optionally in the Description, in order to effectively and clearly inform users of the content in your pack per section 2.1 of [Modrinth's content rules](https://modrinth.com/legal/rules#general-expectations).\n
+            ModerationMessage::MissingGalleryImage => "We ask that resource packs like yours show off their content using images in the Gallery, or optionally in the Description, in order to effectively and clearly inform users of the content in your pack per section 2.1 of [Inner Core Mods content rules](https://modrinth.com/legal/rules#general-expectations).\n
 Keep in mind that you should:\n
 - Set a featured image that best represents your pack.
 - Ensure all your images have titles that accurately label the image, and optionally, details on the contents of the image in the images Description.
@@ -377,7 +377,7 @@ impl AutomatedModerationQueue {
                                         }
                                     }
 
-                                    // All files are on Modrinth, so we don't send any messages
+                                    // All files are on Inner Core Mods, so we don't send any messages
                                     if hashes.is_empty() {
                                         sqlx::query!(
                                             "

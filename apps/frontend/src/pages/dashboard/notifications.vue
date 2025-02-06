@@ -50,8 +50,8 @@
   </div>
 </template>
 <script setup>
-import { Button } from "@modrinth/ui";
-import { HistoryIcon } from "@modrinth/assets";
+import { Button } from "@icmods/ui";
+import { HistoryIcon } from "@icmods/assets";
 import {
   fetchExtraNotificationData,
   groupNotifications,
@@ -64,7 +64,7 @@ import Breadcrumbs from "~/components/ui/Breadcrumbs.vue";
 import Pagination from "~/components/ui/Pagination.vue";
 
 useHead({
-  title: "Notifications - Modrinth",
+  title: "Notifications - Inner Core Mods",
 });
 
 const auth = await useAuth();

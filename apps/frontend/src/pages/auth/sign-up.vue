@@ -144,8 +144,8 @@ import {
   KeyIcon,
   MailIcon,
   SSOGitLabIcon,
-} from "@modrinth/assets";
-import { Checkbox, commonMessages } from "@modrinth/ui";
+} from "@icmods/assets";
+import { Checkbox, commonMessages } from "@icmods/ui";
 import HCaptcha from "@/components/ui/HCaptcha.vue";
 
 const { formatMessage } = useVIntl();
@@ -181,12 +181,12 @@ const messages = defineMessages({
   },
   subscribeLabel: {
     id: "auth.sign-up.subscribe.label",
-    defaultMessage: "Subscribe to updates about Modrinth",
+    defaultMessage: "Subscribe to updates about Inner Core Mods",
   },
   legalDisclaimer: {
     id: "auth.sign-up.legal-dislaimer",
     defaultMessage:
-      "By creating an account, you agree to Modrinth's <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>.",
+      "By creating an account, you agree to Inner Core Mods <terms-link>Terms</terms-link> and <privacy-policy-link>Privacy Policy</privacy-policy-link>.",
   },
   createAccountButton: {
     id: "auth.sign-up.action.create-account",
@@ -199,7 +199,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.title)} - Modrinth`,
+  title: () => `${formatMessage(messages.title)} - Inner Core Mods`,
 });
 
 const auth = await useAuth();
@@ -246,13 +246,6 @@ async function createAccount() {
         sign_up_newsletter: subscribe.value,
       },
     });
-
-    if (route.query.launcher) {
-      await navigateTo(`https://launcher-files.modrinth.com/?code=${res.session}`, {
-        external: true,
-      });
-      return;
-    }
 
     await useAuth(res.session);
     await useUser();

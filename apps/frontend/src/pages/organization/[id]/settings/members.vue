@@ -9,7 +9,7 @@
       <span class="label">
         <span class="label__title">Invite a member</span>
         <span class="label__description">
-          Enter the Modrinth username of the person you'd like to invite to be a member of this
+          Enter the Inner Core username of the person you'd like to invite to be a member of this
           organization.
         </span>
       </span>
@@ -225,8 +225,8 @@ import {
   UserPlusIcon,
   UserXIcon as UserRemoveIcon,
   DropdownIcon,
-} from "@modrinth/assets";
-import { Button, Badge, Avatar, Checkbox } from "@modrinth/ui";
+} from "@icmods/assets";
+import { Button, Badge, Avatar, Checkbox } from "@icmods/ui";
 import { ref } from "vue";
 import CrownIcon from "~/assets/images/utils/crown.svg?component";
 
