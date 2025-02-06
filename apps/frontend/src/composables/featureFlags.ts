@@ -36,11 +36,7 @@ export const DEFAULT_FEATURE_FLAGS = validateValues({
 
   // Project display modes
   // modSearchDisplayMode: 'list',
-  // pluginSearchDisplayMode: 'list',
-  // resourcePackSearchDisplayMode: 'gallery',
-  // modpackSearchDisplayMode: 'list',
-  // shaderSearchDisplayMode: 'gallery',
-  // dataPackSearchDisplayMode: 'list',
+  // modpackSearchDisplayMode: 'gallery',
   // userProjectDisplayMode: 'list',
   // collectionProjectDisplayMode: 'list',
 } as const);

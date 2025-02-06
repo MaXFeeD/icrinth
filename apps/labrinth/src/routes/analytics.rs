@@ -123,10 +123,6 @@ pub async fn page_view_ingest(
             const PROJECT_TYPES: &[&str] = &[
                 "mod",
                 "modpack",
-                "plugin",
-                "resourcepack",
-                "shader",
-                "datapack",
             ];
 
             if PROJECT_TYPES.contains(&segments_vec[0]) {

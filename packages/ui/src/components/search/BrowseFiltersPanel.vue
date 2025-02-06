@@ -51,7 +51,7 @@ interface GameVersion {
   major: boolean
 }
 
-type ProjectType = 'mod' | 'modpack' | 'resourcepack' | 'shader' | 'datapack' | 'plugin'
+type ProjectType = 'mod' | 'modpack'
 
 interface Platform {
   name: string

@@ -92,7 +92,7 @@
           <li v-if="newFiles.length === 0 && version.files.length === 0 && !replaceFile">
             Your version must have a file uploaded.
           </li>
-          <li v-if="version.loaders.length === 0 && project.project_type !== 'resourcepack'">
+          <li v-if="version.loaders.length === 0">
             Your version must have the supported mod loaders selected.
           </li>
         </ul>
@@ -520,7 +520,7 @@
           </div>
           <span v-else>{{ version.version_number }}</span>
         </div>
-        <div v-if="project.project_type !== 'resourcepack'">
+        <div>
           <h4>Loaders</h4>
           <Multiselect
             v-if="isEditing"
@@ -936,7 +936,7 @@ export default defineNuxtComponent({
       return (
         this.version.version_number === "" ||
         this.version.game_versions.length === 0 ||
-        (this.version.loaders.length === 0 && this.project.project_type !== "resourcepack") ||
+        this.version.loaders.length === 0 ||
         (this.newFiles.length === 0 && this.version.files.length === 0 && !this.replaceFile)
       );
     },
@@ -1178,10 +1178,6 @@ export default defineNuxtComponent({
       const fileParts = this.newFiles.map((f, idx) => `${f.name}-${idx}`);
       if (this.replaceFile) {
         fileParts.unshift(this.replaceFile.name.concat("-primary"));
-      }
-
-      if (this.project.project_type === "resourcepack") {
-        version.loaders = ["minecraft"];
       }
 
       const newVersion = {

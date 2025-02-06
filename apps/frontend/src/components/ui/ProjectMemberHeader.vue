@@ -285,12 +285,7 @@ const nags = computed(() => [
     },
   },
   {
-    hide:
-      props.project.versions.length === 0 ||
-      props.project.project_type === "resourcepack" ||
-      props.project.project_type === "plugin" ||
-      props.project.project_type === "shader" ||
-      props.project.project_type === "datapack",
+    hide: props.project.versions.length === 0,
     condition:
       props.project.client_side === "unknown" ||
       props.project.server_side === "unknown" ||
@@ -380,9 +375,6 @@ const submitForReview = async () => {
 </script>
 
 <style lang="scss" scoped>
-.invited {
-}
-
 .author-actions {
   margin-top: var(--spacing-card-md);
 

@@ -12,7 +12,7 @@
         </TagItem>
       </div>
     </section>
-    <section v-if="project.project_type !== 'resourcepack'" class="flex flex-col gap-2">
+    <section class="flex flex-col gap-2">
       <h3 class="text-primary text-base m-0">{{ formatMessage(messages.platforms) }}</h3>
       <div class="flex flex-wrap gap-1">
         <TagItem
@@ -60,7 +60,6 @@
         </TagItem>
         <TagItem
           v-if="
-            project.project_type !== 'datapack' &&
             project.client_side !== 'unsupported' &&
             project.server_side !== 'unsupported' &&
             project.client_side !== 'unknown' &&

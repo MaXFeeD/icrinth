@@ -233,10 +233,6 @@ pub fn convert_side_types_v2_bools(
     use LegacySideType::{Optional, Required, Unknown, Unsupported};
 
     match project_type {
-        Some("plugin") => (Unsupported, Required),
-        Some("datapack") => (Optional, Required),
-        Some("shader") => (Required, Unsupported),
-        Some("resourcepack") => (Required, Unsupported),
         _ => {
             let singleplayer =
                 singleplayer.or(client_and_server).unwrap_or(false);

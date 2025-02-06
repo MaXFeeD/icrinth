@@ -87,13 +87,7 @@ impl LegacyProject {
             .cloned()
             .unwrap_or("project".to_string()); // Default to 'project' if none are found
 
-        let project_type =
-            if og_project_type == "datapack" || og_project_type == "plugin" {
-                // These are not supported in V2, so we'll just use 'mod' instead
-                "mod".to_string()
-            } else {
-                og_project_type.clone()
-            };
+        let project_type = og_project_type.clone();
 
         (project_type, og_project_type)
     }

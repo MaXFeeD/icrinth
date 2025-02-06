@@ -205,13 +205,7 @@
       </template>
       <template #default>
         <div class="mx-auto flex max-w-[40rem] flex-col gap-4 md:w-[30rem]">
-          <div
-            v-if="
-              project.project_type !== 'plugin' ||
-              project.loaders.some((x) => !tags.loaderData.allPluginLoaders.includes(x))
-            "
-            class="modrinth-app-section contents"
-          >
+          <div class="modrinth-app-section contents">
             <div class="mx-auto flex w-fit flex-col">
               <ButtonStyled color="brand">
                 <a
@@ -339,9 +333,7 @@
                 :disabled="!!versionFilter"
               />
             </Accordion>
-            <ButtonStyled
-              v-if="project.loaders.length === 1 && project.project_type !== 'resourcepack'"
-            >
+            <ButtonStyled v-if="project.loaders.length === 1">
               <div class="disabled button-like">
                 <WrenchIcon aria-hidden="true" />
                 {{
@@ -358,7 +350,7 @@
               </div>
             </ButtonStyled>
             <Accordion
-              v-else-if="project.project_type !== 'resourcepack'"
+              v-else
               ref="platformAccordion"
               class="accordion-with-bg"
               @on-open="

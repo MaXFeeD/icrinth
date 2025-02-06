@@ -522,7 +522,7 @@ impl TestFile {
             TestFile::BasicModDifferent => "mod",
             TestFile::BasicModRandom { .. } => "mod",
 
-            TestFile::BasicZip => "resourcepack",
+            TestFile::BasicZip => "mod",
 
             TestFile::BasicModpackRandom { .. } => "modpack",
         }

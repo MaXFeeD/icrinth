@@ -78,9 +78,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
   nuxtApp.provide("getProjectTypeForDisplay", (type, categories) => {
     if (type === "mod") {
-      const isPlugin = categories.some((category) => {
-        return tagStore.value.loaderData.allPluginLoaders.includes(category);
-      });
       const isMod = categories.some((category) => {
         return tagStore.value.loaderData.modLoaders.includes(category);
       });
@@ -88,18 +85,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         return tagStore.value.loaderData.dataPackLoaders.includes(category);
       });
 
-      if (isMod && isPlugin && isDataPack) {
-        return "mod, plugin, and data pack";
-      } else if (isMod && isPlugin) {
-        return "mod and plugin";
-      } else if (isMod && isDataPack) {
+      if (isMod && isDataPack) {
         return "mod and data pack";
-      } else if (isPlugin && isDataPack) {
-        return "plugin and data pack";
       } else if (isDataPack) {
         return "data pack";
-      } else if (isPlugin) {
-        return "plugin";
       }
     }
 

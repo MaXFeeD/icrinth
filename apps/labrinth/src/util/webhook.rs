@@ -7,17 +7,6 @@ use chrono::{DateTime, Utc};
 use serde::Serialize;
 use sqlx::PgPool;
 
-const PLUGIN_LOADERS: &[&str] = &[
-    "bukkit",
-    "spigot",
-    "paper",
-    "purpur",
-    "bungeecord",
-    "waterfall",
-    "velocity",
-    "sponge",
-];
-
 struct WebhookMetadata {
     pub project_url: String,
     pub project_title: String,
@@ -121,17 +110,6 @@ async fn get_webhook_metadata(
         let formatted_game_versions = get_gv_range(versions, all_game_versions);
 
         let mut project_type = project.project_types.pop().unwrap_or_default(); // TODO: Should this grab a not-first?
-
-        if project
-            .inner
-            .loaders
-            .iter()
-            .all(|x| PLUGIN_LOADERS.contains(&&**x))
-        {
-            project_type = "plugin".to_string();
-        } else if project.inner.loaders.iter().any(|x| x == "datapack") {
-            project_type = "datapack".to_string();
-        }
 
         let mut display_project_type = match &*project_type {
             "datapack" => "data pack",

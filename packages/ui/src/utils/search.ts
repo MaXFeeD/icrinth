@@ -56,15 +56,11 @@ export interface GameVersion {
   major: boolean
 }
 
-export type ProjectType = 'mod' | 'modpack' | 'resourcepack' | 'shader' | 'datapack' | 'plugin'
+export type ProjectType = 'mod' | 'modpack'
 
 const ALL_PROJECT_TYPES: ProjectType[] = [
   'mod',
   'modpack',
-  'resourcepack',
-  'shader',
-  'datapack',
-  'plugin',
 ]
 
 export interface Platform {
@@ -130,7 +126,7 @@ export function useSearch(
           formatted_name: formatCategoryHeader(category.header),
           supported_project_types:
             category.project_type === 'mod'
-              ? ['mod', 'plugin', 'datapack']
+              ? ['mod']
               : [category.project_type],
           display: 'all',
           query_param: category.header === 'resolutions' ? 'g' : 'f',
@@ -232,9 +228,7 @@ export function useSearch(
         options: tags.value.loaders
           .filter(
             (loader) =>
-              loader.supported_project_types.includes('mod') &&
-              !loader.supported_project_types.includes('plugin') &&
-              !loader.supported_project_types.includes('datapack'),
+              loader.supported_project_types.includes('mod'),
           )
           .map((loader) => {
             return {
@@ -270,81 +264,11 @@ export function useSearch(
           }),
       },
       {
-        id: 'plugin_loader',
-        formatted_name: formatMessage(
-          defineMessage({ id: 'search.filter_type.plugin_loader', defaultMessage: 'Loader' }),
-        ),
-        supported_project_types: ['plugin'],
-        display: 'all',
-        query_param: 'g',
-        supports_negative_filter: true,
-        searchable: false,
-        options: tags.value.loaders
-          .filter(
-            (loader) =>
-              loader.supported_project_types.includes('plugin') &&
-              !['bungeecord', 'waterfall', 'velocity'].includes(loader.name),
-          )
-          .map((loader) => {
-            return {
-              id: loader.name,
-              formatted_name: formatCategory(loader.name),
-              icon: loader.icon,
-              method: 'or',
-              value: `categories:${loader.name}`,
-            }
-          }),
-      },
-      {
-        id: 'plugin_platform',
-        formatted_name: formatMessage(
-          defineMessage({ id: 'search.filter_type.plugin_platform', defaultMessage: 'Platform' }),
-        ),
-        supported_project_types: ['plugin'],
-        display: 'all',
-        query_param: 'g',
-        supports_negative_filter: true,
-        searchable: false,
-        options: tags.value.loaders
-          .filter((loader) => ['bungeecord', 'waterfall', 'velocity'].includes(loader.name))
-          .map((loader) => {
-            return {
-              id: loader.name,
-              formatted_name: formatCategory(loader.name),
-              icon: loader.icon,
-              method: 'or',
-              value: `categories:${loader.name}`,
-            }
-          }),
-      },
-      {
-        id: 'shader_loader',
-        formatted_name: formatMessage(
-          defineMessage({ id: 'search.filter_type.shader_loader', defaultMessage: 'Loader' }),
-        ),
-        supported_project_types: ['shader'],
-        display: 'all',
-        query_param: 'g',
-        supports_negative_filter: true,
-        searchable: false,
-        options: tags.value.loaders
-          .filter((loader) => loader.supported_project_types.includes('shader'))
-          .map((loader) => {
-            return {
-              id: loader.name,
-              formatted_name: formatCategory(loader.name),
-              icon: loader.icon,
-              method: 'or',
-              value: `categories:${loader.name}`,
-            }
-          }),
-      },
-      {
         id: 'license',
         formatted_name: formatMessage(
           defineMessage({ id: 'search.filter_type.license', defaultMessage: 'License' }),
         ),
-        supported_project_types: ['mod', 'modpack', 'resourcepack', 'shader', 'plugin', 'datapack'],
+        supported_project_types: ['mod', 'modpack'],
         query_param: 'l',
         supports_negative_filter: true,
         display: 'all',

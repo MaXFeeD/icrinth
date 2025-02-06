@@ -90,15 +90,7 @@
           :disabled="!hasPermission"
         />
       </div>
-      <template
-        v-if="
-          project.versions?.length !== 0 &&
-          project.project_type !== 'resourcepack' &&
-          project.project_type !== 'plugin' &&
-          project.project_type !== 'shader' &&
-          project.project_type !== 'datapack'
-        "
-      >
+      <template v-if="project.versions?.length !== 0">
         <div class="adjacent-input">
           <label for="project-env-client">
             <span class="label__title">Client-side</span>

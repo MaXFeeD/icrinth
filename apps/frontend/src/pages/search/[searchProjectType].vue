@@ -173,7 +173,6 @@
                 :categories="result.display_categories"
                 :search="true"
                 :show-updated-date="currentSortType.name !== 'newest'"
-                :hide-loaders="['resourcepack', 'datapack'].includes(projectType.id)"
                 :color="result.color"
               />
               <NuxtLink
