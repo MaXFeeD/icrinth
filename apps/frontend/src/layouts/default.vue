@@ -89,6 +89,7 @@
           <nuxt-link to="/modpacks"> <PackageOpenIcon aria-hidden="true" /> Modpacks </nuxt-link>
         </ButtonStyled>
         <ButtonStyled
+          v-if="!cosmetics.hideModrinthAppPromos"
           type="transparent"
           :highlighted="route.name === 'app'"
         >

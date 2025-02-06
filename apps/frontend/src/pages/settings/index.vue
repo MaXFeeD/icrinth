@@ -145,7 +145,7 @@
           type="checkbox"
         />
       </div>
-      <div v-if="false" class="adjacent-input small">
+      <div class="adjacent-input small">
         <label for="modrinth-app-promos">
           <span class="label__title">
             {{ formatMessage(toggleFeatures.hideModrinthAppPromosTitle) }}
