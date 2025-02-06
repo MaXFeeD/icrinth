@@ -307,7 +307,8 @@
                 </ButtonStyled>
               </ScrollablePanel>
             </Accordion>
-            <ButtonStyled v-if="project.loaders.length === 1">
+            <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
+            <!-- ButtonStyled v-if="project.loaders.length === 1">
               <div class="disabled button-like">
                 <WrenchIcon aria-hidden="true" />
                 {{
@@ -322,9 +323,9 @@
                   class="ml-auto size-5"
                 />
               </div>
-            </ButtonStyled>
+            </ButtonStyled -->
             <Accordion
-              v-else
+              v-if="project.loaders.length > 1"
               ref="platformAccordion"
               class="accordion-with-bg"
               @on-open="

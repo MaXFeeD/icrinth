@@ -203,6 +203,8 @@ export function useSearch(
           })),
         ordering: projectTypes.value.includes('mod') ? 2 : undefined,
       },
+      /*
+      TODO: Do we really need to support other loaders, like ModPE and such?
       {
         id: 'mod_loader',
         formatted_name: formatMessage(
@@ -252,6 +254,7 @@ export function useSearch(
             }
           }),
       },
+      */
       {
         id: 'license',
         formatted_name: formatMessage(

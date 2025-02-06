@@ -26,11 +26,12 @@
       >
         Game version
       </div>
-      <div
+      <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
+      <!-- div
         class="text-sm font-bold text-contrast max-sm:hidden sm:max-xl:collapse sm:max-xl:hidden"
       >
         Platforms
-      </div>
+      </div -->
       <div
         class="text-sm font-bold text-contrast max-sm:hidden sm:max-xl:collapse sm:max-xl:hidden"
       >
@@ -102,7 +103,8 @@
                   </TagItem>
                 </div>
               </div>
-              <div class="flex items-center">
+              <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
+              <!-- div class="flex items-center">
                 <div class="flex flex-wrap gap-1">
                   <TagItem
                     v-for="platform in version.loaders"
@@ -111,13 +113,12 @@
                     class="z-[1]"
                     :style="`--_color: var(--color-platform-${platform})`"
                     :action="() => versionFilters?.toggleFilter('platform', platform)"
-                  >
-                    <!-- eslint-disable-next-line vue/no-v-html -->
+                >
                     <svg v-html="loaders.find((x) => x.name === platform)?.icon"></svg>
                     {{ formatCategory(platform) }}
                   </TagItem>
                 </div>
-              </div>
+              </div -->
             </div>
             <div
               class="flex flex-col justify-center gap-1 max-sm:flex-row max-sm:justify-start max-sm:gap-3 xl:contents"

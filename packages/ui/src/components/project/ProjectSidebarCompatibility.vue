@@ -12,7 +12,8 @@
         </TagItem>
       </div>
     </section>
-    <section class="flex flex-col gap-2">
+    <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
+    <!-- section class="flex flex-col gap-2">
       <h3 class="text-primary text-base m-0">{{ formatMessage(messages.platforms) }}</h3>
       <div class="flex flex-wrap gap-1">
         <TagItem
@@ -25,7 +26,7 @@
           {{ formatCategory(platform) }}
         </TagItem>
       </div>
-    </section>
+    </section -->
     <section
       v-if="
         (project.project_type === 'mod' || project.project_type === 'modpack') &&
