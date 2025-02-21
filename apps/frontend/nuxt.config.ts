@@ -370,14 +370,6 @@ export default defineNuxtConfig({
           },
         },
       },
-      {
-        tag: "ru-RU",
-        meta: {
-          static: {
-            iso: "ru",
-          },
-        },
-      },
     ],
     storage: "cookie",
     parserless: "only-prod",
