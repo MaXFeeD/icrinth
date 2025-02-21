@@ -183,7 +183,7 @@ export default defineComponent({
     hideLoaders: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
     color: {
       type: Number,

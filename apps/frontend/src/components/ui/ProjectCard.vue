@@ -207,7 +207,7 @@ export default {
     hideLoaders: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
     color: {
       type: Number,

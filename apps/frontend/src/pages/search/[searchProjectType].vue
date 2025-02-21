@@ -365,7 +365,7 @@ const ogTitle = computed(
 );
 const description = computed(
   () =>
-    `Search and browse thousands of Inner Core ${projectType.value.display}s on Inner Core Mods with instant, accurate search results. Our filters help you quickly find the best Inner Core ${projectType.value.display}s.`,
+    `Search and browse hundreds of Inner Core ${projectType.value.display}s on Inner Core Mods with instant, accurate search results. Our filters help you quickly find the best Inner Core ${projectType.value.display}s.`,
 );
 
 useSeoMeta({

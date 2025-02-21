@@ -227,8 +227,8 @@
   "project.about.compatibility.environments": {
     "defaultMessage": "Supported environments"
   },
-  "project.about.compatibility.game.minecraftJava": {
-    "defaultMessage": "Minecraft: Java Edition"
+  "project.about.compatibility.game.minecraftBedrock": {
+    "defaultMessage": "Minecraft: Bedrock Edition"
   },
   "project.about.compatibility.platforms": {
     "defaultMessage": "Platforms"

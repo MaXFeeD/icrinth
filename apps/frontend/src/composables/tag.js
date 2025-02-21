@@ -21,7 +21,16 @@ export const useTags = () =>
     ],
     loaderData: {
       dataPackLoaders: ["datapack"],
-      modLoaders: ["forge", "fabric", "quilt", "liteloader", "modloader", "rift", "neoforge"],
+      modLoaders: [
+        "coreengine",
+        "forge",
+        "fabric",
+        "quilt",
+        "liteloader",
+        "modloader",
+        "rift",
+        "neoforge",
+      ],
       hiddenModLoaders: ["liteloader", "modloader", "rift"],
     },
     projectViewModes: ["list", "grid", "gallery"],

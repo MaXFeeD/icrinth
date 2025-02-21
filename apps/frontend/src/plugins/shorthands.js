@@ -181,7 +181,11 @@ export const formatProjectType = (name) => {
 };
 
 export const formatCategory = (name) => {
-  if (name === "modloader") {
+  if (name == "innercore") {
+    return "Inner Core";
+  } else if (name == "coreengine") {
+    return "Core Engine";
+  } else if (name === "modloader") {
     return "Risugami's ModLoader";
   } else if (name === "bungeecord") {
     return "BungeeCord";

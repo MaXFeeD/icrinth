@@ -2,7 +2,7 @@
   <div v-if="project.versions.length > 0" class="flex flex-col gap-3">
     <h2 class="text-lg m-0">{{ formatMessage(messages.title) }}</h2>
     <section class="flex flex-col gap-2">
-      <h3 class="text-primary text-base m-0">{{ formatMessage(messages.minecraftJava) }}</h3>
+      <h3 class="text-primary text-base m-0">{{ formatMessage(messages.minecraftBedrock) }}</h3>
       <div class="flex flex-wrap gap-1">
         <TagItem
           v-for="version in getVersionsToDisplay(project, tags.gameVersions)"
@@ -108,9 +108,9 @@ const messages = defineMessages({
     id: 'project.about.compatibility.title',
     defaultMessage: 'Compatibility',
   },
-  minecraftJava: {
-    id: 'project.about.compatibility.game.minecraftJava',
-    defaultMessage: 'Minecraft: Java Edition',
+  minecraftBedrock: {
+    id: 'project.about.compatibility.game.minecraftBedrock',
+    defaultMessage: 'Minecraft: Bedrock Edition',
   },
   platforms: {
     id: 'project.about.compatibility.platforms',
