@@ -377,7 +377,7 @@ export default defineNuxtComponent({
     };
   },
   head: {
-    title: "Projects - Inner Core Mods",
+    title: "Projects — Inner Core Mods",
   },
   created() {
     this.UPLOAD_VERSION = 1 << 0;

@@ -150,7 +150,7 @@ const description =
   "The Content Rules of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Content Rules - Inner Core Mods",
+  title: "Content Rules — Inner Core Mods",
   description,
   ogTitle: "Content Rules",
   ogDescription: description,

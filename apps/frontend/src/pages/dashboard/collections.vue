@@ -130,7 +130,7 @@ definePageMeta({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.collectionsLongTitle)} - Inner Core Mods`,
+  title: () => `${formatMessage(messages.collectionsLongTitle)} — Inner Core Mods`,
 });
 
 const auth = await useAuth();

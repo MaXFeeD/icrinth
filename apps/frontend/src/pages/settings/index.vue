@@ -206,7 +206,7 @@ import { formatProjectType } from "~/plugins/shorthands.js";
 import { isDarkTheme, type Theme } from "~/plugins/theme/index.ts";
 
 useHead({
-  title: "Display settings - Inner Core Mods",
+  title: "Display settings — Inner Core Mods",
 });
 
 const { formatMessage } = useVIntl();

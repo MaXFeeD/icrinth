@@ -99,7 +99,7 @@ const description =
   "The Copyright Policy of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Copyright Policy - Inner Core Mods",
+  title: "Copyright Policy — Inner Core Mods",
   description,
   ogTitle: "Copyright Policy",
   ogDescription: description,

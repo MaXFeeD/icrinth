@@ -432,7 +432,7 @@ import ModalConfirm from "~/components/ui/ModalConfirm.vue";
 import Modal from "~/components/ui/Modal.vue";
 
 useHead({
-  title: "Account settings - Inner Core Mods",
+  title: "Account settings — Inner Core Mods",
 });
 
 definePageMeta({

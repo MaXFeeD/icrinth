@@ -67,7 +67,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.welcomeTitle)} - Inner Core Mods`,
+  title: () => `${formatMessage(messages.welcomeTitle)} — Inner Core Mods`,
 });
 
 const subscribe = ref(true);

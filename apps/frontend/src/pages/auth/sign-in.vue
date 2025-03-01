@@ -181,7 +181,7 @@ const messages = defineMessages({
 
 useHead({
   title() {
-    return `${formatMessage(messages.signInTitle)} - Inner Core Mods`;
+    return `${formatMessage(messages.signInTitle)} — Inner Core Mods`;
   },
 });
 

@@ -12,7 +12,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Analytics - Inner Core Mods",
+  title: "Analytics — Inner Core Mods",
 });
 
 const auth = await useAuth();

@@ -4,7 +4,7 @@
     :class="{ 'alt-layout': !cosmetics.rightSearchLayout }"
   >
     <Head>
-      <Title>Search {{ projectType.display }}s - Inner Core Mods</Title>
+      <Title>Search {{ projectType.display }}s — Inner Core Mods</Title>
     </Head>
     <Teleport v-if="flags.searchBackground" to="#absolute-background-teleport">
       <div class="search-background"></div>

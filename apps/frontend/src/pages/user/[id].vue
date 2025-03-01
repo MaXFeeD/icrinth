@@ -508,7 +508,7 @@ if (user.value.username !== route.params.id) {
   await navigateTo(`/user/${user.value.username}`, { redirectCode: 301 });
 }
 
-const title = computed(() => `${user.value.username} - Inner Core Mods`);
+const title = computed(() => `${user.value.username} — Inner Core Mods`);
 const description = computed(() =>
   user.value.bio
     ? formatMessage(messages.profileMetaDescriptionWithBio, {

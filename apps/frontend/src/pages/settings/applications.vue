@@ -242,7 +242,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Applications - Inner Core Mods",
+  title: "Applications — Inner Core Mods",
 });
 
 const data = useNuxtApp();

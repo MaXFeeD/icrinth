@@ -199,7 +199,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(messages.title)} - Inner Core Mods`,
+  title: () => `${formatMessage(messages.title)} — Inner Core Mods`,
 });
 
 const auth = await useAuth();

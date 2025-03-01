@@ -103,7 +103,7 @@ definePageMeta({
 });
 
 useHead({
-  title: "Authorizations - Inner Core Mods",
+  title: "Authorizations — Inner Core Mods",
 });
 
 const { data: usersApps, refresh } = await useAsyncData("userAuthorizations", () =>

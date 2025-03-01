@@ -57,7 +57,7 @@ const description =
   "The Security Notice of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Security Notice - Inner Core Mods",
+  title: "Security Notice — Inner Core Mods",
   description,
   ogTitle: "Security Notice",
   ogDescription: description,

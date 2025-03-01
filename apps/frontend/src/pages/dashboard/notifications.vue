@@ -64,7 +64,7 @@ import Breadcrumbs from "~/components/ui/Breadcrumbs.vue";
 import Pagination from "~/components/ui/Pagination.vue";
 
 useHead({
-  title: "Notifications - Inner Core Mods",
+  title: "Notifications — Inner Core Mods",
 });
 
 const auth = await useAuth();

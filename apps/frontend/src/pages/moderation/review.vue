@@ -113,7 +113,7 @@ import Badge from "~/components/ui/Badge.vue";
 import { formatProjectType } from "~/plugins/shorthands.js";
 
 useHead({
-  title: "Review projects - Inner Core Mods",
+  title: "Review projects — Inner Core Mods",
 });
 
 const app = useNuxtApp();

@@ -105,7 +105,7 @@ const vintl = useVIntl();
 const { formatMessage } = vintl;
 
 useHead({
-  title: "Transfer history - Inner Core Mods",
+  title: "Transfer history — Inner Core Mods",
 });
 
 const data = await useNuxtApp();

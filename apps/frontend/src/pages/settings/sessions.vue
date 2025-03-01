@@ -99,7 +99,7 @@ const messages = defineMessages({
 });
 
 useHead({
-  title: () => `${formatMessage(commonSettingsMessages.sessions)} - Inner Core Mods`,
+  title: () => `${formatMessage(commonSettingsMessages.sessions)} — Inner Core Mods`,
 });
 
 const data = useNuxtApp();

@@ -90,7 +90,7 @@ import { UserIcon, SaveIcon, UploadIcon, UndoIcon, XIcon } from "@icmods/assets"
 import { Avatar, FileInput, Button, commonMessages } from "@icmods/ui";
 
 useHead({
-  title: "Profile settings - Inner Core Mods",
+  title: "Profile settings — Inner Core Mods",
 });
 
 definePageMeta({

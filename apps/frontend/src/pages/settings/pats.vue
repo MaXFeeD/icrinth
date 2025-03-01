@@ -306,7 +306,7 @@ definePageMeta({
 });
 
 useHead({
-  title: `${formatMessage(commonSettingsMessages.pats)} - Inner Core Mods`,
+  title: `${formatMessage(commonSettingsMessages.pats)} — Inner Core Mods`,
 });
 
 const data = useNuxtApp();
