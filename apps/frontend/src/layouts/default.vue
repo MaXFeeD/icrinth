@@ -93,11 +93,14 @@
           type="transparent"
           :highlighted="route.name === 'app'"
         >
-          <nuxt-link to="/app">
+          <a
+            :target="$external()"
+            href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+          >
             <DownloadIcon aria-hidden="true" />
             <span class="hidden md:contents">Get Horizon</span>
             <span class="contents md:hidden">Horizon</span>
-          </nuxt-link>
+          </a>
         </ButtonStyled>
       </div>
       <div class="flex items-center gap-2">
@@ -380,10 +383,14 @@
         </a>
       </div>
       <div class="buttons">
-        <nuxt-link class="btn btn-outline btn-primary" to="/app">
+        <a
+          class="btn btn-outline btn-primary"
+          :target="$external()"
+          href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+        >
           <DownloadIcon aria-hidden="true" />
           {{ formatMessage(messages.getHorizon) }}
-        </nuxt-link>
+        </a>
         <button class="iconified-button raised-button" @click="changeTheme">
           <MoonIcon v-if="$theme.active === 'light'" aria-hidden="true" />
           <SunIcon v-else aria-hidden="true" />

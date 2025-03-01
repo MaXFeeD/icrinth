@@ -210,7 +210,7 @@
               <ButtonStyled color="brand">
                 <a
                   class="w-fit"
-                  :href="`modrinth://mod/${project.slug}`"
+                  :href="`horizon://icmods/${project.slug}`"
                   @click="() => installWithApp()"
                 >
                   <HorizonIcon aria-hidden="true" />
@@ -219,12 +219,12 @@
                 </a>
               </ButtonStyled>
               <Accordion ref="getHorizonAccordion">
-                <nuxt-link
+                <a
                   class="mt-2 flex justify-center text-brand-blue hover:underline"
-                  to="/app"
+                  :target="$external()" href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
                 >
                   Don't have Horizon?
-                </nuxt-link>
+                </a>
               </Accordion>
             </div>
 
