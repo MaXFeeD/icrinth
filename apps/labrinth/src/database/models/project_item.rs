@@ -372,6 +372,8 @@ impl Project {
             .await?;
 
             models::Thread::remove_full(project.thread_id, transaction).await?;
+            models::Thread::remove_full(project.comment_thread_id, transaction)
+                .await?;
 
             sqlx::query!(
                 "
@@ -763,15 +765,16 @@ impl Project {
                     m.license_url license_url,
                     m.team_id team_id, m.organization_id organization_id, m.license license, m.slug slug, m.moderation_message moderation_message, m.moderation_message_body moderation_message_body,
                     m.webhook_sent, m.color,
-                    t.id thread_id, m.monetization_status monetization_status,
+                    t.id thread_id, ct.id comment_thread_id, m.monetization_status monetization_status,
                     ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is false) categories,
                     ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is true) additional_categories
                     FROM mods m
-                    INNER JOIN threads t ON t.mod_id = m.id
+                    INNER JOIN threads t ON t.mod_id = m.id AND t.thread_type = 'project'
+                    INNER JOIN threads ct ON ct.mod_id = m.id AND ct.thread_type = 'comment'
                     LEFT JOIN mods_categories mc ON mc.joining_mod_id = m.id
                     LEFT JOIN categories c ON mc.joining_category_id = c.id
                     WHERE m.id = ANY($1) OR m.slug = ANY($2)
-                    GROUP BY t.id, m.id;
+                    GROUP BY t.id, ct.id, m.id;
                     ",
                     &project_ids_parsed,
                     &slugs,
@@ -845,6 +848,7 @@ impl Project {
                             urls,
                             aggregate_version_fields: VersionField::from_query_json(version_fields, &loader_fields, &loader_field_enum_values, true),
                             thread_id: ThreadId(m.thread_id),
+                            comment_thread_id: ThreadId(m.comment_thread_id),
                         };
 
                         acc.insert(m.id, (m.slug, project));
@@ -958,5 +962,6 @@ pub struct QueryProject {
     pub urls: Vec<LinkUrl>,
     pub gallery_items: Vec<GalleryItem>,
     pub thread_id: ThreadId,
+    pub comment_thread_id: ThreadId,
     pub aggregate_version_fields: Vec<VersionField>,
 }

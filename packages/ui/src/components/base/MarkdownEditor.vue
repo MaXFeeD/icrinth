@@ -289,10 +289,7 @@ import {
   UploadIcon,
   InfoIcon,
 } from '@icmods/assets'
-import {
-  markdownCommands,
-  icmodsMarkdownEditorKeymap,
-} from '@icmods/utils/codemirror'
+import { markdownCommands, icmodsMarkdownEditorKeymap } from '@icmods/utils/codemirror'
 import { renderHighlightedString } from '@icmods/utils/highlight'
 import Modal from '../modal/Modal.vue'
 import Button from './Button.vue'
@@ -305,6 +302,7 @@ const props = withDefaults(
     modelValue: string
     disabled: boolean
     headingButtons: boolean
+    mediaButtons: boolean
     /**
      * @param file The file to upload
      * @throws If the file is invalid or the upload fails
@@ -318,6 +316,7 @@ const props = withDefaults(
     modelValue: '',
     disabled: false,
     headingButtons: true,
+    mediaButtons: true,
     onImageUpload: undefined,
     placeholder: 'Write something...',
     maxLength: undefined,
@@ -537,7 +536,7 @@ const BUTTONS: ButtonGroupMap = {
     ],
   },
   components: {
-    display: true,
+    display: props.mediaButtons,
     hideOnMobile: false,
     buttons: [
       {

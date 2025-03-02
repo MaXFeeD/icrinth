@@ -99,6 +99,9 @@ pub struct Project {
     /// The thread of the moderation messages of the project
     pub thread_id: ThreadId,
 
+    /// The thread with public comments that can be posted by any user
+    pub comment_thread_id: ThreadId,
+
     /// The monetization status of this project
     pub monetization_status: MonetizationStatus,
 
@@ -228,6 +231,7 @@ impl From<QueryProject> for Project {
                 .collect(),
             color: m.color,
             thread_id: data.thread_id.into(),
+            comment_thread_id: data.comment_thread_id.into(),
             monetization_status: m.monetization_status,
             fields,
         }
@@ -243,6 +247,7 @@ impl Project {
     //         .organization_id
     //         .and_then(|id| Some(OrganizationId(parse_base62(&id).ok()?)));
     //     let thread_id = ThreadId(parse_base62(&m.thread_id).ok()?);
+    //     let comment_thread_id = ThreadId(parse_base62(&m.comment_thread_id).ok()?);
     //     let versions = m
     //         .versions
     //         .iter()
@@ -379,6 +384,7 @@ impl Project {
     //         gallery,
     //         color: m.color,
     //         thread_id,
+    //         comment_thread_id,
     //         monetization_status,
     //         fields: m
     //             .project_loader_fields

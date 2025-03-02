@@ -66,6 +66,7 @@ pub struct LegacyProject {
     pub gallery: Vec<LegacyGalleryItem>,
     pub color: Option<u32>,
     pub thread_id: ThreadId,
+    pub comment_thread_id: ThreadId,
     pub monetization_status: MonetizationStatus,
 }
 
@@ -212,6 +213,7 @@ impl LegacyProject {
                 .collect(),
             color: data.color,
             thread_id: data.thread_id,
+            comment_thread_id: data.comment_thread_id,
             monetization_status: data.monetization_status,
             client_side,
             server_side,

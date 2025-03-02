@@ -90,6 +90,7 @@ pub async fn is_authorized_thread(
             }
         }
         ThreadType::DirectMessage => thread.members.contains(&user_id),
+        ThreadType::Comment => true,
     })
 }
 
@@ -106,6 +107,7 @@ pub async fn filter_authorized_threads(
 
     for thread in threads {
         if user.role.is_mod()
+            || thread.type_ == ThreadType::Comment
             || (thread.type_ == ThreadType::DirectMessage
                 && thread.members.contains(&user_id))
         {

@@ -341,6 +341,7 @@ const DEFAULT_DISPLAYED_ATTRIBUTES: &[&str] = &[
     "monetization_status",
     "team_id",
     "thread_id",
+    "comment_thread_id",
     "versions",
     "date_published",
     "date_queued",

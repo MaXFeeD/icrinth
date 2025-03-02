@@ -221,7 +221,8 @@
               <Accordion ref="getHorizonAccordion">
                 <a
                   class="mt-2 flex justify-center text-brand-blue hover:underline"
-                  :target="$external()" href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+                  :target="$external()"
+                  href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
                 >
                   Don't have Horizon?
                 </a>
@@ -1424,6 +1425,11 @@ const navLinks = computed(() => {
       label: formatMessage(messages.galleryTab),
       href: `${projectUrl}/gallery`,
       shown: project.value.gallery.length > 0 || !!currentMember.value,
+    },
+    {
+      label: "Comments",
+      href: `${projectUrl}/comments`,
+      shown: !!auth.value.user,
     },
     {
       label: "Changelog",

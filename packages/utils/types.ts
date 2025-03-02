@@ -67,6 +67,7 @@ export interface Project {
 
   team: IcmodsId
   thread_id: IcmodsId
+  comment_thread_id: IcmodsId
 
   issues_url?: string
   source_url?: string

@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n                    SELECT m.id id, m.name name, m.summary summary, m.downloads downloads, m.follows follows,\n                    m.icon_url icon_url, m.raw_icon_url raw_icon_url, m.description description, m.published published,\n                    m.updated updated, m.approved approved, m.queued, m.status status, m.requested_status requested_status,\n                    m.license_url license_url,\n                    m.team_id team_id, m.organization_id organization_id, m.license license, m.slug slug, m.moderation_message moderation_message, m.moderation_message_body moderation_message_body,\n                    m.webhook_sent, m.color,\n                    t.id thread_id, m.monetization_status monetization_status,\n                    ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is false) categories,\n                    ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is true) additional_categories\n                    FROM mods m\n                    INNER JOIN threads t ON t.mod_id = m.id\n                    LEFT JOIN mods_categories mc ON mc.joining_mod_id = m.id\n                    LEFT JOIN categories c ON mc.joining_category_id = c.id\n                    WHERE m.id = ANY($1) OR m.slug = ANY($2)\n                    GROUP BY t.id, m.id;\n                    ",
+  "query": "\n                    SELECT m.id id, m.name name, m.summary summary, m.downloads downloads, m.follows follows,\n                    m.icon_url icon_url, m.raw_icon_url raw_icon_url, m.description description, m.published published,\n                    m.updated updated, m.approved approved, m.queued, m.status status, m.requested_status requested_status,\n                    m.license_url license_url,\n                    m.team_id team_id, m.organization_id organization_id, m.license license, m.slug slug, m.moderation_message moderation_message, m.moderation_message_body moderation_message_body,\n                    m.webhook_sent, m.color,\n                    t.id thread_id, ct.id comment_thread_id, m.monetization_status monetization_status,\n                    ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is false) categories,\n                    ARRAY_AGG(DISTINCT c.category) filter (where c.category is not null and mc.is_additional is true) additional_categories\n                    FROM mods m\n                    INNER JOIN threads t ON t.mod_id = m.id AND t.thread_type = 'project'\n                    INNER JOIN threads ct ON ct.mod_id = m.id AND ct.thread_type = 'comment'\n                    LEFT JOIN mods_categories mc ON mc.joining_mod_id = m.id\n                    LEFT JOIN categories c ON mc.joining_category_id = c.id\n                    WHERE m.id = ANY($1) OR m.slug = ANY($2)\n                    GROUP BY t.id, ct.id, m.id;\n                    ",
   "describe": {
     "columns": [
       {
@@ -125,16 +125,21 @@
       },
       {
         "ordinal": 24,
+        "name": "comment_thread_id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 25,
         "name": "monetization_status",
         "type_info": "Varchar"
       },
       {
-        "ordinal": 25,
+        "ordinal": 26,
         "name": "categories",
         "type_info": "VarcharArray"
       },
       {
-        "ordinal": 26,
+        "ordinal": 27,
         "name": "additional_categories",
         "type_info": "VarcharArray"
       }
@@ -171,9 +176,10 @@
       true,
       false,
       false,
+      false,
       null,
       null
     ]
   },
-  "hash": "c7c400d74c478b4194f478f6d732a92c0b9a72e1cb6147009018b2712398c24f"
+  "hash": "976d4f33380f148056e97a50b81bdc943e1305c75a926ef47dd92b69bf18d351"
 }

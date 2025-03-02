@@ -64,6 +64,7 @@ pub enum ThreadType {
     Report,
     Project,
     DirectMessage,
+    Comment,
 }
 
 impl std::fmt::Display for ThreadType {
@@ -79,6 +80,7 @@ impl ThreadType {
             ThreadType::Report => "report",
             ThreadType::Project => "project",
             ThreadType::DirectMessage => "direct_message",
+            ThreadType::Comment => "comment",
         }
     }
 
@@ -87,6 +89,7 @@ impl ThreadType {
             "report" => ThreadType::Report,
             "project" => ThreadType::Project,
             "direct_message" => ThreadType::DirectMessage,
+            "comment" => ThreadType::Comment,
             _ => ThreadType::DirectMessage,
         }
     }

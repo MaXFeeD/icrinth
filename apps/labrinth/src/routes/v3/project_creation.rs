@@ -845,6 +845,15 @@ async fn project_create_inner(
         .insert(&mut *transaction)
         .await?;
 
+        let comment_thread_id = ThreadBuilder {
+            type_: ThreadType::Comment,
+            members: vec![],
+            project_id: Some(id),
+            report_id: None,
+        }
+        .insert(&mut *transaction)
+        .await?;
+
         let loaders = project_builder
             .initial_versions
             .iter()
@@ -907,6 +916,7 @@ async fn project_create_inner(
             gallery: gallery_urls,
             color: project_builder.color,
             thread_id: thread_id.into(),
+            comment_thread_id: comment_thread_id.into(),
             monetization_status: MonetizationStatus::Monetized,
             fields: HashMap::new(), // Fields instantiate to empty
         };

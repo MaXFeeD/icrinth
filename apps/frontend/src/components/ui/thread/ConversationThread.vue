@@ -59,13 +59,29 @@
       <div class="markdown-editor-spacing">
         <MarkdownEditor
           v-model="replyBody"
-          :placeholder="sortedMessages.length > 0 ? 'Reply to thread...' : 'Send a message...'"
+          :media-buttons="props.mediaButtons"
+          :heading-buttons="props.headingButtons"
+          :placeholder="
+            commentary
+              ? 'Publish a comment...'
+              : sortedMessages.length > 0
+                ? 'Reply to thread...'
+                : 'Send a message...'
+          "
           :on-image-upload="onUploadImage"
         />
       </div>
       <div class="input-group">
         <button
-          v-if="sortedMessages.length > 0"
+          v-if="commentary"
+          class="btn btn-primary"
+          :disabled="!replyBody"
+          @click="sendReply()"
+        >
+          <PublishIcon aria-hidden="true" /> Publish
+        </button>
+        <button
+          v-else-if="sortedMessages.length > 0"
           class="btn btn-primary"
           :disabled="!replyBody"
           @click="sendReply()"
@@ -117,7 +133,7 @@
               </button>
             </template>
           </template>
-          <template v-if="project">
+          <template v-if="project && !commentary">
             <template v-if="isStaff(auth.user)">
               <button
                 v-if="replyBody"
@@ -202,6 +218,7 @@ import { useImageUpload } from "~/composables/image-upload.ts";
 import CopyCode from "~/components/ui/CopyCode.vue";
 import ReplyIcon from "~/assets/images/utils/reply.svg?component";
 import SendIcon from "~/assets/images/utils/send.svg?component";
+import PublishIcon from "~/assets/images/utils/mic.svg?component";
 import CloseIcon from "~/assets/images/utils/check-circle.svg?component";
 import CrossIcon from "~/assets/images/utils/x.svg?component";
 import EyeOffIcon from "~/assets/images/utils/eye-off.svg?component";
@@ -228,6 +245,11 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  commentary: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   setStatus: {
     type: Function,
     required: false,
@@ -238,6 +260,16 @@ const props = defineProps({
     default() {
       return null;
     },
+  },
+  mediaButtons: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  headingButtons: {
+    type: Boolean,
+    required: false,
+    default: true,
   },
   auth: {
     type: Object,
@@ -273,7 +305,9 @@ const modalSubmit = ref(null);
 
 async function updateThreadLocal() {
   let threadId = null;
-  if (props.project) {
+  if (props.commentary && props.project) {
+    threadId = props.project.comment_thread_id;
+  } else if (props.project) {
     threadId = props.project.thread_id;
   } else if (props.report) {
     threadId = props.report.thread_id;

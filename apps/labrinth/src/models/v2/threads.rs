@@ -54,6 +54,7 @@ pub enum LegacyThreadType {
     Report,
     Project,
     DirectMessage,
+    Comment,
 }
 
 impl From<crate::models::v3::threads::ThreadType> for LegacyThreadType {
@@ -67,6 +68,9 @@ impl From<crate::models::v3::threads::ThreadType> for LegacyThreadType {
             }
             crate::models::v3::threads::ThreadType::DirectMessage => {
                 LegacyThreadType::DirectMessage
+            }
+            crate::models::v3::threads::ThreadType::Comment => {
+                LegacyThreadType::Comment
             }
         }
     }
