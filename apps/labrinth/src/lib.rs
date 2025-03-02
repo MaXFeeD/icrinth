@@ -179,12 +179,6 @@ pub fn app_setup(
         }
     });
 
-    scheduler::schedule_versions(
-        &mut scheduler,
-        pool.clone(),
-        redis_pool.clone(),
-    );
-
     let session_queue = web::Data::new(AuthQueue::new());
 
     let pool_ref = pool.clone();
