@@ -520,7 +520,8 @@
           </div>
           <span v-else>{{ version.version_number }}</span>
         </div>
-        <div>
+        <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
+        <div v-if="isEditing">
           <h4>Loaders</h4>
           <Multiselect
             v-if="isEditing"
