@@ -442,7 +442,7 @@ import ProjectCard from "~/components/ui/ProjectCard.vue";
 
 import { homePageProjects, homePageSearch, homePageNotifs } from "~/generated/state.json";
 
-const searchQuery = ref("leave");
+const searchQuery = ref("dec");
 const sortType = ref("relevance");
 
 const auth = await useAuth();

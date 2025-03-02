@@ -174,7 +174,7 @@ export default defineNuxtConfig({
         $fetch(`${API_URL}tag/donation_platform`, headers),
         $fetch(`${API_URL}tag/report_type`, headers),
         $fetch(`${API_URL}projects_random?count=60`, headers),
-        $fetch(`${API_URL}search?limit=3&query=leave&index=relevance`, headers),
+        $fetch(`${API_URL}search?limit=3&query=dec&index=relevance`, headers),
         $fetch(`${API_URL}search?limit=3&query=&index=updated`, headers),
         $fetch(`${API_URL.replace("/v2/", "/_internal/")}billing/products`, headers),
       ]);
