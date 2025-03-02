@@ -288,7 +288,7 @@ a:active + .message__author a,
 }
 
 .role-admin {
-  color: var(--color-green);
+  color: var(--color-brand);
 }
 
 .reporter-icon {

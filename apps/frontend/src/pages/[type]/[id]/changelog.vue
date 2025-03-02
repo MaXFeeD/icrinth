@@ -179,14 +179,14 @@ function updateQuery(newQueries) {
   }
 
   .changelog-bar {
-    --color: var(--color-green);
+    --color: var(--color-brand);
 
     &.alpha {
       --color: var(--color-red);
     }
 
     &.release {
-      --color: var(--color-green);
+      --color: var(--color-brand);
     }
 
     &.beta {

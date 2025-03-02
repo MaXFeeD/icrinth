@@ -261,7 +261,7 @@ definePageMeta({
   display: flex;
 
   color: var(--color-raised-bg);
-  background-color: var(--color-green);
+  background-color: var(--color-brand);
   aspect-ratio: 1;
   border-radius: 50%;
   padding: var(--gap-xs);

@@ -59,7 +59,7 @@
       <div class="projects-transition" />
       <div class="users-section">
         <div class="section-header">
-          <div class="section-label green">For Players</div>
+          <div class="section-label players">For Players</div>
           <h2 class="section-tagline">Discover hundreds of creations</h2>
           <p class="section-description">
             From magical biomes to cursed dungeons, you can be sure to find content to bring your
@@ -187,7 +187,7 @@
     </div>
     <div class="creator-section">
       <div class="section-header">
-        <div class="section-label blue">For Creators</div>
+        <div class="section-label creators">For Creators</div>
         <h2 class="section-tagline">Share your content with the world</h2>
         <p class="section-description">
           Give an online home to your creations and reach a massive audience of dedicated players.
@@ -210,8 +210,8 @@
                   y2="37"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
+                  <stop stop-color="#FFDDB8" />
+                  <stop offset="1" stop-color="#FC8B11" />
                 </linearGradient>
               </defs>
             </svg>
@@ -238,8 +238,8 @@
                   y2="23.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
+                  <stop stop-color="#FFDDB8" />
+                  <stop offset="1" stop-color="#FC8B11" />
                 </linearGradient>
               </defs>
             </svg>
@@ -263,8 +263,8 @@
                   y2="29.375"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
+                  <stop stop-color="#FFDDB8" />
+                  <stop offset="1" stop-color="#FC8B11" />
                 </linearGradient>
               </defs>
             </svg>
@@ -288,8 +288,8 @@
                   y2="38.25"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
+                  <stop stop-color="#FFDDB8" />
+                  <stop offset="1" stop-color="#FC8B11" />
                 </linearGradient>
               </defs>
             </svg>
@@ -313,8 +313,8 @@
                   y2="31.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#C1E1B1" />
-                  <stop offset="1" stop-color="#A7BDE6" />
+                  <stop stop-color="#FFDDB8" />
+                  <stop offset="1" stop-color="#FC8B11" />
                 </linearGradient>
               </defs>
             </svg>
@@ -727,7 +727,7 @@ async function updateSearchProjects() {
           z-index: -1;
           inset: 0 0 -0.75rem -0.75rem;
 
-          background: linear-gradient(0deg, #05ce45 0%, rgba(5, 206, 69, 0) 100%);
+          background: linear-gradient(0deg, #1aa6b7 0%, rgba(5, 206, 69, 0) 100%);
           opacity: 0.2;
           border-radius: 1rem;
           margin-top: auto;
@@ -1028,13 +1028,13 @@ async function updateSearchProjects() {
     font-size: 1rem;
     line-height: 125%;
 
-    &.green {
-      background: var(--landing-green-label-bg);
-      color: var(--landing-green-label);
-    }
-    &.blue {
+    &.players {
       background: var(--landing-blue-label-bg);
       color: var(--landing-blue-label);
+    }
+    &.creators {
+      background: var(--landing-orange-label-bg);
+      color: var(--landing-orange-label);
     }
   }
 

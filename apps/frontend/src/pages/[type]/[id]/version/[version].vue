@@ -489,7 +489,7 @@
               v-if="version.version_type === 'release'"
               class="value"
               type="release"
-              color="green"
+              color="brand"
             />
             <Badge
               v-else-if="version.version_type === 'beta'"

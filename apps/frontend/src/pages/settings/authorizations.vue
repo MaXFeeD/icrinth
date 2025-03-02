@@ -211,7 +211,7 @@ async function revokeApp(id) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-green);
+    background-color: var(--color-brand);
     color: var(--color-raised-bg);
   }
 }

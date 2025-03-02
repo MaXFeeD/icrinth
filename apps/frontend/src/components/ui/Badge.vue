@@ -127,5 +127,9 @@ defineProps({
   &.gray {
     --badge-color: var(--color-secondary);
   }
+
+  &.brand {
+    --badge-color: var(--color-brand);
+  }
 }
 </style>

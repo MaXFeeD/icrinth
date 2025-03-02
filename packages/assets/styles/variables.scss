@@ -34,9 +34,10 @@
   --color-blue-bg: rgba(31, 104, 192, 0.1);
   --color-purple-bg: rgba(142, 50, 243, 0.1);
 
-  --color-brand: var(--color-green);
-  --color-brand-highlight: var(--color-green-highlight);
-  --color-brand-shadow: rgba(0, 175, 92, 0.7);
+  --color-brand: #1aa6b7;
+  --color-brand-highlight: rgba(26, 167, 183, 0.25);
+  --color-brand-shadow: rgba(26, 167, 183, 0.7);
+  --color-brand-bg: rgba(26, 167, 183, 0.1);
 
   --shadow-inset-lg: inset 0px -2px 2px hsla(221, 39%, 91%, 0.1);
   --shadow-inset: inset 0px -2px 2px hsla(221, 39%, 91%, 0.05);
@@ -63,22 +64,7 @@
   --color-button-bg-selected: var(--color-brand);
   --color-button-text-selected: var(--color-accent-contrast);
 
-  --loading-bar-gradient: linear-gradient(to right, var(--color-brand) 0%, #00af5c 100%);
-
-  --color-platform-fabric: #8a7b71;
-  --color-platform-quilt: #8b61b4;
-  --color-platform-forge: #5b6197;
-  --color-platform-neoforge: #dc895c;
-  --color-platform-liteloader: #4c90de;
-  --color-platform-bukkit: #e78362;
-  --color-platform-bungeecord: #c69e39;
-  --color-platform-folia: #6aa54f;
-  --color-platform-paper: #e67e7e;
-  --color-platform-purpur: #7763a3;
-  --color-platform-spigot: #cd7a21;
-  --color-platform-velocity: #4b98b0;
-  --color-platform-waterfall: #5f83cb;
-  --color-platform-sponge: #c49528;
+  --loading-bar-gradient: linear-gradient(to right, var(--color-brand) 0%, #1aa7b7 100%);
 }
 
 html {
@@ -151,9 +137,10 @@ html {
   --color-blue-bg: rgba(79, 156, 255, 0.2);
   --color-purple-bg: rgba(199, 138, 255, 0.2);
 
-  --color-brand: var(--color-green);
-  --color-brand-highlight: rgba(27, 217, 106, 0.25);
-  --color-brand-shadow: rgba(27, 217, 106, 0.7);
+  --color-brand: #88fefe;
+  --color-brand-highlight: rgba(29, 190, 210, 0.25);
+  --color-brand-shadow: rgba(29, 190, 210, 0.7);
+  --color-brand-bg: rgba(29, 190, 210, 0.2);
 
   --shadow-inset-lg: inset 0px -2px 2px hsla(221, 39%, 11%, 0.1);
   --shadow-inset: inset 0px -2px 2px hsla(221, 39%, 11%, 0.05);
@@ -174,22 +161,7 @@ html {
   --color-button-bg-selected: var(--color-brand-highlight);
   --color-button-text-selected: var(--color-brand);
 
-  --loading-bar-gradient: linear-gradient(to right, var(--color-brand) 0%, #1ffa9a 100%);
-
-  --color-platform-fabric: #dbb69b;
-  --color-platform-quilt: #c796f9;
-  --color-platform-forge: #959eef;
-  --color-platform-neoforge: #f99e6b;
-  --color-platform-liteloader: #7ab0ee;
-  --color-platform-bukkit: #f6af7b;
-  --color-platform-bungeecord: #d2c080;
-  --color-platform-folia: #a5e388;
-  --color-platform-paper: #eeaaaa;
-  --color-platform-purpur: #c3abf7;
-  --color-platform-spigot: #f1cc84;
-  --color-platform-velocity: #83d5ef;
-  --color-platform-waterfall: #78a4fb;
-  --color-platform-sponge: #f9e580;
+  --loading-bar-gradient: linear-gradient(to right, var(--color-brand) 0%, #1dbed2 100%);
 }
 
 .oled-mode {

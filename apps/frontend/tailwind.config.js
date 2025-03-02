@@ -35,6 +35,7 @@ const config = {
           blue: "var(--color-blue-bg)",
           purple: "var(--color-purple-bg)",
           raised: "var(--color-raised-bg)",
+          brand: "var(--color-brand-bg)",
         },
         highlight: {
           DEFAULT: "var(--color-brand-highlight)",
@@ -43,6 +44,7 @@ const config = {
           green: "var(--color-green-highlight)",
           blue: "var(--color-blue-highlight)",
           purple: "var(--color-purple-highlight)",
+          brand: "var(--color-brand-highlight)",
         },
         divider: {
           DEFAULT: "var(--color-divider)",
@@ -142,6 +144,8 @@ const config = {
           blueLabelBg: "var(--landing-blue-label-bg)",
           greenLabel: "var(--landing-green-label)",
           greenLabelBg: "var(--landing-green-label-bg)",
+          orangeLabel: "var(--landing-orange-label)",
+          orangeLabelBg: "var(--landing-orange-label-bg)",
           rawBg: "var(--landing-raw-bg)",
         },
       },
