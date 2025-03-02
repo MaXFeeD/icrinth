@@ -220,9 +220,6 @@ import GridIcon from "~/assets/images/utils/grid.svg?component";
 import ListIcon from "~/assets/images/utils/list.svg?component";
 import ImageIcon from "~/assets/images/utils/image.svg?component";
 import AdPlaceholder from "~/components/ui/AdPlaceholder.vue";
-import NavTabs from "~/components/ui/NavTabs.vue";
-
-const { formatMessage } = useVIntl();
 
 const filtersMenuOpen = ref(false);
 

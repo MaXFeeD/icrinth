@@ -18,6 +18,11 @@ export const useTags = () =>
         id: "modpack",
         display: "modpack",
       },
+      {
+        actual: "server",
+        id: "server",
+        display: "server",
+      },
     ],
     loaderData: {
       dataPackLoaders: ["datapack"],

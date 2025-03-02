@@ -89,6 +89,15 @@
           <nuxt-link to="/modpacks"> <PackageOpenIcon aria-hidden="true" /> Modpacks </nuxt-link>
         </ButtonStyled>
         <ButtonStyled
+          type="transparent"
+          :highlighted="route.name === 'search-servers' || route.path.startsWith('/server/')"
+          :highlighted-style="
+            route.name === 'search-servers' ? 'main-nav-primary' : 'main-nav-secondary'
+          "
+        >
+          <nuxt-link to="/servers"> <ServerIcon aria-hidden="true" /> Servers </nuxt-link>
+        </ButtonStyled>
+        <ButtonStyled
           v-if="!cosmetics.hideHorizonPromos"
           type="transparent"
           :highlighted="route.name === 'app'"
@@ -436,6 +445,7 @@ import {
   XIcon as CrossIcon,
   ScaleIcon as ModerationIcon,
   BellIcon as NotificationIcon,
+  ServerIcon,
 } from "@icmods/assets";
 import { Button, ButtonStyled, OverflowMenu, Avatar, commonMessages } from "@icmods/ui";
 
@@ -639,6 +649,10 @@ const navRoutes = computed(() => [
   {
     label: formatMessage(getProjectTypeMessage("modpack", true)),
     href: "/modpacks",
+  },
+  {
+    label: formatMessage(getProjectTypeMessage("server", true)),
+    href: "/servers",
   },
 ]);
 

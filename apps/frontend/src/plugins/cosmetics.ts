@@ -5,6 +5,7 @@ export type DisplayMode = "list" | "gallery" | "grid";
 export type DisplayLocation =
   | "mod"
   | "modpack"
+  | "server"
   | "user"
   | "collection";
 
@@ -40,6 +41,7 @@ export default defineNuxtPlugin({
         searchDisplayMode: {
           mod: "list",
           modpack: "gallery",
+          server: "grid",
           user: "list",
           collection: "list",
         },
