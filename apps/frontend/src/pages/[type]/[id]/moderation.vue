@@ -201,7 +201,7 @@ async function setStatus(status) {
 
 svg {
   &.good {
-    color: var(--color-green);
+    color: var(--color-brand);
   }
 
   &.bad {

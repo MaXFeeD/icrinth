@@ -23,29 +23,13 @@ const projectTypeMessages = defineMessages({
     id: "project-type.modpack.plural",
     defaultMessage: "Modpacks",
   },
-  plugin: {
-    id: "project-type.plugin.singular",
-    defaultMessage: "Plugin",
+  server: {
+    id: "project-type.server.singular",
+    defaultMessage: "Server",
   },
-  plugins: {
-    id: "project-type.plugin.plural",
-    defaultMessage: "Plugins",
-  },
-  resourcepack: {
-    id: "project-type.resourcepack.singular",
-    defaultMessage: "Resource Pack",
-  },
-  resourcepacks: {
-    id: "project-type.resourcepack.plural",
-    defaultMessage: "Resource Packs",
-  },
-  shader: {
-    id: "project-type.shader.singular",
-    defaultMessage: "Shader",
-  },
-  shaders: {
-    id: "project-type.shader.plural",
-    defaultMessage: "Shaders",
+  servers: {
+    id: "project-type.server.plural",
+    defaultMessage: "Servers",
   },
   project: {
     id: "project-type.project.singular",

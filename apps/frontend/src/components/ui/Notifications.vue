@@ -37,8 +37,8 @@ function stopTimer(notif) {
   margin: 0 5px 5px;
 
   &.success {
-    background: var(--color-green) !important;
-    border-left-color: var(--color-green) !important;
+    background: var(--color-brand) !important;
+    border-left-color: var(--color-brand) !important;
   }
 
   &.warn {

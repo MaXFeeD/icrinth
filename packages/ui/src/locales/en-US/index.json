@@ -374,12 +374,6 @@
   "search.filter_type.modpack_loader": {
     "defaultMessage": "Loader"
   },
-  "search.filter_type.plugin_loader": {
-    "defaultMessage": "Loader"
-  },
-  "search.filter_type.plugin_platform": {
-    "defaultMessage": "Platform"
-  },
   "search.filter_type.project_id": {
     "defaultMessage": "Project ID"
   },

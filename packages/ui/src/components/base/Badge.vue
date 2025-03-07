@@ -216,10 +216,6 @@ defineProps<{
     --badge-color: var(--color-orange);
   }
 
-  &.type--accepted,
-  &.type--admin,
-  &.type--processed,
-  &.type--approved-general,
   &.green {
     --badge-color: var(--color-green);
   }
@@ -238,6 +234,14 @@ defineProps<{
   &.type--private,
   &.gray {
     --badge-color: var(--color-gray);
+  }
+
+  &.type--accepted,
+  &.type--admin,
+  &.type--processed,
+  &.type--approved-general,
+  &.brand {
+    --badge-color: var(--color-brand);
   }
 
   &::first-letter {

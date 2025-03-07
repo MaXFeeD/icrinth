@@ -103,10 +103,6 @@ defineProps({
     --badge-color: var(--color-orange);
   }
 
-  &.type--accepted,
-  &.type--admin,
-  &.type--success,
-  &.type--approved-general,
   &.green {
     --badge-color: var(--color-green);
   }
@@ -128,6 +124,10 @@ defineProps({
     --badge-color: var(--color-secondary);
   }
 
+  &.type--accepted,
+  &.type--admin,
+  &.type--success,
+  &.type--approved-general,
   &.brand {
     --badge-color: var(--color-brand);
   }

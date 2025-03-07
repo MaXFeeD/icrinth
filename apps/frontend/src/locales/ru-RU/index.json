@@ -492,34 +492,22 @@
     "message": "Мод"
   },
   "project-type.modpack.plural": {
-    "message": "Сборки модов"
+    "message": "Модпаки"
   },
   "project-type.modpack.singular": {
-    "message": "Сборка модов"
+    "message": "Модпак"
   },
-  "project-type.plugin.plural": {
-    "message": "Плагины"
+  "project-type.server.plural": {
+    "message": "Сервера"
   },
-  "project-type.plugin.singular": {
-    "message": "Плагин"
+  "project-type.server.singular": {
+    "message": "Сервер"
   },
   "project-type.project.plural": {
     "message": "Проекты"
   },
   "project-type.project.singular": {
     "message": "Проект"
-  },
-  "project-type.resourcepack.plural": {
-    "message": "Наборы ресурсов"
-  },
-  "project-type.resourcepack.singular": {
-    "message": "Набор ресурсов"
-  },
-  "project-type.shader.plural": {
-    "message": "Шейдеры"
-  },
-  "project-type.shader.singular": {
-    "message": "Шейдер"
   },
   "revenue.transfers.total": {
     "message": "Общая сумма вывода: {amount}."
@@ -797,9 +785,6 @@
   "settings.display.flags.title": {
     "message": "Переключение функций"
   },
-  "settings.display.project-list-layouts.datapack": {
-    "message": "Наборы данных"
-  },
   "settings.display.project-list-layouts.description": {
     "message": "Выберите предпочитаемый макет для каждой страницы с проектами на этом устройстве."
   },
@@ -809,14 +794,8 @@
   "settings.display.project-list-layouts.modpack": {
     "message": "Страница сборок"
   },
-  "settings.display.project-list-layouts.plugin": {
-    "message": "Плагины"
-  },
-  "settings.display.project-list-layouts.resourcepack": {
-    "message": "Страница наборов ресурсов"
-  },
-  "settings.display.project-list-layouts.shader": {
-    "message": "Шейдеры"
+  "settings.display.project-list-layouts.server": {
+    "message": "Страница серверов"
   },
   "settings.display.project-list-layouts.title": {
     "message": "Представление проектов"

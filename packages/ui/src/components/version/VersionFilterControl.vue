@@ -47,7 +47,7 @@
       <TagItem
         v-for="channel in selectedChannels"
         :key="`remove-filter-${channel}`"
-        :style="`--_color: var(--color-${channel === 'alpha' ? 'red' : channel === 'beta' ? 'orange' : 'green'});--_bg-color: var(--color-${channel === 'alpha' ? 'red' : channel === 'beta' ? 'orange' : 'green'}-highlight)`"
+        :style="`--_color: var(--color-${channel === 'alpha' ? 'red' : channel === 'beta' ? 'orange' : 'brand'});--_bg-color: var(--color-${channel === 'alpha' ? 'red' : channel === 'beta' ? 'orange' : 'brand'}-highlight)`"
         :action="() => toggleFilter('channel', channel)"
       >
         <XIcon />

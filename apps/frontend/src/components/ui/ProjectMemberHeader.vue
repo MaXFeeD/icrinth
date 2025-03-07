@@ -489,7 +489,7 @@ const submitForReview = async () => {
       }
 
       &.done {
-        --background-color: var(--color-green);
+        --background-color: var(--color-brand);
         --content-color: var(--color-brand-inverted);
       }
     }
