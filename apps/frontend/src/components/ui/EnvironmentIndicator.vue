@@ -4,7 +4,7 @@
     A {{ type }}
   </span>
   <span
-    v-else-if="!categories.some((x) => tags.loaderData.dataPackLoaders.includes(x))"
+    v-else-if="!categories.some((x) => tags.loaderData.behaviorPackLoaders.includes(x))"
     class="environment"
   >
     <template v-if="clientSide === 'optional' && serverSide === 'optional'">

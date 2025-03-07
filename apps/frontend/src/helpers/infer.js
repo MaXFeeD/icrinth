@@ -249,7 +249,7 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
           .map((x) => x.version),
       };
     },
-    // Resource Packs + Data Packs
+    // Resource Packs + Behavior Packs
     "pack.mcmeta": (file) => {
       const metadata = JSON.parse(file);
 
@@ -273,7 +273,7 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
       let newGameVersions = [];
 
       if (project.actualProjectType === "mod") {
-        loaders.push("datapack");
+        loaders.push("behaviorpack");
 
         switch (metadata.pack.pack_format) {
           case 4:

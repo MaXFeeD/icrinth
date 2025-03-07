@@ -126,23 +126,15 @@ export const formatWallet = (name) => {
 export const formatProjectType = (name) => {
   if (name === 'resourcepack') {
     return 'Resource Pack'
-  } else if (name === 'datapack') {
-    return 'Data Pack'
+  } else if (name === 'behaviorpack') {
+    return 'Behavior Pack'
   }
 
   return capitalizeString(name)
 }
 
 export const formatCategory = (name) => {
-  if (name === 'modloader') {
-    return "Risugami's ModLoader"
-  } else if (name === 'bungeecord') {
-    return 'BungeeCord'
-  } else if (name === 'liteloader') {
-    return 'LiteLoader'
-  } else if (name === 'neoforge') {
-    return 'NeoForge'
-  } else if (name === 'game-mechanics') {
+  if (name === 'game-mechanics') {
     return 'Game Mechanics'
   } else if (name === 'worldgen') {
     return 'World Generation'
@@ -160,12 +152,10 @@ export const formatCategory = (name) => {
     return 'Path Tracing'
   } else if (name === 'pbr') {
     return 'PBR'
-  } else if (name === 'datapack') {
-    return 'Data Pack'
+  } else if (name === 'behaviorpack') {
+    return 'Behavior Pack'
   } else if (name === 'colored-lighting') {
     return 'Colored Lighting'
-  } else if (name === 'optifine') {
-    return 'OptiFine'
   }
 
   return capitalizeString(name)
@@ -283,7 +273,7 @@ export const acceptFileFromProjectType = (projectType) => {
     case 'mod':
       return '.jar,.zip,.litemod,application/java-archive,application/x-java-archive,application/zip'
     case 'modpack':
-      return '.mrpack,application/x-icmods-modpack+zip,application/zip'
+      return '.mrpack,application/x-innercore-modpack+zip,application/zip'
     default:
       return '*'
   }

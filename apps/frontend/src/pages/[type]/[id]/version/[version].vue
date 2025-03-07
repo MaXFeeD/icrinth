@@ -9,11 +9,11 @@
       proceed-label="Delete"
       @proceed="deleteVersion()"
     />
-    <Modal v-if="auth.user && currentMember" ref="modal_package_mod" header="Package data pack">
+    <Modal v-if="auth.user && currentMember" ref="modal_package_mod" header="Package behavior pack">
       <div class="modal-package-mod universal-labels">
         <div class="markdown-body">
           <p>
-            Package your data pack as a mod. This will create a new version with support for the
+            Package your behavior pack as a mod. This will create a new version with support for the
             selected mod loaders. You will be redirected to the new version and can edit it to your
             liking.
           </p>
@@ -21,7 +21,7 @@
         <label for="package-mod-loaders">
           <span class="label__title">Mod loaders</span>
           <span class="label__description">
-            The mod loaders you would like to package your data pack for.
+            The mod loaders you would like to package your behavior pack for.
           </span>
         </label>
         <multiselect
@@ -44,9 +44,9 @@
             </button>
           </ButtonStyled>
           <ButtonStyled color="brand">
-            <button @click="createDataPackVersion">
+            <button @click="createBehaviorPackVersion">
               <RightArrowIcon aria-hidden="true" />
-              Begin packaging data pack
+              Begin packaging behavior pack
             </button>
           </ButtonStyled>
         </div>
@@ -180,7 +180,7 @@
           <button
             v-if="
               currentMember &&
-              version.loaders.some((x) => tags.loaderData.dataPackLoaders.includes(x))
+              version.loaders.some((x) => tags.loaderData.behaviorPackLoaders.includes(x))
             "
             @click="$refs.modal_package_mod.show()"
           >
@@ -364,7 +364,7 @@
         </span>
         <multiselect
           v-if="
-            version.loaders.some((x) => tags.loaderData.dataPackLoaders.includes(x)) &&
+            version.loaders.some((x) => tags.loaderData.behaviorPackLoaders.includes(x)) &&
             isEditing &&
             primaryFile.hashes.sha1 !== file.hashes.sha1
           "
@@ -414,7 +414,7 @@
             <span class="file-size">({{ $formatBytes(file.size) }})</span>
           </span>
           <multiselect
-            v-if="version.loaders.some((x) => tags.loaderData.dataPackLoaders.includes(x))"
+            v-if="version.loaders.some((x) => tags.loaderData.behaviorPackLoaders.includes(x))"
             v-model="newFileTypes[index]"
             class="raised-multiselect"
             placeholder="Select file type"
@@ -443,7 +443,7 @@
         </div>
         <div class="additional-files">
           <h4>Upload additional files</h4>
-          <span v-if="version.loaders.some((x) => tags.loaderData.dataPackLoaders.includes(x))">
+          <span v-if="version.loaders.some((x) => tags.loaderData.behaviorPackLoaders.includes(x))">
             Used for additional files such as required/optional resource packs
           </span>
           <span v-else>Used for files such as sources or Javadocs.</span>
@@ -621,7 +621,7 @@ import { ButtonStyled, ConfirmModal, MarkdownEditor } from "@icmods/ui";
 import { Multiselect } from "vue-multiselect";
 import { acceptFileFromProjectType } from "~/helpers/fileUtils.js";
 import { inferVersionInfo } from "~/helpers/infer.js";
-import { createDataPackVersion } from "~/helpers/package.js";
+import { createBehaviorPackVersion } from "~/helpers/package.js";
 import { renderHighlightedString } from "~/helpers/highlight.js";
 import { reportVersion } from "~/utils/report-helpers.ts";
 import { useImageUpload } from "~/composables/image-upload.ts";
@@ -1235,11 +1235,11 @@ export default defineNuxtComponent({
       await this.$router.replace(`/${this.project.project_type}/${this.project.id}/versions`);
       stopLoading();
     },
-    async createDataPackVersion() {
+    async createBehaviorPackVersion() {
       this.shouldPreventActions = true;
       startLoading();
       try {
-        const blob = await createDataPackVersion(
+        const blob = await createBehaviorPackVersion(
           this.project,
           this.version,
           this.primaryFile,
@@ -1273,7 +1273,7 @@ export default defineNuxtComponent({
         this.$notify({
           group: "main",
           title: "Packaging Success",
-          text: "Your data pack was successfully packaged as a mod! Make sure to playtest to check for errors.",
+          text: "Your behavior pack was successfully packaged as a mod! Make sure to playtest to check for errors.",
           type: "success",
         });
       } catch (err) {

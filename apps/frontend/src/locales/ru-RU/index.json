@@ -479,11 +479,11 @@
   "project-type.collection.singular": {
     "message": "Коллекция"
   },
-  "project-type.datapack.plural": {
-    "message": "Наборы данных"
+  "project-type.behaviorpack.plural": {
+    "message": "Пакеты поведения"
   },
-  "project-type.datapack.singular": {
-    "message": "Набор данных"
+  "project-type.behaviorpack.singular": {
+    "message": "Пакет поведения"
   },
   "project-type.mod.plural": {
     "message": "Моды"

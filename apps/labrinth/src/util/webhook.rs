@@ -109,10 +109,10 @@ async fn get_webhook_metadata(
 
         let formatted_game_versions = get_gv_range(versions, all_game_versions);
 
-        let mut project_type = project.project_types.pop().unwrap_or_default(); // TODO: Should this grab a not-first?
+        let project_type = project.project_types.pop().unwrap_or_default(); // TODO: Should this grab a not-first?
 
         let mut display_project_type = match &*project_type {
-            "datapack" => "data pack",
+            "behaviorpack" => "behavior pack",
             "resourcepack" => "resource pack",
             _ => &*project_type,
         }
@@ -148,8 +148,8 @@ async fn get_webhook_metadata(
                 .loaders
                 .into_iter()
                 .map(|loader| {
-                    let mut x = if &*loader == "datapack" {
-                        "Data Pack".to_string()
+                    let mut x = if &*loader == "behaviorpack" {
+                        "Behavior Pack".to_string()
                     } else if &*loader == "mrpack" {
                         "Modpack".to_string()
                     } else {
@@ -158,10 +158,11 @@ async fn get_webhook_metadata(
 
                     if emoji {
                         let emoji_id: i64 = match &*loader {
+                            // TODO#icmods: Figure out how emojis should be handled on endpoint, there should be custom font...
                             "bukkit" => 1049793345481883689,
                             "bungeecord" => 1049793347067314220,
                             "canvas" => 1107352170656968795,
-                            "datapack" => 1057895494652788866,
+                            "behaviorpack" => 1057895494652788866,
                             "fabric" => 1049793348719890532,
                             "folia" => 1107348745571537018,
                             "forge" => 1049793350498275358,
@@ -429,7 +430,10 @@ pub async fn send_discord_webhook(
                 .gallery_image
                 .map(|x| DiscordEmbedImage { url: Some(x) }),
             footer: Some(DiscordEmbedFooter {
-                text: format!("{} on Inner Core Mods", project.display_project_type),
+                text: format!(
+                    "{} on Inner Core Mods",
+                    project.display_project_type
+                ),
                 icon_url: Some(
                     "https://cdn-raw.modrinth.com/modrinth-new.png".to_string(),
                 ),

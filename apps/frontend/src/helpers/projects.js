@@ -10,12 +10,12 @@ export const getProjectTypeForUrlShorthand = (type, categories, overrideTags) =>
       return tags.loaderData.modLoaders.includes(category);
     });
 
-    const isDataPack = categories.some((category) => {
-      return tags.loaderData.dataPackLoaders.includes(category);
+    const isBehaviorPack = categories.some((category) => {
+      return tags.loaderData.behaviorPackLoaders.includes(category);
     });
 
-    if (isDataPack) {
-      return "datapack";
+    if (isBehaviorPack) {
+      return "behaviorpack";
     } else if (isMod) {
       return "mod";
     }

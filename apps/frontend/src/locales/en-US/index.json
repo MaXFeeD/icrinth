@@ -398,11 +398,11 @@
   "project-type.collection.singular": {
     "message": "Collection"
   },
-  "project-type.datapack.plural": {
-    "message": "Data Packs"
+  "project-type.behaviorpack.plural": {
+    "message": "Behavior Packs"
   },
-  "project-type.datapack.singular": {
-    "message": "Data Pack"
+  "project-type.behaviorpack.singular": {
+    "message": "Behavior Pack"
   },
   "project-type.mod.plural": {
     "message": "Mods"

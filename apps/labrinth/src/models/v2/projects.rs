@@ -72,7 +72,7 @@ pub struct LegacyProject {
 
 impl LegacyProject {
     // Returns visible v2 project_type and also 'og' selected project type
-    // These are often identical, but we want to display 'mod' for datapacks and plugins
+    // These are often identical, but we want to display 'mod' for behavior packs and plugins
     // The latter can be used for further processing, such as determining side types of plugins
     pub fn get_project_type(project_types: &[String]) -> (String, String) {
         // V2 versions only have one project type- v3 versions can rarely have multiple.

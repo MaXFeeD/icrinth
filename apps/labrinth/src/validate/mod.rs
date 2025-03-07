@@ -4,35 +4,17 @@ use crate::database::models::DatabaseError;
 use crate::database::redis::RedisPool;
 use crate::models::pack::PackFormat;
 use crate::models::projects::{FileType, Loader};
-use crate::validate::datapack::DataPackValidator;
-use crate::validate::fabric::FabricValidator;
-use crate::validate::forge::{ForgeValidator, LegacyForgeValidator};
-use crate::validate::liteloader::LiteLoaderValidator;
 use crate::validate::modpack::ModpackValidator;
-use crate::validate::neoforge::NeoForgeValidator;
-use crate::validate::plugin::*;
-use crate::validate::quilt::QuiltValidator;
-use crate::validate::resourcepack::{PackValidator, TexturePackValidator};
-use crate::validate::rift::RiftValidator;
-use crate::validate::shader::{
-    CanvasShaderValidator, CoreShaderValidator, ShaderValidator,
-};
+use crate::validate::resourcepack::ResourcePackValidator;
+use crate::validate::behaviorpack::BehaviorPackValidator;
 use chrono::{DateTime, Utc};
 use std::io::Cursor;
 use thiserror::Error;
 use zip::ZipArchive;
 
-mod datapack;
-mod fabric;
-mod forge;
-mod liteloader;
+mod behaviorpack;
 mod modpack;
-mod neoforge;
-pub mod plugin;
-mod quilt;
 mod resourcepack;
-mod rift;
-mod shader;
 
 #[derive(Error, Debug)]
 pub enum ValidationError {
@@ -95,23 +77,9 @@ static ALWAYS_ALLOWED_EXT: &[&str] = &["zip", "txt"];
 
 static VALIDATORS: &[&dyn Validator] = &[
     &ModpackValidator,
-    &FabricValidator,
-    &ForgeValidator,
-    &LegacyForgeValidator,
-    &QuiltValidator,
-    &LiteLoaderValidator,
-    &PackValidator,
-    &TexturePackValidator,
-    &PluginYmlValidator,
-    &BungeeCordValidator,
-    &VelocityValidator,
-    &SpongeValidator,
-    &CanvasShaderValidator,
-    &ShaderValidator,
-    &CoreShaderValidator,
-    &DataPackValidator,
-    &RiftValidator,
-    &NeoForgeValidator,
+    // &InnerCoreValidator,
+    &ResourcePackValidator,
+    &BehaviorPackValidator,
 ];
 
 /// The return value is whether this file should be marked as primary or not, based on the analysis of the file
@@ -159,7 +127,7 @@ async fn validate_minecraft_file(
         if let Some(file_type) = file_type {
             match file_type {
                 FileType::RequiredResourcePack | FileType::OptionalResourcePack => {
-                    return PackValidator.validate(&mut zip);
+                    return ResourcePackValidator.validate(&mut zip);
                 }
                 FileType::Unknown => {}
             }

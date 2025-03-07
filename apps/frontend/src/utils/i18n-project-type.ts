@@ -1,11 +1,11 @@
 const projectTypeMessages = defineMessages({
-  datapack: {
-    id: "project-type.datapack.singular",
-    defaultMessage: "Data Pack",
+  behaviorpack: {
+    id: "project-type.behaviorpack.singular",
+    defaultMessage: "Behavior Pack",
   },
-  datapacks: {
-    id: "project-type.datapack.plural",
-    defaultMessage: "Data Packs",
+  behaviorpacks: {
+    id: "project-type.Behavior.plural",
+    defaultMessage: "Behavior Packs",
   },
   mod: {
     id: "project-type.mod.singular",

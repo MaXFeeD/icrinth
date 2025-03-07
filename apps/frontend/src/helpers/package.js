@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 import TOML from "@ltd/j-toml";
 
-export const createDataPackVersion = async function (
+export const createBehaviorPackVersion = async function (
   project,
   version,
   primaryFile,

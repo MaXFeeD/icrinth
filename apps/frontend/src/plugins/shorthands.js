@@ -81,14 +81,14 @@ export default defineNuxtPlugin((nuxtApp) => {
       const isMod = categories.some((category) => {
         return tagStore.value.loaderData.modLoaders.includes(category);
       });
-      const isDataPack = categories.some((category) => {
-        return tagStore.value.loaderData.dataPackLoaders.includes(category);
+      const isBehaviorPack = categories.some((category) => {
+        return tagStore.value.loaderData.behaviorPackLoaders.includes(category);
       });
 
-      if (isMod && isDataPack) {
-        return "mod and data pack";
-      } else if (isDataPack) {
-        return "data pack";
+      if (isMod && isBehaviorPack) {
+        return "mod and behavior pack";
+      } else if (isBehaviorPack) {
+        return "behavior pack";
       }
     }
 
@@ -173,8 +173,8 @@ export const formatWallet = (name) => {
 export const formatProjectType = (name) => {
   if (name === "resourcepack") {
     return "Resource Pack";
-  } else if (name === "datapack") {
-    return "Data Pack";
+  } else if (name === "behaviorpack") {
+    return "Behavior Pack";
   }
 
   return capitalizeString(name);
@@ -185,14 +185,6 @@ export const formatCategory = (name) => {
     return "Inner Core";
   } else if (name == "coreengine") {
     return "Core Engine";
-  } else if (name === "modloader") {
-    return "Risugami's ModLoader";
-  } else if (name === "bungeecord") {
-    return "BungeeCord";
-  } else if (name === "liteloader") {
-    return "LiteLoader";
-  } else if (name === "neoforge") {
-    return "NeoForge";
   } else if (name === "game-mechanics") {
     return "Game Mechanics";
   } else if (name === "worldgen") {
@@ -211,8 +203,8 @@ export const formatCategory = (name) => {
     return "Path Tracing";
   } else if (name === "pbr") {
     return "PBR";
-  } else if (name === "datapack") {
-    return "Data Pack";
+  } else if (name === "behaviorpack") {
+    return "Behavior Pack";
   } else if (name === "colored-lighting") {
     return "Colored Lighting";
   } else if (name === "optifine") {

@@ -3,7 +3,7 @@
     <InfoIcon aria-hidden="true" />
     {{ formatMessage(messages.typeLabel, { type: type }) }}
   </span>
-  <span v-else-if="!categories.includes('datapack')" class="environment">
+  <span v-else-if="!categories.includes('behaviorpack')" class="environment">
     <template v-if="clientSide === 'optional' && serverSide === 'optional'">
       <GlobeIcon aria-hidden="true" />
       {{ formatMessage(messages.clientOrServerLabel) }}
