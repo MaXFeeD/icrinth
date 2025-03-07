@@ -1,6 +1,4 @@
-import { parse as parseTOML } from "@ltd/j-toml";
 import JSZip from "jszip";
-import { satisfies } from "semver";
 
 export const inferVersionInfo = async function (rawFile, project, gameVersions) {
   function versionType(number) {
@@ -17,208 +15,22 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
     }
   }
 
-  function getGameVersionsMatchingSemverRange(range, gameVersions) {
-    if (!range) {
-      return [];
-    }
-    const ranges = Array.isArray(range) ? range : [range];
-    return gameVersions.filter((version) => {
-      const semverVersion = version.split(".").length === 2 ? `${version}.0` : version; // add patch version if missing (e.g. 1.16 -> 1.16.0)
-      return ranges.some((v) => satisfies(semverVersion, v));
-    });
-  }
-
-  function getGameVersionsMatchingMavenRange(range, gameVersions) {
-    if (!range) {
-      return [];
-    }
-    const ranges = [];
-
-    while (range.startsWith("[") || range.startsWith("(")) {
-      let index = range.indexOf(")");
-      const index2 = range.indexOf("]");
-      if (index === -1 || (index2 !== -1 && index2 < index)) {
-        index = index2;
-      }
-      if (index === -1) break;
-      ranges.push(range.substring(0, index + 1));
-      range = range.substring(index + 1).trim();
-      if (range.startsWith(",")) {
-        range = range.substring(1).trim();
-      }
-    }
-
-    if (range) {
-      ranges.push(range);
-    }
-
-    const LESS_THAN_EQUAL = /^\(,(.*)]$/;
-    const LESS_THAN = /^\(,(.*)\)$/;
-    const EQUAL = /^\[(.*)]$/;
-    const GREATER_THAN_EQUAL = /^\[(.*),\)$/;
-    const GREATER_THAN = /^\((.*),\)$/;
-    const BETWEEN = /^\((.*),(.*)\)$/;
-    const BETWEEN_EQUAL = /^\[(.*),(.*)]$/;
-    const BETWEEN_LESS_THAN_EQUAL = /^\((.*),(.*)]$/;
-    const BETWEEN_GREATER_THAN_EQUAL = /^\[(.*),(.*)\)$/;
-
-    const semverRanges = [];
-
-    for (const range of ranges) {
-      let result;
-      if ((result = range.match(LESS_THAN_EQUAL))) {
-        semverRanges.push(`<=${result[1]}`);
-      } else if ((result = range.match(LESS_THAN))) {
-        semverRanges.push(`<${result[1]}`);
-      } else if ((result = range.match(EQUAL))) {
-        semverRanges.push(`${result[1]}`);
-      } else if ((result = range.match(GREATER_THAN_EQUAL))) {
-        semverRanges.push(`>=${result[1]}`);
-      } else if ((result = range.match(GREATER_THAN))) {
-        semverRanges.push(`>${result[1]}`);
-      } else if ((result = range.match(BETWEEN))) {
-        semverRanges.push(`>${result[1]} <${result[2]}`);
-      } else if ((result = range.match(BETWEEN_EQUAL))) {
-        semverRanges.push(`>=${result[1]} <=${result[2]}`);
-      } else if ((result = range.match(BETWEEN_LESS_THAN_EQUAL))) {
-        semverRanges.push(`>${result[1]} <=${result[2]}`);
-      } else if ((result = range.match(BETWEEN_GREATER_THAN_EQUAL))) {
-        semverRanges.push(`>=${result[1]} <${result[2]}`);
-      }
-    }
-    return getGameVersionsMatchingSemverRange(semverRanges, gameVersions);
-  }
-
   const simplifiedGameVersions = gameVersions
     .filter((it) => it.version_type === "release")
     .map((it) => it.version);
 
   const inferFunctions = {
-    // NeoForge
-    "META-INF/neoforge.mods.toml": (file) => {
-      const metadata = parseTOML(file, { joiner: "\n" });
-      if (!metadata.mods || metadata.mods.length === 0) {
-        return {};
-      }
-
-      const neoForgeDependency = Object.values(metadata.dependencies)
-        .flat()
-        .find((dependency) => dependency.modId === "neoforge");
-      if (!neoForgeDependency) {
-        return {};
-      }
-
-      // https://docs.neoforged.net/docs/gettingstarted/versioning/#neoforge
-      const mcVersionRange = neoForgeDependency.versionRange
-        .replace("-beta", "")
-        .replace(/(\d+)(?:\.(\d+))?(?:\.(\d+)?)?/g, (_match, major, minor) => {
-          return `1.${major}${minor ? "." + minor : ""}`;
-        });
-      const gameVersions = getGameVersionsMatchingMavenRange(
-        mcVersionRange,
-        simplifiedGameVersions,
-      );
-
-      const versionNum = metadata.mods[0].version;
-      return {
-        name: `${project.title} ${versionNum}`,
-        version_number: versionNum,
-        loaders: ["neoforge"],
-        version_type: versionType(versionNum),
-        game_versions: gameVersions,
-      };
-    },
-    // Forge 1.13+
-    "META-INF/mods.toml": async (file, zip) => {
-      const metadata = parseTOML(file, { joiner: "\n" });
-
-      if (metadata.mods && metadata.mods.length > 0) {
-        let versionNum = metadata.mods[0].version;
-
-        // ${file.jarVersion} -> Implementation-Version from manifest
-        const manifestFile = zip.file("META-INF/MANIFEST.MF");
-        if (
-          // eslint-disable-next-line no-template-curly-in-string
-          metadata.mods[0].version.includes("${file.jarVersion}") &&
-          manifestFile !== null
-        ) {
-          const manifestText = await manifestFile.async("text");
-          const regex = /Implementation-Version: (.*)$/m;
-          const match = manifestText.match(regex);
-          if (match) {
-            // eslint-disable-next-line no-template-curly-in-string
-            versionNum = versionNum.replace("${file.jarVersion}", match[1]);
-          }
-        }
-
-        let gameVersions = [];
-        const mcDependencies = Object.values(metadata.dependencies)
-          .flat()
-          .filter((dependency) => dependency.modId === "minecraft");
-
-        if (mcDependencies.length > 0) {
-          gameVersions = getGameVersionsMatchingMavenRange(
-            mcDependencies[0].versionRange,
-            simplifiedGameVersions,
-          );
-        }
-
-        return {
-          name: `${project.title} ${versionNum}`,
-          version_number: versionNum,
-          version_type: versionType(versionNum),
-          loaders: ["forge"],
-          game_versions: gameVersions,
-        };
-      } else {
-        return {};
-      }
-    },
-    // Old Forge
-    "mcmod.info": (file) => {
-      const metadata = JSON.parse(file);
-
-      return {
-        name: metadata.version ? `${project.title} ${metadata.version}` : "",
-        version_number: metadata.version,
-        version_type: versionType(metadata.version),
-        loaders: ["forge"],
-        game_versions: simplifiedGameVersions.filter((version) =>
-          version.startsWith(metadata.mcversion),
-        ),
-      };
-    },
-    // Fabric
-    "fabric.mod.json": (file) => {
+    // Core Engine/Inner Core
+    "mod.info": (file) => {
       const metadata = JSON.parse(file);
 
       return {
         name: `${project.title} ${metadata.version}`,
         version_number: metadata.version,
-        loaders: ["fabric"],
+        loaders: ["coreengine"],
         version_type: versionType(metadata.version),
-        game_versions: metadata.depends
-          ? getGameVersionsMatchingSemverRange(metadata.depends.minecraft, simplifiedGameVersions)
-          : [],
-      };
-    },
-    // Quilt
-    "quilt.mod.json": (file) => {
-      const metadata = JSON.parse(file);
-
-      return {
-        name: `${project.title} ${metadata.quilt_loader.version}`,
-        version_number: metadata.quilt_loader.version,
-        loaders: ["quilt"],
-        version_type: versionType(metadata.quilt_loader.version),
-        game_versions: metadata.quilt_loader.depends
-          ? getGameVersionsMatchingSemverRange(
-              metadata.quilt_loader.depends.find((x) => x.id === "minecraft")
-                ? metadata.quilt_loader.depends.find((x) => x.id === "minecraft").versions
-                : [],
-              simplifiedGameVersions,
-            )
-          : [],
+        // TODO#icmods: Uhm, do we really need those? :>
+        game_versions: simplifiedGameVersions,
       };
     },
     // Modpacks
@@ -226,17 +38,8 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
       const metadata = JSON.parse(file);
 
       const loaders = [];
-      if ("forge" in metadata.dependencies) {
-        loaders.push("forge");
-      }
-      if ("neoforge" in metadata.dependencies) {
-        loaders.push("neoforge");
-      }
-      if ("fabric-loader" in metadata.dependencies) {
-        loaders.push("fabric");
-      }
-      if ("quilt-loader" in metadata.dependencies) {
-        loaders.push("quilt");
+      if ("coreengine" in metadata.dependencies) {
+        loaders.push("coreengine");
       }
 
       return {
