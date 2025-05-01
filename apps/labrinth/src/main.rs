@@ -5,7 +5,7 @@ use labrinth::database::redis::RedisPool;
 use labrinth::file_hosting::S3Host;
 use labrinth::search;
 use labrinth::util::ratelimit::RateLimit;
-use labrinth::{check_env_vars, clickhouse, database, file_hosting, queue};
+use labrinth::{check_env_vars, database, file_hosting, queue};
 use log::{error, info};
 use std::sync::Arc;
 
@@ -84,9 +84,6 @@ async fn main() -> std::io::Result<()> {
             _ => panic!("Invalid storage backend specified. Aborting startup!"),
         };
 
-    info!("Initializing clickhouse connection");
-    let mut clickhouse = clickhouse::init_client().await.unwrap();
-
     let maxmind_reader =
         Arc::new(queue::maxmind::MaxMindIndexer::new().await.unwrap());
 
@@ -102,7 +99,6 @@ async fn main() -> std::io::Result<()> {
         pool.clone(),
         redis_pool.clone(),
         search_config.clone(),
-        &mut clickhouse,
         file_host.clone(),
         maxmind_reader.clone(),
     );

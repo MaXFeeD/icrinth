@@ -52,7 +52,6 @@ impl AnalyticsQueue {
 
     pub async fn index(
         &self,
-        client: clickhouse::Client,
         redis: &RedisPool,
         pool: &PgPool,
     ) -> Result<(), ApiError> {
@@ -62,18 +61,18 @@ impl AnalyticsQueue {
         let downloads_queue = self.downloads_queue.clone();
         self.downloads_queue.clear();
 
-        let playtime_queue = self.playtime_queue.clone();
-        self.playtime_queue.clear();
+        // let playtime_queue = self.playtime_queue.clone();
+        // self.playtime_queue.clear();
 
-        if !playtime_queue.is_empty() {
-            let mut playtimes = client.insert("playtime")?;
+        // if !playtime_queue.is_empty() {
+        //     let mut playtimes = client.insert("playtime")?;
 
-            for playtime in playtime_queue {
-                playtimes.write(&playtime).await?;
-            }
+        //     for playtime in playtime_queue {
+        //         playtimes.write(&playtime).await?;
+        //     }
 
-            playtimes.end().await?;
-        }
+        //     playtimes.end().await?;
+        // }
 
         if !views_queue.is_empty() {
             let mut views_keys = Vec::new();
@@ -132,19 +131,19 @@ impl AnalyticsQueue {
                 .await
                 .map_err(DatabaseError::CacheError)?;
 
-            let mut views = client.insert("views")?;
+            // let mut views = client.insert("views")?;
 
-            for (all_views, monetized) in raw_views {
-                for (idx, mut view) in all_views.into_iter().enumerate() {
-                    if idx != 0 || !monetized {
-                        view.monetized = false;
-                    }
+            // for (all_views, monetized) in raw_views {
+            //     for (idx, mut view) in all_views.into_iter().enumerate() {
+            //         if idx != 0 || !monetized {
+            //             view.monetized = false;
+            //         }
 
-                    views.write(&view).await?;
-                }
-            }
+            //         views.write(&view).await?;
+            //     }
+            // }
 
-            views.end().await?;
+            // views.end().await?;
         }
 
         if !downloads_queue.is_empty() {
@@ -200,7 +199,7 @@ impl AnalyticsQueue {
                 .map_err(DatabaseError::CacheError)?;
 
             let mut transaction = pool.begin().await?;
-            let mut downloads = client.insert("downloads")?;
+            // let mut downloads = client.insert("downloads")?;
 
             let mut version_downloads: HashMap<i64, i32> = HashMap::new();
             let mut project_downloads: HashMap<i64, i32> = HashMap::new();
@@ -213,7 +212,7 @@ impl AnalyticsQueue {
                     .entry(download.project_id as i64)
                     .or_default() += 1;
 
-                downloads.write(&download).await?;
+                // downloads.write(&download).await?;
             }
 
             sqlx::query(
@@ -243,7 +242,7 @@ impl AnalyticsQueue {
             .await?;
 
             transaction.commit().await?;
-            downloads.end().await?;
+            // downloads.end().await?;
         }
 
         Ok(())

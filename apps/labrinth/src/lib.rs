@@ -11,8 +11,6 @@ use queue::{
 };
 use sqlx::Postgres;
 
-extern crate clickhouse as clickhouse_crate;
-use clickhouse_crate::Client;
 use governor::middleware::StateInformationMiddleware;
 use governor::{Quota, RateLimiter};
 use util::cors::default_cors;
@@ -26,7 +24,6 @@ use crate::{
 };
 
 pub mod auth;
-pub mod clickhouse;
 pub mod database;
 pub mod file_hosting;
 pub mod models;
@@ -46,7 +43,6 @@ pub struct Pepper {
 pub struct LabrinthConfig {
     pub pool: sqlx::Pool<Postgres>,
     pub redis_pool: RedisPool,
-    pub clickhouse: Client,
     pub file_host: Arc<dyn file_hosting::FileHost + Send + Sync>,
     pub maxmind: Arc<queue::maxmind::MaxMindIndexer>,
     pub scheduler: Arc<scheduler::Scheduler>,
@@ -65,7 +61,6 @@ pub fn app_setup(
     pool: sqlx::Pool<Postgres>,
     redis_pool: RedisPool,
     search_config: search::SearchConfig,
-    clickhouse: &mut Client,
     file_host: Arc<dyn file_hosting::FileHost + Send + Sync>,
     maxmind: Arc<queue::maxmind::MaxMindIndexer>,
 ) -> LabrinthConfig {
@@ -222,12 +217,10 @@ pub fn app_setup(
 
     let analytics_queue = Arc::new(AnalyticsQueue::new());
     {
-        let client_ref = clickhouse.clone();
         let analytics_queue_ref = analytics_queue.clone();
         let pool_ref = pool.clone();
         let redis_ref = redis_pool.clone();
         scheduler.run(std::time::Duration::from_secs(15), move || {
-            let client_ref = client_ref.clone();
             let analytics_queue_ref = analytics_queue_ref.clone();
             let pool_ref = pool_ref.clone();
             let redis_ref = redis_ref.clone();
@@ -235,7 +228,7 @@ pub fn app_setup(
             async move {
                 info!("Indexing analytics queue");
                 let result = analytics_queue_ref
-                    .index(client_ref, &redis_ref, &pool_ref)
+                    .index(&redis_ref, &pool_ref)
                     .await;
                 if let Err(e) = result {
                     warn!("Indexing analytics queue failed: {:?}", e);
@@ -247,14 +240,12 @@ pub fn app_setup(
 
     {
         let pool_ref = pool.clone();
-        let client_ref = clickhouse.clone();
         scheduler.run(std::time::Duration::from_secs(60 * 60 * 6), move || {
             let pool_ref = pool_ref.clone();
-            let client_ref = client_ref.clone();
 
             async move {
                 info!("Started running payouts");
-                let result = process_payout(&pool_ref, &client_ref).await;
+                let result = process_payout(&pool_ref).await;
                 if let Err(e) = result {
                     warn!("Payouts run failed: {:?}", e);
                 }
@@ -301,7 +292,6 @@ pub fn app_setup(
     LabrinthConfig {
         pool,
         redis_pool,
-        clickhouse: clickhouse.clone(),
         file_host,
         maxmind,
         scheduler: Arc::new(scheduler),
@@ -341,7 +331,6 @@ pub fn app_config(
     .app_data(labrinth_config.payouts_queue.clone())
     .app_data(web::Data::new(labrinth_config.ip_salt.clone()))
     .app_data(web::Data::new(labrinth_config.analytics_queue.clone()))
-    .app_data(web::Data::new(labrinth_config.clickhouse.clone()))
     .app_data(web::Data::new(labrinth_config.maxmind.clone()))
     .app_data(labrinth_config.active_sockets.clone())
     .app_data(labrinth_config.automated_moderation_queue.clone())
@@ -466,11 +455,6 @@ pub fn check_env_vars() -> bool {
         );
         failed |= true;
     }
-
-    failed |= check_var::<String>("CLICKHOUSE_URL");
-    failed |= check_var::<String>("CLICKHOUSE_USER");
-    failed |= check_var::<String>("CLICKHOUSE_PASSWORD");
-    failed |= check_var::<String>("CLICKHOUSE_DATABASE");
 
     failed |= check_var::<String>("MAXMIND_LICENSE_KEY");
 

@@ -92,8 +92,6 @@ pub enum ApiError {
     Database(#[from] crate::database::models::DatabaseError),
     #[error("Database Error: {0}")]
     SqlxDatabase(#[from] sqlx::Error),
-    #[error("Clickhouse Error: {0}")]
-    Clickhouse(#[from] clickhouse::error::Error),
     #[error("Internal server error: {0}")]
     Xml(String),
     #[error("Deserialization error: {0}")]
@@ -164,7 +162,6 @@ impl ApiError {
                 ApiError::PasswordHashing(..) => "password_hashing_error",
                 ApiError::PasswordStrengthCheck(..) => "strength_check_error",
                 ApiError::Mail(..) => "mail_error",
-                ApiError::Clickhouse(..) => "clickhouse_error",
                 ApiError::Reroute(..) => "reroute_error",
                 ApiError::NotFound => "not_found",
                 ApiError::Zip(..) => "zip_error",
@@ -183,7 +180,6 @@ impl actix_web::ResponseError for ApiError {
             ApiError::Env(..) => StatusCode::INTERNAL_SERVER_ERROR,
             ApiError::Database(..) => StatusCode::INTERNAL_SERVER_ERROR,
             ApiError::SqlxDatabase(..) => StatusCode::INTERNAL_SERVER_ERROR,
-            ApiError::Clickhouse(..) => StatusCode::INTERNAL_SERVER_ERROR,
             ApiError::Authentication(..) => StatusCode::UNAUTHORIZED,
             ApiError::CustomAuthentication(..) => StatusCode::UNAUTHORIZED,
             ApiError::Xml(..) => StatusCode::INTERNAL_SERVER_ERROR,

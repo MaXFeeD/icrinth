@@ -2,12 +2,9 @@ use crate::models::payouts::{
     PayoutDecimal, PayoutInterval, PayoutMethod, PayoutMethodFee,
     PayoutMethodType,
 };
-use crate::models::projects::MonetizationStatus;
 use crate::routes::ApiError;
 use base64::Engine;
-use chrono::{DateTime, Datelike, Duration, TimeZone, Utc};
-use dashmap::DashMap;
-use futures::TryStreamExt;
+use chrono::{DateTime, Duration, Utc};
 use reqwest::Method;
 use rust_decimal::Decimal;
 use serde::de::DeserializeOwned;
@@ -731,304 +728,302 @@ pub async fn make_aditude_request(
     Ok(json)
 }
 
-pub async fn process_payout(
-    pool: &PgPool,
-    client: &clickhouse::Client,
-) -> Result<(), ApiError> {
-    let start: DateTime<Utc> = DateTime::from_naive_utc_and_offset(
-        (Utc::now() - Duration::days(1))
-            .date_naive()
-            .and_hms_nano_opt(0, 0, 0, 0)
-            .unwrap_or_default(),
-        Utc,
-    );
+// TODO: Rewrite without clickhouse analytics...
+pub async fn process_payout(pool: &PgPool) -> Result<(), ApiError> {
+    // let start: DateTime<Utc> = DateTime::from_naive_utc_and_offset(
+    //     (Utc::now() - Duration::days(1))
+    //         .date_naive()
+    //         .and_hms_nano_opt(0, 0, 0, 0)
+    //         .unwrap_or_default(),
+    //     Utc,
+    // );
 
-    let results = sqlx::query!(
-        "SELECT EXISTS(SELECT 1 FROM payouts_values WHERE created = $1)",
-        start,
-    )
-    .fetch_one(pool)
-    .await?;
+    // let results = sqlx::query!(
+    //     "SELECT EXISTS(SELECT 1 FROM payouts_values WHERE created = $1)",
+    //     start,
+    // )
+    // .fetch_one(pool)
+    // .await?;
 
-    if results.exists.unwrap_or(false) {
-        return Ok(());
-    }
+    // if results.exists.unwrap_or(false) {
+    //     return Ok(());
+    // }
 
-    let end = start + Duration::days(1);
-    #[derive(Deserialize, clickhouse::Row)]
-    struct ProjectMultiplier {
-        pub page_views: u64,
-        pub project_id: u64,
-    }
+    // let end = start + Duration::days(1);
+    // #[derive(Deserialize)]
+    // struct ProjectMultiplier {
+    //     pub page_views: u64,
+    //     pub project_id: u64,
+    // }
 
-    let (views_values, views_sum, downloads_values, downloads_sum) = futures::future::try_join4(
-        client
-            .query(
-                r#"
-                SELECT COUNT(1) page_views, project_id
-                FROM views
-                WHERE (recorded BETWEEN ? AND ?) AND (project_id != 0) AND (monetized = TRUE)
-                GROUP BY project_id
-                ORDER BY page_views DESC
-                "#,
-            )
-            .bind(start.timestamp())
-            .bind(end.timestamp())
-            .fetch_all::<ProjectMultiplier>(),
-        client
-            .query("SELECT COUNT(1) FROM views WHERE (recorded BETWEEN ? AND ?) AND (project_id != 0) AND (monetized = TRUE)")
-            .bind(start.timestamp())
-            .bind(end.timestamp())
-            .fetch_one::<u64>(),
-        client
-            .query(
-                r#"
-                SELECT COUNT(1) page_views, project_id
-                FROM downloads
-                WHERE (recorded BETWEEN ? AND ?) AND (user_id != 0)
-                GROUP BY project_id
-                ORDER BY page_views DESC
-                "#,
-            )
-            .bind(start.timestamp())
-            .bind(end.timestamp())
-            .fetch_all::<ProjectMultiplier>(),
-        client
-            .query("SELECT COUNT(1) FROM downloads WHERE (recorded BETWEEN ? AND ?) AND (user_id != 0)")
-            .bind(start.timestamp())
-            .bind(end.timestamp())
-            .fetch_one::<u64>(),
-    )
-        .await?;
+    // let (views_values, views_sum, downloads_values, downloads_sum) = futures::future::try_join4(
+    //     client
+    //         .query(
+    //             r#"
+    //             SELECT COUNT(1) page_views, project_id
+    //             FROM views
+    //             WHERE (recorded BETWEEN ? AND ?) AND (project_id != 0) AND (monetized = TRUE)
+    //             GROUP BY project_id
+    //             ORDER BY page_views DESC
+    //             "#,
+    //         )
+    //         .bind(start.timestamp())
+    //         .bind(end.timestamp())
+    //         .fetch_all::<ProjectMultiplier>(),
+    //     client
+    //         .query("SELECT COUNT(1) FROM views WHERE (recorded BETWEEN ? AND ?) AND (project_id != 0) AND (monetized = TRUE)")
+    //         .bind(start.timestamp())
+    //         .bind(end.timestamp())
+    //         .fetch_one::<u64>(),
+    //     client
+    //         .query(
+    //             r#"
+    //             SELECT COUNT(1) page_views, project_id
+    //             FROM downloads
+    //             WHERE (recorded BETWEEN ? AND ?) AND (user_id != 0)
+    //             GROUP BY project_id
+    //             ORDER BY page_views DESC
+    //             "#,
+    //         )
+    //         .bind(start.timestamp())
+    //         .bind(end.timestamp())
+    //         .fetch_all::<ProjectMultiplier>(),
+    //     client
+    //         .query("SELECT COUNT(1) FROM downloads WHERE (recorded BETWEEN ? AND ?) AND (user_id != 0)")
+    //         .bind(start.timestamp())
+    //         .bind(end.timestamp())
+    //         .fetch_one::<u64>(),
+    // )
+    //     .await?;
 
-    let mut transaction = pool.begin().await?;
+    // let mut transaction = pool.begin().await?;
 
-    struct PayoutMultipliers {
-        sum: u64,
-        values: HashMap<u64, u64>,
-    }
+    // struct PayoutMultipliers {
+    //     sum: u64,
+    //     values: HashMap<u64, u64>,
+    // }
 
-    let mut views_values = views_values
-        .into_iter()
-        .map(|x| (x.project_id, x.page_views))
-        .collect::<HashMap<u64, u64>>();
-    let downloads_values = downloads_values
-        .into_iter()
-        .map(|x| (x.project_id, x.page_views))
-        .collect::<HashMap<u64, u64>>();
+    // let mut views_values = views_values
+    //     .into_iter()
+    //     .map(|x| (x.project_id, x.page_views))
+    //     .collect::<HashMap<u64, u64>>();
+    // let downloads_values = downloads_values
+    //     .into_iter()
+    //     .map(|x| (x.project_id, x.page_views))
+    //     .collect::<HashMap<u64, u64>>();
 
-    for (key, value) in downloads_values.iter() {
-        let counter = views_values.entry(*key).or_insert(0);
-        *counter += *value;
-    }
+    // for (key, value) in downloads_values.iter() {
+    //     let counter = views_values.entry(*key).or_insert(0);
+    //     *counter += *value;
+    // }
 
-    let multipliers: PayoutMultipliers = PayoutMultipliers {
-        sum: downloads_sum + views_sum,
-        values: views_values,
-    };
+    // let multipliers: PayoutMultipliers = PayoutMultipliers {
+    //     sum: downloads_sum + views_sum,
+    //     values: views_values,
+    // };
 
-    struct Project {
-        // user_id, payouts_split
-        team_members: Vec<(i64, Decimal)>,
-    }
+    // struct Project {
+    //     // user_id, payouts_split
+    //     team_members: Vec<(i64, Decimal)>,
+    // }
 
-    let mut projects_map: HashMap<i64, Project> = HashMap::new();
+    // let mut projects_map: HashMap<i64, Project> = HashMap::new();
 
-    let project_ids = multipliers
-        .values
-        .keys()
-        .map(|x| *x as i64)
-        .collect::<Vec<i64>>();
+    // let project_ids = multipliers
+    //     .values
+    //     .keys()
+    //     .map(|x| *x as i64)
+    //     .collect::<Vec<i64>>();
 
-    let project_org_members = sqlx::query!(
-        "
-        SELECT m.id id, tm.user_id user_id, tm.payouts_split payouts_split
-        FROM mods m
-        INNER JOIN organizations o ON m.organization_id = o.id
-        INNER JOIN team_members tm on o.team_id = tm.team_id AND tm.accepted = TRUE
-        WHERE m.id = ANY($1) AND m.monetization_status = $2 AND m.status = ANY($3) AND m.organization_id IS NOT NULL
-        ",
-        &project_ids,
-        MonetizationStatus::Monetized.as_str(),
-        &*crate::models::projects::ProjectStatus::iterator()
-            .filter(|x| !x.is_hidden())
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-    )
-    .fetch(&mut *transaction)
-    .try_fold(DashMap::new(), |acc: DashMap<i64, HashMap<i64, Decimal>>, r| {
-        acc.entry(r.id)
-            .or_default()
-            .insert(r.user_id, r.payouts_split);
-        async move { Ok(acc) }
-    })
-    .await?;
+    // let project_org_members = sqlx::query!(
+    //     "
+    //     SELECT m.id id, tm.user_id user_id, tm.payouts_split payouts_split
+    //     FROM mods m
+    //     INNER JOIN organizations o ON m.organization_id = o.id
+    //     INNER JOIN team_members tm on o.team_id = tm.team_id AND tm.accepted = TRUE
+    //     WHERE m.id = ANY($1) AND m.monetization_status = $2 AND m.status = ANY($3) AND m.organization_id IS NOT NULL
+    //     ",
+    //     &project_ids,
+    //     MonetizationStatus::Monetized.as_str(),
+    //     &*crate::models::projects::ProjectStatus::iterator()
+    //         .filter(|x| !x.is_hidden())
+    //         .map(|x| x.to_string())
+    //         .collect::<Vec<String>>(),
+    // )
+    // .fetch(&mut *transaction)
+    // .try_fold(DashMap::new(), |acc: DashMap<i64, HashMap<i64, Decimal>>, r| {
+    //     acc.entry(r.id)
+    //         .or_default()
+    //         .insert(r.user_id, r.payouts_split);
+    //     async move { Ok(acc) }
+    // })
+    // .await?;
 
-    let project_team_members = sqlx::query!(
-        "
-        SELECT m.id id, tm.user_id user_id, tm.payouts_split payouts_split
-        FROM mods m
-        INNER JOIN team_members tm on m.team_id = tm.team_id AND tm.accepted = TRUE
-        WHERE m.id = ANY($1) AND m.monetization_status = $2 AND m.status = ANY($3)
-        ",
-        &project_ids,
-        MonetizationStatus::Monetized.as_str(),
-        &*crate::models::projects::ProjectStatus::iterator()
-            .filter(|x| !x.is_hidden())
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-    )
-    .fetch(&mut *transaction)
-    .try_fold(
-        DashMap::new(),
-        |acc: DashMap<i64, HashMap<i64, Decimal>>, r| {
-            acc.entry(r.id)
-                .or_default()
-                .insert(r.user_id, r.payouts_split);
-            async move { Ok(acc) }
-        },
-    )
-    .await?;
+    // let project_team_members = sqlx::query!(
+    //     "
+    //     SELECT m.id id, tm.user_id user_id, tm.payouts_split payouts_split
+    //     FROM mods m
+    //     INNER JOIN team_members tm on m.team_id = tm.team_id AND tm.accepted = TRUE
+    //     WHERE m.id = ANY($1) AND m.monetization_status = $2 AND m.status = ANY($3)
+    //     ",
+    //     &project_ids,
+    //     MonetizationStatus::Monetized.as_str(),
+    //     &*crate::models::projects::ProjectStatus::iterator()
+    //         .filter(|x| !x.is_hidden())
+    //         .map(|x| x.to_string())
+    //         .collect::<Vec<String>>(),
+    // )
+    // .fetch(&mut *transaction)
+    // .try_fold(
+    //     DashMap::new(),
+    //     |acc: DashMap<i64, HashMap<i64, Decimal>>, r| {
+    //         acc.entry(r.id)
+    //             .or_default()
+    //             .insert(r.user_id, r.payouts_split);
+    //         async move { Ok(acc) }
+    //     },
+    // )
+    // .await?;
 
-    for project_id in project_ids {
-        let team_members: HashMap<i64, Decimal> = project_team_members
-            .remove(&project_id)
-            .unwrap_or((0, HashMap::new()))
-            .1;
-        let org_team_members: HashMap<i64, Decimal> = project_org_members
-            .remove(&project_id)
-            .unwrap_or((0, HashMap::new()))
-            .1;
+    // for project_id in project_ids {
+    //     let team_members: HashMap<i64, Decimal> = project_team_members
+    //         .remove(&project_id)
+    //         .unwrap_or((0, HashMap::new()))
+    //         .1;
+    //     let org_team_members: HashMap<i64, Decimal> = project_org_members
+    //         .remove(&project_id)
+    //         .unwrap_or((0, HashMap::new()))
+    //         .1;
 
-        let mut all_team_members = vec![];
+    //     let mut all_team_members = vec![];
 
-        for (user_id, payouts_split) in org_team_members {
-            if !team_members.contains_key(&user_id) {
-                all_team_members.push((user_id, payouts_split));
-            }
-        }
-        for (user_id, payouts_split) in team_members {
-            all_team_members.push((user_id, payouts_split));
-        }
+    //     for (user_id, payouts_split) in org_team_members {
+    //         if !team_members.contains_key(&user_id) {
+    //             all_team_members.push((user_id, payouts_split));
+    //         }
+    //     }
+    //     for (user_id, payouts_split) in team_members {
+    //         all_team_members.push((user_id, payouts_split));
+    //     }
 
-        // if all team members are set to zero, we treat as an equal revenue distribution
-        if all_team_members.iter().all(|x| x.1 == Decimal::ZERO) {
-            all_team_members
-                .iter_mut()
-                .for_each(|x| x.1 = Decimal::from(1));
-        }
+    //     // if all team members are set to zero, we treat as an equal revenue distribution
+    //     if all_team_members.iter().all(|x| x.1 == Decimal::ZERO) {
+    //         all_team_members
+    //             .iter_mut()
+    //             .for_each(|x| x.1 = Decimal::from(1));
+    //     }
 
-        projects_map.insert(
-            project_id,
-            Project {
-                team_members: all_team_members,
-            },
-        );
-    }
+    //     projects_map.insert(
+    //         project_id,
+    //         Project {
+    //             team_members: all_team_members,
+    //         },
+    //     );
+    // }
 
-    let aditude_res = make_aditude_request(
-        &["METRIC_IMPRESSIONS", "METRIC_REVENUE"],
-        "Yesterday",
-        "1d",
-    )
-    .await?;
+    // let aditude_res = make_aditude_request(
+    //     &["METRIC_IMPRESSIONS", "METRIC_REVENUE"],
+    //     "Yesterday",
+    //     "1d",
+    // )
+    // .await?;
 
-    let aditude_amount: Decimal = aditude_res
-        .iter()
-        .map(|x| {
-            x.points_list
-                .iter()
-                .filter_map(|x| x.metric.revenue)
-                .sum::<Decimal>()
-        })
-        .sum();
-    let aditude_impressions: u128 = aditude_res
-        .iter()
-        .map(|x| {
-            x.points_list
-                .iter()
-                .filter_map(|x| x.metric.impressions)
-                .sum::<u128>()
-        })
-        .sum();
+    // let aditude_amount: Decimal = aditude_res
+    //     .iter()
+    //     .map(|x| {
+    //         x.points_list
+    //             .iter()
+    //             .filter_map(|x| x.metric.revenue)
+    //             .sum::<Decimal>()
+    //     })
+    //     .sum();
+    // let aditude_impressions: u128 = aditude_res
+    //     .iter()
+    //     .map(|x| {
+    //         x.points_list
+    //             .iter()
+    //             .filter_map(|x| x.metric.impressions)
+    //             .sum::<u128>()
+    //     })
+    //     .sum();
 
-    // Inner Core Mods share of ad revenue
-    let icmods_cut = Decimal::from(1) / Decimal::from(4);
-    // Clean.io fee (ad antimalware). Per 1000 impressions. 0.008 CPM
-    let clean_io_fee = Decimal::from(8) / Decimal::from(1000);
-    // Google Ad Manager fee. Per 1000 impressions. 0.015400 CPM
-    let gam_fee = Decimal::from(154) / Decimal::from(10000);
+    // // Inner Core Mods share of ad revenue
+    // let icmods_cut = Decimal::from(1) / Decimal::from(4);
+    // // Clean.io fee (ad antimalware). Per 1000 impressions. 0.008 CPM
+    // let clean_io_fee = Decimal::from(8) / Decimal::from(1000);
+    // // Google Ad Manager fee. Per 1000 impressions. 0.015400 CPM
+    // let gam_fee = Decimal::from(154) / Decimal::from(10000);
 
-    let net_revenue = aditude_amount
-        - ((clean_io_fee + gam_fee) * Decimal::from(aditude_impressions)
-            / Decimal::from(1000));
+    // let net_revenue = aditude_amount
+    //     - ((clean_io_fee + gam_fee) * Decimal::from(aditude_impressions)
+    //         / Decimal::from(1000));
 
-    let payout = net_revenue * (Decimal::from(1) - icmods_cut);
+    // let payout = net_revenue * (Decimal::from(1) - icmods_cut);
 
-    // Ad payouts are Net 60 from the end of the month
-    let available = {
-        let now = Utc::now().date_naive();
+    // // Ad payouts are Net 60 from the end of the month
+    // let available = {
+    //     let now = Utc::now().date_naive();
 
-        let year = now.year();
-        let month = now.month();
+    //     let year = now.year();
+    //     let month = now.month();
 
-        // Get the first day of the next month
-        let last_day_of_month = if month == 12 {
-            Utc.with_ymd_and_hms(year + 1, 1, 1, 0, 0, 0).unwrap()
-        } else {
-            Utc.with_ymd_and_hms(year, month + 1, 1, 0, 0, 0).unwrap()
-        };
+    //     // Get the first day of the next month
+    //     let last_day_of_month = if month == 12 {
+    //         Utc.with_ymd_and_hms(year + 1, 1, 1, 0, 0, 0).unwrap()
+    //     } else {
+    //         Utc.with_ymd_and_hms(year, month + 1, 1, 0, 0, 0).unwrap()
+    //     };
 
-        last_day_of_month + Duration::days(59)
-    };
+    //     last_day_of_month + Duration::days(59)
+    // };
 
-    let (
-        mut insert_user_ids,
-        mut insert_project_ids,
-        mut insert_payouts,
-        mut insert_starts,
-        mut insert_availables,
-    ) = (Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new());
-    for (id, project) in projects_map {
-        if let Some(value) = &multipliers.values.get(&(id as u64)) {
-            let project_multiplier: Decimal =
-                Decimal::from(**value) / Decimal::from(multipliers.sum);
+    // let (
+    //     mut insert_user_ids,
+    //     mut insert_project_ids,
+    //     mut insert_payouts,
+    //     mut insert_starts,
+    //     mut insert_availables,
+    // ) = (Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new());
+    // for (id, project) in projects_map {
+    //     if let Some(value) = &multipliers.values.get(&(id as u64)) {
+    //         let project_multiplier: Decimal =
+    //             Decimal::from(**value) / Decimal::from(multipliers.sum);
 
-            let sum_splits: Decimal =
-                project.team_members.iter().map(|x| x.1).sum();
+    //         let sum_splits: Decimal =
+    //             project.team_members.iter().map(|x| x.1).sum();
 
-            if sum_splits > Decimal::ZERO {
-                for (user_id, split) in project.team_members {
-                    let payout: Decimal =
-                        payout * project_multiplier * (split / sum_splits);
+    //         if sum_splits > Decimal::ZERO {
+    //             for (user_id, split) in project.team_members {
+    //                 let payout: Decimal =
+    //                     payout * project_multiplier * (split / sum_splits);
 
-                    if payout > Decimal::ZERO {
-                        insert_user_ids.push(user_id);
-                        insert_project_ids.push(id);
-                        insert_payouts.push(payout);
-                        insert_starts.push(start);
-                        insert_availables.push(available);
-                    }
-                }
-            }
-        }
-    }
+    //                 if payout > Decimal::ZERO {
+    //                     insert_user_ids.push(user_id);
+    //                     insert_project_ids.push(id);
+    //                     insert_payouts.push(payout);
+    //                     insert_starts.push(start);
+    //                     insert_availables.push(available);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-    sqlx::query!(
-        "
-        INSERT INTO payouts_values (user_id, mod_id, amount, created, date_available)
-        SELECT * FROM UNNEST ($1::bigint[], $2::bigint[], $3::numeric[], $4::timestamptz[], $5::timestamptz[])
-        ",
-        &insert_user_ids[..],
-        &insert_project_ids[..],
-        &insert_payouts[..],
-        &insert_starts[..],
-        &insert_availables[..]
-    )
-    .execute(&mut *transaction)
-    .await?;
+    // sqlx::query!(
+    //     "
+    //     INSERT INTO payouts_values (user_id, mod_id, amount, created, date_available)
+    //     SELECT * FROM UNNEST ($1::bigint[], $2::bigint[], $3::numeric[], $4::timestamptz[], $5::timestamptz[])
+    //     ",
+    //     &insert_user_ids[..],
+    //     &insert_project_ids[..],
+    //     &insert_payouts[..],
+    //     &insert_starts[..],
+    //     &insert_availables[..]
+    // )
+    // .execute(&mut *transaction)
+    // .await?;
 
-    transaction.commit().await?;
+    // transaction.commit().await?;
 
     Ok(())
 }

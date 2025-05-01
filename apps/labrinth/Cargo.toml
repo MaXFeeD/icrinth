@@ -90,7 +90,6 @@ rust_decimal = { version = "1.33.1", features = [
 ] }
 redis = { version = "0.27.5", features = ["tokio-comp", "ahash", "r2d2"] }
 deadpool-redis = "0.18.0"
-clickhouse = { version = "0.11.2", features = ["uuid", "time"] }
 uuid = { version = "1.2.2", features = ["v4", "fast-rng", "serde"] }
 
 maxminddb = "0.24.0"
