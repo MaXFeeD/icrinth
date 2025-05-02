@@ -227,9 +227,8 @@ pub fn app_setup(
 
             async move {
                 info!("Indexing analytics queue");
-                let result = analytics_queue_ref
-                    .index(&redis_ref, &pool_ref)
-                    .await;
+                let result =
+                    analytics_queue_ref.index(&redis_ref, &pool_ref).await;
                 if let Err(e) = result {
                     warn!("Indexing analytics queue failed: {:?}", e);
                 }
@@ -399,7 +398,6 @@ pub fn check_env_vars() -> bool {
     }
 
     failed |= check_var::<usize>("LOCAL_INDEX_INTERVAL");
-    failed |= check_var::<usize>("VERSION_INDEX_INTERVAL");
 
     if parse_strings_from_var("WHITELISTED_MODPACK_DOMAINS").is_none() {
         warn!("Variable `WHITELISTED_MODPACK_DOMAINS` missing in dotenv or not a json array of strings");

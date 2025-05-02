@@ -1,4 +1,4 @@
-FROM rust:1.84.0 as build
+FROM rust:1.84.0 AS build
 ENV PKG_CONFIG_ALLOW_CROSS=1
 
 WORKDIR /usr/src/labrinth
@@ -13,9 +13,9 @@ LABEL org.opencontainers.image.description="Modrinth API"
 LABEL org.opencontainers.image.licenses=AGPL-3.0
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates openssl \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+	&& apt-get install -y --no-install-recommends ca-certificates openssl \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN update-ca-certificates
 

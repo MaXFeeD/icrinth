@@ -7,7 +7,7 @@ on:
 
 jobs:
   wait:
-    if: github.repository_owner == 'icmods'
+    if: github.repository_owner == 'zoteteam'
     runs-on: ubuntu-latest
     permissions:
       contents: read
