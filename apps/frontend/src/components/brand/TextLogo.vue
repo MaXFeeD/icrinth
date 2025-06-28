@@ -93,9 +93,9 @@ const config = useRuntimeConfig();
 
 const api = computed(() => {
   const apiUrl = config.public.apiBaseUrl;
-  if (apiUrl.startsWith("https://api.modrinth.com")) {
+  if (apiUrl.startsWith("https://api.inner-core.org")) {
     return "prod";
-  } else if (apiUrl.startsWith("https://staging-api.modrinth.com")) {
+  } else if (apiUrl.startsWith("https://inner-core.org/api")) {
     return "staging";
   } else if (apiUrl.includes("localhost") || apiUrl.includes("127.0.0.1")) {
     return "localhost";

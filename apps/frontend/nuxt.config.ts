@@ -8,7 +8,7 @@ import { globIterate } from "glob";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import { consola } from "consola";
 
-const STAGING_API_URL = "https://staging-api.modrinth.com/v2/";
+const STAGING_API_URL = "https://inner-core.org/api/v2/";
 
 const preloadedFonts = [
   "inter/Inter-Regular.woff2",
@@ -213,7 +213,7 @@ export default defineNuxtConfig({
     async "vintl:extendOptions"(opts) {
       opts.locales ??= [];
 
-      const isProduction = getDomain() === "https://modrinth.com";
+      const isProduction = getDomain() === "https://inner-core.org";
 
       const resolveCompactNumberDataImport = await (async () => {
         const compactNumberLocales: string[] = [];
@@ -454,10 +454,10 @@ function getDomain() {
       return `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`;
     } else if (process.env.VERCEL_URL) {
       return `https://${process.env.VERCEL_URL}`;
-    } else if (getApiUrl() === STAGING_API_URL) {
-      return "https://staging.modrinth.com";
+      // } else if (getApiUrl() === STAGING_API_URL) {
+      // return "https://inner-core.org";
     } else {
-      return "https://modrinth.com";
+      return "https://inner-core.org";
     }
   } else {
     const port = process.env.PORT || 3000;

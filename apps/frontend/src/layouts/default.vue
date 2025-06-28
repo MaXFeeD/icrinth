@@ -41,7 +41,7 @@
     </div>
     <div
       v-if="
-        config.public.apiBaseUrl.startsWith('https://staging-api.modrinth.com') &&
+        config.public.apiBaseUrl.startsWith('https://inner-core.org/api') &&
         !cosmetics.hideStagingBanner
       "
       class="site-banner site-banner--warning [&>*]:z-[6]"

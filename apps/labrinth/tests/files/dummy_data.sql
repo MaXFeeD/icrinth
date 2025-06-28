@@ -4,11 +4,11 @@
 -- Inserts 5 dummy users for testing, with slight differences
 -- 'Friend' and 'enemy' function like 'user', but we can use them to simulate 'other' users that may or may not be able to access certain things
 -- IDs 1-5, 1-5
-INSERT INTO users (id, username, email, role) VALUES (1, 'Admin', 'admin@modrinth.com', 'admin');
-INSERT INTO users (id, username, email, role) VALUES (2, 'Moderator', 'moderator@modrinth.com', 'moderator');
-INSERT INTO users (id, username, email, role) VALUES (3, 'User', 'user@modrinth.com', 'developer');
-INSERT INTO users (id, username, email, role) VALUES (4, 'Friend', 'friend@modrinth.com', 'developer');
-INSERT INTO users (id, username, email, role) VALUES (5, 'Enemy', 'enemy@modrinth.com', 'developer');
+INSERT INTO users (id, username, email, role) VALUES (1, 'Admin', 'admin@inner-core.org', 'admin');
+INSERT INTO users (id, username, email, role) VALUES (2, 'Moderator', 'moderator@inner-core.org', 'moderator');
+INSERT INTO users (id, username, email, role) VALUES (3, 'User', 'user@inner-core.org', 'developer');
+INSERT INTO users (id, username, email, role) VALUES (4, 'Friend', 'friend@inner-core.org', 'developer');
+INSERT INTO users (id, username, email, role) VALUES (5, 'Enemy', 'enemy@inner-core.org', 'developer');
 
 -- Full PATs for each user, with different scopes
 -- These are not legal PATs, as they contain all scopes- they mimic permissions of a logged in user
@@ -105,7 +105,7 @@ VALUES (
         '4dbff86cc2ca1bae1e16468a05cb9881c97f1753bce3619034898faa1aabe429955a1bf8ec483d7421fe3c1646613a59ed5441fb0f321389f77f48a879c7b1f1',
         3
     );
-INSERT INTO oauth_client_redirect_uris (id, client_id, uri) VALUES (1, 1, 'https://modrinth.com/oauth_callback');
+INSERT INTO oauth_client_redirect_uris (id, client_id, uri) VALUES (1, 1, 'https://inner-core.org/oauth_callback');
 
 -- Create dummy data table to mark that this file has been run
 CREATE TABLE dummy_data ( 

@@ -76,7 +76,7 @@
 </template>
 <script setup lang="ts">
 import { ClientIcon, MonitorSmartphoneIcon, ServerIcon, UserIcon } from '@icmods/assets'
-import { formatCategory, getVersionsToDisplay } from '@icmods/utils'
+import { getVersionsToDisplay } from '@icmods/utils'
 import type { GameVersionTag, PlatformTag } from '@icmods/utils'
 import { useVIntl, defineMessages } from '@vintl/vintl'
 import { useRouter } from 'vue-router'

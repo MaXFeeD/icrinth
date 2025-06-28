@@ -26,7 +26,7 @@
           </span>
         </label>
         <div class="text-input-wrapper">
-          <div class="text-input-wrapper__before">https://modrinth.com/project/</div>
+          <div class="text-input-wrapper__before">https://inner-core.org/project/</div>
           <input
             id="slug"
             v-model="slug"

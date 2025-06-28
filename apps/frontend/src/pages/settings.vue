@@ -98,5 +98,5 @@ const { formatMessage } = useVIntl();
 
 const route = useNativeRoute();
 const auth = await useAuth();
-const isStaging = useRuntimeConfig().public.siteUrl !== "https://modrinth.com";
+const isStaging = useRuntimeConfig().public.siteUrl !== "https://inner-core.org";
 </script>

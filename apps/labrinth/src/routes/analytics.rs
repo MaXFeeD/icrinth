@@ -71,8 +71,8 @@ pub async fn page_view_ingest(
 
     let allowed_origins =
         parse_strings_from_var("CORS_ALLOWED_ORIGINS").unwrap_or_default();
-    if !(domain.ends_with(".modrinth.com")
-        || domain == "modrinth.com"
+    if !(domain.ends_with(".inner-core.org")
+        || domain == "inner-core.org"
         || allowed_origins.contains(&"*".to_string()))
     {
         return Err(ApiError::InvalidInput(
@@ -120,10 +120,7 @@ pub async fn page_view_ingest(
         let segments_vec = segments.collect::<Vec<_>>();
 
         if segments_vec.len() >= 2 {
-            const PROJECT_TYPES: &[&str] = &[
-                "mod",
-                "modpack",
-            ];
+            const PROJECT_TYPES: &[&str] = &["mod", "modpack"];
 
             if PROJECT_TYPES.contains(&segments_vec[0]) {
                 let project = crate::database::models::Project::get(

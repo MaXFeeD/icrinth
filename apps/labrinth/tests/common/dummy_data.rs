@@ -71,9 +71,9 @@ impl TestFile {
               "user"
             ],
             "contact": {
-              "homepage": "https://www.modrinth.com",
-              "sources": "https://www.modrinth.com",
-              "issues": "https://www.modrinth.com"
+              "homepage": "https://www.inner-core.org",
+              "sources": "https://www.inner-core.org",
+              "issues": "https://www.inner-core.org"
             },
 
             "license": "MIT",

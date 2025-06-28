@@ -239,7 +239,7 @@ pub async fn delphi_result_ingest(
     .await
     .ok();
 
-    let mut thread_header = format!("Suspicious traces found at [version {}](https://modrinth.com/project/{}/version/{})", body.version_id, body.project_id, body.version_id);
+    let mut thread_header = format!("Suspicious traces found at [version {}](https://inner-core.org/project/{}/version/{})", body.version_id, body.project_id, body.version_id);
 
     for (issue, trace) in &body.issues {
         for path in trace.keys() {
