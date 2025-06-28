@@ -1,5 +1,16 @@
 import MarkdownIt from 'markdown-it'
-import { escapeAttrValue, FilterXSS, safeAttrValue, whiteList } from 'xss'
+import xss from 'xss'
+import type {
+  FilterXSS as FilterXSSType,
+  whiteList as whiteListType,
+  escapeAttrValue as escapeAttrValueType,
+  safeAttrValue as safeAttrValueType,
+} from 'xss'
+
+const FilterXSS = (xss as any).FilterXSS as typeof FilterXSSType
+const whiteList = (xss as any).whiteList as typeof whiteListType
+const escapeAttrValue = (xss as any).escapeAttrValue as typeof escapeAttrValueType
+const safeAttrValue = (xss as any).safeAttrValue as typeof safeAttrValueType
 
 export const configuredXss = new FilterXSS({
   whiteList: {
