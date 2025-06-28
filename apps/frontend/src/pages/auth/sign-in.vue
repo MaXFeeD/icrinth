@@ -25,7 +25,8 @@
     <template v-else>
       <h1>{{ formatMessage(messages.signInWithLabel) }}</h1>
 
-      <section class="third-party">
+      <!-- TODO: Redo third party integrations, probably. -->
+      <!-- section class="third-party">
         <a class="btn" :href="getAuthUrl('discord', redirectTarget)">
           <SSODiscordIcon />
           <span>Discord</span>
@@ -52,7 +53,7 @@
         </a>
       </section>
 
-      <h1>{{ formatMessage(messages.usePasswordLabel) }}</h1>
+      <h1>{{ formatMessage(messages.usePasswordLabel) }}</h1 -->
 
       <section class="auth-form">
         <div class="iconified-input">
