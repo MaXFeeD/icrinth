@@ -57,7 +57,10 @@
         </div>
       </div>
       <div class="projects-transition" />
-      <div class="users-section">
+      <!-- TODO: Possibly reimplement it for icmods, IDK. -->
+      <div class="creator-section" />
+      <div class="creator-section" />
+      <!-- div class="users-section">
         <div class="section-header">
           <div class="section-label players">For Players</div>
           <h2 class="section-tagline">Discover hundreds of creations</h2>
@@ -184,9 +187,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="creator-section">
-      <div class="section-header">
+      </div>
+      <div class="creator-section">
+        <div class="section-header">
         <div class="section-label creators">For Creators</div>
         <h2 class="section-tagline">Share your content with the world</h2>
         <p class="section-description">
@@ -247,7 +250,7 @@
           <h3>Team Management</h3>
           <p>Invite your teammates and manage roles and permissions with ease</p>
         </div>
-        <!-- div class="feature gradient-border">
+        <div class="feature gradient-border">
           <div class="icon gradient-border">
             <svg viewBox="0 0 42 30" fill="none">
               <path
@@ -271,7 +274,7 @@
           </div>
           <h3>Monetization</h3>
           <p>Get paid ad revenue from your project pages and withdraw your funds at any time</p>
-        </div -->
+        </div>
         <div class="feature gradient-border">
           <div class="icon gradient-border">
             <svg viewBox="0 0 39 39" fill="none">
@@ -324,7 +327,7 @@
             Get the best modding experience possible with constant updates from the Horizon team
           </p>
         </div>
-      </div>
+      </div -->
     </div>
   </div>
 </template>
