@@ -51,10 +51,7 @@ onUnmounted(() => clearInterval(interval));
   <div class="card">
     <h1>{{ formatMessage(messages.amogusTitle) }}</h1>
     <p>{{ formatMessage(messages.amogusDescription) }}</p>
-    <img
-      src="http://localhost:3000/_nuxt/assets/images/amogus.png"
-      :alt="formatMessage(messages.amogusAltText)"
-    />
+    <img src="https://cdn.inner-core.org/amogus.png" :alt="formatMessage(messages.amogusAltText)" />
     <p>{{ formatMessage(messages.amogusSinceOpened, { ago: formattedOpenedCounter }) }}</p>
     <p>{{ formatMessage(messages.amogusSeenPeople, { count: peopleSeenCount }) }}</p>
   </div>
