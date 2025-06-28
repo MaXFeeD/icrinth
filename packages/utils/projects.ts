@@ -43,9 +43,7 @@ export type GameVersionTag = {
   major: boolean
 }
 
-export type DisplayProjectType =
-  | 'mod'
-  | 'modpack'
+export type DisplayProjectType = 'mod' | 'modpack'
 
 export type PlatformTag = {
   icon: string
@@ -139,7 +137,7 @@ export function formatVersionsForDisplay(
   return output
 }
 
-const mcVersionRegex = /^([0-9]+.[0-9]+)(.[0-9]+)?$/
+const mcVersionRegex = /^([0-9]+.[0-9]+)(.[0-9]+)?(.+)?$/
 
 type VersionRange = {
   major: string
@@ -159,10 +157,16 @@ function groupVersions(versions: string[], consecutive = false) {
         const minorNumeric = minorVersion ? parseInt(minorVersion.replace('.', '')) : 0
 
         const prevInRange = ranges.find(
-          (x) => x.major === majorVersion && (!consecutive || x.minor.at(-1) === minorNumeric - 1),
+          (x) =>
+            x.major === majorVersion &&
+            (!consecutive ||
+              x.minor.at(-1) === minorNumeric ||
+              x.minor.at(-1) === minorNumeric - 1),
         )
         if (prevInRange) {
-          prevInRange.minor.push(minorNumeric)
+          if (!prevInRange.minor.includes(minorNumeric)) {
+            prevInRange.minor.push(minorNumeric)
+          }
           return ranges
         }
 
