@@ -161,7 +161,7 @@ export function formatVersionsForDisplay(gameVersions, overrideTags) {
   return output;
 }
 
-const mcVersionRegex = /^([0-9]+.[0-9]+)(.[0-9]+)?(.+)?$/;
+const mcVersionRegex = /^([0-9]+.[0-9]+)(.[0-9]+)?$/;
 
 function groupVersions(versions, consecutive = false) {
   return versions
