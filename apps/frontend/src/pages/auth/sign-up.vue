@@ -2,7 +2,8 @@
   <div>
     <h1>{{ formatMessage(messages.signUpWithTitle) }}</h1>
 
-    <section class="third-party">
+    <!-- TODO: Redo third party integrations, probably. -->
+    <!-- section class="third-party">
       <a class="btn discord-btn" :href="getAuthUrl('discord', redirectTarget)">
         <SSODiscordIcon />
         <span>Discord</span>
@@ -29,7 +30,7 @@
       </a>
     </section>
 
-    <h1>{{ formatMessage(messages.createAccountTitle) }}</h1>
+    <h1>{{ formatMessage(messages.createAccountTitle) }}</h1 -->
 
     <section class="auth-form">
       <div class="iconified-input">
