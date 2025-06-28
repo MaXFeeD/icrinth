@@ -58,8 +58,7 @@
       </div>
       <div class="projects-transition" />
       <!-- TODO: Possibly reimplement it for icmods, IDK. -->
-      <div class="creator-section" />
-      <div class="creator-section" />
+      <div class="users-section" />
       <!-- div class="users-section">
         <div class="section-header">
           <div class="section-label players">For Players</div>
