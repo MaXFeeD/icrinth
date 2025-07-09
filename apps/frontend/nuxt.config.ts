@@ -8,7 +8,7 @@ import { globIterate } from "glob";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import { consola } from "consola";
 
-const STAGING_API_URL = "https://inner-core.org/api/v2/";
+const STAGING_API_URL = "https://api.inner-core.org/v2/";
 
 const preloadedFonts = [
   "inter/Inter-Regular.woff2",
@@ -454,8 +454,8 @@ function getDomain() {
       return `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`;
     } else if (process.env.VERCEL_URL) {
       return `https://${process.env.VERCEL_URL}`;
-      // } else if (getApiUrl() === STAGING_API_URL) {
-      // return "https://inner-core.org";
+    } else if (getApiUrl() === STAGING_API_URL) {
+      return "https://staging.inner-core.org";
     } else {
       return "https://inner-core.org";
     }
