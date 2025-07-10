@@ -24,7 +24,7 @@ pub fn send_email_raw(
     let email = Message::builder()
         .from(Mailbox::new(
             Some("Inner Core Mods".to_string()),
-            Address::new("no-reply", "mail.modrinth.com")?,
+            Address::new("no-reply", "inner-core.org")?,
         ))
         .to(to.parse()?)
         .subject(subject)
