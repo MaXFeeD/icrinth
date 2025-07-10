@@ -71,5 +71,6 @@ img {
   margin-block: 0 1.5rem;
   width: 60%;
   max-width: 40rem;
+  image-rendering: pixelated;
 }
 </style>
