@@ -20,7 +20,6 @@ import {
 } from '@icmods/assets'
 import { Avatar, Button, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
 import { useLoading, useTheming } from '@/store/state'
-import ModrinthAppLogo from '@/assets/modrinth_app.svg?component'
 import AccountsCard from '@/components/ui/AccountsCard.vue'
 import InstanceCreationModal from '@/components/ui/InstanceCreationModal.vue'
 import { get } from '@/helpers/settings'
@@ -39,7 +38,6 @@ import { getVersion } from '@tauri-apps/api/app'
 import URLConfirmModal from '@/components/ui/URLConfirmModal.vue'
 import { create_profile_and_install_from_file } from './helpers/pack'
 import { useError } from '@/store/error.js'
-import { useCheckDisableMouseover } from '@/composables/macCssFix.js'
 import ModInstallModal from '@/components/ui/install_flow/ModInstallModal.vue'
 import IncompatibilityWarningModal from '@/components/ui/install_flow/IncompatibilityWarningModal.vue'
 import InstallConfirmModal from '@/components/ui/install_flow/InstallConfirmModal.vue'
@@ -87,8 +85,6 @@ const criticalErrorMessage = ref()
 const isMaximized = ref(false)
 
 onMounted(async () => {
-  await useCheckDisableMouseover()
-
   document.querySelector('body').addEventListener('click', handleClick)
   document.querySelector('body').addEventListener('auxclick', handleAuxClick)
 })
@@ -437,7 +433,7 @@ function handleAuxClick(e) {
     </div>
     <div data-tauri-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
       <div data-tauri-drag-region class="flex p-3">
-        <ModrinthAppLogo class="h-full w-auto text-contrast pointer-events-none" />
+        <!-- IcmodsAppLogo class="h-full w-auto text-contrast pointer-events-none" /-->
         <div class="flex items-center gap-1 ml-3">
           <button
             class="cursor-pointer p-0 m-0 border-none outline-none bg-button-bg rounded-full flex items-center justify-center w-6 h-6 hover:brightness-75 transition-all"
