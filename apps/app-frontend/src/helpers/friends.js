@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 
 export async function friends() {
   return await invoke('plugin:friends|friends')

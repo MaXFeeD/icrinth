@@ -3,7 +3,7 @@
  * So, for example, addDefaultInstance creates a blank Profile object, where the Rust struct is serialized,
  *  and deserialized into a usable JS object.
  */
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 import { install_to_existing_profile } from '@/helpers/pack.js'
 import { handleError } from '@/store/notifications.js'
 

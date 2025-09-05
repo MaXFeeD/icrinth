@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 
 export async function get_project(id, cacheBehaviour) {
   return await invoke('plugin:cache|get_project', { id, cacheBehaviour })

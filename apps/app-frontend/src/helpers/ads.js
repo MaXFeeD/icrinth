@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 
 export async function init_ads_window(overrideShown = false) {
   return await invoke('plugin:ads|init_ads_window', { overrideShown, dpr: window.devicePixelRatio })

@@ -1,5 +1,5 @@
 import { get_full_path, get_mod_full_path } from '@/helpers/profile'
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 
 export async function isDev() {
   return await invoke('is_dev')

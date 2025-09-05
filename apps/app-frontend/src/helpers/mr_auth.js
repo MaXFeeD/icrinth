@@ -3,7 +3,7 @@
  * So, for example, addDefaultInstance creates a blank Profile object, where the Rust struct is serialized,
  *  and deserialized into a usable JS object.
  */
-import { invoke } from '@tauri-apps/api/core'
+import { invoke } from '@/composables/androidBridge'
 
 export async function login() {
   return await invoke('plugin:mr-auth|modrinth_login')
