@@ -49,24 +49,11 @@ const gameVersion = ref(props.instance.game_version)
 
 const showSnapshots = ref(false)
 
-const [
-  fabric_versions,
-  forge_versions,
-  quilt_versions,
-  neoforge_versions,
-  all_game_versions,
-  loaders,
-] = await Promise.all([
-  get_loader_versions('fabric')
+const [innercore_versions, coreengine_versions, all_game_versions, loaders] = await Promise.all([
+  get_loader_versions('innercore')
     .then((manifest: Manifest) => shallowRef(manifest))
     .catch(handleError),
-  get_loader_versions('forge')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('quilt')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('neo')
+  get_loader_versions('coreengine')
     .then((manifest: Manifest) => shallowRef(manifest))
     .catch(handleError),
   get_game_versions()
@@ -125,14 +112,10 @@ const currentLoaderIcon = computed(
 
 const gameVersionsForLoader = computed(() => {
   return all_game_versions?.value.filter((item) => {
-    if (loader.value === 'fabric') {
-      return !!fabric_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'forge') {
-      return !!forge_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'quilt') {
-      return !!quilt_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'neoforge') {
-      return !!neoforge_versions?.value.gameVersions.some((x) => item.version === x.id)
+    if (loader.value === 'innercore') {
+      return !!innercore_versions?.value.gameVersions.some((x) => item.version === x.id)
+    } else if (loader.value === 'coreengine') {
+      return !!coreengine_versions?.value.gameVersions.some((x) => item.version === x.id)
     }
 
     return []
@@ -151,15 +134,10 @@ const selectableGameVersionNumbers = computed(() => {
 
 const selectableLoaderVersions: ComputedRef<ManifestLoaderVersion[] | undefined> = computed(() => {
   if (gameVersion.value) {
-    if (loader.value === 'fabric') {
-      return fabric_versions?.value.gameVersions[0].loaders
-    } else if (loader.value === 'forge') {
-      return forge_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
-        ?.loaders
-    } else if (loader.value === 'quilt') {
-      return quilt_versions?.value.gameVersions[0].loaders
-    } else if (loader.value === 'neoforge') {
-      return neoforge_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
+    if (loader.value === 'innercore') {
+      return innercore_versions?.value.gameVersions[0].loaders
+    } else if (loader.value === 'coreengine') {
+      return coreengine_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
         ?.loaders
     }
   }

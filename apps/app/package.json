@@ -1,0 +1,19 @@
+{
+  "name": "@icmods/app",
+  "scripts": {
+    "build": "tauri build",
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "test": "cargo test",
+    "lint": "cargo fmt --check && cargo clippy --all-targets -- -D warnings",
+    "fix": "cargo fmt && cargo clippy --fix"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.1.0"
+  },
+  "dependencies": {
+    "@icmods/app-frontend": "workspace:*",
+    "@icmods/app-lib": "workspace:*",
+    "@icmods/daedalus": "workspace:*"
+  }
+}

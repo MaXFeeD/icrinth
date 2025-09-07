@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   ReportIcon,
-  ModrinthIcon,
+  IcmodsIcon,
   ShieldIcon,
   SettingsIcon,
   GaugeIcon,
@@ -143,7 +143,7 @@ function devModeCount() {
               :class="{ 'text-brand': themeStore.devMode, 'text-secondary': !themeStore.devMode }"
               @click="devModeCount"
             >
-              <ModrinthIcon class="w-6 h-6" />
+              <IcmodsIcon class="w-6 h-6" />
             </button>
             <div>
               <p class="m-0">Modrinth App {{ version }}</p>

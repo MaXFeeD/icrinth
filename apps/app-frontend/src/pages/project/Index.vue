@@ -10,8 +10,8 @@
       <ProjectSidebarCreators
         :organization="null"
         :members="members"
-        :org-link="(slug) => `https://modrinth.com/organization/${slug}`"
-        :user-link="(username) => `https://modrinth.com/user/${username}`"
+        :org-link="(slug) => `https://inner-core.org/organization/${slug}`"
+        :user-link="(username) => `https://inner-core.org/user/${username}`"
         link-target="_blank"
         class="project-sidebar-section"
       />
@@ -62,7 +62,7 @@
                   },
                   {
                     id: 'open-in-browser',
-                    link: `https://modrinth.com/${data.project_type}/${data.slug}`,
+                    link: `https://inner-core.org/${data.project_type}/${data.slug}`,
                     external: true,
                   },
                   {
@@ -72,7 +72,7 @@
                     id: 'report',
                     color: 'red',
                     hoverFilled: true,
-                    link: `https://modrinth.com/report?item=project&itemID=${data.id}`,
+                    link: `https://inner-core.org/report?item=project&itemID=${data.id}`,
                   },
                 ]"
                 aria-label="More options"
@@ -268,11 +268,11 @@ const handleOptionsClick = (args) => {
       install(null)
       break
     case 'open_link':
-      openUrl(`https://modrinth.com/${args.item.project_type}/${args.item.slug}`)
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`)
       break
     case 'copy_link':
       navigator.clipboard.writeText(
-        `https://modrinth.com/${args.item.project_type}/${args.item.slug}`,
+        `https://inner-core.org/${args.item.project_type}/${args.item.slug}`,
       )
       break
   }

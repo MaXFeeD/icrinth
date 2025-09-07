@@ -290,18 +290,9 @@ onUnmounted(() => {
   }
 })
 
-const [
-  fabric_versions,
-  forge_versions,
-  quilt_versions,
-  neoforge_versions,
-  all_game_versions,
-  loaders,
-] = await Promise.all([
-  get_loader_versions('fabric').then(shallowRef).catch(handleError),
-  get_loader_versions('forge').then(shallowRef).catch(handleError),
-  get_loader_versions('quilt').then(shallowRef).catch(handleError),
-  get_loader_versions('neo').then(shallowRef).catch(handleError),
+const [innercore_versions, coreengine_versions, all_game_versions, loaders] = await Promise.all([
+  get_loader_versions('innercore').then(shallowRef).catch(handleError),
+  get_loader_versions('coreengine').then(shallowRef).catch(handleError),
   get_game_versions().then(shallowRef).catch(handleError),
   get_loaders()
     .then((value) =>
@@ -318,14 +309,10 @@ const game_versions = computed(() => {
   return all_game_versions.value.versions
     .filter((item) => {
       let defaultVal = item.type === 'release' || showSnapshots.value
-      if (loader.value === 'fabric') {
-        defaultVal &= fabric_versions.value.gameVersions.some((x) => item.id === x.id)
-      } else if (loader.value === 'forge') {
-        defaultVal &= forge_versions.value.gameVersions.some((x) => item.id === x.id)
-      } else if (loader.value === 'quilt') {
-        defaultVal &= quilt_versions.value.gameVersions.some((x) => item.id === x.id)
-      } else if (loader.value === 'neoforge') {
-        defaultVal &= neoforge_versions.value.gameVersions.some((x) => item.id === x.id)
+      if (loader.value === 'innercore') {
+        defaultVal &= innercore_versions.value.gameVersions.some((x) => item.id === x.id)
+      } else if (loader.value === 'coreengine') {
+        defaultVal &= coreengine_versions.value.gameVersions.some((x) => item.id === x.id)
       }
 
       return defaultVal
@@ -394,16 +381,10 @@ const reset_icon = () => {
 
 const selectable_versions = computed(() => {
   if (game_version.value) {
-    if (loader.value === 'fabric') {
-      return fabric_versions.value.gameVersions[0].loaders.map((item) => item.id)
-    } else if (loader.value === 'forge') {
-      return forge_versions.value.gameVersions
-        .find((item) => item.id === game_version.value)
-        .loaders.map((item) => item.id)
-    } else if (loader.value === 'quilt') {
-      return quilt_versions.value.gameVersions[0].loaders.map((item) => item.id)
-    } else if (loader.value === 'neoforge') {
-      return neoforge_versions.value.gameVersions
+    if (loader.value === 'innercore') {
+      return innercore_versions.value.gameVersions[0].loaders.map((item) => item.id)
+    } else if (loader.value === 'coreengine') {
+      return coreengine_versions.value.gameVersions
         .find((item) => item.id === game_version.value)
         .loaders.map((item) => item.id)
     }

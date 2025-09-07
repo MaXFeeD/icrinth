@@ -69,7 +69,7 @@
               name: x.author,
               type: 'user',
               id: x.author,
-              link: 'https://modrinth.com/user/' + x.author,
+              link: 'https://inner-core.org/user/' + x.author,
               linkProps: { target: '_blank' },
             }
           }
@@ -688,7 +688,7 @@ const removeMod = async (mod) => {
 
 const copyModLink = async (mod) => {
   await navigator.clipboard.writeText(
-    `https://modrinth.com/${mod.data.project_type}/${mod.data.slug}`,
+    `https://inner-core.org/${mod.data.project_type}/${mod.data.slug}`,
   )
 }
 
@@ -712,7 +712,7 @@ const shareUrls = async () => {
   await shareModal.value.show(
     functionValues.value
       .filter((x) => x.slug)
-      .map((x) => `https://modrinth.com/${x.project_type}/${x.slug}`)
+      .map((x) => `https://inner-core.org/${x.project_type}/${x.slug}`)
       .join('\n'),
   )
 }
@@ -722,7 +722,7 @@ const shareMarkdown = async () => {
     functionValues.value
       .map((x) => {
         if (x.slug) {
-          return `[${x.name}](https://modrinth.com/${x.project_type}/${x.slug})`
+          return `[${x.name}](https://inner-core.org/${x.project_type}/${x.slug})`
         }
         return x.name
       })

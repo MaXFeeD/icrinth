@@ -165,9 +165,7 @@ const createInstance = async () => {
   creatingInstance.value = true
 
   const loader =
-    versions.value[0].loaders[0] !== 'forge' &&
-    versions.value[0].loaders[0] !== 'fabric' &&
-    versions.value[0].loaders[0] !== 'quilt'
+    versions.value[0].loaders[0] !== 'innercore' && versions.value[0].loaders[0] !== 'coreengine'
       ? 'vanilla'
       : versions.value[0].loaders[0]
 

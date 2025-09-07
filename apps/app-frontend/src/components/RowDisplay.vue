@@ -166,11 +166,11 @@ const handleOptionsClick = async (args) => {
       break
     }
     case 'open_link':
-      openUrl(`https://modrinth.com/${args.item.project_type}/${args.item.slug}`)
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`)
       break
     case 'copy_link':
       await navigator.clipboard.writeText(
-        `https://modrinth.com/${args.item.project_type}/${args.item.slug}`,
+        `https://inner-core.org/${args.item.project_type}/${args.item.slug}`,
       )
       break
   }

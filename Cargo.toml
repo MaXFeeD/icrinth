@@ -1,7 +1,9 @@
 [workspace]
 resolver = '2'
 members = [
+  './apps/app',
   './apps/labrinth',
+  './packages/daedalus',
 ]
 
 # Optimize for speed and reduce size on release builds

@@ -87,10 +87,8 @@ pub enum EnvType {
 #[derive(Serialize, Deserialize, Clone, Hash, PartialEq, Eq, Debug)]
 #[serde(rename_all = "kebab-case")]
 pub enum PackDependency {
-    Forge,
-    Neoforge,
-    FabricLoader,
-    QuiltLoader,
+    InnerCore,
+    CoreEngine,
     Minecraft,
 }
 
@@ -104,11 +102,9 @@ impl PackDependency {
     // These are constant, so this can remove unnecessary allocations (`to_string`)
     pub fn as_str(&self) -> &'static str {
         match self {
-            PackDependency::Forge => "forge",
-            PackDependency::Neoforge => "neoforge",
-            PackDependency::FabricLoader => "fabric-loader",
+            PackDependency::InnerCore => "innercore",
+            PackDependency::CoreEngine => "coreengine",
             PackDependency::Minecraft => "minecraft",
-            PackDependency::QuiltLoader => "quilt-loader",
         }
     }
 }

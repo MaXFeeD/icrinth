@@ -14,11 +14,17 @@ window.__icmodsBridgeInvokeCallback = (callbackId, response) => {
   }
 }
 
-export function invoke(methodName, params = {}) {
+export async function invoke(cmd, args = {}) {
+  if (window.icmodsBridge == null) {
+    if (window.tauriApiCore == null) {
+      window.tauriApiCore = await import('@tauri-apps/api/core')
+    }
+    return window.tauriApiCore.invoke(cmd, args)
+  }
   return new Promise((resolve, reject) => {
     const callbackId = 'callback_' + callbackIdCounter++
     pendingCallbacks.set(callbackId, { resolve, reject })
-    const paramsJson = JSON.stringify(params)
-    window.icmodsBridge.invoke(methodName, paramsJson, callbackId)
+    const paramsJson = JSON.stringify(args)
+    window.icmodsBridge.invoke(cmd, paramsJson, callbackId)
   })
 }

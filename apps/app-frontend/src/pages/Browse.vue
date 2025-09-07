@@ -110,7 +110,7 @@ const instanceFilters = computed(() => {
 
     const platform = instance.value.loader
 
-    const supportedModLoaders = ['fabric', 'forge', 'quilt', 'neoforge']
+    const supportedModLoaders = ['innercore', 'coreengine']
 
     if (platform && projectTypes.value.includes('mod') && supportedModLoaders.includes(platform)) {
       filters.push({
@@ -314,9 +314,7 @@ const selectableProjectTypes = computed(() => {
   const links = [
     { label: 'Modpacks', href: `/browse/modpack`, shown: modpacks },
     { label: 'Mods', href: `/browse/mod`, shown: mods },
-    { label: 'Resource Packs', href: `/browse/resourcepack` },
-    { label: 'Data Packs', href: `/browse/datapack`, shown: dataPacks },
-    { label: 'Shaders', href: `/browse/shader` },
+    { label: 'Servers', href: `/browse/server`, shown: mods && modpacks },
   ]
 
   if (params) {
@@ -367,11 +365,11 @@ const handleRightClick = (event, result) => {
 const handleOptionsClick = (args) => {
   switch (args.option) {
     case 'open_link':
-      openUrl(`https://modrinth.com/${args.item.project_type}/${args.item.slug}`)
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`)
       break
     case 'copy_link':
       navigator.clipboard.writeText(
-        `https://modrinth.com/${args.item.project_type}/${args.item.slug}`,
+        `https://inner-core.org/${args.item.project_type}/${args.item.slug}`,
       )
       break
   }

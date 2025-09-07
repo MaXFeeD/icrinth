@@ -27,7 +27,7 @@
         <multiselect
           id="package-mod-loaders"
           v-model="packageLoaders"
-          :options="['fabric', 'forge', 'quilt', 'neoforge']"
+          :options="['innercore', 'coreengine']"
           :custom-label="(value) => value.charAt(0).toUpperCase() + value.slice(1)"
           :multiple="true"
           :searchable="false"
@@ -915,7 +915,7 @@ export default defineNuxtComponent({
 
       newFileTypes: [],
 
-      packageLoaders: ["forge", "fabric", "quilt", "neoforge"],
+      packageLoaders: ["innercore", "coreengine"],
 
       showKnownErrors: false,
       shouldPreventActions: false,

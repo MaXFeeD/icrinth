@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import {
+  IcmodsIcon,
   ArrowBigUpDashIcon,
   CompassIcon,
   DownloadIcon,
@@ -168,7 +169,7 @@ async function setupApp() {
     }
   })
 
-  useFetch(`https://modrinth.com/blog/news.json`, 'news', true).then((res) => {
+  useFetch(`https://api.npoint.io/afbb234aecba3b7af821`, 'news', true).then((res) => {
     if (res && res.articles) {
       news.value = res.articles
     }
@@ -433,7 +434,7 @@ function handleAuxClick(e) {
     </div>
     <div data-tauri-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
       <div data-tauri-drag-region class="flex p-3">
-        <!-- IcmodsAppLogo class="h-full w-auto text-contrast pointer-events-none" /-->
+        <IcmodsIcon class="h-full w-auto text-contrast pointer-events-none" />
         <div class="flex items-center gap-1 ml-3">
           <button
             class="cursor-pointer p-0 m-0 border-none outline-none bg-button-bg rounded-full flex items-center justify-center w-6 h-6 hover:brightness-75 transition-all"
@@ -578,13 +579,13 @@ function handleAuxClick(e) {
         </div>
       </div>
       <template v-if="showAd">
-        <a
+        <!-- a
           href="https://modrinth.plus?app"
           class="absolute bottom-[250px] w-full flex justify-center items-center gap-1 px-4 py-3 text-purple font-medium hover:underline z-10"
           target="_blank"
         >
           <ArrowBigUpDashIcon class="text-2xl" /> Upgrade to Modrinth+
-        </a>
+        </a -->
         <PromotionWrapper />
       </template>
     </div>
