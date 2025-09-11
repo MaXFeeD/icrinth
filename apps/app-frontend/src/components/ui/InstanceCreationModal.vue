@@ -290,30 +290,31 @@ onUnmounted(() => {
   }
 })
 
-const [innercore_versions, coreengine_versions, all_game_versions, loaders] = await Promise.all([
-  get_loader_versions('innercore').then(shallowRef).catch(handleError),
-  get_loader_versions('coreengine').then(shallowRef).catch(handleError),
-  get_game_versions().then(shallowRef).catch(handleError),
-  get_loaders()
-    .then((value) =>
-      value
-        .filter((item) => item.supported_project_types.includes('modpack'))
-        .map((item) => item.name.toLowerCase()),
-    )
-    .then(ref)
-    .catch(handleError),
-])
+const [/* innercore_versions, coreengine_versions, */ all_game_versions, loaders] =
+  await Promise.all([
+    // get_loader_versions('innercore').then(shallowRef).catch(handleError),
+    // get_loader_versions('coreengine').then(shallowRef).catch(handleError),
+    get_game_versions().then(shallowRef).catch(handleError),
+    get_loaders()
+      .then((value) =>
+        value
+          .filter((item) => item.supported_project_types.includes('modpack'))
+          .map((item) => item.name.toLowerCase()),
+      )
+      .then(ref)
+      .catch(handleError),
+  ])
 loaders.value.unshift('vanilla')
 
 const game_versions = computed(() => {
   return all_game_versions.value.versions
     .filter((item) => {
       let defaultVal = item.type === 'release' || showSnapshots.value
-      if (loader.value === 'innercore') {
-        defaultVal &= innercore_versions.value.gameVersions.some((x) => item.id === x.id)
-      } else if (loader.value === 'coreengine') {
-        defaultVal &= coreengine_versions.value.gameVersions.some((x) => item.id === x.id)
-      }
+      // if (loader.value === 'innercore') {
+      //   defaultVal &= innercore_versions.value.gameVersions.some((x) => item.id === x.id)
+      // } else if (loader.value === 'coreengine') {
+      //   defaultVal &= coreengine_versions.value.gameVersions.some((x) => item.id === x.id)
+      // }
 
       return defaultVal
     })
@@ -380,16 +381,16 @@ const reset_icon = () => {
 }
 
 const selectable_versions = computed(() => {
-  if (game_version.value) {
-    if (loader.value === 'innercore') {
-      return innercore_versions.value.gameVersions[0].loaders.map((item) => item.id)
-    } else if (loader.value === 'coreengine') {
-      return coreengine_versions.value.gameVersions
-        .find((item) => item.id === game_version.value)
-        .loaders.map((item) => item.id)
-    }
-  }
-  return []
+  // if (game_version.value) {
+  //   if (loader.value === 'innercore') {
+  //     return innercore_versions.value.gameVersions[0].loaders.map((item) => item.id)
+  //   } else if (loader.value === 'coreengine') {
+  //     return coreengine_versions.value.gameVersions
+  //       .find((item) => item.id === game_version.value)
+  //       .loaders.map((item) => item.id)
+  //   }
+  // }
+  return ['2.4.0b123 test']
 })
 
 const toggle_advanced = () => {

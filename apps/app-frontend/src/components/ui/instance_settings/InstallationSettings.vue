@@ -11,7 +11,7 @@ import {
   UnlinkIcon,
 } from '@icmods/assets'
 import { Avatar, Checkbox, Chips, ButtonStyled, TeleportDropdownMenu } from '@icmods/ui'
-import { computed, type ComputedRef, type Ref, ref, shallowRef, watch } from 'vue'
+import { computed, type ComputedRef, type Ref, ref, shallowRef, version, watch } from 'vue'
 import { edit, install, update_repair_modrinth } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
@@ -49,27 +49,28 @@ const gameVersion = ref(props.instance.game_version)
 
 const showSnapshots = ref(false)
 
-const [innercore_versions, coreengine_versions, all_game_versions, loaders] = await Promise.all([
-  get_loader_versions('innercore')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('coreengine')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_game_versions()
-    .then((gameVersions: GameVersionTag[]) => shallowRef(gameVersions))
-    .catch(handleError),
-  get_loaders()
-    .then((value: PlatformTag[]) =>
-      value
-        .filter(
-          (item) => item.supported_project_types.includes('modpack') || item.name === 'vanilla',
-        )
-        .sort((a, b) => (a.name === 'vanilla' ? -1 : b.name === 'vanilla' ? 1 : 0)),
-    )
-    .then((loader: PlatformTag[]) => ref(loader))
-    .catch(handleError),
-])
+const [/* innercore_versions, coreengine_versions, */ all_game_versions, loaders] =
+  await Promise.all([
+    // get_loader_versions('innercore')
+    //   .then((manifest: Manifest) => shallowRef(manifest))
+    //   .catch(handleError),
+    // get_loader_versions('coreengine')
+    //   .then((manifest: Manifest) => shallowRef(manifest))
+    //   .catch(handleError),
+    get_game_versions()
+      .then((gameVersions: GameVersionTag[]) => shallowRef(gameVersions))
+      .catch(handleError),
+    get_loaders()
+      .then((value: PlatformTag[]) =>
+        value
+          .filter(
+            (item) => item.supported_project_types.includes('modpack') || item.name === 'vanilla',
+          )
+          .sort((a, b) => (a.name === 'vanilla' ? -1 : b.name === 'vanilla' ? 1 : 0)),
+      )
+      .then((loader: PlatformTag[]) => ref(loader))
+      .catch(handleError),
+  ])
 
 const modpackProject: Ref<Project | null> = ref(null)
 const modpackVersion: Ref<Version | null> = ref(null)
@@ -112,13 +113,20 @@ const currentLoaderIcon = computed(
 
 const gameVersionsForLoader = computed(() => {
   return all_game_versions?.value.filter((item) => {
-    if (loader.value === 'innercore') {
-      return !!innercore_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'coreengine') {
-      return !!coreengine_versions?.value.gameVersions.some((x) => item.version === x.id)
-    }
+    // if (loader.value === 'innercore') {
+    //   return !!innercore_versions?.value.gameVersions.some((x) => item.version === x.id)
+    // } else if (loader.value === 'coreengine') {
+    //   return !!coreengine_versions?.value.gameVersions.some((x) => item.version === x.id)
+    // }
 
-    return []
+    return [
+      {
+        version: '1.16.201',
+        version_type: 'release',
+        date: '15.12.2020',
+        major: false,
+      },
+    ]
   })
 })
 
@@ -133,15 +141,21 @@ const selectableGameVersionNumbers = computed(() => {
 })
 
 const selectableLoaderVersions: ComputedRef<ManifestLoaderVersion[] | undefined> = computed(() => {
-  if (gameVersion.value) {
-    if (loader.value === 'innercore') {
-      return innercore_versions?.value.gameVersions[0].loaders
-    } else if (loader.value === 'coreengine') {
-      return coreengine_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
-        ?.loaders
-    }
-  }
-  return []
+  // if (gameVersion.value) {
+  // if (loader.value === 'innercore') {
+  //   return innercore_versions?.value.gameVersions[0].loaders
+  // } else if (loader.value === 'coreengine') {
+  //   return coreengine_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
+  //     ?.loaders
+  // }
+  // }
+  return [
+    {
+      id: '2.4.0b123 test',
+      url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore-test/pack.zip',
+      stable: true,
+    },
+  ]
 })
 const loaderVersionIndex: Ref<number> = ref(-1)
 
