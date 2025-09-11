@@ -106,7 +106,7 @@
                     ? 'Installed'
                     : modpack || instance
                       ? 'Install'
-                      : 'Add to an instance'
+                      : 'Add to an modpack'
               }}
             </button>
           </ButtonStyled>

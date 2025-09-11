@@ -211,7 +211,7 @@ async function repairInstance() {
         </template>
         <div v-else-if="errorType === 'minecraft_sign_in'">
           <p>
-            To play this instance, you must sign in through Microsoft below. If you don't have a
+            To play this modpack, you must sign in through Microsoft below. If you don't have a
             Minecraft account, you can purchase the game on the
             <a href="https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc"
               >Minecraft website</a
@@ -235,11 +235,11 @@ async function repairInstance() {
           </ul>
         </template>
         <template v-else-if="errorType === 'no_loader_version'">
-          <p>The Modrinth App failed to find the loader version for this instance.</p>
-          <p>To resolve this, you need to repair the instance. Click the button below to do so.</p>
+          <p>The Modrinth App failed to find the loader version for this modpack.</p>
+          <p>To resolve this, you need to repair the modpack. Click the button below to do so.</p>
           <div class="cta-button">
             <button class="btn btn-primary" :disabled="loadingRepair" @click="repairInstance">
-              <HammerIcon /> Repair instance
+              <HammerIcon /> Repair modpack
             </button>
           </div>
         </template>

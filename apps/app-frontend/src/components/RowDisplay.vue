@@ -220,8 +220,8 @@ onUnmounted(() => {
 <template>
   <ConfirmModalWrapper
     ref="deleteConfirmModal"
-    title="Are you sure you want to delete this instance?"
-    description="If you proceed, all data for your instance will be removed. You will not be able to recover it."
+    title="Are you sure you want to delete this modpack?"
+    description="If you proceed, all data for your modpack will be removed. You will not be able to recover it."
     :has-to-type="false"
     proceed-label="Delete"
     @proceed="deleteProfile"
@@ -272,10 +272,10 @@ onUnmounted(() => {
     <template #play> <PlayIcon /> Play </template>
     <template #stop> <StopCircleIcon /> Stop </template>
     <template #add_content> <PlusIcon /> Add content </template>
-    <template #edit> <EyeIcon /> View instance </template>
+    <template #edit> <EyeIcon /> View modpack </template>
     <template #delete> <TrashIcon /> Delete </template>
     <template #open_folder> <FolderOpenIcon /> Open folder </template>
-    <template #duplicate> <ClipboardCopyIcon /> Duplicate instance</template>
+    <template #duplicate> <ClipboardCopyIcon /> Duplicate modpack</template>
     <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #install> <DownloadIcon /> Install </template>
     <template #open_link> <GlobeIcon /> Open in Modrinth <ExternalIcon /> </template>

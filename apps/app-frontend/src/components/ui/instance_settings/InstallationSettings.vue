@@ -287,7 +287,7 @@ const messages = defineMessages({
   },
   repairConfirmTitle: {
     id: 'instance.settings.tabs.installation.repair.confirm.title',
-    defaultMessage: 'Repair instance?',
+    defaultMessage: 'Repair modpack?',
   },
   repairConfirmDescription: {
     id: 'instance.settings.tabs.installation.repair.confirm.description',
@@ -365,7 +365,7 @@ const messages = defineMessages({
   noModpackFound: {
     id: 'instance.settings.tabs.installation.no-modpack-found',
     defaultMessage:
-      'This instance is linked to a modpack, but the modpack could not be found on Modrinth.',
+      'This modpack is linked to remote, but the modpack could not be found on Inner Core Mods.',
   },
   debugInformation: {
     id: 'instance.settings.tabs.installation.debug-information',
@@ -381,28 +381,28 @@ const messages = defineMessages({
   },
   unlinkInstanceDescription: {
     id: 'instance.settings.tabs.installation.unlink.description',
-    defaultMessage: `This instance is linked to a modpack, which means mods can't be updated and you can't change the mod loader or Minecraft version. Unlinking will permanently disconnect this instance from the modpack.`,
+    defaultMessage: `This modpack is linked to remote, which means mods can't be updated. Unlinking will permanently disconnect this modpack.`,
   },
   unlinkInstanceButton: {
     id: 'instance.settings.tabs.installation.unlink.button',
-    defaultMessage: 'Unlink instance',
+    defaultMessage: 'Unlink modpack',
   },
   unlinkInstanceConfirmTitle: {
     id: 'instance.settings.tabs.installation.unlink.confirm.title',
-    defaultMessage: 'Are you sure you want to unlink this instance?',
+    defaultMessage: 'Are you sure you want to unlink this modpack?',
   },
   unlinkInstanceConfirmDescription: {
     id: 'instance.settings.tabs.installation.unlink.confirm.description',
     defaultMessage:
-      'If you proceed, you will not be able to re-link it without creating an entirely new instance. You will no longer receive modpack updates and it will become a normal.',
+      'If you proceed, you will not be able to re-link it without creating an entirely new modpack. You will no longer receive modpack updates and it will become a normal.',
   },
   reinstallModpackConfirmTitle: {
     id: 'instance.settings.tabs.installation.reinstall.confirm.title',
-    defaultMessage: 'Are you sure you want to reinstall this instance?',
+    defaultMessage: 'Are you sure you want to reinstall this modpack?',
   },
   reinstallModpackConfirmDescription: {
     id: 'instance.settings.tabs.installation.reinstall.confirm.description',
-    defaultMessage: `Reinstalling will reset all installed or modified content to what is provided by the modpack, removing any mods or content you have added on top of the original installation. This may fix unexpected behavior if changes have been made to the instance, but if your worlds now depend on additional installed content, it may break existing worlds.`,
+    defaultMessage: `Reinstalling will reset all installed or modified content to what is provided by the modpack, removing any mods or content you have added on top of the original installation. This may fix unexpected behavior if changes have been made to the modpack, but if your worlds now depend on additional installed content, it may break existing worlds.`,
   },
   reinstallModpackTitle: {
     id: 'instance.settings.tabs.installation.reinstall.title',
@@ -410,7 +410,7 @@ const messages = defineMessages({
   },
   reinstallModpackDescription: {
     id: 'instance.settings.tabs.installation.reinstall.description',
-    defaultMessage: `Resets the instance's content to its original state, removing any mods or content you have added on top of the original modpack.`,
+    defaultMessage: `Resets the modpack's content to its original state, removing any mods or content you have added on top of the original modpack.`,
   },
   reinstallModpackButton: {
     id: 'instance.settings.tabs.installation.reinstall.button',

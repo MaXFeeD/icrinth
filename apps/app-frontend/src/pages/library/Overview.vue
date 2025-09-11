@@ -9,5 +9,5 @@ defineProps({
 })
 </script>
 <template>
-  <GridDisplay v-if="instances.length > 0" label="Instances" :instances="instances" />
+  <GridDisplay v-if="instances.length > 0" label="Modpacks" :instances="instances" />
 </template>

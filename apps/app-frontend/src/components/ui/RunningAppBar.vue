@@ -70,7 +70,7 @@
       >
         <div class="text"><span class="circle running" /> {{ process.profile.name }}</div>
         <Button
-          v-tooltip="'Stop instance'"
+          v-tooltip="'Stop modpack'"
           icon-only
           class="icon-button stop"
           @click.stop="stop(process)"

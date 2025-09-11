@@ -45,7 +45,7 @@
             <MoreVerticalIcon aria-hidden="true" />
             <template #install-elsewhere>
               <DownloadIcon aria-hidden="true" />
-              Add to another instance
+              Add to another modpack
             </template>
             <template #open-in-browser> <ExternalIcon /> Open in browser </template>
           </OverflowMenu>

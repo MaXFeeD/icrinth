@@ -59,7 +59,7 @@ const messages = defineMessages({
   },
   preLaunchDescription: {
     id: 'instance.settings.tabs.hooks.pre-launch.description',
-    defaultMessage: 'Ran before the instance is launched.',
+    defaultMessage: 'Ran before the modpack is launched.',
   },
   preLaunchEnter: {
     id: 'instance.settings.tabs.hooks.pre-launch.enter',

@@ -394,7 +394,7 @@ function handleAuxClick(e) {
         <QuickInstanceSwitcher />
       </suspense>
       <NavButton
-        v-tooltip.right="'Create new instance'"
+        v-tooltip.right="'Create new modpack'"
         :to="() => $refs.installationModal.show()"
         :disabled="offline"
       >

@@ -39,7 +39,7 @@ onUnmounted(() => {
     <h1 class="m-0 text-2xl hidden">Library</h1>
     <NavTabs
       :links="[
-        { label: 'All instances', href: `/library` },
+        { label: 'All modpacks', href: `/library` },
         { label: 'Downloaded', href: `/library/downloaded` },
         { label: 'Custom', href: `/library/custom` },
         { label: 'Shared with me', href: `/library/shared`, shown: false },
@@ -53,10 +53,10 @@ onUnmounted(() => {
       <div class="icon">
         <NewInstanceImage />
       </div>
-      <h3>No instances found</h3>
+      <h3>No modpacks found</h3>
       <Button color="primary" :disabled="offline" @click="$refs.installationModal.show()">
         <PlusIcon />
-        Create new instance
+        Create new modpack
       </Button>
       <InstanceCreationModal ref="installationModal" />
     </div>

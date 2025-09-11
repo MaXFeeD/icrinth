@@ -109,7 +109,7 @@ watch(
     <hr class="mt-4 bg-button-border border-none h-[1px]" />
 
     <h2 class="mt-4 m-0 text-lg font-extrabold text-contrast">Memory allocated</h2>
-    <p class="m-0 mt-1 leading-tight">The memory allocated to each instance when it is ran.</p>
+    <p class="m-0 mt-1 leading-tight">The memory allocated to each modpack when it is ran.</p>
     <Slider
       id="max-memory"
       v-model="settings.memory.maximum"
@@ -144,7 +144,7 @@ watch(
     <h2 class="mt-4 m-0 text-lg font-extrabold text-contrast">Hooks</h2>
 
     <h3 class="mt-2 m-0 text-base font-extrabold text-primary">Pre launch</h3>
-    <p class="m-0 mt-1 mb-2 leading-tight text-secondary">Ran before the instance is launched.</p>
+    <p class="m-0 mt-1 mb-2 leading-tight text-secondary">Ran before the modpack is launched.</p>
     <input
       id="pre-launch"
       v-model="settings.hooks.pre_launch"

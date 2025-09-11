@@ -71,7 +71,7 @@
             <button disabled>Loading...</button>
           </ButtonStyled>
           <ButtonStyled size="large" circular>
-            <button v-tooltip="'Instance settings'" @click="settingsModal.show()">
+            <button v-tooltip="'Modpack settings'" @click="settingsModal.show()">
               <SettingsIcon />
             </button>
           </ButtonStyled>
@@ -89,7 +89,7 @@
               ]"
             >
               <MoreVerticalIcon />
-              <template #share-instance> <UserPlusIcon /> Share instance </template>
+              <template #share-instance> <UserPlusIcon /> Share modpack </template>
               <template #host-a-server> <ServerIcon /> Create a server </template>
               <template #open-folder> <FolderOpenIcon /> Open folder </template>
               <template #export-mrpack> <PackageIcon /> Export modpack </template>

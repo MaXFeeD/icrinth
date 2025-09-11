@@ -211,14 +211,14 @@ const createInstance = async () => {
 </script>
 
 <template>
-  <ModalWrapper ref="installModal" header="Install project to instance" :on-hide="onInstall">
+  <ModalWrapper ref="installModal" header="Install project to modpack" :on-hide="onInstall">
     <div class="modal-body">
       <input
         v-model="searchFilter"
         autocomplete="off"
         type="text"
         class="search"
-        placeholder="Search for an instance"
+        placeholder="Search for an modpack"
       />
       <div class="profiles" :class="{ 'hide-creation': !showCreation }">
         <div v-for="profile in shownProfiles" :key="profile.name" class="option">
@@ -236,7 +236,7 @@ const createInstance = async () => {
           <div
             v-tooltip="
               profile.linked_data?.locked && !profile.installedMod
-                ? 'Unpair or unlock an instance to add mods.'
+                ? 'Unpair or unlock an modpack to add mods.'
                 : ''
             "
           >
@@ -290,7 +290,7 @@ const createInstance = async () => {
       <div class="input-group push-right">
         <Button :color="showCreation ? '' : 'primary'" @click="toggleCreation()">
           <PlusIcon />
-          {{ showCreation ? 'Hide New Instance' : 'Create new instance' }}
+          {{ showCreation ? 'Hide New Modpack' : 'Create new modpack' }}
         </Button>
         <Button @click="installModal.hide()">Cancel</Button>
       </div>

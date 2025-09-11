@@ -156,7 +156,7 @@ onUnmounted(() => unlisten())
           </button>
         </ButtonStyled>
         <ButtonStyled v-else-if="modLoading" color="standard" circular>
-          <button v-tooltip="'Instance is loading...'" disabled>
+          <button v-tooltip="'Modpack is loading...'" disabled>
             <SpinnerIcon class="animate-spin" />
           </button>
         </ButtonStyled>
@@ -205,7 +205,7 @@ onUnmounted(() => unlisten())
           </ButtonStyled>
           <SpinnerIcon
             v-else-if="modLoading || installing"
-            v-tooltip="modLoading ? 'Instance is loading...' : 'Installing...'"
+            v-tooltip="modLoading ? 'Modpack is loading...' : 'Installing...'"
             class="animate-spin w-8 h-8"
             tabindex="-1"
           />

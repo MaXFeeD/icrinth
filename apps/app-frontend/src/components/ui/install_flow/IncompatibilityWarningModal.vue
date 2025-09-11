@@ -2,7 +2,7 @@
   <ModalWrapper ref="incompatibleModal" header="Incompatibility warning" :on-hide="onInstall">
     <div class="modal-body">
       <p>
-        This {{ versions?.length > 0 ? 'project' : 'version' }} is not compatible with the instance
+        This {{ versions?.length > 0 ? 'project' : 'version' }} is not compatible with the modpack
         you're trying to install it on. Are you sure you want to continue? Dependencies will not be
         installed.
       </p>

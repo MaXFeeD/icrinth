@@ -1,7 +1,7 @@
 <template>
-  <ModalWrapper ref="modal" header="Create instance">
+  <ModalWrapper ref="modal" header="Create modpack">
     <div class="modal-header">
-      <Chips v-model="creationType" :items="['custom', 'from file', 'import from launcher']" />
+      <Chips v-model="creationType" :items="['custom', 'from file']" />
     </div>
     <hr class="card-divider" />
     <div v-if="creationType === 'custom'" class="modal-body">

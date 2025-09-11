@@ -79,8 +79,8 @@
     <ShareModalWrapper
       ref="shareModal"
       header="Share Log"
-      share-title="Instance Log"
-      share-text="Check out this log from an instance on the Modrinth App"
+      share-title="Modpack Log"
+      share-text="Check out this log from an modpack on Inner Core"
       :open-in-new-tab="false"
       link
     />

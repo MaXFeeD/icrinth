@@ -335,19 +335,19 @@ const selectableProjectTypes = computed(() => {
 const messages = defineMessages({
   gameVersionProvidedByInstance: {
     id: 'search.filter.locked.instance-game-version.title',
-    defaultMessage: 'Game version is provided by the instance',
+    defaultMessage: 'Game version is provided by the modpack',
   },
   modLoaderProvidedByInstance: {
     id: 'search.filter.locked.instance-loader.title',
-    defaultMessage: 'Loader is provided by the instance',
+    defaultMessage: 'Loader is provided by the modpack',
   },
   providedByInstance: {
     id: 'search.filter.locked.instance',
-    defaultMessage: 'Provided by the instance',
+    defaultMessage: 'Provided by the modpack',
   },
   syncFilterButton: {
     id: 'search.filter.locked.instance.sync',
-    defaultMessage: 'Sync with instance',
+    defaultMessage: 'Sync with modpack',
   },
 })
 
@@ -423,7 +423,7 @@ await refreshSearch()
   <div ref="searchWrapper" class="flex flex-col gap-3 p-6">
     <template v-if="instance">
       <InstanceIndicator :instance="instance" />
-      <h1 class="m-0 mb-1 text-xl">Install content to instance</h1>
+      <h1 class="m-0 mb-1 text-xl">Install content to modpack</h1>
     </template>
     <NavTabs :links="selectableProjectTypes" />
     <div class="iconified-input">
