@@ -1,48 +1,11 @@
 <template>
-  <!-- div class="action-groups">
+  <div class="action-groups">
     <ButtonStyled v-if="currentLoadingBars.length > 0" color="brand" type="transparent" circular>
       <button ref="infoButton" @click="toggleCard()">
         <DownloadIcon />
       </button>
     </ButtonStyled>
-    <div v-if="offline" class="status">
-      <UnplugIcon />
-      <div class="running-text">
-        <span> Offline </span>
-      </div>
-    </div>
-    <div v-if="selectedProcess" class="status">
-      <span class="circle running" />
-      <div ref="profileButton" class="running-text">
-        <router-link :to="`/instance/${encodeURIComponent(selectedProcess.profile.path)}`">
-          {{ selectedProcess.profile.name }}
-        </router-link>
-        <div
-          v-if="currentProcesses.length > 1"
-          class="arrow button-base"
-          :class="{ rotate: showProfiles }"
-          @click="toggleProfiles()"
-        >
-          <DropdownIcon />
-        </div>
-      </div>
-      <Button
-        v-tooltip="'Stop instance'"
-        icon-only
-        class="icon-button stop"
-        @click="stop(selectedProcess)"
-      >
-        <StopCircleIcon />
-      </Button>
-      <Button v-tooltip="'View logs'" icon-only class="icon-button" @click="goToTerminal()">
-        <TerminalSquareIcon />
-      </Button>
-    </div>
-    <div v-else class="status">
-      <span class="circle stopped" />
-      <span class="running-text"> No instances running </span>
-    </div>
-  </div -->
+  </div>
   <transition name="download">
     <Card v-if="showCard === true && currentLoadingBars.length > 0" ref="card" class="info-card">
       <div v-for="loadingBar in currentLoadingBars" :key="loadingBar.id" class="info-text">
