@@ -1,5 +1,4 @@
 //! Theseus profile management interface
-use crate::launcher::get_loader_version_from_profile;
 use crate::settings::Hooks;
 use crate::state::{LinkedData, ProfileInstallStage};
 use crate::util::io::{self, canonicalize};
@@ -60,16 +59,16 @@ pub async fn profile_create(
         "Creating profile at path {}",
         &canonicalize(&full_path)?.display()
     );
-    let loader = if modloader != ModLoader::Vanilla {
-        get_loader_version_from_profile(
-            &game_version,
-            modloader,
-            loader_version.as_deref(),
-        )
-        .await?
-    } else {
-        None
-    };
+    // let loader = if modloader != ModLoader::Vanilla {
+    //     get_loader_version_from_profile(
+    //         &game_version,
+    //         modloader,
+    //         loader_version.as_deref(),
+    //     )
+    //     .await?
+    // } else {
+    //     None
+    // };
 
     let mut profile = Profile {
         path: path.clone(),
@@ -78,7 +77,7 @@ pub async fn profile_create(
         icon_path: None,
         game_version,
         loader: modloader,
-        loader_version: loader.map(|x| x.id),
+        loader_version: Some(String::from("2.4.0b123 test")), // loader.map(|x| x.id),
         groups: Vec::new(),
         linked_data,
         created: Utc::now(),
