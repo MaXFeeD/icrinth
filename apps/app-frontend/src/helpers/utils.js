@@ -40,7 +40,7 @@ export async function restartApp() {
 export const releaseColor = (releaseType) => {
   switch (releaseType) {
     case 'release':
-      return 'green'
+      return 'brand'
     case 'beta':
       return 'orange'
     case 'alpha':

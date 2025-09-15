@@ -40,7 +40,7 @@
           class="btn"
         >
           <ExternalIcon />
-          Modrinth website
+          Open in browser
         </a>
       </div>
     </Card>
@@ -116,14 +116,6 @@
           <div class="metadata-item">
             <span class="metadata-label">Version Number</span>
             <span class="metadata-value">{{ version.version_number }}</span>
-          </div>
-          <div class="metadata-item">
-            <span class="metadata-label">Loaders</span>
-            <span class="metadata-value">{{
-              version.loaders
-                .map((loader) => loader.charAt(0).toUpperCase() + loader.slice(1))
-                .join(', ')
-            }}</span>
           </div>
           <div class="metadata-item">
             <span class="metadata-label">Game Versions</span>

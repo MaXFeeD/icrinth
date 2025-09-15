@@ -156,12 +156,22 @@ export const formatCategory = (name) => {
     return 'Behavior Pack'
   } else if (name === 'colored-lighting') {
     return 'Colored Lighting'
+  } else if (name === 'innercore') {
+    return 'Inner Core'
+  } else if (name === 'coreengine') {
+    return 'Core Engine'
   }
 
   return capitalizeString(name)
 }
 
 export const formatCategoryHeader = (name) => {
+  if (name === 'innercore') {
+    return 'Inner Core'
+  } else if (name === 'coreengine') {
+    return 'Core Engine'
+  }
+
   return capitalizeString(name)
 }
 
