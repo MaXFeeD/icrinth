@@ -30,7 +30,7 @@
       </div>
       <div class="input-row">
         <p class="input-label">Loader</p>
-        <Chips v-model="loader" :items="loaders" />
+        <Chips v-model="loader" :formatLabel="formatCategory" :items="loaders" />
       </div>
       <div class="input-row">
         <p class="input-label">Game version</p>
@@ -210,11 +210,10 @@ import {
 } from '@icmods/assets'
 import { Avatar, Button, Checkbox, Chips } from '@icmods/ui'
 import { computed, onUnmounted, ref, shallowRef } from 'vue'
-import { get_loaders } from '@/helpers/tags'
+import { get_loaders, get_game_versions } from '@/helpers/tags'
 import { create } from '@/helpers/profile'
 import { open } from '@tauri-apps/plugin-dialog'
 import { convertFileSrc } from '@tauri-apps/api/core'
-import { get_game_versions, get_loader_versions } from '@/helpers/metadata'
 import { handleError } from '@/store/notifications.js'
 import Multiselect from 'vue-multiselect'
 import { trackEvent } from '@/helpers/analytics'
@@ -226,6 +225,7 @@ import {
 } from '@/helpers/import.js'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { getCurrentWebview } from '@tauri-apps/api/webview'
+import { formatCategory } from '@icmods/utils'
 
 const profile_name = ref('')
 const game_version = ref('')
@@ -290,35 +290,23 @@ onUnmounted(() => {
   }
 })
 
-const [/* innercore_versions, coreengine_versions, */ all_game_versions, loaders] =
-  await Promise.all([
-    // get_loader_versions('innercore').then(shallowRef).catch(handleError),
-    // get_loader_versions('coreengine').then(shallowRef).catch(handleError),
-    get_game_versions().then(shallowRef).catch(handleError),
-    get_loaders()
-      .then((value) =>
-        value
-          .filter((item) => item.supported_project_types.includes('modpack'))
-          .map((item) => item.name.toLowerCase()),
-      )
-      .then(ref)
-      .catch(handleError),
-  ])
+const [all_game_versions, loaders] = await Promise.all([
+  get_game_versions().then(shallowRef).catch(handleError),
+  get_loaders()
+    .then((value) =>
+      value
+        .filter((item) => item.supported_project_types.includes('modpack'))
+        .map((item) => item.name.toLowerCase()),
+    )
+    .then(ref)
+    .catch(handleError),
+])
 loaders.value.unshift('vanilla')
 
 const game_versions = computed(() => {
-  return all_game_versions.value.versions
-    .filter((item) => {
-      let defaultVal = item.type === 'release' || showSnapshots.value
-      // if (loader.value === 'innercore') {
-      //   defaultVal &= innercore_versions.value.gameVersions.some((x) => item.id === x.id)
-      // } else if (loader.value === 'coreengine') {
-      //   defaultVal &= coreengine_versions.value.gameVersions.some((x) => item.id === x.id)
-      // }
-
-      return defaultVal
-    })
-    .map((item) => item.id)
+  return all_game_versions.value
+    .filter((item) => item.version_type === 'release' || showSnapshots.value)
+    .map((item) => item.version)
 })
 
 const modal = ref(null)
@@ -381,16 +369,17 @@ const reset_icon = () => {
 }
 
 const selectable_versions = computed(() => {
-  // if (game_version.value) {
-  //   if (loader.value === 'innercore') {
-  //     return innercore_versions.value.gameVersions[0].loaders.map((item) => item.id)
-  //   } else if (loader.value === 'coreengine') {
-  //     return coreengine_versions.value.gameVersions
-  //       .find((item) => item.id === game_version.value)
-  //       .loaders.map((item) => item.id)
-  //   }
-  // }
-  return ['2.4.0b123 test']
+  switch (game_version.value) {
+    case '1.0.3':
+      return ['1.1.2b42']
+    case '1.11.4':
+      return ['2.1.0b71']
+    case '1.16.201-arm32':
+      return ['2.4.0b123 test']
+    case '1.16.201-arm64':
+      return ['2.4.0b125 arm64-test']
+  }
+  return []
 })
 
 const toggle_advanced = () => {
