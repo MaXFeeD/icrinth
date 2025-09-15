@@ -39,7 +39,7 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
       return {
         name: `${project.title} ${metadata.versionName || metadata.versionCode}`,
         version_number: `${metadata.versionCode}`,
-        loaders: ["coreengine"],
+        loaders: ["innercore"],
         version_type: metadata.versionName ? versionType(metadata.versionName) : "release",
         game_versions: supportedGameVersions,
       };

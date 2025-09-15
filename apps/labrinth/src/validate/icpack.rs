@@ -12,7 +12,7 @@ impl super::Validator for InnerCoreValidator {
     }
 
     fn get_supported_loaders(&self) -> &[&str] {
-        &["coreengine"]
+        &["innercore"]
     }
 
     fn get_supported_game_versions(&self) -> SupportedGameVersions {
