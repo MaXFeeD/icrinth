@@ -832,11 +832,17 @@ impl Profile {
                 )
             })?;
 
-            if archive.by_name("fabric.mod.json").is_ok()
-                || archive.by_name("quilt.mod.json").is_ok()
-                || archive.by_name("META-INF/neoforge.mods.toml").is_ok()
-                || archive.by_name("META-INF/mods.toml").is_ok()
-                || archive.by_name("mcmod.info").is_ok()
+            if archive.by_name("build.config").is_ok()
+                || (0..archive.len()).any(|i| {
+                    archive
+                        .by_index(i)
+                        .ok()
+                        .map(|file| {
+                            !file.is_dir()
+                                && file.name().ends_with("/build.config")
+                        })
+                        .unwrap_or(false)
+                })
             {
                 ProjectType::Mod
             } else {
