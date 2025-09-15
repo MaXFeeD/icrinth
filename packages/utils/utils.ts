@@ -281,9 +281,9 @@ export const fileIsValid = (file, validationOptions) => {
 export const acceptFileFromProjectType = (projectType) => {
   switch (projectType) {
     case 'mod':
-      return '.jar,.zip,.litemod,application/java-archive,application/x-java-archive,application/zip'
+      return '.zip,.icmod,application/zip'
     case 'modpack':
-      return '.mrpack,application/x-innercore-modpack+zip,application/zip'
+      return '.mrpack,.icmod,.icpack,application/x-innercore-modpack+zip,application/zip'
     default:
       return '*'
   }
