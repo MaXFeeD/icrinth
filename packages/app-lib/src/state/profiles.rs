@@ -833,16 +833,7 @@ impl Profile {
             })?;
 
             if archive.by_name("build.config").is_ok()
-                || (0..archive.len()).any(|i| {
-                    archive
-                        .by_index(i)
-                        .ok()
-                        .map(|file| {
-                            !file.is_dir()
-                                && file.name().ends_with("/build.config")
-                        })
-                        .unwrap_or(false)
-                })
+                || archive.file_names().any(|x| x.ends_with("/build.config"))
             {
                 ProjectType::Mod
             } else {
