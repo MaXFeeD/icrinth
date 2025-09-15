@@ -20,7 +20,7 @@ const messages = defineMessages({
     defaultMessage: "This page was opened {ago}",
   },
   amogusSeenPeople: {
-    id: "amogus.amogusgedPeople",
+    id: "amogus.seenPeople",
     defaultMessage:
       "{count, plural, one {{count} more person} other {{count} more people}} were also seen Amogus!",
   },

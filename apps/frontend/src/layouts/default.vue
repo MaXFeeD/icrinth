@@ -104,7 +104,7 @@
         >
           <a
             :target="$external()"
-            href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+            href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
           >
             <DownloadIcon aria-hidden="true" />
             <span class="hidden md:contents">Get Horizon</span>
@@ -395,7 +395,7 @@
         <a
           class="btn btn-outline btn-primary"
           :target="$external()"
-          href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+          href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
         >
           <DownloadIcon aria-hidden="true" />
           {{ formatMessage(messages.getHorizon) }}

@@ -222,7 +222,7 @@
                 <a
                   class="mt-2 flex justify-center text-brand-blue hover:underline"
                   :target="$external()"
-                  href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+                  href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
                 >
                   Don't have Horizon?
                 </a>
