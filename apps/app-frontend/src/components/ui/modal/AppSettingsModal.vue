@@ -13,10 +13,8 @@ import { TabbedModal } from '@icmods/ui'
 import { computed, ref, watch } from 'vue'
 import { useVIntl, defineMessage } from '@vintl/vintl'
 import AppearanceSettings from '@/components/ui/settings/AppearanceSettings.vue'
-import JavaSettings from '@/components/ui/settings/JavaSettings.vue'
 import ResourceManagementSettings from '@/components/ui/settings/ResourceManagementSettings.vue'
 import PrivacySettings from '@/components/ui/settings/PrivacySettings.vue'
-import DefaultInstanceSettings from '@/components/ui/settings/DefaultInstanceSettings.vue'
 import { getVersion } from '@tauri-apps/api/app'
 import { version as getOsVersion, platform as getOsPlatform } from '@tauri-apps/plugin-os'
 import { useTheming } from '@/store/state'
@@ -51,22 +49,6 @@ const tabs = [
     }),
     icon: ShieldIcon,
     content: PrivacySettings,
-  },
-  {
-    name: defineMessage({
-      id: 'app.settings.tabs.java-installations',
-      defaultMessage: 'Java installations',
-    }),
-    icon: CoffeeIcon,
-    content: JavaSettings,
-  },
-  {
-    name: defineMessage({
-      id: 'app.settings.tabs.default-instance-options',
-      defaultMessage: 'Default modpack options',
-    }),
-    icon: GameIcon,
-    content: DefaultInstanceSettings,
   },
   {
     name: defineMessage({

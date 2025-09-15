@@ -14,9 +14,6 @@ import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import GeneralSettings from '@/components/ui/instance_settings/GeneralSettings.vue'
 import { convertFileSrc } from '@tauri-apps/api/core'
 import InstallationSettings from '@/components/ui/instance_settings/InstallationSettings.vue'
-import JavaSettings from '@/components/ui/instance_settings/JavaSettings.vue'
-import WindowSettings from '@/components/ui/instance_settings/WindowSettings.vue'
-import HooksSettings from '@/components/ui/instance_settings/HooksSettings.vue'
 import type { InstanceSettingsTabProps } from '../../../helpers/types'
 
 const { formatMessage } = useVIntl()
@@ -39,30 +36,6 @@ const tabs: TabbedModalTab<InstanceSettingsTabProps>[] = [
     }),
     icon: WrenchIcon,
     content: InstallationSettings,
-  },
-  {
-    name: defineMessage({
-      id: 'instance.settings.tabs.window',
-      defaultMessage: 'Window',
-    }),
-    icon: MonitorIcon,
-    content: WindowSettings,
-  },
-  {
-    name: defineMessage({
-      id: 'instance.settings.tabs.java',
-      defaultMessage: 'Java and memory',
-    }),
-    icon: CoffeeIcon,
-    content: JavaSettings,
-  },
-  {
-    name: defineMessage({
-      id: 'instance.settings.tabs.hooks',
-      defaultMessage: 'Launch hooks',
-    }),
-    icon: CodeIcon,
-    content: HooksSettings,
   },
 ]
 
