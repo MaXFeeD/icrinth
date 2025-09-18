@@ -20,18 +20,6 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
     .map((it) => it.version);
 
   const inferFunctions = {
-    // Core Engine (powered by Inner Core) mods
-    "mod.info": (file) => {
-      const metadata = JSON.parse(file);
-
-      return {
-        name: `${project.title} ${metadata.version}`,
-        version_number: metadata.version,
-        loaders: ["coreengine"],
-        version_type: versionType(metadata.version),
-        game_versions: supportedGameVersions,
-      };
-    },
     // Inner Core modpacks
     "/modpack.json": (file) => {
       const metadata = JSON.parse(file);
@@ -48,19 +36,26 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
     "/modrinth.index.json": (file) => {
       const metadata = JSON.parse(file);
 
-      const loaders = [];
-      if ("coreengine" in metadata.dependencies) {
-        loaders.push("coreengine");
-      }
-
       return {
         name: `${project.title} ${metadata.versionId}`,
         version_number: metadata.versionId,
         version_type: versionType(metadata.versionId),
-        loaders,
+        loaders: ["innercore"],
         game_versions: gameVersions
           .filter((x) => x.version === metadata.dependencies.minecraft)
           .map((x) => x.version),
+      };
+    },
+    // Core Engine (powered by Inner Core) mods
+    "mod.info": (file) => {
+      const metadata = JSON.parse(file);
+
+      return {
+        name: `${project.title} ${metadata.version}`,
+        version_number: metadata.version,
+        loaders: ["coreengine"],
+        version_type: versionType(metadata.version),
+        game_versions: supportedGameVersions,
       };
     },
   };
