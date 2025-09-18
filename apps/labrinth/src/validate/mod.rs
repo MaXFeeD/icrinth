@@ -79,8 +79,8 @@ static ALWAYS_ALLOWED_EXT: &[&str] = &["zip", "txt"];
 
 static VALIDATORS: &[&dyn Validator] = &[
     &ModpackValidator,
-    &CoreEngineValidator,
     &InnerCoreValidator,
+    &CoreEngineValidator,
     &NoJavaContentValidator,
 ];
 
