@@ -824,7 +824,7 @@ import {
   ScrollablePanel,
 } from "@icmods/ui";
 import VersionSummary from "@icmods/ui/src/components/version/VersionSummary.vue";
-import { formatCategory, isRejected, isStaff, isUnderReview, renderString } from "@icmods/utils";
+import { formatCategory, isApproved, isRejected, isStaff, isUnderReview, renderString } from "@icmods/utils";
 import { navigateTo } from "#app";
 import dayjs from "dayjs";
 // TODO: There should be Horizon, but we haven't those...
@@ -1429,7 +1429,7 @@ const navLinks = computed(() => {
     {
       label: "Comments",
       href: `${projectUrl}/comments`,
-      shown: !!auth.value.user,
+      shown: isApproved(project.value),
     },
     {
       label: "Changelog",
