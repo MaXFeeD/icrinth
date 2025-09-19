@@ -70,11 +70,11 @@ pub struct FetchedPlaytime {
 
 // TODO: Rewrite without clickhouse analytics...
 pub async fn playtimes_get(
-    req: HttpRequest,
-    data: web::Query<GetData>,
-    session_queue: web::Data<AuthQueue>,
-    pool: web::Data<PgPool>,
-    redis: web::Data<RedisPool>,
+    _req: HttpRequest,
+    _data: web::Query<GetData>,
+    _session_queue: web::Data<AuthQueue>,
+    _pool: web::Data<PgPool>,
+    _redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
     // let user = get_user_from_headers(
     //     &req,
@@ -139,11 +139,11 @@ pub async fn playtimes_get(
 
 // TODO: Rewrite without clickhouse analytics...
 pub async fn views_get(
-    req: HttpRequest,
-    data: web::Query<GetData>,
-    session_queue: web::Data<AuthQueue>,
-    pool: web::Data<PgPool>,
-    redis: web::Data<RedisPool>,
+    _req: HttpRequest,
+    _data: web::Query<GetData>,
+    _session_queue: web::Data<AuthQueue>,
+    _pool: web::Data<PgPool>,
+    _redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
     // let user = get_user_from_headers(
     //     &req,
@@ -208,11 +208,11 @@ pub async fn views_get(
 
 // TODO: Rewrite without clickhouse analytics...
 pub async fn downloads_get(
-    req: HttpRequest,
-    data: web::Query<GetData>,
-    session_queue: web::Data<AuthQueue>,
-    pool: web::Data<PgPool>,
-    redis: web::Data<RedisPool>,
+    _req: HttpRequest,
+    _data: web::Query<GetData>,
+    _session_queue: web::Data<AuthQueue>,
+    _pool: web::Data<PgPool>,
+    _redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
     // let user_option = get_user_from_headers(
     //     &req,
@@ -416,11 +416,11 @@ pub async fn revenue_get(
 
 // TODO: Rewrite without clickhouse analytics...
 pub async fn countries_downloads_get(
-    req: HttpRequest,
-    data: web::Query<GetData>,
-    session_queue: web::Data<AuthQueue>,
-    pool: web::Data<PgPool>,
-    redis: web::Data<RedisPool>,
+    _req: HttpRequest,
+    _data: web::Query<GetData>,
+    _session_queue: web::Data<AuthQueue>,
+    _pool: web::Data<PgPool>,
+    _redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
     // let user = get_user_from_headers(
     //     &req,
@@ -491,11 +491,11 @@ pub async fn countries_downloads_get(
 
 // TODO: Rewrite without clickhouse analytics...
 pub async fn countries_views_get(
-    req: HttpRequest,
-    data: web::Query<GetData>,
-    session_queue: web::Data<AuthQueue>,
-    pool: web::Data<PgPool>,
-    redis: web::Data<RedisPool>,
+    _req: HttpRequest,
+    _data: web::Query<GetData>,
+    _session_queue: web::Data<AuthQueue>,
+    _pool: web::Data<PgPool>,
+    _redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
     // let user = get_user_from_headers(
     //     &req,
@@ -551,22 +551,22 @@ pub async fn countries_views_get(
     Ok(HttpResponse::Ok().json({}))
 }
 
-fn condense_countries(countries: HashMap<String, u64>) -> HashMap<String, u64> {
-    // Every country under '15' (view or downloads) should be condensed into 'XX'
-    let mut hm = HashMap::new();
-    for (mut country, count) in countries {
-        if count < 50 {
-            country = "XX".to_string();
-        }
-        if !hm.contains_key(&country) {
-            hm.insert(country.to_string(), 0);
-        }
-        if let Some(hm) = hm.get_mut(&country) {
-            *hm += count;
-        }
-    }
-    hm
-}
+// fn condense_countries(countries: HashMap<String, u64>) -> HashMap<String, u64> {
+//     // Every country under '15' (view or downloads) should be condensed into 'XX'
+//     let mut hm = HashMap::new();
+//     for (mut country, count) in countries {
+//         if count < 50 {
+//             country = "XX".to_string();
+//         }
+//         if !hm.contains_key(&country) {
+//             hm.insert(country.to_string(), 0);
+//         }
+//         if let Some(hm) = hm.get_mut(&country) {
+//             *hm += count;
+//         }
+//     }
+//     hm
+// }
 
 async fn filter_allowed_ids(
     mut project_ids: Option<Vec<String>>,

@@ -729,7 +729,7 @@ pub async fn make_aditude_request(
 }
 
 // TODO: Rewrite without clickhouse analytics...
-pub async fn process_payout(pool: &PgPool) -> Result<(), ApiError> {
+pub async fn process_payout(_pool: &PgPool) -> Result<(), ApiError> {
     // let start: DateTime<Utc> = DateTime::from_naive_utc_and_offset(
     //     (Utc::now() - Duration::days(1))
     //         .date_naive()

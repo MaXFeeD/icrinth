@@ -3,17 +3,15 @@ use crate::launcher::parse_rules;
 use crate::state::Credentials;
 use crate::{
     state::{MemorySettings, WindowSize},
-    util::{io::IOError, platform::classpath_separator},
+    util::platform::classpath_separator,
 };
 use daedalus::{
     get_path_from_artifact,
     minecraft::{Argument, ArgumentValue, Library, VersionType},
-    modded::SidedDataEntry,
 };
 use dunce::canonicalize;
 use std::collections::HashSet;
-use std::io::{BufRead, BufReader};
-use std::{collections::HashMap, path::Path};
+use std::path::Path;
 use uuid::Uuid;
 
 // Replaces the space separator with a newline character, as to not split the arguments
@@ -62,18 +60,18 @@ pub fn get_class_paths(
         .join(classpath_separator(java_arch)))
 }
 
-pub fn get_class_paths_jar<T: AsRef<str>>(
-    libraries_path: &Path,
-    libraries: &[T],
-    java_arch: &str,
-) -> crate::Result<String> {
-    let cps = libraries
-        .iter()
-        .map(|library| get_lib_path(libraries_path, library.as_ref(), false))
-        .collect::<Result<Vec<_>, _>>()?;
+// pub fn get_class_paths_jar<T: AsRef<str>>(
+//     libraries_path: &Path,
+//     libraries: &[T],
+//     java_arch: &str,
+// ) -> crate::Result<String> {
+//     let cps = libraries
+//         .iter()
+//         .map(|library| get_lib_path(libraries_path, library.as_ref(), false))
+//         .collect::<Result<Vec<_>, _>>()?;
 
-    Ok(cps.join(classpath_separator(java_arch)))
-}
+//     Ok(cps.join(classpath_separator(java_arch)))
+// }
 
 pub fn get_lib_path(
     libraries_path: &Path,
@@ -362,75 +360,75 @@ where
     Ok(())
 }
 
-pub fn get_processor_arguments<T: AsRef<str>>(
-    libraries_path: &Path,
-    arguments: &[T],
-    data: &HashMap<String, SidedDataEntry>,
-) -> crate::Result<Vec<String>> {
-    let mut new_arguments = Vec::new();
+// pub fn get_processor_arguments<T: AsRef<str>>(
+//     libraries_path: &Path,
+//     arguments: &[T],
+//     data: &HashMap<String, SidedDataEntry>,
+// ) -> crate::Result<Vec<String>> {
+//     let mut new_arguments = Vec::new();
 
-    for argument in arguments {
-        let trimmed_arg = &argument.as_ref()[1..argument.as_ref().len() - 1];
-        if argument.as_ref().starts_with('{') {
-            if let Some(entry) = data.get(trimmed_arg) {
-                new_arguments.push(if entry.client.starts_with('[') {
-                    get_lib_path(
-                        libraries_path,
-                        &entry.client[1..entry.client.len() - 1],
-                        true,
-                    )?
-                } else {
-                    entry.client.clone()
-                })
-            }
-        } else if argument.as_ref().starts_with('[') {
-            new_arguments.push(get_lib_path(libraries_path, trimmed_arg, true)?)
-        } else {
-            new_arguments.push(argument.as_ref().to_string())
-        }
-    }
+//     for argument in arguments {
+//         let trimmed_arg = &argument.as_ref()[1..argument.as_ref().len() - 1];
+//         if argument.as_ref().starts_with('{') {
+//             if let Some(entry) = data.get(trimmed_arg) {
+//                 new_arguments.push(if entry.client.starts_with('[') {
+//                     get_lib_path(
+//                         libraries_path,
+//                         &entry.client[1..entry.client.len() - 1],
+//                         true,
+//                     )?
+//                 } else {
+//                     entry.client.clone()
+//                 })
+//             }
+//         } else if argument.as_ref().starts_with('[') {
+//             new_arguments.push(get_lib_path(libraries_path, trimmed_arg, true)?)
+//         } else {
+//             new_arguments.push(argument.as_ref().to_string())
+//         }
+//     }
 
-    Ok(new_arguments)
-}
+//     Ok(new_arguments)
+// }
 
-pub async fn get_processor_main_class(
-    path: String,
-) -> crate::Result<Option<String>> {
-    let main_class = tokio::task::spawn_blocking(move || {
-        let zipfile = std::fs::File::open(&path)
-            .map_err(|e| IOError::with_path(e, &path))?;
-        let mut archive = zip::ZipArchive::new(zipfile).map_err(|_| {
-            crate::ErrorKind::LauncherError(format!(
-                "Cannot read processor at {}",
-                path
-            ))
-            .as_error()
-        })?;
+// pub async fn get_processor_main_class(
+//     path: String,
+// ) -> crate::Result<Option<String>> {
+//     let main_class = tokio::task::spawn_blocking(move || {
+//         let zipfile = std::fs::File::open(&path)
+//             .map_err(|e| IOError::with_path(e, &path))?;
+//         let mut archive = zip::ZipArchive::new(zipfile).map_err(|_| {
+//             crate::ErrorKind::LauncherError(format!(
+//                 "Cannot read processor at {}",
+//                 path
+//             ))
+//             .as_error()
+//         })?;
 
-        let file = archive.by_name("META-INF/MANIFEST.MF").map_err(|_| {
-            crate::ErrorKind::LauncherError(format!(
-                "Cannot read processor manifest at {}",
-                path
-            ))
-            .as_error()
-        })?;
+//         let file = archive.by_name("META-INF/MANIFEST.MF").map_err(|_| {
+//             crate::ErrorKind::LauncherError(format!(
+//                 "Cannot read processor manifest at {}",
+//                 path
+//             ))
+//             .as_error()
+//         })?;
 
-        let reader = BufReader::new(file);
+//         let reader = BufReader::new(file);
 
-        for line in reader.lines() {
-            let mut line = line.map_err(IOError::from)?;
-            line.retain(|c| !c.is_whitespace());
+//         for line in reader.lines() {
+//             let mut line = line.map_err(IOError::from)?;
+//             line.retain(|c| !c.is_whitespace());
 
-            if line.starts_with("Main-Class:") {
-                if let Some(class) = line.split(':').nth(1) {
-                    return Ok(Some(class.to_string()));
-                }
-            }
-        }
+//             if line.starts_with("Main-Class:") {
+//                 if let Some(class) = line.split(':').nth(1) {
+//                     return Ok(Some(class.to_string()));
+//                 }
+//             }
+//         }
 
-        Ok::<Option<String>, crate::Error>(None)
-    })
-    .await??;
+//         Ok::<Option<String>, crate::Error>(None)
+//     })
+//     .await??;
 
-    Ok(main_class)
-}
+//     Ok(main_class)
+// }
