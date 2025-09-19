@@ -55,7 +55,7 @@
         <CloseIcon aria-hidden="true" /> Reopen thread
       </button>
     </template>
-    <template v-else-if="!report || !report.closed">
+    <template v-else-if="auth.user && (!report || !report.closed)">
       <div class="markdown-editor-spacing">
         <MarkdownEditor
           v-model="replyBody"
@@ -208,12 +208,22 @@
         </div>
       </div>
     </template>
+    <template v-else>
+      <p>Sign in to Inner Core Mods to leave your own opinion about this project.</p>
+      <nuxt-link to="/auth/sign-in">
+        <div class="cta-button">
+          <button class="btn btn-primary">
+            <LogInIcon /> Sign in to Inner Core Mods
+          </button>
+        </div>
+      </nuxt-link>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { OverflowMenu, MarkdownEditor } from "@icmods/ui";
-import { DropdownIcon } from "@icmods/assets";
+import { DropdownIcon, LogInIcon } from "@icmods/assets";
 import { useImageUpload } from "~/composables/image-upload.ts";
 import CopyCode from "~/components/ui/CopyCode.vue";
 import ReplyIcon from "~/assets/images/utils/reply.svg?component";
