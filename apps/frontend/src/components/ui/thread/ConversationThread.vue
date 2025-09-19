@@ -211,7 +211,10 @@
     <div v-else class="suggestion-blurb">
       <div class="suggestion-blurb">
         <SuggestionIcon />
-        Sign in to leave your own opinion about this project.
+        <span>
+          Would you like to share your impressions or support developer?
+          <nuxt-link class="text-link" to="/auth/sign-in">Sign in</nuxt-link> to leave a comment.
+        </span>
       </div>
     </div>
   </div>
