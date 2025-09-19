@@ -219,7 +219,7 @@
 
 <script setup>
 import { OverflowMenu, MarkdownEditor } from "@icmods/ui";
-import { DropdownIcon, LogInIcon } from "@icmods/assets";
+import { DropdownIcon } from "@icmods/assets";
 import { useImageUpload } from "~/composables/image-upload.ts";
 import CopyCode from "~/components/ui/CopyCode.vue";
 import ReplyIcon from "~/assets/images/utils/reply.svg?component";
