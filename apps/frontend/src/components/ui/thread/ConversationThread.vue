@@ -208,16 +208,12 @@
         </div>
       </div>
     </template>
-    <template v-else>
-      <p>Sign in to Inner Core Mods to leave your own opinion about this project.</p>
-      <nuxt-link to="/auth/sign-in">
-        <div class="cta-button">
-          <button class="btn btn-primary">
-            <LogInIcon /> Sign in to Inner Core Mods
-          </button>
-        </div>
-      </nuxt-link>
-    </template>
+    <div v-else class="suggestion-blurb">
+      <div class="suggestion-blurb">
+        <SuggestionIcon />
+        Sign in to leave your own opinion about this project.
+      </div>
+    </div>
   </div>
 </template>
 
@@ -234,6 +230,7 @@ import CrossIcon from "~/assets/images/utils/x.svg?component";
 import EyeOffIcon from "~/assets/images/utils/eye-off.svg?component";
 import CheckIcon from "~/assets/images/utils/check.svg?component";
 import ModerationIcon from "~/assets/images/sidebar/admin.svg?component";
+import SuggestionIcon from "~/assets/images/utils/lightbulb.svg?component";
 import ThreadMessage from "~/components/ui/thread/ThreadMessage.vue";
 import { isStaff } from "~/helpers/users.js";
 import { isApproved, isRejected } from "~/helpers/projects.js";
@@ -485,6 +482,13 @@ const requestedStatus = computed(() => props.project.requested_status ?? "approv
   .extra-options {
     flex-basis: fit-content;
   }
+}
+
+.suggestion-blurb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-xs);
 }
 
 .modal-submit {
