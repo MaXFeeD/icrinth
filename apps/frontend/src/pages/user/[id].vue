@@ -67,8 +67,8 @@
               user.bio
                 ? user.bio
                 : projects.length === 0
-                  ? "User of Inner Core Mods website."
-                  : "Content creator on Inner Core Mods website."
+                  ? "User on Inner Core Mods."
+                  : "Creator on Inner Core Mods."
             }}
           </template>
           <template #stats>
