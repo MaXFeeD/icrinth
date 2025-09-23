@@ -566,19 +566,26 @@ const badges = computed(() => {
     badges.push("moderator");
   }
 
-  if (sumDownloads.value > 1000000) {
-    badges.push("legendary-million");
-  }
-
   if (isPermission(user.value.badges, 1 << 1)) {
     badges.push("adopter");
   }
 
+  if (sumDownloads.value > 1000000) {
+    badges.push("legendary-million");
+  }
+
   if (isPermission(user.value.badges, 1 << 2) || joinDate.value < MIGRATION_TO_HORIZON_DATE) {
     badges.push("modding-pioneer");
-  } // else if (isPermission(user.value.badges, 1 << 3) || joinDate.value < MIGRATION_TO_NETHER_UPDATE_DATE) {
-  // badges.push("village-and-pillage-era");
-  // }
+  } else if (
+    isPermission(user.value.badges, 1 << 3) ||
+    joinDate.value < MIGRATION_TO_NETHER_UPDATE_DATE
+  ) {
+    badges.push("horizoneer");
+  }
+
+  if (isPermission(user.value.badges, 1 << 4)) {
+    badges.push("mighty-servant");
+  }
 
   return badges;
 });
