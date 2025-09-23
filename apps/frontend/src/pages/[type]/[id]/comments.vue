@@ -3,11 +3,11 @@
     <section id="messages" class="universal-card">
       <h2>Comments</h2>
       <p>
-        All messages here are public and visible to every Inner Core Mods user, access to your
-        account may be restricted for violating
+        All comments are published publicly and visible to everyone who visits this page, access to
+        your account may be restricted for violating
         <nuxt-link to="/legal/rules" class="text-link" target="_blank">content rules</nuxt-link>.
         Remember also that comments are not place for bug reports, you can submit them via Issues
-        project link or contact author via social media.
+        project link or contact author via socials.
       </p>
       <!-- Kept heading buttons in case user wanted to write on why this mod is worth downloading -->
       <ConversationThread
