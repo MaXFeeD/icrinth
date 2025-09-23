@@ -361,29 +361,29 @@ const initProjects = async (cacheBehaviour?) => {
     }
   }
 
-  const [modrinthProjects, modrinthVersions] = await Promise.all([
+  const [icmodsProjects, icmodsVersions] = await Promise.all([
     await get_project_many(fetchProjects).catch(handleError),
     await get_version_many(fetchVersions).catch(handleError),
   ])
 
-  const [modrinthTeams, modrinthOrganizations] = await Promise.all([
-    await get_team_many(modrinthProjects.map((x) => x.team)).catch(handleError),
-    await get_organization_many(
-      modrinthProjects.map((x) => x.organization).filter((x) => !!x),
-    ).catch(handleError),
+  const [icmodsTeams, icmodsOrganizations] = await Promise.all([
+    await get_team_many(icmodsProjects.map((x) => x.team)).catch(handleError),
+    await get_organization_many(icmodsProjects.map((x) => x.organization).filter((x) => !!x)).catch(
+      handleError,
+    ),
   ])
 
   for (const [path, file] of Object.entries(profileProjects)) {
     if (file.metadata) {
-      const project = modrinthProjects.find((x) => file.metadata.project_id === x.id)
-      const version = modrinthVersions.find((x) => file.metadata.version_id === x.id)
+      const project = icmodsProjects.find((x) => file.metadata.project_id === x.id)
+      const version = icmodsVersions.find((x) => file.metadata.version_id === x.id)
 
       if (project && version) {
         const org = project.organization
-          ? modrinthOrganizations.find((x) => x.id === project.organization)
+          ? icmodsOrganizations.find((x) => x.id === project.organization)
           : null
 
-        const team = modrinthTeams.find((x) => x[0].team_id === project.team)
+        const team = icmodsTeams.find((x) => x[0].team_id === project.team)
 
         let owner
 

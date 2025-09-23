@@ -628,12 +628,8 @@ useSeoMeta({
       defaultMessage: "Discover and publish Inner Core content!",
     }),
   ogType: "website",
-  ogImage: "https://cdn.modrinth.com/modrinth-new.png",
+  ogImage: "https://cdn.inner-core.org/logo-128.png",
   ogUrl: link,
-
-  // Twitter
-  twitterCard: "summary",
-  twitterSite: "@modrinth",
 });
 
 const developerModeCounter = ref(0);

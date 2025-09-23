@@ -26,7 +26,7 @@ watch(
     <div>
       <h2 class="m-0 text-lg font-extrabold text-contrast">Personalized ads</h2>
       <p class="m-0 text-sm">
-        Modrinth's ad provider, Aditude, shows ads based on your preferences. By disabling this
+        Inner Core Mods ad provider, Aditude, shows ads based on your preferences. By disabling this
         option, you opt out and ads will no longer be shown based on your interests.
       </p>
     </div>
@@ -46,8 +46,8 @@ watch(
     <div>
       <h2 class="m-0 text-lg font-extrabold text-contrast">Telemetry</h2>
       <p class="m-0 text-sm">
-        Modrinth collects anonymized analytics and usage data to improve our user experience and
-        customize your experience. By disabling this option, you opt out and your data will no
+        Inner Core Mods collects anonymized analytics and usage data to improve our user experience
+        and customize your experience. By disabling this option, you opt out and your data will no
         longer be collected.
       </p>
     </div>
@@ -67,7 +67,7 @@ watch(
     <div>
       <h2 class="m-0 text-lg font-extrabold text-contrast">Discord RPC</h2>
       <p class="m-0 text-sm">
-        Manages the Discord Rich Presence integration. Disabling this will cause 'Modrinth' to no
+        Manages the Discord Rich Presence integration. Disabling this will cause 'Inner Core' to no
         longer show up as a game or app you are using on your Discord profile.
       </p>
       <p class="m-0 mt-2 text-sm">

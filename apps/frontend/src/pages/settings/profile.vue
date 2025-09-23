@@ -5,7 +5,7 @@
       <p class="mb-4">
         <IntlFormatted :message-id="messages.description">
           <template #docs-link="{ children }">
-            <a href="https://docs.modrinth.com/" target="_blank" class="text-link">
+            <a href="https://docs.inner-core.org/" target="_blank" class="text-link">
               <component :is="() => children" />
             </a>
           </template>

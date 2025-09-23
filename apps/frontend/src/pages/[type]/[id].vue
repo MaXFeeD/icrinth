@@ -824,7 +824,14 @@ import {
   ScrollablePanel,
 } from "@icmods/ui";
 import VersionSummary from "@icmods/ui/src/components/version/VersionSummary.vue";
-import { formatCategory, isApproved, isRejected, isStaff, isUnderReview, renderString } from "@icmods/utils";
+import {
+  formatCategory,
+  isApproved,
+  isRejected,
+  isStaff,
+  isUnderReview,
+  renderString,
+} from "@icmods/utils";
 import { navigateTo } from "#app";
 import dayjs from "dayjs";
 // TODO: There should be Horizon, but we haven't those...
@@ -1231,7 +1238,7 @@ if (!route.name.startsWith("type-id-settings")) {
     description: () => description.value,
     ogTitle: () => title.value,
     ogDescription: () => project.value.description,
-    ogImage: () => project.value.icon_url ?? "https://cdn.modrinth.com/placeholder.png",
+    ogImage: () => project.value.icon_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
     robots: () =>
       project.value.status === "approved" || project.value.status === "archived"
         ? "all"

@@ -128,7 +128,7 @@ function devModeCount() {
               <IcmodsIcon class="w-6 h-6" />
             </button>
             <div>
-              <p class="m-0">Modrinth App {{ version }}</p>
+              <p class="m-0">Inner Core Mod Browser {{ version }}</p>
               <p class="m-0">
                 <span v-if="osPlatform === 'macos'">MacOS</span>
                 <span v-else class="capitalize">{{ osPlatform }}</span>

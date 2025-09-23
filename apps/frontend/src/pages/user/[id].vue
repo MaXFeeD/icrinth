@@ -523,7 +523,7 @@ useSeoMeta({
   description: () => description.value,
   ogTitle: () => title.value,
   ogDescription: () => description.value,
-  ogImage: () => user.value.avatar_url ?? "https://cdn.modrinth.com/placeholder.png",
+  ogImage: () => user.value.avatar_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
 });
 
 const projectTypes = computed(() => {

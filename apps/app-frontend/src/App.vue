@@ -28,7 +28,7 @@ import Breadcrumbs from '@/components/ui/Breadcrumbs.vue'
 import RunningAppBar from '@/components/ui/RunningAppBar.vue'
 import SplashScreen from '@/components/ui/SplashScreen.vue'
 import ErrorModal from '@/components/ui/ErrorModal.vue'
-import ModrinthLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
+import IcmodsLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
 import { handleError, useNotifications } from '@/store/notifications.js'
 import { command_listener, warning_listener } from '@/helpers/events.js'
 import { type } from '@tauri-apps/plugin-os'
@@ -503,7 +503,7 @@ function handleAuxClick(e) {
           width: 'calc(100% - var(--left-bar-width) - var(--right-bar-width))',
         }"
       >
-        <ModrinthLoadingIndicator />
+        <IcmodsLoadingIndicator />
       </div>
       <div
         v-if="themeStore.featureFlags.page_path"
@@ -579,13 +579,6 @@ function handleAuxClick(e) {
         </div>
       </div>
       <template v-if="showAd">
-        <!-- a
-          href="https://modrinth.plus?app"
-          class="absolute bottom-[250px] w-full flex justify-center items-center gap-1 px-4 py-3 text-purple font-medium hover:underline z-10"
-          target="_blank"
-        >
-          <ArrowBigUpDashIcon class="text-2xl" /> Upgrade to Modrinth+
-        </a -->
         <PromotionWrapper />
       </template>
     </div>

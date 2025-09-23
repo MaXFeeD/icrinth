@@ -11,7 +11,7 @@
       :src="
         selectedAccount
           ? `https://mc-heads.net/avatar/${selectedAccount.id}/128`
-          : 'https://launcher-files.modrinth.com/assets/steve_head.png'
+          : 'https://cdn.inner-core.org/launcher/steve.png'
       "
     />
     <div class="flex flex-col w-full">

@@ -238,7 +238,7 @@ onUnmounted(() => {
   <ModalWrapper ref="addFriendModal" header="Add a friend">
     <div class="mb-4">
       <h2 class="m-0 text-lg font-extrabold text-contrast">Username</h2>
-      <p class="m-0 mt-1 leading-tight">You can add friends with their Modrinth username.</p>
+      <p class="m-0 mt-1 leading-tight">You can add friends with their Inner Core Mods username.</p>
       <input v-model="username" class="mt-2 w-full" type="text" placeholder="Enter username..." />
     </div>
     <ButtonStyled color="brand">

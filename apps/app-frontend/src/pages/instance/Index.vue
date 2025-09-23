@@ -116,7 +116,7 @@
             :options="options"
             :offline="offline"
             :playing="playing"
-            :versions="modrinthVersions"
+            :versions="icmodsVersions"
             :installed="instance.install_stage !== 'installed'"
           ></component>
           <template #fallback>
@@ -134,7 +134,7 @@
     <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #open_folder> <ClipboardCopyIcon /> Open folder </template>
     <template #copy_link> <ClipboardCopyIcon /> Copy link </template>
-    <template #open_link> <ClipboardCopyIcon /> Open in Modrinth <ExternalIcon /> </template>
+    <template #open_link> <ClipboardCopyIcon /> Open in browser <ExternalIcon /> </template>
     <template #copy_names><EditIcon />Copy names</template>
     <template #copy_slugs><HashIcon />Copy slugs</template>
     <template #copy_links><GlobeIcon />Copy links</template>
@@ -210,7 +210,7 @@ window.addEventListener('online', () => {
 })
 
 const instance = ref()
-const modrinthVersions = ref([])
+const icmodsVersions = ref([])
 const playing = ref(false)
 const loading = ref(false)
 
@@ -225,7 +225,7 @@ async function fetchInstance() {
           get_version_many(project.versions, 'must_revalidate')
             .catch(handleError)
             .then((versions) => {
-              modrinthVersions.value = versions.sort(
+              icmodsVersions.value = versions.sort(
                 (a, b) => dayjs(b.date_published) - dayjs(a.date_published),
               )
             })

@@ -60,7 +60,7 @@ defineExpose({
       supportLink.value = 'https://support.modrinth.com'
       metadata.value.profilePath = context.profilePath
     } else if (source === 'state_init') {
-      title.value = 'Error initializing Modrinth App'
+      title.value = 'Error initializing Inner Core Mod Browser'
       errorType.value = 'state_init'
       supportLink.value = 'https://support.modrinth.com'
     } else {
@@ -128,9 +128,9 @@ async function repairInstance() {
           <template v-if="metadata.network">
             <h3>Network issues</h3>
             <p>
-              It looks like there were issues with the Modrinth App connecting to Microsoft's
-              servers. This is often the result of a poor connection, so we recommend trying again
-              to see if it works. If issues continue to persist, follow the steps in
+              It looks like there were issues with the Inner Core Mod Browser connecting to
+              Microsoft's servers. This is often the result of a poor connection, so we recommend
+              trying again to see if it works. If issues continue to persist, follow the steps in
               <a
                 href="https://support.modrinth.com/en/articles/9038231-minecraft-sign-in-issues#h_e71a5f805f"
               >
@@ -142,9 +142,9 @@ async function repairInstance() {
           <template v-else-if="metadata.hostsFile">
             <h3>Network issues</h3>
             <p>
-              The Modrinth App tried to connect to Microsoft / Xbox / Minecraft services, but the
-              remote server rejected the connection. This may indicate that these services are
-              blocked by the hosts file. Please visit
+              The Inner Core Mod Browser tried to connect to Microsoft / Xbox / Minecraft services,
+              but the remote server rejected the connection. This may indicate that these services
+              are blocked by the hosts file. Please visit
               <a
                 href="https://support.modrinth.com/en/articles/9038231-minecraft-sign-in-issues#h_d694a29256"
               >
@@ -181,9 +181,9 @@ async function repairInstance() {
           <template v-if="metadata.readOnly">
             <h3>Change directory permissions</h3>
             <p>
-              It looks like the Modrinth App is unable to write to the directory you selected.
-              Please adjust the permissions of the directory and try again or cancel the directory
-              change.
+              It looks like the Inner Core Mod Browser is unable to write to the directory you
+              selected. Please adjust the permissions of the directory and try again or cancel the
+              directory change.
             </p>
           </template>
           <template v-else-if="metadata.notEnoughSpace">
@@ -195,8 +195,8 @@ async function repairInstance() {
           </template>
           <template v-else>
             <p>
-              The Modrinth App is unable to migrate to the new directory you selected. Please
-              contact support for help or cancel the directory change.
+              The Inner Core Mod Browser is unable to migrate to the new directory you selected.
+              Please contact support for help or cancel the directory change.
             </p>
           </template>
 
@@ -225,8 +225,8 @@ async function repairInstance() {
         </div>
         <template v-else-if="errorType === 'state_init'">
           <p>
-            Modrinth App failed to load correctly. This may be because of a corrupted file, or
-            because the app is missing crucial files.
+            Inner Core Mod Browser failed to load correctly. This may be because of a corrupted
+            file, or because the app is missing crucial files.
           </p>
           <p>You may be able to fix it through one of the following ways:</p>
           <ul>
@@ -235,7 +235,7 @@ async function repairInstance() {
           </ul>
         </template>
         <template v-else-if="errorType === 'no_loader_version'">
-          <p>The Modrinth App failed to find the loader version for this modpack.</p>
+          <p>The Inner Core Mod Browser failed to find the loader version for this modpack.</p>
           <p>To resolve this, you need to repair the modpack. Click the button below to do so.</p>
           <div class="cta-button">
             <button class="btn btn-primary" :disabled="loadingRepair" @click="repairInstance">

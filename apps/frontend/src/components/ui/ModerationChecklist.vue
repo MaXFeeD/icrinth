@@ -468,7 +468,6 @@ See descriptions like [Simply Optimized](https://inner-core.org/modpack/sop) or 
 Per section 2.1 of [Inner Core Content Rules](https://inner-core.org/legal/rules#general-expectations) your project's Description should clearly inform the reader of the content, purpose, and appeal of your project.
 Currently, it looks like there are some missing details.
 What does your project add? What features does it have? Why would a user want to download it? Be specific!
-See descriptions like [Sodium](https://modrinth.com/mod/sodium) or [LambDynamicLights](https://modrinth.com/mod/lambdynamiclights) for examples of what a good description looks like.
 `,
         },
         {
@@ -560,8 +559,8 @@ Per section 5.1 of [Inner Core Content Rules](https://inner-core.org/legal/rules
           resultingMessage: `## Incorrect Environment Information
 Per section 5.1 of [Inner Core Content Rules](https://inner-core.org/legal/rules#miscellaneous), it is important that the metadata of your projects is accurate, including whether the project runs on the client or server side.
 For a brief rundown of how this works:
-Some modpacks can be client-side, usually aimed at providing utility and optimization while allowing the player to join an unmodded server, for instance, [Fabulously Optimized](https://modrinth.com/modpack/fabulously-optimized).
-Most other modpacks that change how the game is played are going to be required on both the client and server, like the modpack [Dying Light](https://modrinth.com/modpack/dying-light).
+Some modpacks can be client-side, usually aimed at providing utility and optimization while allowing the player to join an unmodded server.
+Most other modpacks that change how the game is played are going to be required on both the client and server.
 When in doubt, test for yourself or check the requirements of the mods in your pack.`,
         },
         {
@@ -569,9 +568,9 @@ When in doubt, test for yourself or check the requirements of the mods in your p
           resultingMessage: `## Environment Information
 Per section 5.1 of [Inner Core Content Rules](https://inner-core.org/legal/rules#miscellaneous), it is important that the metadata of your projects is accurate, including whether the project runs on the client or server side.
 For a brief rundown of how this works:
-**Client side** refers to a mod that is only required by the client, like [Sodium](https://modrinth.com/mod/sodium).
-**Server side** mods change the behavior of the server without the client needing the mod, like Behavior Packs, recipes, or server-side behaviors, like [Falling Tree](https://modrinth.com/mod/fallingtree).
-A mod that adds features, entities, or new blocks and items, generally will be required on **both** the server and the client, for example [Cobblemon](https://modrinth.com/mod/cobblemon).`,
+**Client side** refers to a mod that is only required by the client.
+**Server side** mods change the behavior of the server without the client needing the mod, like Behavior Packs, recipes, or server-side behaviors.
+A mod that adds features, entities, or new blocks and items, generally will be required on **both** the server and the client.`,
         },
       ],
     },
@@ -607,7 +606,7 @@ Please upload each version of your mod separately, thank you.`,
         {
           name: "Invalid file type (modpacks)",
           resultingMessage: `## Modpacks on Inner Core Mods
-It looks like you've uploaded your Modpack as a \`.zip\`, unfortunately, this is invalid and is why your project type is "Mod". I recommend taking a look at our support page about [Inner Core Modpacks](https://support.modrinth.com/en/articles/8802250-modpacks-on-modrinth), and once you're ready feel free to resubmit your project as a \`.mrpack\`. Don't forget to delete the old files from your Versions!`,
+It looks like you've uploaded your Modpack as a \`.zip\`, unfortunately, this is invalid and is why your project type is "Mod". I recommend taking a look at our support page about [Modrinth Modpacks](https://support.modrinth.com/en/articles/8802250-modpacks-on-modrinth), and once you're ready feel free to resubmit your project as a \`.mrpack\`. Don't forget to delete the old files from your Versions!`,
         },
         {
           name: "Invalid file type (resourcepacks)",

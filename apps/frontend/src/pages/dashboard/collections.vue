@@ -26,7 +26,7 @@
         :to="`/collection/following`"
         class="universal-card recessed collection"
       >
-        <Avatar src="https://cdn.modrinth.com/follow-collection.png" class="icon" />
+        <Avatar src="https://cdn.inner-core.org/artwork/followed-collection.png" class="icon" />
         <div class="details">
           <span class="title">{{ formatMessage(commonMessages.followedProjectsLabel) }}</span>
           <span class="description">

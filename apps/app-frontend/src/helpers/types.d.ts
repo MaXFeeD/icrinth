@@ -1,4 +1,4 @@
-import type { ModrinthId } from '@icmods/utils'
+import type { IcmodsId } from '@icmods/utils'
 
 type GameInstance = {
   path: string
@@ -40,8 +40,8 @@ type InstallStage =
   | 'not_installed'
 
 type LinkedData = {
-  project_id: ModrinthId
-  version_id: ModrinthId
+  project_id: IcmodsId
+  version_id: IcmodsId
 
   locked: boolean
 }

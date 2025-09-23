@@ -294,7 +294,7 @@ pub async fn send_slack_webhook(
                 "elements": [
                     {
                         "type": "image",
-                        "image_url": "https://cdn-raw.modrinth.com/modrinth-new.png",
+                        "image_url": "https://cdn.inner-core.org/logo-128.png",
                         "alt_text": "Author"
                     },
                     {
@@ -435,7 +435,7 @@ pub async fn send_discord_webhook(
                     project.display_project_type
                 ),
                 icon_url: Some(
-                    "https://cdn-raw.modrinth.com/modrinth-new.png".to_string(),
+                    "https://cdn.inner-core.org/logo-128.png".to_string(),
                 ),
             }),
         };
@@ -446,8 +446,7 @@ pub async fn send_discord_webhook(
             .post(&webhook_url)
             .json(&DiscordWebhook {
                 avatar_url: Some(
-                    "https://cdn.modrinth.com/Modrinth_Dark_Logo.png"
-                        .to_string(),
+                    "https://cdn.inner-core.org/logo-dark-2048.png".to_string(),
                 ),
                 username: Some("Inner Core Mods Release".to_string()),
                 embeds: vec![embed],

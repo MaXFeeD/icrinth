@@ -477,7 +477,7 @@ useSeoMeta({
   description,
   ogTitle: title,
   ogDescription: organization.value.description,
-  ogImage: organization.value.icon_url ?? "https://cdn.modrinth.com/placeholder.png",
+  ogImage: organization.value.icon_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
 });
 
 const navLinks = computed(() => [

@@ -476,7 +476,7 @@ await refreshSearch()
         <LoadingIndicator />
       </section>
       <section v-else-if="offline && results.total_hits === 0" class="offline">
-        You are currently offline. Connect to the internet to browse Modrinth!
+        You are currently offline. Connect to the internet to browse Inner Core Mods!
       </section>
       <section v-else class="project-list display-mode--list instance-results" role="list">
         <SearchCard
@@ -504,7 +504,7 @@ await refreshSearch()
           @contextmenu.prevent.stop="(event) => handleRightClick(event, result)"
         />
         <ContextMenu ref="options" @option-clicked="handleOptionsClick">
-          <template #open_link> <GlobeIcon /> Open in Modrinth <ExternalIcon /> </template>
+          <template #open_link> <GlobeIcon /> Open in browser <ExternalIcon /> </template>
           <template #copy_link> <ClipboardCopyIcon /> Copy link </template>
         </ContextMenu>
       </section>

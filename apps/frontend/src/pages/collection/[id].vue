@@ -380,14 +380,7 @@ import {
   LibraryIcon,
   BoxIcon,
 } from "@icmods/assets";
-import {
-  PopoutMenu,
-  FileInput,
-  DropdownSelect,
-  Avatar,
-  Button,
-  commonMessages,
-} from "@icmods/ui";
+import { PopoutMenu, FileInput, DropdownSelect, Avatar, Button, commonMessages } from "@icmods/ui";
 
 import WorldIcon from "assets/images/utils/world.svg";
 import UpToDate from "assets/images/illustrations/up_to_date.svg";
@@ -505,7 +498,7 @@ try {
   if (route.params.id === "following") {
     collection = ref({
       id: "following",
-      icon_url: "https://cdn.modrinth.com/follow-collection.png",
+      icon_url: "https://cdn.inner-core.org/artwork/followed-collection.png",
       name: formatMessage(commonMessages.followedProjectsLabel),
       description: formatMessage(messages.followingCollectionDescription),
       status: "private",
@@ -589,7 +582,7 @@ useSeoMeta({
     }),
   ogTitle: title,
   ogDescription: collection.value.description,
-  ogImage: collection.value.icon_url ?? "https://cdn.modrinth.com/placeholder.png",
+  ogImage: collection.value.icon_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
   robots: collection.value.status === "listed" ? "all" : "noindex",
 });
 

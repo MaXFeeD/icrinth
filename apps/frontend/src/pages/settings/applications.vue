@@ -150,7 +150,7 @@
     <p>
       Applications can be used to authenticate Inner Core users with your products. For more
       information, see
-      <a class="text-link" href="https://docs.modrinth.com">Inner Core Mods API documentation</a>.
+      <a class="text-link" href="https://docs.inner-core.org">Inner Core Mods API documentation</a>.
     </p>
     <div v-for="app in usersApps" :key="app.id" class="universal-card recessed token mt-4">
       <div class="token-info">
