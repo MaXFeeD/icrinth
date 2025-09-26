@@ -16,7 +16,7 @@ const closable = ref(true)
 
 const title = ref('An error occurred')
 const errorType = ref('unknown')
-const supportLink = ref('https://support.modrinth.com')
+const supportLink = ref('https://vk.me/core_engine')
 const metadata = ref({})
 
 defineExpose({
@@ -41,11 +41,11 @@ defineExpose({
     } else if (errorVal.message && errorVal.message.includes('User is not logged in')) {
       title.value = 'Sign in to Minecraft'
       errorType.value = 'minecraft_sign_in'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
     } else if (errorVal.message && errorVal.message.includes('Move directory error:')) {
       title.value = 'Could not change app directory'
       errorType.value = 'directory_move'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
 
       if (errorVal.message.includes('directory is not writeable')) {
         metadata.value.readOnly = true
@@ -57,16 +57,16 @@ defineExpose({
     } else if (errorVal.message && errorVal.message.includes('No loader version selected for')) {
       title.value = 'No loader selected'
       errorType.value = 'no_loader_version'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
       metadata.value.profilePath = context.profilePath
     } else if (source === 'state_init') {
       title.value = 'Error initializing Inner Core Mod Browser'
       errorType.value = 'state_init'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
     } else {
       title.value = 'An error occurred'
       errorType.value = 'unknown'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
       metadata.value = {}
     }
 
