@@ -4,7 +4,7 @@ use std::str::FromStr;
 use std::sync::Arc;
 
 use crate::routes::ApiError;
-use crate::util::env::parse_var;
+use crate::util::ip::get_peer_addr_from_request;
 use actix_web::{
     body::EitherBody,
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
@@ -74,16 +74,7 @@ where
             }
         }
 
-        let conn_info = req.connection_info().clone();
-        let ip = if parse_var("CLOUDFLARE_INTEGRATION").unwrap_or(false) {
-            if let Some(header) = req.headers().get("CF-Connecting-IP") {
-                header.to_str().ok()
-            } else {
-                conn_info.peer_addr()
-            }
-        } else {
-            conn_info.peer_addr()
-        };
+        let ip = get_peer_addr_from_request(req.request());
 
         if let Some(ip) = ip {
             let ip = ip.to_string();
