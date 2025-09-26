@@ -8,6 +8,7 @@ use crate::queue::session::AuthQueue;
 use crate::routes::ApiError;
 use crate::util::date::get_current_tenths_of_ms;
 use crate::util::env::parse_strings_from_var;
+use crate::util::ip::get_peer_addr_from_request;
 use actix_web::{post, web};
 use actix_web::{HttpRequest, HttpResponse};
 use serde::Deserialize;
@@ -59,7 +60,6 @@ pub async fn page_view_ingest(
         get_user_from_headers(&req, &**pool, &redis, &session_queue, None)
             .await
             .ok();
-    let conn_info = req.connection_info().peer_addr().map(|x| x.to_string());
 
     let url = Url::parse(&url_input.url).map_err(|_| {
         ApiError::InvalidInput("invalid page view URL specified!".to_string())
@@ -92,11 +92,7 @@ pub async fn page_view_ingest(
         .collect::<HashMap<String, String>>();
 
     let ip = crate::util::ip::convert_to_ip_v6(
-        if let Some(header) = headers.get("cf-connecting-ip") {
-            header
-        } else {
-            conn_info.as_deref().unwrap_or_default()
-        },
+        &get_peer_addr_from_request(&req).unwrap_or_default(),
     )
     .unwrap_or_else(|_| Ipv4Addr::new(127, 0, 0, 1).to_ipv6_mapped());
 
