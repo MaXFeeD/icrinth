@@ -17,12 +17,10 @@
       <div id="icmods-rail-1">
         <ins
           ref="googleAd"
-          class="adsbygoogle"
-          style="display: block"
+          class="adsbygoogle max-h-[250px] min-h-[250px] min-w-[300px] max-w-[300px]"
+          style="display: inline-block"
           data-ad-client="ca-pub-7817840874175901"
           data-ad-slot="1913330664"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
         />
       </div>
     </div>
