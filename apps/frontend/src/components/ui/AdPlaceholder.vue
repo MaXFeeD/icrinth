@@ -1,17 +1,52 @@
 <template>
-  <!-- div class="ad-parent relative mb-3 flex w-full justify-center rounded-2xl bg-bg-raised">
-    <div class="flex max-h-[250px] min-h-[250px] min-w-[300px] max-w-[300px] flex-col gap-4 p-6">
+  <div class="ad-parent relative mb-3 flex w-full justify-center rounded-2xl bg-bg-raised">
+    <div
+      class="flex max-h-[250px] min-h-[250px] min-w-[300px] max-w-[300px] flex-col items-center gap-4 p-6"
+    >
       <p class="m-0 text-2xl font-bold text-contrast">75% of ad revenue goes to creators</p>
+      <img
+        ref="adPlaceholder"
+        class="h-36"
+        style="display: none"
+        src="@/assets/images/sad-expression.webp"
+      />
     </div>
     <div
       class="absolute top-0 flex items-center justify-center overflow-hidden rounded-2xl bg-bg-raised"
     >
-      <div id="icmods-rail-1" />
+      <div id="icmods-rail-1">
+        <ins
+          ref="googleAd"
+          class="adsbygoogle"
+          style="display: block"
+          data-ad-client="ca-pub-7817840874175901"
+          data-ad-slot="1913330664"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
     </div>
-  </div -->
+  </div>
 </template>
-<!-- script setup>
+<script setup>
+const googleAd = ref(null);
+const googleAdLoaded = ref(false);
+const yandexAdLoaded = ref(false);
+const fallbackTimeout = ref(null);
+const adPlaceholder = ref(null);
+
 useHead({
+  script: [
+    {
+      src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7817840874175901",
+      crossorigin: "anonymous",
+      async: true,
+    },
+    {
+      src: "https://yandex.ru/ads/system/context.js",
+      async: true,
+    },
+  ],
   link: [
     {
       rel: "preload",
@@ -21,27 +56,109 @@ useHead({
   ],
 });
 
-onMounted(() => {
-  window.tude = window.tude || { cmd: [] };
-  window.Raven = window.Raven || { cmd: [] };
+const loadGoogleAd = () => {
+  if (window.adsbygoogle && !googleAdLoaded.value) {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      googleAdLoaded.value = true;
+    } catch (error) {
+      loadYandexAd();
+    }
+  }
+};
 
-  window.Raven.cmd.push(({ config }) => {
-    config.setCustom({
-      param1: "web",
-    });
-  });
+const loadYandexAd = () => {
+  if (yandexAdLoaded.value) return;
 
-  tude.cmd.push(function () {
-    tude.refreshAdsViaDivMappings([
-      {
-        divId: "icmods-rail-1",
-        baseDivId: "pb-slot-square-2",
-        targeting: {
-          location: "web",
+  try {
+    window.yaContextCb = window.yaContextCb || [];
+    window.yaContextCb.push(() => {
+      Ya.Context.AdvManager.render({
+        blockId: "R-A-17355902-1",
+        renderTo: "icmods-rail-1",
+        onError: (_) => {
+          clearTimeout(fallbackTimeout.value);
+          showAdblockPlaceholder();
         },
-      },
-    ]);
-  });
+        onRender: () => {
+          clearTimeout(fallbackTimeout.value);
+          yandexAdLoaded.value = true;
+        },
+      });
+    });
+  } catch (error) {
+    clearTimeout(fallbackTimeout.value);
+    showAdblockPlaceholder();
+  }
+};
+
+const checkGoogleAdRendered = () => {
+  if (!googleAd.value) return false;
+
+  const hasContent = googleAd.value.innerHTML.trim().length > 0;
+  const hasIframe = googleAd.value.querySelector("iframe");
+
+  return hasContent || hasIframe;
+};
+
+const showAdblockPlaceholder = () => {
+  if (adPlaceholder.value) {
+    adPlaceholder.value.style.display = "";
+  }
+};
+
+onMounted(() => {
+  fallbackTimeout.value = setTimeout(() => {
+    if (!googleAdLoaded.value && !checkGoogleAdRendered()) {
+      loadYandexAd();
+      fallbackTimeout.value = setTimeout(() => {
+        if (!yandexAdLoaded.value) {
+          showAdblockPlaceholder();
+        }
+      }, 3000);
+    }
+  }, 3000);
+
+  if (window.adsbygoogle) {
+    loadGoogleAd();
+  } else {
+    const googleScriptCheck = setInterval(() => {
+      if (window.adsbygoogle) {
+        clearInterval(googleScriptCheck);
+        loadGoogleAd();
+      }
+    }, 100);
+
+    setTimeout(() => {
+      if (!googleAdLoaded.value) {
+        clearInterval(googleScriptCheck);
+        loadYandexAd();
+      }
+    }, 5000);
+  }
+
+  if (googleAd.value) {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "childList" && checkGoogleAdRendered()) {
+          googleAdLoaded.value = true;
+          clearTimeout(fallbackTimeout.value);
+          observer.disconnect();
+        }
+      });
+    });
+
+    observer.observe(googleAd.value, {
+      childList: true,
+      subtree: true,
+    });
+  }
+});
+
+onUnmounted(() => {
+  if (fallbackTimeout.value) {
+    clearTimeout(fallbackTimeout.value);
+  }
 });
 </script>
 <style>
@@ -50,61 +167,9 @@ iframe[id^="google_ads_iframe"] {
   background: transparent;
 }
 
-#qc-cmp2-ui {
-  background: var(--color-raised-bg);
-  border-radius: var(--radius-lg);
-  color: var(--color-base);
-}
-
-#qc-cmp2-ui::before {
-  background: var(--color-raised-bg);
-}
-
-#qc-cmp2-ui::after {
-  background: var(--color-raised-bg);
-}
-
-#qc-cmp2-ui button[mode="primary"] {
-  background: var(--color-brand);
-  color: var(--color-accent-contrast);
-  border-radius: var(--radius-lg);
-  border: none;
-}
-
-#qc-cmp2-ui button[mode="secondary"] {
-  background: var(--color-button-bg);
-  color: var(--color-base);
-  border-radius: var(--radius-lg);
-  border: none;
-}
-
-#qc-cmp2-ui button[mode="link"] {
-  color: var(--color-link);
-}
-
-#qc-cmp2-ui h2 {
-  color: var(--color-contrast);
-  font-size: 1.5rem;
-}
-
-#qc-cmp2-ui div,
-#qc-cmp2-ui li,
-#qc-cmp2-ui strong,
-#qc-cmp2-ui p,
-#qc-cmp2-ui .qc-cmp2-list-item-title,
-#qc-cmp2-ui .qc-cmp2-expandable-info {
-  color: var(--color-base);
-  font-family: var(--font-standard);
-}
-
-#qc-cmp2-ui .qc-cmp2-toggle[aria-checked="true"] {
-  background-color: var(--color-brand);
-  border: 1px solid var(--color-brand);
-}
-
 @media (max-width: 1024px) {
   .ad-parent {
     display: none;
   }
 }
-</style -->
+</style>
