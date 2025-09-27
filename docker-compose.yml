@@ -1,11 +1,11 @@
-version: '3'
+version: "3"
 services:
   postgres_db:
     image: postgres:alpine
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - "5444:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: labrinth
@@ -15,7 +15,7 @@ services:
     image: getmeili/meilisearch:v1.12.0
     restart: on-failure
     ports:
-      - '7700:7700'
+      - "7700:7700"
     volumes:
       - meilisearch-data:/data.ms
     environment:
@@ -25,7 +25,7 @@ services:
     image: redis:alpine
     restart: on-failure
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - redis-data:/data
 volumes:
