@@ -44,7 +44,6 @@ pub struct LabrinthConfig {
     pub pool: sqlx::Pool<Postgres>,
     pub redis_pool: RedisPool,
     pub file_host: Arc<dyn file_hosting::FileHost + Send + Sync>,
-    pub maxmind: Arc<queue::maxmind::MaxMindIndexer>,
     pub scheduler: Arc<scheduler::Scheduler>,
     pub ip_salt: Pepper,
     pub search_config: search::SearchConfig,
@@ -62,7 +61,6 @@ pub fn app_setup(
     redis_pool: RedisPool,
     search_config: search::SearchConfig,
     file_host: Arc<dyn file_hosting::FileHost + Send + Sync>,
-    maxmind: Arc<queue::maxmind::MaxMindIndexer>,
 ) -> LabrinthConfig {
     info!(
         "Starting Labrinth on {}",
@@ -194,27 +192,6 @@ pub fn app_setup(
         }
     });
 
-    let reader = maxmind.clone();
-    {
-        let reader_ref = reader;
-        scheduler.run(std::time::Duration::from_secs(60 * 60 * 24), move || {
-            let reader_ref = reader_ref.clone();
-
-            async move {
-                info!("Downloading MaxMind GeoLite2 country database");
-                let result = reader_ref.index().await;
-                if let Err(e) = result {
-                    warn!(
-                        "Downloading MaxMind GeoLite2 country database failed: {:?}",
-                        e
-                    );
-                }
-                info!("Done downloading MaxMind GeoLite2 country database");
-            }
-        });
-    }
-    info!("Downloading MaxMind GeoLite2 country database");
-
     let analytics_queue = Arc::new(AnalyticsQueue::new());
     {
         let analytics_queue_ref = analytics_queue.clone();
@@ -292,7 +269,6 @@ pub fn app_setup(
         pool,
         redis_pool,
         file_host,
-        maxmind,
         scheduler: Arc::new(scheduler),
         ip_salt,
         search_config,
@@ -330,7 +306,6 @@ pub fn app_config(
     .app_data(labrinth_config.payouts_queue.clone())
     .app_data(web::Data::new(labrinth_config.ip_salt.clone()))
     .app_data(web::Data::new(labrinth_config.analytics_queue.clone()))
-    .app_data(web::Data::new(labrinth_config.maxmind.clone()))
     .app_data(labrinth_config.active_sockets.clone())
     .app_data(labrinth_config.automated_moderation_queue.clone())
     .app_data(web::Data::new(labrinth_config.stripe_client.clone()))
