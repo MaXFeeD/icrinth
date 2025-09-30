@@ -1,0 +1,37 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            (EXTRACT(epoch FROM recorded)::int / $1) * $1 as time,\n            project_id as id,\n            COUNT(*) as total\n        FROM analytics_downloads\n        WHERE recorded BETWEEN $2 AND $3\n            AND project_id = ANY($4)\n        GROUP BY (EXTRACT(epoch FROM recorded)::int / $1), project_id\n        ORDER BY time, project_id\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "time",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 2,
+        "name": "total",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Timestamptz",
+        "Timestamptz",
+        "Int8Array"
+      ]
+    },
+    "nullable": [
+      null,
+      false,
+      null
+    ]
+  },
+  "hash": "197223e9701632451e1b60f0236f322af04d8e34d0c0431ab81498b9f8fc8913"
+}

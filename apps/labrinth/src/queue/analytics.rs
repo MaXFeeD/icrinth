@@ -61,18 +61,31 @@ impl AnalyticsQueue {
         let downloads_queue = self.downloads_queue.clone();
         self.downloads_queue.clear();
 
-        // let playtime_queue = self.playtime_queue.clone();
-        // self.playtime_queue.clear();
+        let playtime_queue = self.playtime_queue.clone();
+        self.playtime_queue.clear();
 
-        // if !playtime_queue.is_empty() {
-        //     let mut playtimes = client.insert("playtime")?;
+        if !playtime_queue.is_empty() {
+            let mut transaction = pool.begin().await?;
 
-        //     for playtime in playtime_queue {
-        //         playtimes.write(&playtime).await?;
-        //     }
+            for playtime in playtime_queue {
+                sqlx::query!(
+                    "INSERT INTO analytics_playtime (recorded, seconds, user_id, project_id, version_id, loader, game_version, parent_id) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+                    chrono::DateTime::from_timestamp(playtime.recorded, 0).unwrap_or_default(),
+                    playtime.seconds as i32,
+                    playtime.user_id as i64,
+                    playtime.project_id as i64,
+                    playtime.version_id as i64,
+                    playtime.loader,
+                    playtime.game_version,
+                    playtime.parent as i64
+                )
+                .execute(&mut *transaction)
+                .await?;
+            }
 
-        //     playtimes.end().await?;
-        // }
+            transaction.commit().await?;
+        }
 
         if !views_queue.is_empty() {
             let mut views_keys = Vec::new();
@@ -131,19 +144,34 @@ impl AnalyticsQueue {
                 .await
                 .map_err(DatabaseError::CacheError)?;
 
-            // let mut views = client.insert("views")?;
+            let mut transaction = pool.begin().await?;
 
-            // for (all_views, monetized) in raw_views {
-            //     for (idx, mut view) in all_views.into_iter().enumerate() {
-            //         if idx != 0 || !monetized {
-            //             view.monetized = false;
-            //         }
+            for (all_views, monetized) in raw_views {
+                for (idx, mut view) in all_views.into_iter().enumerate() {
+                    if idx != 0 || !monetized {
+                        view.monetized = false;
+                    }
 
-            //         views.write(&view).await?;
-            //     }
-            // }
+                    sqlx::query!(
+                        "INSERT INTO analytics_views (recorded, domain, site_path, user_id, project_id, monetized, ip, country, user_agent, headers) 
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+                        chrono::DateTime::from_timestamp(view.recorded, 0).unwrap_or_default(),
+                        view.domain,
+                        view.site_path,
+                        view.user_id as i64,
+                        view.project_id as i64,
+                        view.monetized,
+                        view.ip.to_string(),
+                        view.country,
+                        view.user_agent,
+                        serde_json::to_value(view.headers).unwrap_or_default()
+                    )
+                    .execute(&mut *transaction)
+                    .await?;
+                }
+            }
 
-            // views.end().await?;
+            transaction.commit().await?;
         }
 
         if !downloads_queue.is_empty() {
@@ -199,7 +227,6 @@ impl AnalyticsQueue {
                 .map_err(DatabaseError::CacheError)?;
 
             let mut transaction = pool.begin().await?;
-            // let mut downloads = client.insert("downloads")?;
 
             let mut version_downloads: HashMap<i64, i32> = HashMap::new();
             let mut project_downloads: HashMap<i64, i32> = HashMap::new();
@@ -212,7 +239,22 @@ impl AnalyticsQueue {
                     .entry(download.project_id as i64)
                     .or_default() += 1;
 
-                // downloads.write(&download).await?;
+                sqlx::query!(
+                    "INSERT INTO analytics_downloads (recorded, domain, site_path, user_id, project_id, version_id, ip, country, user_agent, headers) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+                    chrono::DateTime::from_timestamp(download.recorded, 0).unwrap_or_default(),
+                    download.domain,
+                    download.site_path,
+                    download.user_id as i64,
+                    download.project_id as i64,
+                    download.version_id as i64,
+                    download.ip.to_string(),
+                    download.country,
+                    download.user_agent,
+                    serde_json::to_value(download.headers).unwrap_or_default()
+                )
+                .execute(&mut *transaction)
+                .await?;
             }
 
             sqlx::query(
@@ -242,7 +284,6 @@ impl AnalyticsQueue {
             .await?;
 
             transaction.commit().await?;
-            // downloads.end().await?;
         }
 
         Ok(())

@@ -68,63 +68,61 @@ pub struct FetchedPlaytime {
     pub parent_seconds: HashMap<VersionId, u64>,
 }
 
-// TODO: Rewrite without clickhouse analytics...
 pub async fn playtimes_get(
-    _req: HttpRequest,
-    _data: web::Query<GetData>,
-    _session_queue: web::Data<AuthQueue>,
-    _pool: web::Data<PgPool>,
-    _redis: web::Data<RedisPool>,
+    req: HttpRequest,
+    data: web::Query<GetData>,
+    session_queue: web::Data<AuthQueue>,
+    pool: web::Data<PgPool>,
+    redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
-    // let user = get_user_from_headers(
-    //     &req,
-    //     &**pool,
-    //     &redis,
-    //     &session_queue,
-    //     Some(&[Scopes::ANALYTICS]),
-    // )
-    // .await
-    // .map(|x| x.1)?;
+    let user = get_user_from_headers(
+        &req,
+        &**pool,
+        &redis,
+        &session_queue,
+        Some(&[Scopes::ANALYTICS]),
+    )
+    .await
+    .map(|x| x.1)?;
 
-    // let project_ids = data
-    //     .project_ids
-    //     .as_ref()
-    //     .map(|ids| serde_json::from_str::<Vec<String>>(ids))
-    //     .transpose()?;
+    let project_ids = data
+        .project_ids
+        .as_ref()
+        .map(|ids| serde_json::from_str::<Vec<String>>(ids))
+        .transpose()?;
 
-    // let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
-    // let end_date = data.end_date.unwrap_or(Utc::now());
-    // let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
+    let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
+    let end_date = data.end_date.unwrap_or(Utc::now());
+    let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
 
     // Convert String list to list of ProjectIds or VersionIds
     // - Filter out unauthorized projects/versions
     // - If no project_ids or version_ids are provided, we default to all projects the user has access to
-    // let project_ids =
-    //     filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
+    let project_ids =
+        filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
 
     // Get the views
-    // let playtimes = crate::clickhouse::fetch_playtimes(
-    //     project_ids.unwrap_or_default(),
-    //     start_date,
-    //     end_date,
-    //     resolution_minutes,
-    //     clickhouse.into_inner(),
-    // )
-    // .await?;
+    let playtimes = crate::database::analytics::fetch_playtimes(
+        project_ids.unwrap_or_default(),
+        start_date,
+        end_date,
+        resolution_minutes,
+        pool.get_ref(),
+    )
+    .await?;
 
-    // let mut hm = HashMap::new();
-    // for playtime in playtimes {
-    //     let id_string = to_base62(playtime.id);
-    //     if !hm.contains_key(&id_string) {
-    //         hm.insert(id_string.clone(), HashMap::new());
-    //     }
-    //     if let Some(hm) = hm.get_mut(&id_string) {
-    //         hm.insert(playtime.time, playtime.total);
-    //     }
-    // }
+    let mut hm = HashMap::new();
+    for playtime in playtimes {
+        let id_string = to_base62(playtime.id);
+        if !hm.contains_key(&id_string) {
+            hm.insert(id_string.clone(), HashMap::new());
+        }
+        if let Some(hm) = hm.get_mut(&id_string) {
+            hm.insert(playtime.time, playtime.total);
+        }
+    }
 
-    // Ok(HttpResponse::Ok().json(hm))
-    Ok(HttpResponse::Ok().json({}))
+    Ok(HttpResponse::Ok().json(hm))
 }
 
 /// Get view data for a set of projects or versions
@@ -137,63 +135,61 @@ pub async fn playtimes_get(
 ///}
 /// Either a list of project_ids or version_ids can be used, but not both. Unauthorized projects/versions will be filtered out.
 
-// TODO: Rewrite without clickhouse analytics...
 pub async fn views_get(
-    _req: HttpRequest,
-    _data: web::Query<GetData>,
-    _session_queue: web::Data<AuthQueue>,
-    _pool: web::Data<PgPool>,
-    _redis: web::Data<RedisPool>,
+    req: HttpRequest,
+    data: web::Query<GetData>,
+    session_queue: web::Data<AuthQueue>,
+    pool: web::Data<PgPool>,
+    redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
-    // let user = get_user_from_headers(
-    //     &req,
-    //     &**pool,
-    //     &redis,
-    //     &session_queue,
-    //     Some(&[Scopes::ANALYTICS]),
-    // )
-    // .await
-    // .map(|x| x.1)?;
+    let user = get_user_from_headers(
+        &req,
+        &**pool,
+        &redis,
+        &session_queue,
+        Some(&[Scopes::ANALYTICS]),
+    )
+    .await
+    .map(|x| x.1)?;
 
-    // let project_ids = data
-    //     .project_ids
-    //     .as_ref()
-    //     .map(|ids| serde_json::from_str::<Vec<String>>(ids))
-    //     .transpose()?;
+    let project_ids = data
+        .project_ids
+        .as_ref()
+        .map(|ids| serde_json::from_str::<Vec<String>>(ids))
+        .transpose()?;
 
-    // let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
-    // let end_date = data.end_date.unwrap_or(Utc::now());
-    // let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
+    let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
+    let end_date = data.end_date.unwrap_or(Utc::now());
+    let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
 
-    // // Convert String list to list of ProjectIds or VersionIds
-    // // - Filter out unauthorized projects/versions
-    // // - If no project_ids or version_ids are provided, we default to all projects the user has access to
-    // let project_ids =
-    //     filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
+    // Convert String list to list of ProjectIds or VersionIds
+    // - Filter out unauthorized projects/versions
+    // - If no project_ids or version_ids are provided, we default to all projects the user has access to
+    let project_ids =
+        filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
 
-    // // Get the views
-    // let views = crate::clickhouse::fetch_views(
-    //     project_ids.unwrap_or_default(),
-    //     start_date,
-    //     end_date,
-    //     resolution_minutes,
-    //     clickhouse.into_inner(),
-    // )
-    // .await?;
+    // Get the views
+    let views = crate::database::analytics::fetch_views(
+        project_ids.unwrap_or_default(),
+        start_date,
+        end_date,
+        resolution_minutes,
+        pool.get_ref(),
+    )
+    .await?;
 
-    // let mut hm = HashMap::new();
-    // for views in views {
-    //     let id_string = to_base62(views.id);
-    //     if !hm.contains_key(&id_string) {
-    //         hm.insert(id_string.clone(), HashMap::new());
-    //     }
-    //     if let Some(hm) = hm.get_mut(&id_string) {
-    //         hm.insert(views.time, views.total);
-    //     }
-    // }
+    let mut hm = HashMap::new();
+    for views in views {
+        let id_string = to_base62(views.id);
+        if !hm.contains_key(&id_string) {
+            hm.insert(id_string.clone(), HashMap::new());
+        }
+        if let Some(hm) = hm.get_mut(&id_string) {
+            hm.insert(views.time, views.total);
+        }
+    }
 
-    // Ok(HttpResponse::Ok().json(hm))
-    Ok(HttpResponse::Ok().json({}))
+    Ok(HttpResponse::Ok().json(hm))
 }
 
 /// Get download data for a set of projects or versions
@@ -206,64 +202,62 @@ pub async fn views_get(
 ///}
 /// Either a list of project_ids or version_ids can be used, but not both. Unauthorized projects/versions will be filtered out.
 
-// TODO: Rewrite without clickhouse analytics...
 pub async fn downloads_get(
-    _req: HttpRequest,
-    _data: web::Query<GetData>,
-    _session_queue: web::Data<AuthQueue>,
-    _pool: web::Data<PgPool>,
-    _redis: web::Data<RedisPool>,
+    req: HttpRequest,
+    data: web::Query<GetData>,
+    session_queue: web::Data<AuthQueue>,
+    pool: web::Data<PgPool>,
+    redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
-    // let user_option = get_user_from_headers(
-    //     &req,
-    //     &**pool,
-    //     &redis,
-    //     &session_queue,
-    //     Some(&[Scopes::ANALYTICS]),
-    // )
-    // .await
-    // .map(|x| x.1)?;
+    let user_option = get_user_from_headers(
+        &req,
+        &**pool,
+        &redis,
+        &session_queue,
+        Some(&[Scopes::ANALYTICS]),
+    )
+    .await
+    .map(|x| x.1)?;
 
-    // let project_ids = data
-    //     .project_ids
-    //     .as_ref()
-    //     .map(|ids| serde_json::from_str::<Vec<String>>(ids))
-    //     .transpose()?;
+    let project_ids = data
+        .project_ids
+        .as_ref()
+        .map(|ids| serde_json::from_str::<Vec<String>>(ids))
+        .transpose()?;
 
-    // let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
-    // let end_date = data.end_date.unwrap_or(Utc::now());
-    // let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
+    let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
+    let end_date = data.end_date.unwrap_or(Utc::now());
+    let resolution_minutes = data.resolution_minutes.unwrap_or(60 * 24);
 
-    // // Convert String list to list of ProjectIds or VersionIds
-    // // - Filter out unauthorized projects/versions
-    // // - If no project_ids or version_ids are provided, we default to all projects the user has access to
-    // let project_ids =
-    //     filter_allowed_ids(project_ids, user_option, &pool, &redis, None)
-    //         .await?;
+    // Convert String list to list of ProjectIds or VersionIds
+    // - Filter out unauthorized projects/versions
+    // - If no project_ids or version_ids are provided, we default to all projects the user has access to
+    let project_ids =
+        filter_allowed_ids(project_ids, user_option, &pool, &redis, None)
+            .await?;
 
-    // // Get the downloads
-    // let downloads = crate::clickhouse::fetch_downloads(
-    //     project_ids.unwrap_or_default(),
-    //     start_date,
-    //     end_date,
-    //     resolution_minutes,
-    //     clickhouse.into_inner(),
-    // )
-    // .await?;
+    // Get the downloads
+    let downloads = crate::database::analytics::fetch_downloads(
+        project_ids.unwrap_or_default(),
+        start_date,
+        end_date,
+        resolution_minutes,
+        pool.get_ref(),
+    )
+    .await?;
 
-    // let mut hm = HashMap::new();
-    // for downloads in downloads {
-    //     let id_string = to_base62(downloads.id);
-    //     if !hm.contains_key(&id_string) {
-    //         hm.insert(id_string.clone(), HashMap::new());
-    //     }
-    //     if let Some(hm) = hm.get_mut(&id_string) {
-    //         hm.insert(downloads.time, downloads.total);
-    //     }
-    // }
+    let mut hm = HashMap::new();
+    for downloads in downloads {
+        let id_string = to_base62(downloads.id);
+        if !hm.contains_key(&id_string) {
+            hm.insert(id_string.clone(), HashMap::new());
+        }
+        if let Some(hm) = hm.get_mut(&id_string) {
+            hm.insert(downloads.time, downloads.total);
+        }
+    }
 
-    // Ok(HttpResponse::Ok().json(hm))
-    Ok(HttpResponse::Ok().json({}))
+    Ok(HttpResponse::Ok().json(hm))
 }
 
 /// Get payout data for a set of projects
@@ -414,66 +408,64 @@ pub async fn revenue_get(
 /// Either a list of project_ids or version_ids can be used, but not both. Unauthorized projects/versions will be filtered out.
 /// For this endpoint, provided dates are a range to aggregate over, not specific days to fetch
 
-// TODO: Rewrite without clickhouse analytics...
 pub async fn countries_downloads_get(
-    _req: HttpRequest,
-    _data: web::Query<GetData>,
-    _session_queue: web::Data<AuthQueue>,
-    _pool: web::Data<PgPool>,
-    _redis: web::Data<RedisPool>,
+    req: HttpRequest,
+    data: web::Query<GetData>,
+    session_queue: web::Data<AuthQueue>,
+    pool: web::Data<PgPool>,
+    redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
-    // let user = get_user_from_headers(
-    //     &req,
-    //     &**pool,
-    //     &redis,
-    //     &session_queue,
-    //     Some(&[Scopes::ANALYTICS]),
-    // )
-    // .await
-    // .map(|x| x.1)?;
+    let user = get_user_from_headers(
+        &req,
+        &**pool,
+        &redis,
+        &session_queue,
+        Some(&[Scopes::ANALYTICS]),
+    )
+    .await
+    .map(|x| x.1)?;
 
-    // let project_ids = data
-    //     .project_ids
-    //     .as_ref()
-    //     .map(|ids| serde_json::from_str::<Vec<String>>(ids))
-    //     .transpose()?;
+    let project_ids = data
+        .project_ids
+        .as_ref()
+        .map(|ids| serde_json::from_str::<Vec<String>>(ids))
+        .transpose()?;
 
-    // let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
-    // let end_date = data.end_date.unwrap_or(Utc::now());
+    let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
+    let end_date = data.end_date.unwrap_or(Utc::now());
 
-    // // Convert String list to list of ProjectIds or VersionIds
-    // // - Filter out unauthorized projects/versions
-    // // - If no project_ids or version_ids are provided, we default to all projects the user has access to
-    // let project_ids =
-    //     filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
+    // Convert String list to list of ProjectIds or VersionIds
+    // - Filter out unauthorized projects/versions
+    // - If no project_ids or version_ids are provided, we default to all projects the user has access to
+    let project_ids =
+        filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
 
-    // // Get the countries
-    // let countries = crate::clickhouse::fetch_countries_downloads(
-    //     project_ids.unwrap_or_default(),
-    //     start_date,
-    //     end_date,
-    //     clickhouse.into_inner(),
-    // )
-    // .await?;
+    // Get the countries
+    let countries = crate::database::analytics::fetch_countries_downloads(
+        project_ids.unwrap_or_default(),
+        start_date,
+        end_date,
+        pool.get_ref(),
+    )
+    .await?;
 
-    // let mut hm = HashMap::new();
-    // for views in countries {
-    //     let id_string = to_base62(views.id);
-    //     if !hm.contains_key(&id_string) {
-    //         hm.insert(id_string.clone(), HashMap::new());
-    //     }
-    //     if let Some(hm) = hm.get_mut(&id_string) {
-    //         hm.insert(views.country, views.total);
-    //     }
-    // }
+    let mut hm = HashMap::new();
+    for views in countries {
+        let id_string = to_base62(views.id);
+        if !hm.contains_key(&id_string) {
+            hm.insert(id_string.clone(), HashMap::new());
+        }
+        if let Some(hm) = hm.get_mut(&id_string) {
+            hm.insert(views.country, views.total);
+        }
+    }
 
-    // let hm: HashMap<String, HashMap<String, u64>> = hm
-    //     .into_iter()
-    //     .map(|(key, value)| (key, condense_countries(value)))
-    //     .collect();
+    let hm: HashMap<String, HashMap<String, u64>> = hm
+        .into_iter()
+        .map(|(key, value)| (key, condense_countries(value)))
+        .collect();
 
-    // Ok(HttpResponse::Ok().json(hm))
-    Ok(HttpResponse::Ok().json({}))
+    Ok(HttpResponse::Ok().json(hm))
 }
 
 /// Get country data for a set of projects or versions
@@ -489,84 +481,82 @@ pub async fn countries_downloads_get(
 /// Either a list of project_ids or version_ids can be used, but not both. Unauthorized projects/versions will be filtered out.
 /// For this endpoint, provided dates are a range to aggregate over, not specific days to fetch
 
-// TODO: Rewrite without clickhouse analytics...
 pub async fn countries_views_get(
-    _req: HttpRequest,
-    _data: web::Query<GetData>,
-    _session_queue: web::Data<AuthQueue>,
-    _pool: web::Data<PgPool>,
-    _redis: web::Data<RedisPool>,
+    req: HttpRequest,
+    data: web::Query<GetData>,
+    session_queue: web::Data<AuthQueue>,
+    pool: web::Data<PgPool>,
+    redis: web::Data<RedisPool>,
 ) -> Result<HttpResponse, ApiError> {
-    // let user = get_user_from_headers(
-    //     &req,
-    //     &**pool,
-    //     &redis,
-    //     &session_queue,
-    //     Some(&[Scopes::ANALYTICS]),
-    // )
-    // .await
-    // .map(|x| x.1)?;
+    let user = get_user_from_headers(
+        &req,
+        &**pool,
+        &redis,
+        &session_queue,
+        Some(&[Scopes::ANALYTICS]),
+    )
+    .await
+    .map(|x| x.1)?;
 
-    // let project_ids = data
-    //     .project_ids
-    //     .as_ref()
-    //     .map(|ids| serde_json::from_str::<Vec<String>>(ids))
-    //     .transpose()?;
+    let project_ids = data
+        .project_ids
+        .as_ref()
+        .map(|ids| serde_json::from_str::<Vec<String>>(ids))
+        .transpose()?;
 
-    // let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
-    // let end_date = data.end_date.unwrap_or(Utc::now());
+    let start_date = data.start_date.unwrap_or(Utc::now() - Duration::weeks(2));
+    let end_date = data.end_date.unwrap_or(Utc::now());
 
-    // // Convert String list to list of ProjectIds or VersionIds
-    // // - Filter out unauthorized projects/versions
-    // // - If no project_ids or version_ids are provided, we default to all projects the user has access to
-    // let project_ids =
-    //     filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
+    // Convert String list to list of ProjectIds or VersionIds
+    // - Filter out unauthorized projects/versions
+    // - If no project_ids or version_ids are provided, we default to all projects the user has access to
+    let project_ids =
+        filter_allowed_ids(project_ids, user, &pool, &redis, None).await?;
 
-    // // Get the countries
-    // let countries = crate::clickhouse::fetch_countries_views(
-    //     project_ids.unwrap_or_default(),
-    //     start_date,
-    //     end_date,
-    //     clickhouse.into_inner(),
-    // )
-    // .await?;
+    // Get the countries
+    let countries = crate::database::analytics::fetch_countries_views(
+        project_ids.unwrap_or_default(),
+        start_date,
+        end_date,
+        pool.get_ref(),
+    )
+    .await?;
 
-    // let mut hm = HashMap::new();
-    // for views in countries {
-    //     let id_string = to_base62(views.id);
-    //     if !hm.contains_key(&id_string) {
-    //         hm.insert(id_string.clone(), HashMap::new());
-    //     }
-    //     if let Some(hm) = hm.get_mut(&id_string) {
-    //         hm.insert(views.country, views.total);
-    //     }
-    // }
+    let mut hm = HashMap::new();
+    for views in countries {
+        let id_string = to_base62(views.id);
+        if !hm.contains_key(&id_string) {
+            hm.insert(id_string.clone(), HashMap::new());
+        }
+        if let Some(hm) = hm.get_mut(&id_string) {
+            hm.insert(views.country, views.total);
+        }
+    }
 
-    // let hm: HashMap<String, HashMap<String, u64>> = hm
-    //     .into_iter()
-    //     .map(|(key, value)| (key, condense_countries(value)))
-    //     .collect();
+    let hm: HashMap<String, HashMap<String, u64>> = hm
+        .into_iter()
+        .map(|(key, value)| (key, condense_countries(value)))
+        .collect();
 
-    // Ok(HttpResponse::Ok().json(hm))
-    Ok(HttpResponse::Ok().json({}))
+    Ok(HttpResponse::Ok().json(hm))
 }
 
-// fn condense_countries(countries: HashMap<String, u64>) -> HashMap<String, u64> {
-//     // Every country under '15' (view or downloads) should be condensed into 'XX'
-//     let mut hm = HashMap::new();
-//     for (mut country, count) in countries {
-//         if count < 50 {
-//             country = "XX".to_string();
-//         }
-//         if !hm.contains_key(&country) {
-//             hm.insert(country.to_string(), 0);
-//         }
-//         if let Some(hm) = hm.get_mut(&country) {
-//             *hm += count;
-//         }
-//     }
-//     hm
-// }
+fn condense_countries(countries: HashMap<String, u64>) -> HashMap<String, u64> {
+    // Every country under '15' (view or downloads) should be condensed into 'XX'
+    let mut hm = HashMap::new();
+    for (mut country, count) in countries {
+        if count < 50 {
+            country = "XX".to_string();
+        }
+        if !hm.contains_key(&country) {
+            hm.insert(country.to_string(), 0);
+        }
+        if let Some(hm) = hm.get_mut(&country) {
+            *hm += count;
+        }
+    }
+    hm
+}
 
 async fn filter_allowed_ids(
     mut project_ids: Option<Vec<String>>,

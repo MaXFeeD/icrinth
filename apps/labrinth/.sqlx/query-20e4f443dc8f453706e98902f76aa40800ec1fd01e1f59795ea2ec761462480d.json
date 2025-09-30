@@ -1,0 +1,36 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT\n            country,\n            project_id,\n            COUNT(*) as total\n        FROM analytics_views\n        WHERE recorded BETWEEN $1 AND $2 \n            AND project_id = ANY($3)\n            AND country IS NOT NULL\n        GROUP BY country, project_id\n        ORDER BY total DESC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "country",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 1,
+        "name": "project_id",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 2,
+        "name": "total",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Timestamptz",
+        "Timestamptz",
+        "Int8Array"
+      ]
+    },
+    "nullable": [
+      true,
+      false,
+      null
+    ]
+  },
+  "hash": "20e4f443dc8f453706e98902f76aa40800ec1fd01e1f59795ea2ec761462480d"
+}
