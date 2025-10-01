@@ -1,0 +1,29 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                SELECT COUNT(*) as page_views, project_id\n                FROM analytics_views \n                WHERE recorded BETWEEN $1 AND $2 \n                  AND project_id != 0 \n                  AND monetized = TRUE\n                GROUP BY project_id\n                ORDER BY page_views DESC\n                ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "page_views",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 1,
+        "name": "project_id",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Timestamptz",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      null,
+      false
+    ]
+  },
+  "hash": "cba98f926f01b2521714660b89de74fe8bc1c13b7f51f0d38e1cfef28fed2fe6"
+}
