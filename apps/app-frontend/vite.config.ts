@@ -8,6 +8,7 @@ const projectRootDir = resolve(__dirname)
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   resolve: {
     alias: [
       {
@@ -39,7 +40,7 @@ export default defineConfig({
   clearScreen: false,
   // tauri expects a fixed port, fail if that port is not available
   server: {
-    port: 1420,
+    port: 1987,
     strictPort: true,
   },
   // to make use of `TAURI_ENV_DEBUG` and other env variables

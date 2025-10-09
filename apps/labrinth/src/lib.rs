@@ -429,8 +429,6 @@ pub fn check_env_vars() -> bool {
         failed |= true;
     }
 
-    failed |= check_var::<String>("MAXMIND_LICENSE_KEY");
-
     failed |= check_var::<String>("FLAME_ANVIL_URL");
 
     failed |= check_var::<String>("STRIPE_API_KEY");
