@@ -25,7 +25,7 @@ import { showProfileInFolder } from '@/helpers/utils.js'
 import { trackEvent } from '@/helpers/analytics'
 import { handleSevereError } from '@/store/error.js'
 import { install as installVersion } from '@/store/install.js'
-import { openUrl } from '@tauri-apps/plugin-opener'
+import { open_url } from '@/helpers/intents'
 
 const router = useRouter()
 
@@ -166,7 +166,9 @@ const handleOptionsClick = async (args) => {
       break
     }
     case 'open_link':
-      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`)
+      await open_url(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+        handleError,
+      )
       break
     case 'copy_link':
       await navigator.clipboard.writeText(

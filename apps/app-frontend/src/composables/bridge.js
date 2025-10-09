@@ -36,5 +36,5 @@ export async function getVersion() {
     }
     return window.tauriApiCore.getVersion()
   }
-  return new Promise((resolve) => resolve(window.icmodsBridge.getVersion()))
+  return window.icmodsBridge.getVersion()
 }

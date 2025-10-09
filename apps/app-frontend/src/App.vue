@@ -39,7 +39,7 @@ import { invoke } from '@/composables/bridge'
 import { get_opening_command, initialize_state } from '@/helpers/state'
 import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
-import { check } from '@tauri-apps/plugin-updater'
+import { check_updates } from '@/helpers/utils'
 import NavButton from '@/components/ui/NavButton.vue'
 import { get as getCreds, login, logout } from '@/helpers/mr_auth.js'
 import { get_user } from '@/helpers/cache.js'
@@ -48,7 +48,7 @@ import dayjs from 'dayjs'
 import PromotionWrapper from '@/components/ui/PromotionWrapper.vue'
 import { hide_ads_window } from '@/helpers/ads.js'
 import FriendsList from '@/components/ui/friends/FriendsList.vue'
-import { openUrl } from '@tauri-apps/plugin-opener'
+import { open_url } from '@/helpers/intents'
 import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
 
 const themeStore = useTheming()
@@ -263,15 +263,9 @@ async function handleCommand(e) {
 
 const updateAvailable = ref(false)
 async function checkUpdates() {
-  const update = await check()
+  const update = await check_updates()
   updateAvailable.value = !!update
-
-  setTimeout(
-    () => {
-      checkUpdates()
-    },
-    5 * 1000 * 60,
-  )
+  setTimeout(() => checkUpdates(), 5 * 1000 * 60)
 }
 
 function handleClick(e) {
@@ -286,7 +280,7 @@ function handleClick(e) {
         !target.href.startsWith('https://tauri.localhost') &&
         !target.href.startsWith('http://tauri.localhost')
       ) {
-        openUrl(target.href)
+        open_url(target.href).catch(handleError)
       }
       e.preventDefault()
       break

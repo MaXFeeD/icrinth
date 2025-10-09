@@ -1,6 +1,6 @@
 import { ofetch } from 'ofetch'
 import { handleError } from '@/store/state.js'
-import { getVersion } from '@tauri-apps/api/app'
+import { getVersion } from '@/composables/bridge'
 
 export const useFetch = async (url, item, isSilent) => {
   try {

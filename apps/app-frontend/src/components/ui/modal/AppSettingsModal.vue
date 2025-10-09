@@ -6,8 +6,6 @@ import {
   SettingsIcon,
   GaugeIcon,
   PaintBrushIcon,
-  GameIcon,
-  CoffeeIcon,
 } from '@icmods/assets'
 import { TabbedModal } from '@icmods/ui'
 import { computed, ref, watch } from 'vue'
@@ -16,7 +14,7 @@ import AppearanceSettings from '@/components/ui/settings/AppearanceSettings.vue'
 import ResourceManagementSettings from '@/components/ui/settings/ResourceManagementSettings.vue'
 import PrivacySettings from '@/components/ui/settings/PrivacySettings.vue'
 import { getVersion } from '@/composables/bridge'
-import { version as getOsVersion, platform as getOsPlatform } from '@tauri-apps/plugin-os'
+import { getOs, getOsVersion } from '@/helpers/utils'
 import { useTheming } from '@/store/state'
 import FeatureFlagSettings from '@/components/ui/settings/FeatureFlagSettings.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
@@ -80,8 +78,8 @@ const isOpen = computed(() => modal.value?.isOpen)
 defineExpose({ show, isOpen })
 
 const version = await getVersion()
-const osPlatform = getOsPlatform()
-const osVersion = getOsVersion()
+const osPlatform = await getOs()
+const osVersion = await getOsVersion()
 const settings = ref(await get())
 
 watch(

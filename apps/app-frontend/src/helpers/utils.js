@@ -5,9 +5,12 @@ export async function isDev() {
   return await invoke('is_dev')
 }
 
-// One of 'Windows', 'Linux', 'MacOS'
-export async function getOS() {
+export async function getOs() {
   return await invoke('plugin:utils|get_os')
+}
+
+export async function getOsVersion() {
+  return await invoke('plugin:utils|get_os_version')
 }
 
 export async function openPath(path) {
@@ -31,6 +34,10 @@ export async function showProfileInFolder(path) {
 export async function highlightModInProfile(profilePath, projectPath) {
   const fullPath = await get_mod_full_path(profilePath, projectPath)
   return await highlightInFolder(fullPath)
+}
+
+export async function checkUpdates() {
+  return await invoke('plugin:utils|check_updates')
 }
 
 export async function restartApp() {

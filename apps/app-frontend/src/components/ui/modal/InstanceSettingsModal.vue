@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  ChevronRightIcon,
-  CoffeeIcon,
-  InfoIcon,
-  WrenchIcon,
-  MonitorIcon,
-  CodeIcon,
-} from '@icmods/assets'
+import { ChevronRightIcon, InfoIcon, WrenchIcon } from '@icmods/assets'
 import { Avatar, TabbedModal, type TabbedModalTab } from '@icmods/ui'
 import { ref } from 'vue'
 import { defineMessage, useVIntl } from '@vintl/vintl'
