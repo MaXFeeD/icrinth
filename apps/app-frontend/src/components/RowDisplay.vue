@@ -21,11 +21,11 @@ import { get_by_profile_path } from '@/helpers/process.js'
 import { handleError } from '@/store/notifications.js'
 import { duplicate, kill, remove, run } from '@/helpers/profile.js'
 import { useRouter } from 'vue-router'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { showProfileInFolder } from '@/helpers/intents'
 import { trackEvent } from '@/helpers/analytics'
 import { handleSevereError } from '@/store/error.js'
 import { install as installVersion } from '@/store/install.js'
-import { open_url } from '@/helpers/intents'
+import { openUrl } from '@/helpers/intents'
 
 const router = useRouter()
 
@@ -166,7 +166,7 @@ const handleOptionsClick = async (args) => {
       break
     }
     case 'open_link':
-      await open_url(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+      await openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
         handleError,
       )
       break

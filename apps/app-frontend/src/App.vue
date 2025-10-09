@@ -40,14 +40,14 @@ import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
 import { check_updates } from '@/helpers/utils'
 import NavButton from '@/components/ui/NavButton.vue'
-import { get as getCreds, login, logout } from '@/helpers/mr_auth.js'
+import { get as getCreds, login, logout } from '@/helpers/auth.js'
 import { get_user } from '@/helpers/cache.js'
 import AppSettingsModal from '@/components/ui/modal/AppSettingsModal.vue'
 import dayjs from 'dayjs'
 import PromotionWrapper from '@/components/ui/PromotionWrapper.vue'
 import { hide_ads_window } from '@/helpers/ads.js'
 import FriendsList from '@/components/ui/friends/FriendsList.vue'
-import { open_url } from '@/helpers/intents'
+import { openUrl } from '@/helpers/intents'
 import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
 
 const themeStore = useTheming()
@@ -279,7 +279,7 @@ function handleClick(e) {
         !target.href.startsWith('https://tauri.localhost') &&
         !target.href.startsWith('http://tauri.localhost')
       ) {
-        open_url(target.href).catch(handleError)
+        openUrl(target.href).catch(handleError)
       }
       e.preventDefault()
       break

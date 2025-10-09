@@ -69,12 +69,6 @@ export async function get_mod_full_path(path, projectPath) {
   return await invoke('plugin:profile|profile_get_mod_full_path', { path, projectPath })
 }
 
-// Get optimal java version from profile
-// Returns a java version
-export async function get_optimal_jre_key(path) {
-  return await invoke('plugin:profile|profile_get_optimal_jre_key', { path })
-}
-
 // Get a copy of the profile set
 // Returns hashmap of path -> Profile
 export async function list() {

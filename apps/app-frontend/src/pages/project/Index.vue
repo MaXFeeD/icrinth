@@ -165,7 +165,7 @@ import { get_project, get_team, get_version_many } from '@/helpers/cache.js'
 import NavTabs from '@/components/ui/NavTabs.vue'
 import { useTheming } from '@/store/state.js'
 import InstanceIndicator from '@/components/ui/InstanceIndicator.vue'
-import { open_url } from '@/helpers/intents'
+import { openUrl } from '@/helpers/intents'
 
 dayjs.extend(relativeTime)
 
@@ -268,7 +268,7 @@ const handleOptionsClick = (args) => {
       install(null)
       break
     case 'open_link':
-      open_url(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
         handleError,
       )
       break

@@ -26,7 +26,7 @@ import type Instance from '@/components/ui/Instance.vue'
 import InstanceIndicator from '@/components/ui/InstanceIndicator.vue'
 import { defineMessages, useVIntl } from '@vintl/vintl'
 import ContextMenu from '@/components/ui/ContextMenu.vue'
-import { open_url } from '@/helpers/intents'
+import { openUrl } from '@/helpers/intents'
 
 const { formatMessage } = useVIntl()
 
@@ -365,7 +365,7 @@ const handleRightClick = (event, result) => {
 const handleOptionsClick = (args) => {
   switch (args.option) {
     case 'open_link':
-      open_url(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
         handleError,
       )
       break
