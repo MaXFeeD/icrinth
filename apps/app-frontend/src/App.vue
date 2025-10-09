@@ -120,10 +120,6 @@ async function setupApp() {
   themeStore.featureFlags = feature_flags
 
   initAnalytics()
-  if (!telemetry) {
-    optOutAnalytics()
-  }
-  if (dev) debugAnalytics()
   trackEvent('Launched', { version, dev, onboarded })
 
   if (!dev) document.addEventListener('contextmenu', (event) => event.preventDefault())
