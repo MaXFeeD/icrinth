@@ -1,4 +1,4 @@
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 export async function friends() {
   return await invoke('plugin:friends|friends')

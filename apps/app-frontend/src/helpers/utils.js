@@ -1,5 +1,5 @@
 import { get_full_path, get_mod_full_path } from '@/helpers/profile'
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 export async function isDev() {
   return await invoke('is_dev')

@@ -1,4 +1,4 @@
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 export async function init_ads_window(overrideShown = false) {
   return await invoke('plugin:ads|init_ads_window', { overrideShown, dpr: window.devicePixelRatio })

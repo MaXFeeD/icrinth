@@ -27,7 +27,7 @@ import { handleError, useNotifications } from '@/store/notifications.js'
 import { command_listener, warning_listener } from '@/helpers/events.js'
 import { isDev } from '@/helpers/utils.js'
 import { trackEvent } from '@/helpers/analytics'
-import { getVersion } from '@/composables/androidBridge'
+import { getVersion } from '@/composables/bridge'
 import URLConfirmModal from '@/components/ui/URLConfirmModal.vue'
 import { create_profile_and_install_from_file } from './helpers/pack'
 import { useError } from '@/store/error.js'
@@ -35,7 +35,7 @@ import ModInstallModal from '@/components/ui/install_flow/ModInstallModal.vue'
 import IncompatibilityWarningModal from '@/components/ui/install_flow/IncompatibilityWarningModal.vue'
 import InstallConfirmModal from '@/components/ui/install_flow/InstallConfirmModal.vue'
 import { useInstall } from '@/store/install.js'
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 import { get_opening_command, initialize_state } from '@/helpers/state'
 import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
@@ -242,8 +242,6 @@ onMounted(() => {
   install.setInstallConfirmModal(installConfirmModal)
   install.setModInstallModal(modInstallModal)
 })
-
-const accounts = ref(null)
 
 command_listener(handleCommand)
 async function handleCommand(e) {

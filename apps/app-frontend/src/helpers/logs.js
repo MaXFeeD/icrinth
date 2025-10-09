@@ -3,7 +3,7 @@
  * So, for example, addDefaultInstance creates a blank Profile object, where the Rust struct is serialized,
  *  and deserialized into a usable JS object.
  */
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 /*
 A log is a struct containing the filename string, stdout, and stderr, as follows:

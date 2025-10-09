@@ -1,4 +1,4 @@
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 export async function get_project(id, cacheBehaviour) {
   return await invoke('plugin:cache|get_project', { id, cacheBehaviour })
