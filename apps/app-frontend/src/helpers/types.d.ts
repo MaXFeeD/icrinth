@@ -89,23 +89,12 @@ type AppSettings = {
   advanced_rendering: boolean
 
   telemetry: boolean
-  discord_rpc: boolean
   developer_mode: boolean
   personalized_ads: boolean
 
   onboarded: boolean
 
-  extra_launch_args: string[]
-  custom_env_vars: [string, string][]
-  memory: MemorySettings
-  force_fullscreen: boolean
-  game_resolution: [number, number]
-  hide_on_process_start: boolean
-  hooks: Hooks
-
   custom_dir?: string
-  prev_custom_dir?: string
-  migrated: boolean
 }
 
 export type InstanceSettingsTabProps = {
