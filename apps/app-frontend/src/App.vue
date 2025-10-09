@@ -488,13 +488,7 @@ function handleAuxClick(e) {
       >
         <div id="sidebar-teleport-target" class="sidebar-teleport-content"></div>
         <div class="sidebar-default-content" :class="{ 'sidebar-enabled': sidebarVisible }">
-          <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
-            <h3 class="text-lg m-0">Playing as</h3>
-            <suspense>
-              <AccountsCard ref="accounts" mode="small" />
-            </suspense>
-          </div>
-          <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
+                    <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
             <suspense>
               <FriendsList :credentials="credentials" :sign-in="() => signIn()" />
             </suspense>
