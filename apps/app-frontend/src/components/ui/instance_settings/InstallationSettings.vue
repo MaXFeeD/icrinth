@@ -16,7 +16,6 @@ import { edit, install, update_repair_modrinth } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
 import { defineMessages, useVIntl } from '@vintl/vintl'
-import { get_loader_versions } from '@/helpers/metadata'
 import { get_game_versions, get_loaders } from '@/helpers/tags'
 import {
   formatCategory,
