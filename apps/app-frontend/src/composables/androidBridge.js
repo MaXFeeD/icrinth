@@ -28,3 +28,13 @@ export async function invoke(cmd, args = {}) {
     window.icmodsBridge.invoke(cmd, paramsJson, callbackId)
   })
 }
+
+export async function getVersion() {
+  if (window.icmodsBridge == null) {
+    if (window.tauriApiCore == null) {
+      window.tauriApiApp = await import('@tauri-apps/api/app')
+    }
+    return window.tauriApiCore.getVersion()
+  }
+  return new Promise((resolve) => resolve(window.icmodsBridge.getVersion()))
+}

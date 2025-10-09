@@ -3,7 +3,6 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import {
   IcmodsIcon,
-  ArrowBigUpDashIcon,
   CompassIcon,
   DownloadIcon,
   HomeIcon,
@@ -11,17 +10,12 @@ import {
   LibraryIcon,
   LogInIcon,
   LogOutIcon,
-  MaximizeIcon,
-  MinimizeIcon,
   PlusIcon,
-  RestoreIcon,
   RightArrowIcon,
   SettingsIcon,
-  XIcon,
 } from '@icmods/assets'
-import { Avatar, Button, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
+import { Avatar, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
 import { useLoading, useTheming } from '@/store/state'
-import AccountsCard from '@/components/ui/AccountsCard.vue'
 import InstanceCreationModal from '@/components/ui/InstanceCreationModal.vue'
 import { get } from '@/helpers/settings'
 import Breadcrumbs from '@/components/ui/Breadcrumbs.vue'
@@ -31,11 +25,9 @@ import ErrorModal from '@/components/ui/ErrorModal.vue'
 import IcmodsLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
 import { handleError, useNotifications } from '@/store/notifications.js'
 import { command_listener, warning_listener } from '@/helpers/events.js'
-import { type } from '@tauri-apps/plugin-os'
-import { getOS, isDev, restartApp } from '@/helpers/utils.js'
-import { debugAnalytics, initAnalytics, optOutAnalytics, trackEvent } from '@/helpers/analytics'
-import { getCurrentWindow } from '@tauri-apps/api/window'
-import { getVersion } from '@tauri-apps/api/app'
+import { isDev } from '@/helpers/utils.js'
+import { trackEvent } from '@/helpers/analytics'
+import { getVersion } from '@/composables/androidBridge'
 import URLConfirmModal from '@/components/ui/URLConfirmModal.vue'
 import { create_profile_and_install_from_file } from './helpers/pack'
 import { useError } from '@/store/error.js'
@@ -45,7 +37,6 @@ import InstallConfirmModal from '@/components/ui/install_flow/InstallConfirmModa
 import { useInstall } from '@/store/install.js'
 import { invoke } from '@/composables/androidBridge'
 import { get_opening_command, initialize_state } from '@/helpers/state'
-import { saveWindowState, StateFlags } from '@tauri-apps/plugin-window-state'
 import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
 import { check } from '@tauri-apps/plugin-updater'
@@ -55,7 +46,7 @@ import { get_user } from '@/helpers/cache.js'
 import AppSettingsModal from '@/components/ui/modal/AppSettingsModal.vue'
 import dayjs from 'dayjs'
 import PromotionWrapper from '@/components/ui/PromotionWrapper.vue'
-import { hide_ads_window, init_ads_window } from '@/helpers/ads.js'
+import { hide_ads_window } from '@/helpers/ads.js'
 import FriendsList from '@/components/ui/friends/FriendsList.vue'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
@@ -488,7 +479,7 @@ function handleAuxClick(e) {
       >
         <div id="sidebar-teleport-target" class="sidebar-teleport-content"></div>
         <div class="sidebar-default-content" :class="{ 'sidebar-enabled': sidebarVisible }">
-                    <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
+          <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
             <suspense>
               <FriendsList :credentials="credentials" :sign-in="() => signIn()" />
             </suspense>
