@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { defineMessage, useVIntl } from '@vintl/vintl'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 import GeneralSettings from '@/components/ui/instance_settings/GeneralSettings.vue'
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import InstallationSettings from '@/components/ui/instance_settings/InstallationSettings.vue'
 import type { InstanceSettingsTabProps } from '../../../helpers/types'
 
@@ -50,7 +50,7 @@ const titleMessage = defineMessage({
     <template #title>
       <span class="flex items-center gap-2 text-lg font-semibold text-primary">
         <Avatar
-          :src="instance.icon_path ? convertFileSrc(instance.icon_path) : undefined"
+          :src="instance.icon_path ? await pathToUrl(instance.icon_path) : undefined"
           size="24px"
           :tint-by="props.instance.path"
         />

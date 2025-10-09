@@ -74,7 +74,6 @@
 import { ref, watch } from 'vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { loading_listener } from '@/helpers/events.js'
-import { getCurrentWindow } from '@tauri-apps/api/window'
 import { useLoading } from '@/store/loading.js'
 
 const doneLoading = ref(false)
@@ -122,10 +121,6 @@ loading_listener(async (e) => {
     message.value = 'Checking for updates...'
   }
 })
-
-const handleClose = async () => {
-  await getCurrentWindow().close()
-}
 </script>
 
 <style scoped lang="scss">

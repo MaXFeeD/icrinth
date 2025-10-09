@@ -1,6 +1,6 @@
 import { ofetch } from 'ofetch'
 import { handleError } from '@/store/state.js'
-import { getVersion } from '@/composables/bridge'
+import { getVersion } from '@/helpers/utils'
 
 export const useFetch = async (url, item, isSilent) => {
   try {

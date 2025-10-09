@@ -179,11 +179,10 @@ import { process_listener, profile_listener } from '@/helpers/events'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { handleError, useBreadcrumbs, useLoading } from '@/store/state'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { showProfileInFolder, pathToUrl } from '@/helpers/utils.js'
 import ContextMenu from '@/components/ui/ContextMenu.vue'
 import NavTabs from '@/components/ui/NavTabs.vue'
 import { trackEvent } from '@/helpers/analytics'
-import { convertFileSrc } from '@tauri-apps/api/core'
 import { handleSevereError } from '@/store/error.js'
 import { get_project, get_version_many } from '@/helpers/cache.js'
 import { formatCategory } from '@icmods/utils'
@@ -386,9 +385,7 @@ const unlistenProcesses = await process_listener((e) => {
   }
 })
 
-const icon = computed(() =>
-  instance.value.icon_path ? convertFileSrc(instance.value.icon_path) : null,
-)
+const icon = computed(() => (instance.value.icon_path ? pathToUrl(instance.value.icon_path) : null))
 
 const settingsModal = ref()
 

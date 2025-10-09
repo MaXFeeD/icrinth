@@ -20,7 +20,7 @@ import { open } from '@tauri-apps/plugin-dialog'
 import { installVersionDependencies } from '@/store/install.js'
 import { handleError } from '@/store/notifications.js'
 import { useRouter } from 'vue-router'
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { trackEvent } from '@/helpers/analytics'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 
@@ -153,7 +153,7 @@ const upload_icon = async () => {
   icon.value = res.path ?? res
 
   if (!icon.value) return
-  display_icon.value = convertFileSrc(icon.value)
+  display_icon.value = await pathToUrl(icon.value)
 }
 
 const reset_icon = () => {
@@ -228,7 +228,7 @@ const createInstance = async () => {
             @click="installModal.hide()"
           >
             <Avatar
-              :src="profile.icon_path ? convertFileSrc(profile.icon_path) : null"
+              :src="profile.icon_path ? await pathToUrl(profile.icon_path) : null"
               class="profile-image"
             />
             {{ profile.name }}

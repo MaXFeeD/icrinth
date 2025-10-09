@@ -104,7 +104,7 @@ import { computed, onUnmounted, ref, shallowRef } from 'vue'
 import { get_loaders, get_game_versions } from '@/helpers/tags'
 import { create } from '@/helpers/profile'
 import { open } from '@tauri-apps/plugin-dialog'
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { handleError } from '@/store/notifications.js'
 import Multiselect from 'vue-multiselect'
 import { trackEvent } from '@/helpers/analytics'
@@ -245,7 +245,7 @@ const upload_icon = async () => {
   icon.value = res.path ?? res
 
   if (!icon.value) return
-  display_icon.value = convertFileSrc(icon.value)
+  display_icon.value = pathToUrl(icon.value)
 }
 
 const reset_icon = () => {

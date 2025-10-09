@@ -10,12 +10,11 @@ import {
   TimerIcon,
 } from '@icmods/assets'
 import { Avatar, ButtonStyled } from '@icmods/ui'
-import { convertFileSrc } from '@tauri-apps/api/core'
 import { finish_install, kill, run } from '@/helpers/profile'
 import { get_by_profile_path } from '@/helpers/process'
 import { process_listener } from '@/helpers/events'
 import { handleError } from '@/store/state.js'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { showProfileInFolder, pathToUrl } from '@/helpers/utils.js'
 import { handleSevereError } from '@/store/error.js'
 import { trackEvent } from '@/helpers/analytics'
 import dayjs from 'dayjs'
@@ -142,7 +141,7 @@ onUnmounted(() => unlisten())
     >
       <Avatar
         size="48px"
-        :src="instance.icon_path ? convertFileSrc(instance.icon_path) : null"
+        :src="instance.icon_path ? pathToUrl(instance.icon_path) : null"
         :tint-by="instance.path"
         alt="Mod card"
       />
@@ -186,7 +185,7 @@ onUnmounted(() => unlisten())
       <div class="relative flex items-center justify-center">
         <Avatar
           size="48px"
-          :src="instance.icon_path ? convertFileSrc(instance.icon_path) : null"
+          :src="instance.icon_path ? pathToUrl(instance.icon_path) : null"
           :tint-by="instance.path"
           alt="Mod card"
           :class="`transition-all ${modLoading || installing ? `brightness-[0.25] scale-[0.85]` : `group-hover:brightness-75`}`"

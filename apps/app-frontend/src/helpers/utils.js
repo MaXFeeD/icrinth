@@ -13,6 +13,14 @@ export async function getOsVersion() {
   return await invoke('plugin:utils|get_os_version')
 }
 
+export async function getVersion() {
+  return await invoke('plugin:utils|get_version')
+}
+
+export async function pathToUrl(path) {
+  return await invoke('plugin:utils|path_to_url', { path })
+}
+
 export async function openPath(path) {
   return await invoke('plugin:utils|open_path', { path })
 }

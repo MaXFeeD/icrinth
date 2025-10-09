@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { SpinnerIcon, TrashIcon, UploadIcon, PlusIcon, EditIcon, CopyIcon } from '@icmods/assets'
 import { Avatar, ButtonStyled, OverflowMenu, Checkbox } from '@icmods/ui'
 import { computed, ref, type Ref, watch } from 'vue'
@@ -212,7 +212,7 @@ const messages = defineMessages({
         ]"
       >
         <Avatar
-          :src="icon ? convertFileSrc(icon) : icon"
+          :src="icon ? await pathToUrl(icon) : icon"
           size="108px"
           class="!border-4 group-hover:brightness-75"
           :tint-by="props.instance.path"
