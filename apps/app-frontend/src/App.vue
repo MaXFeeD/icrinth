@@ -75,15 +75,10 @@ window.addEventListener('online', () => {
 })
 
 const showOnboarding = ref(false)
-const nativeDecorations = ref(false)
-
-const os = ref('')
 
 const stateInitialized = ref(false)
 
 const criticalErrorMessage = ref()
-
-const isMaximized = ref(false)
 
 onMounted(async () => {
   document.querySelector('body').addEventListener('click', handleClick)
@@ -98,7 +93,6 @@ onUnmounted(() => {
 async function setupApp() {
   stateInitialized.value = true
   const {
-    native_decorations,
     theme,
     telemetry,
     collapsed_navigation,
@@ -114,13 +108,9 @@ async function setupApp() {
     await router.push('/library')
   }
 
-  os.value = await getOS()
   const dev = await isDev()
   const version = await getVersion()
   showOnboarding.value = !onboarded
-
-  nativeDecorations.value = native_decorations
-  if (os.value !== 'MacOS') await getCurrentWindow().setDecorations(native_decorations)
 
   themeStore.setThemeState(theme)
   themeStore.collapsedNavigation = collapsed_navigation
@@ -128,12 +118,6 @@ async function setupApp() {
   themeStore.toggleSidebar = toggle_sidebar
   themeStore.devMode = developer_mode
   themeStore.featureFlags = feature_flags
-
-  isMaximized.value = await getCurrentWindow().isMaximized()
-
-  await getCurrentWindow().onResized(async () => {
-    isMaximized.value = await getCurrentWindow().isMaximized()
-  })
 
   initAnalytics()
   if (!telemetry) {
@@ -143,13 +127,6 @@ async function setupApp() {
   trackEvent('Launched', { version, dev, onboarded })
 
   if (!dev) document.addEventListener('contextmenu', (event) => event.preventDefault())
-
-  const osType = await type()
-  if (osType === 'macos') {
-    document.getElementsByTagName('html')[0].classList.add('mac')
-  } else {
-    document.getElementsByTagName('html')[0].classList.add('windows')
-  }
 
   await warning_listener((e) =>
     notificationsWrapper.value.addNotification({
@@ -194,11 +171,6 @@ initialize_state()
     console.error('Failed to initialize app', err)
     error.showError(err, null, false, 'state_init')
   })
-
-const handleClose = async () => {
-  await saveWindowState(StateFlags.ALL)
-  await getCurrentWindow().close()
-}
 
 const router = useRouter()
 router.afterEach((to, from, failure) => {
@@ -470,22 +442,6 @@ function handleAuxClick(e) {
             <RunningAppBar />
           </Suspense>
         </div>
-        <section v-if="!nativeDecorations" class="window-controls">
-          <Button class="titlebar-button" icon-only @click="() => getCurrentWindow().minimize()">
-            <MinimizeIcon />
-          </Button>
-          <Button
-            class="titlebar-button"
-            icon-only
-            @click="() => getCurrentWindow().toggleMaximize()"
-          >
-            <RestoreIcon v-if="isMaximized" />
-            <MaximizeIcon v-else />
-          </Button>
-          <Button class="titlebar-button close" icon-only @click="handleClose">
-            <XIcon />
-          </Button>
-        </section>
       </section>
     </div>
   </div>
@@ -598,72 +554,6 @@ function handleAuxClick(e) {
 </template>
 
 <style lang="scss" scoped>
-.window-controls {
-  z-index: 20;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-
-  .titlebar-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all ease-in-out 0.1s;
-    background-color: transparent;
-    color: var(--color-base);
-    height: 100%;
-    width: 3rem;
-    position: relative;
-    box-shadow: none;
-
-    &:last-child {
-      padding-right: 0.75rem;
-      width: 3.75rem;
-    }
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    &::before {
-      content: '';
-      border-radius: 999999px;
-      width: 3rem;
-      height: 3rem;
-      aspect-ratio: 1 / 1;
-      margin-block: auto;
-      position: absolute;
-      background-color: transparent;
-      scale: 0.9;
-      transition: all ease-in-out 0.2s;
-      z-index: -1;
-    }
-
-    &.close {
-      &:hover,
-      &:active {
-        color: var(--color-accent-contrast);
-
-        &::before {
-          background-color: var(--color-red);
-        }
-      }
-    }
-
-    &:hover,
-    &:active {
-      color: var(--color-contrast);
-
-      &::before {
-        background-color: var(--color-button-bg);
-        scale: 1;
-      }
-    }
-  }
-}
-
 .app-grid-layout,
 .app-contents {
   --top-bar-height: 3rem;
@@ -798,10 +688,6 @@ function handleAuxClick(e) {
 .windows {
   .fake-appbar {
     height: 2.5rem !important;
-  }
-
-  .window-controls {
-    display: flex !important;
   }
 
   .info-card {

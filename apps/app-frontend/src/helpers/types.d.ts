@@ -87,7 +87,6 @@ type AppSettings = {
   default_page: 'Home' | 'Library'
   collapsed_navigation: boolean
   advanced_rendering: boolean
-  native_decorations: boolean
 
   telemetry: boolean
   discord_rpc: boolean

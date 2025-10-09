@@ -1,16 +1,5 @@
 <template>
   <div v-if="!hidden" class="splash-screen dark" :class="{ 'fade-out': doneLoading }">
-    <div v-if="os !== 'MacOS'" class="app-buttons">
-      <button class="btn icon-only transparent" icon-only @click="() => getCurrent().minimize()">
-        <MinimizeIcon />
-      </button>
-      <button class="btn icon-only transparent" @click="() => getCurrent().toggleMaximize()">
-        <MaximizeIcon />
-      </button>
-      <button class="btn icon-only transparent" @click="handleClose">
-        <XIcon />
-      </button>
-    </div>
     <div class="app-logo-wrapper" data-tauri-drag-region>
       <svg
         class="app-logo"
@@ -86,8 +75,6 @@ import { ref, watch } from 'vue'
 import ProgressBar from '@/components/ui/ProgressBar.vue'
 import { loading_listener } from '@/helpers/events.js'
 import { getCurrentWindow } from '@tauri-apps/api/window'
-import { XIcon, MaximizeIcon, MinimizeIcon } from '@icmods/assets'
-import { getOS } from '@/helpers/utils.js'
 import { useLoading } from '@/store/loading.js'
 
 const doneLoading = ref(false)
@@ -123,9 +110,6 @@ function fakeLoadingIncrease() {
   }
 }
 
-const os = ref('')
-getOS().then((x) => (os.value = x))
-
 loading_listener(async (e) => {
   if (e.event.type === 'directory_move') {
     loadingProgress.value = 100 * (e.fraction ?? 1)
@@ -152,13 +136,6 @@ const handleClose = async () => {
   &.fade-out {
     opacity: 0;
   }
-}
-
-.app-buttons {
-  position: absolute;
-  right: 0;
-  z-index: 9999;
-  display: flex;
 }
 
 .app-logo-wrapper {
