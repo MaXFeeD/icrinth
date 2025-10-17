@@ -1,4 +1,4 @@
-import { invoke } from '@/composables/bridge'
+import { invoke, execute } from '@/composables/bridge'
 
 export async function isDev() {
   return await invoke('is_dev')
@@ -16,8 +16,8 @@ export async function getVersion() {
   return await invoke('plugin:utils|get_version')
 }
 
-export async function pathToUrl(path) {
-  return await invoke('plugin:utils|path_to_url', { path })
+export function pathToUrl(path) {
+  return execute('plugin:utils|path_to_url', { path })
 }
 
 export async function checkUpdates() {

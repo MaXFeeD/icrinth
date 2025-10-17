@@ -153,7 +153,7 @@ watch(
   { immediate: true },
 )
 
-const unlisten = await friend_listener(() => loadFriends())
+const unlisten = friend_listener(() => loadFriends())
 onUnmounted(() => {
   unlisten()
 })

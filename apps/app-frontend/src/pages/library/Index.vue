@@ -26,7 +26,7 @@ window.addEventListener('online', () => {
   offline.value = false
 })
 
-const unlistenProfile = await profile_listener(async () => {
+const unlistenProfile = profile_listener(async () => {
   instances.value = await list().catch(handleError)
 })
 onUnmounted(() => {

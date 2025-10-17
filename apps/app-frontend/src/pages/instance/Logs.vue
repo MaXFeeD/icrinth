@@ -428,7 +428,7 @@ interval.value = setInterval(async () => {
   }
 }, 250)
 
-const unlistenProcesses = await process_listener(async (e) => {
+const unlistenProcesses = process_listener(async (e) => {
   if (e.event === 'launched') {
     currentLiveLog.value = ''
     currentLiveLogCursor.value = 0

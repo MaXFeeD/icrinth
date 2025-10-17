@@ -50,7 +50,7 @@ const titleMessage = defineMessage({
     <template #title>
       <span class="flex items-center gap-2 text-lg font-semibold text-primary">
         <Avatar
-          :src="instance.icon_path ? await pathToUrl(instance.icon_path) : undefined"
+          :src="instance.icon_path ? pathToUrl(instance.icon_path) : undefined"
           size="24px"
           :tint-by="props.instance.path"
         />

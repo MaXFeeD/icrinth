@@ -153,7 +153,7 @@ const upload_icon = async () => {
   icon.value = res.path ?? res
 
   if (!icon.value) return
-  display_icon.value = await pathToUrl(icon.value)
+  display_icon.value = pathToUrl(icon.value)
 }
 
 const reset_icon = () => {
@@ -228,7 +228,7 @@ const createInstance = async () => {
             @click="installModal.hide()"
           >
             <Avatar
-              :src="profile.icon_path ? await pathToUrl(profile.icon_path) : null"
+              :src="profile.icon_path ? pathToUrl(profile.icon_path) : null"
               class="profile-image"
             />
             {{ profile.name }}

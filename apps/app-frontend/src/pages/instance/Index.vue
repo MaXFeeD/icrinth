@@ -368,7 +368,7 @@ const handleOptionsClick = async (args) => {
   }
 }
 
-const unlistenProfiles = await profile_listener(async (event) => {
+const unlistenProfiles = profile_listener(async (event) => {
   if (event.profile_path_id === route.params.id) {
     if (event.event === 'removed') {
       await router.push({
@@ -380,7 +380,7 @@ const unlistenProfiles = await profile_listener(async (event) => {
   }
 })
 
-const unlistenProcesses = await process_listener((e) => {
+const unlistenProcesses = process_listener((e) => {
   if (e.event === 'finished' && e.profile_path_id === route.params.id) {
     playing.value = false
   }

@@ -289,7 +289,7 @@ import {
 } from '@/helpers/profile.js'
 import { handleError } from '@/store/notifications.js'
 import { trackEvent } from '@/helpers/analytics'
-import { highlightModInProfile } from '@/helpers/utils.js'
+import { highlightModInProfile } from '@/helpers/intents'
 import { TextInputIcon } from '@/assets/icons'
 import ExportModal from '@/components/ui/ExportModal.vue'
 import ModpackVersionModal from '@/components/ui/ModpackVersionModal.vue'
@@ -783,7 +783,7 @@ const unlisten = await getCurrentWebview().onDragDropEvent(async (event) => {
   await initProjects()
 })
 
-const unlistenProfiles = await profile_listener(async (event) => {
+const unlistenProfiles = profile_listener(async (event) => {
   if (
     event.profile_path_id === props.instance.path &&
     event.event === 'synced' &&

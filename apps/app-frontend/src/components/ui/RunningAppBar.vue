@@ -107,7 +107,7 @@ window.addEventListener('online', () => {
   offline.value = false
 })
 
-const unlistenProcess = await process_listener(async () => {
+const unlistenProcess = process_listener(async () => {
   await refresh()
 })
 
@@ -168,7 +168,7 @@ const refreshInfo = async () => {
 }
 
 await refreshInfo()
-const unlistenLoading = await loading_listener(async () => {
+const unlistenLoading = loading_listener(async () => {
   await refreshInfo()
 })
 

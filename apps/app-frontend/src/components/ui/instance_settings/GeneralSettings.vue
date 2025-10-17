@@ -212,7 +212,7 @@ const messages = defineMessages({
         ]"
       >
         <Avatar
-          :src="icon ? await pathToUrl(icon) : icon"
+          :src="icon ? pathToUrl(icon) : icon"
           size="108px"
           class="!border-4 group-hover:brightness-75"
           :tint-by="props.instance.path"

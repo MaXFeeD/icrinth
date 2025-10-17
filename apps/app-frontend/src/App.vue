@@ -38,7 +38,7 @@ import { invoke } from '@/composables/bridge'
 import { get_opening_command, initialize_state } from '@/helpers/state'
 import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
-import { check_updates } from '@/helpers/utils'
+import { checkUpdates as check_updates } from '@/helpers/utils'
 import NavButton from '@/components/ui/NavButton.vue'
 import { get as getCreds, login, logout } from '@/helpers/auth.js'
 import { get_user } from '@/helpers/cache.js'
@@ -107,14 +107,13 @@ async function setupApp() {
   themeStore.advancedRendering = advanced_rendering
   themeStore.toggleSidebar = toggle_sidebar
   themeStore.devMode = developer_mode
-  themeStore.featureFlags = feature_flags
+  themeStore.featureFlags = feature_flags || {}
 
-  initAnalytics()
   trackEvent('Launched', { version, dev, onboarded })
 
   if (!dev) document.addEventListener('contextmenu', (event) => event.preventDefault())
 
-  await warning_listener((e) =>
+  warning_listener((e) =>
     notificationsWrapper.value.addNotification({
       title: 'Warning',
       text: e.message,

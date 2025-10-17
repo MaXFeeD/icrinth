@@ -27,7 +27,7 @@ defineProps<{
     >
       <span class="flex items-center gap-2">
         <Avatar
-          :src="instance.icon_path ? await pathToUrl(instance.icon_path) : undefined"
+          :src="instance.icon_path ? pathToUrl(instance.icon_path) : undefined"
           :alt="instance.name"
           size="48px"
         />

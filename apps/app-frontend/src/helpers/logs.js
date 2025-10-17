@@ -28,7 +28,11 @@ export async function get_logs_by_filename(profilePath, logType, filename) {
 
 /// Get a profile's log text only by filename
 export async function get_output_by_filename(profilePath, logType, filename) {
-  return await invoke('plugin:logs|logs_get_output_by_filename', { profilePath, logType, filename })
+  return await invoke('plugin:logs|logs_get_output_by_filename', {
+    profilePath,
+    logType,
+    filename,
+  })
 }
 
 /// Delete a profile's log by filename
