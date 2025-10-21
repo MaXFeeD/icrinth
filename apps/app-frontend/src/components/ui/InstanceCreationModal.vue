@@ -109,7 +109,7 @@ import { handleError } from '@/store/notifications.js'
 import Multiselect from 'vue-multiselect'
 import { trackEvent } from '@/helpers/analytics'
 import { create_profile_and_install_from_file } from '@/helpers/pack.js'
-import { getCurrentWebview } from '@tauri-apps/api/webview'
+import { drag_and_drop_listener } from '@/helpers/events'
 import { formatCategory } from '@icmods/utils'
 
 const profile_name = ref('')
@@ -140,15 +140,14 @@ defineExpose({
     isShowing.value = true
     modal.value.show()
 
-    unlistener.value = await getCurrentWebview().onDragDropEvent(async (event) => {
+    unlistener.value = drag_and_drop_listener(async (event) => {
       // Only if modal is showing
       if (!isShowing.value) return
-      if (event.payload.type !== 'drop') return
+      if (event.type !== 'drop') return
       if (creationType.value !== 'from file') return
       hide()
-      const { paths } = event.payload
-      if (paths && paths.length > 0 && paths[0].endsWith('.mrpack')) {
-        await create_profile_and_install_from_file(paths[0]).catch(handleError)
+      if (event.paths && event.paths.length > 0 && event.paths[0].endsWith('.mrpack')) {
+        await create_profile_and_install_from_file(event.paths[0]).catch(handleError)
         trackEvent('InstanceCreate', {
           source: 'CreationModalFileDrop',
         })

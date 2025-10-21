@@ -95,3 +95,7 @@ export function warning_listener(callback) {
 export function friend_listener(callback) {
   return listen('friend', (event) => callback(event.payload))
 }
+
+export function drag_and_drop_listener(callback) {
+  return listen('drag_and_drop', (event) => callback(event.payload))
+}

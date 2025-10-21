@@ -300,9 +300,8 @@ import {
   get_team_many,
   get_version_many,
 } from '@/helpers/cache.js'
-import { profile_listener } from '@/helpers/events.js'
+import { profile_listener, drag_and_drop_listener } from '@/helpers/events'
 import ShareModalWrapper from '@/components/ui/modal/ShareModalWrapper.vue'
-import { getCurrentWebview } from '@tauri-apps/api/webview'
 import dayjs from 'dayjs'
 
 const props = defineProps({
@@ -773,10 +772,10 @@ async function refreshProjects() {
   refreshingProjects.value = false
 }
 
-const unlisten = await getCurrentWebview().onDragDropEvent(async (event) => {
-  if (event.payload.type !== 'drop') return
+const unlisten = drag_and_drop_listener(async (event) => {
+  if (event.type !== 'drop') return
 
-  for (const file of event.payload.paths) {
+  for (const file of event.paths) {
     if (file.endsWith('.mrpack')) continue
     await add_project_from_path(props.instance.path, file).catch(handleError)
   }
