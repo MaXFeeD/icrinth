@@ -6,9 +6,13 @@ window.__ICMODS_RECEIVER__ || (window.__ICMODS_RECEIVER__ = {})
 
 export function execute(cmd, args = {}) {
   if (window.__ICMODS_BRIDGE__ != null) {
-    return window.__ICMODS_BRIDGE__.execute(cmd, args)
+    const payload = window.__ICMODS_BRIDGE__.execute(cmd, JSON.stringify(args))
+    if (payload.error != null) {
+      throw new Error(payload.error + ' (cmd=' + cmd + ')')
+    }
+    return payload.data
   }
-  throw new Error('Calling bridge.execute(' + cmd + ') without bridge!')
+  throw new Error('Calling bridge execute (cmd=' + cmd + ') without bridge!')
 }
 
 export async function invoke(cmd, args = {}) {
@@ -21,23 +25,26 @@ export async function invoke(cmd, args = {}) {
   return new Promise((resolve, reject) => {
     const receiverId = cmd + '#' + invokeReceiverIdOffset++
     invokeReceivers.set(receiverId, { resolve, reject })
-    window.__ICMODS_BRIDGE__.invoke(cmd, args, receiverId)
+    window.__ICMODS_BRIDGE__.invoke(cmd, JSON.stringify(args), receiverId)
   })
 }
 
-window.__ICMODS_RECEIVER__.invoke = (receiverId, response) => {
+window.__ICMODS_RECEIVER__.invoke = (receiverId, payload) => {
   if (!invokeReceivers.has(receiverId)) {
     return
   }
-
-  const { resolve, reject } = invokeReceivers.get(receiverId)
+  const { resolve } = invokeReceivers.get(receiverId)
   invokeReceivers.delete(receiverId)
+  resolve(payload)
+}
 
-  if (response.status === 'success') {
-    resolve(response.data)
-  } else {
-    reject(new Error(response.message + ' (' + receiverId + ')'))
+window.__ICMODS_RECEIVER__.reject = (receiverId, message) => {
+  if (!invokeReceivers.has(receiverId)) {
+    return
   }
+  const { reject } = invokeReceivers.get(receiverId)
+  invokeReceivers.delete(receiverId)
+  reject(new Error(message + ' (id=' + receiverId + ')'))
 }
 
 export function listen(event, handler) {
@@ -64,9 +71,9 @@ export function once(event, handler) {
 
 export function emit(event, payload = {}) {
   if (window.__ICMODS_BRIDGE__ != null) {
-    return window.__ICMODS_BRIDGE__.emit(event, payload)
+    return window.__ICMODS_BRIDGE__.emit(event, JSON.stringify(payload))
   }
-  throw new Error('Calling bridge.emit(' + event + ') without bridge!')
+  throw new Error('Calling bridge emit (event=' + event + ') without bridge!')
 }
 
 window.__ICMODS_RECEIVER__.emit = (event, payload) => {
