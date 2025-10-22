@@ -5,8 +5,8 @@
   >
     <div
       :class="{ shown: visible }"
-      class="tauri-overlay"
-      data-tauri-drag-region
+      class="icmods-overlay"
+      data-icmods-drag-region
       @click="() => (closeOnClickOutside && closable ? hide() : {})"
     />
     <div
@@ -21,7 +21,7 @@
     <div class="modal-container experimental-styles-within" :class="{ shown: visible }">
       <div class="modal-body flex flex-col bg-bg-raised rounded-2xl">
         <div
-          data-tauri-drag-region
+          data-icmods-drag-region
           class="grid grid-cols-[auto_min-content] items-center gap-12 p-6 border-solid border-0 border-b-[1px] border-divider max-w-full"
         >
           <div class="flex text-wrap break-words items-center gap-3 min-w-0">
@@ -143,7 +143,7 @@ function handleKeyDown(event: KeyboardEvent) {
 </script>
 
 <style lang="scss" scoped>
-.tauri-overlay {
+.icmods-overlay {
   position: fixed;
   visibility: hidden;
   top: 0;

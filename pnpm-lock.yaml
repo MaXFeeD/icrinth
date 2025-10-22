@@ -53,24 +53,6 @@ importers:
       '@sentry/vue':
         specifier: ^8.27.0
         version: 8.27.0(vue@3.5.13(typescript@5.5.4))
-      '@tauri-apps/api':
-        specifier: ^2.1.1
-        version: 2.1.1
-      '@tauri-apps/plugin-dialog':
-        specifier: ^2.2.0
-        version: 2.2.0
-      '@tauri-apps/plugin-opener':
-        specifier: ^2.2.1
-        version: 2.2.1
-      '@tauri-apps/plugin-os':
-        specifier: ^2.2.0
-        version: 2.2.0
-      '@tauri-apps/plugin-updater':
-        specifier: ^2.3.0
-        version: 2.3.0
-      '@tauri-apps/plugin-window-state':
-        specifier: ^2.2.0
-        version: 2.2.0
       '@vintl/vintl':
         specifier: ^4.4.1
         version: 4.4.1(typescript@5.5.4)(vue@3.5.13(typescript@5.5.4))
@@ -79,7 +61,7 @@ importers:
         version: 1.11.11
       floating-vue:
         specifier: ^5.2.2
-        version: 5.2.2(@nuxt/kit@3.14.1592(magicast@0.3.5)(rollup@4.28.1))(vue@3.5.13(typescript@5.5.4))
+        version: 5.2.2(@nuxt/kit@3.14.1592(magicast@0.3.5))(vue@3.5.13(typescript@5.5.4))
       ofetch:
         specifier: ^1.3.4
         version: 1.4.1
@@ -1748,9 +1730,6 @@ packages:
     peerDependencies:
       eslint: '>=8.40.0'
 
-  '@tauri-apps/api@2.1.1':
-    resolution: {integrity: sha512-fzUfFFKo4lknXGJq8qrCidkUcKcH2UHhfaaCNt4GzgzGaW2iS26uFOg4tS3H4P8D6ZEeUxtiD5z0nwFF0UN30A==}
-
   '@tauri-apps/cli-darwin-arm64@2.1.0':
     resolution: {integrity: sha512-ESc6J6CE8hl1yKH2vJ+ALF+thq4Be+DM1mvmTyUCQObvezNCNhzfS6abIUd3ou4x5RGH51ouiANeT3wekU6dCw==}
     engines: {node: '>= 10'}
@@ -1815,21 +1794,6 @@ packages:
     resolution: {integrity: sha512-K2VhcKqBhAeS5pNOVdnR/xQRU6jwpgmkSL2ejHXcl0m+kaTggT0WRDQnFtPq6NljA7aE03cvwsbCAoFG7vtkJw==}
     engines: {node: '>= 10'}
     hasBin: true
-
-  '@tauri-apps/plugin-dialog@2.2.0':
-    resolution: {integrity: sha512-6bLkYK68zyK31418AK5fNccCdVuRnNpbxquCl8IqgFByOgWFivbiIlvb79wpSXi0O+8k8RCSsIpOquebusRVSg==}
-
-  '@tauri-apps/plugin-opener@2.2.1':
-    resolution: {integrity: sha512-zloo4xzBqeh363xNA+xYt+7+/cu/lPYuG5PRtxjWAaSyfMqFo6IINdizkDBYylUewLiplXb5+S65GLVkeXTHPg==}
-
-  '@tauri-apps/plugin-os@2.2.0':
-    resolution: {integrity: sha512-HszbCdbisMlu5QhCNAN8YIWyz2v33abAWha6+uvV2CKX8P5VSct/y+kEe22JeyqrxCnWlQ3DRx7s49Byg7/0EA==}
-
-  '@tauri-apps/plugin-updater@2.3.0':
-    resolution: {integrity: sha512-qdzyZEUN69FZQ/nRx51fBub10tT6wffJl3DLVo9q922Gvw8Wk++rZhoD9eethPlZYbog/7RGgT8JkrfLh5BKAg==}
-
-  '@tauri-apps/plugin-window-state@2.2.0':
-    resolution: {integrity: sha512-PFZ/vkZ6UPaRyuggEn8jWc/xwpiEw3Id8i6bin54zUR3vHY0MOK+ovvpvp6SEHKryCJbZMigYJz0OUT2eZ4YmQ==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -6034,7 +5998,7 @@ snapshots:
       '@babel/traverse': 7.26.4
       '@babel/types': 7.26.3
       convert-source-map: 2.0.0
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -6194,7 +6158,7 @@ snapshots:
       '@babel/parser': 7.26.3
       '@babel/template': 7.25.9
       '@babel/types': 7.26.3
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6523,7 +6487,7 @@ snapshots:
   '@eslint/config-array@0.18.0':
     dependencies:
       '@eslint/object-schema': 2.1.4
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -6547,7 +6511,7 @@ snapshots:
   '@eslint/eslintrc@3.1.0':
     dependencies:
       ajv: 6.12.6
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       espree: 10.2.0
       globals: 14.0.0
       ignore: 5.3.1
@@ -6914,6 +6878,34 @@ snapshots:
       - supports-color
       - typescript
 
+  '@nuxt/kit@3.14.1592(magicast@0.3.5)':
+    dependencies:
+      '@nuxt/schema': 3.14.1592(magicast@0.3.5)
+      c12: 2.0.1(magicast@0.3.5)
+      consola: 3.2.3
+      defu: 6.1.4
+      destr: 2.0.3
+      globby: 14.0.2
+      hash-sum: 2.0.0
+      ignore: 6.0.2
+      jiti: 2.4.1
+      klona: 2.0.6
+      knitwork: 1.1.0
+      mlly: 1.7.3
+      pathe: 1.1.2
+      pkg-types: 1.2.1
+      scule: 1.3.0
+      semver: 7.6.3
+      ufo: 1.5.4
+      unctx: 2.3.1
+      unimport: 3.14.4
+      untyped: 1.5.1
+    transitivePeerDependencies:
+      - magicast
+      - rollup
+      - supports-color
+    optional: true
+
   '@nuxt/kit@3.14.1592(magicast@0.3.5)(rollup@3.29.4)':
     dependencies:
       '@nuxt/schema': 3.14.1592(magicast@0.3.5)(rollup@3.29.4)
@@ -6968,6 +6960,27 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+
+  '@nuxt/schema@3.14.1592(magicast@0.3.5)':
+    dependencies:
+      c12: 2.0.1(magicast@0.3.5)
+      compatx: 0.1.8
+      consola: 3.2.3
+      defu: 6.1.4
+      hookable: 5.5.3
+      pathe: 1.1.2
+      pkg-types: 1.2.1
+      scule: 1.3.0
+      std-env: 3.8.0
+      ufo: 1.5.4
+      uncrypto: 0.1.3
+      unimport: 3.14.4
+      untyped: 1.5.1
+    transitivePeerDependencies:
+      - magicast
+      - rollup
+      - supports-color
+    optional: true
 
   '@nuxt/schema@3.14.1592(magicast@0.3.5)(rollup@3.29.4)':
     dependencies:
@@ -7429,8 +7442,6 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tauri-apps/api@2.1.1': {}
-
   '@tauri-apps/cli-darwin-arm64@2.1.0':
     optional: true
 
@@ -7473,26 +7484,6 @@ snapshots:
       '@tauri-apps/cli-win32-arm64-msvc': 2.1.0
       '@tauri-apps/cli-win32-ia32-msvc': 2.1.0
       '@tauri-apps/cli-win32-x64-msvc': 2.1.0
-
-  '@tauri-apps/plugin-dialog@2.2.0':
-    dependencies:
-      '@tauri-apps/api': 2.1.1
-
-  '@tauri-apps/plugin-opener@2.2.1':
-    dependencies:
-      '@tauri-apps/api': 2.1.1
-
-  '@tauri-apps/plugin-os@2.2.0':
-    dependencies:
-      '@tauri-apps/api': 2.1.1
-
-  '@tauri-apps/plugin-updater@2.3.0':
-    dependencies:
-      '@tauri-apps/api': 2.1.1
-
-  '@tauri-apps/plugin-window-state@2.2.0':
-    dependencies:
-      '@tauri-apps/api': 2.1.1
 
   '@trysound/sax@0.2.0': {}
 
@@ -7648,7 +7639,7 @@ snapshots:
       '@typescript-eslint/types': 8.10.0
       '@typescript-eslint/typescript-estree': 8.10.0(typescript@5.5.4)
       '@typescript-eslint/visitor-keys': 8.10.0
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       eslint: 9.13.0(jiti@2.4.1)
     optionalDependencies:
       typescript: 5.5.4
@@ -7698,7 +7689,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.10.0(typescript@5.5.4)
       '@typescript-eslint/utils': 8.10.0(eslint@9.13.0(jiti@2.4.1))(typescript@5.5.4)
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       ts-api-utils: 1.3.0(typescript@5.5.4)
     optionalDependencies:
       typescript: 5.5.4
@@ -7746,7 +7737,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.10.0
       '@typescript-eslint/visitor-keys': 8.10.0
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -8829,10 +8820,6 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.4.0:
-    dependencies:
-      ms: 2.1.3
-
   debug@4.4.0(supports-color@9.4.0):
     dependencies:
       ms: 2.1.3
@@ -9218,7 +9205,7 @@ snapshots:
   eslint-plugin-import-x@4.3.1(eslint@9.13.0(jiti@2.4.1))(typescript@5.5.4):
     dependencies:
       '@typescript-eslint/utils': 8.10.0(eslint@9.13.0(jiti@2.4.1))(typescript@5.5.4)
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       doctrine: 3.0.0
       eslint: 9.13.0(jiti@2.4.1)
       eslint-import-resolver-node: 0.3.9
@@ -9291,7 +9278,7 @@ snapshots:
       '@es-joy/jsdoccomment': 0.49.0
       are-docs-informative: 0.0.2
       comment-parser: 1.4.1
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       escape-string-regexp: 4.0.0
       eslint: 9.13.0(jiti@2.4.1)
       espree: 10.2.0
@@ -9527,7 +9514,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       escape-string-regexp: 4.0.0
       eslint-scope: 8.1.0
       eslint-visitor-keys: 4.1.0
@@ -9704,6 +9691,14 @@ snapshots:
       vue-resize: 2.0.0-alpha.1(vue@3.5.13(typescript@5.5.4))
     optionalDependencies:
       '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@4.28.1)
+
+  floating-vue@5.2.2(@nuxt/kit@3.14.1592(magicast@0.3.5))(vue@3.5.13(typescript@5.5.4)):
+    dependencies:
+      '@floating-ui/dom': 1.1.1
+      vue: 3.5.13(typescript@5.5.4)
+      vue-resize: 2.0.0-alpha.1(vue@3.5.13(typescript@5.5.4))
+    optionalDependencies:
+      '@nuxt/kit': 3.14.1592(magicast@0.3.5)
 
   for-each@0.3.3:
     dependencies:
@@ -11931,6 +11926,26 @@ snapshots:
 
   unicorn-magic@0.1.0: {}
 
+  unimport@3.14.4:
+    dependencies:
+      '@rollup/pluginutils': 5.1.3(rollup@4.28.1)
+      acorn: 8.14.0
+      escape-string-regexp: 5.0.0
+      estree-walker: 3.0.3
+      local-pkg: 0.5.1
+      magic-string: 0.30.14
+      mlly: 1.7.3
+      pathe: 1.1.2
+      picomatch: 4.0.2
+      pkg-types: 1.2.1
+      scule: 1.3.0
+      strip-literal: 2.1.1
+      tinyglobby: 0.2.10
+      unplugin: 1.16.0
+    transitivePeerDependencies:
+      - rollup
+    optional: true
+
   unimport@3.14.4(rollup@3.29.4):
     dependencies:
       '@rollup/pluginutils': 5.1.3(rollup@3.29.4)
@@ -12221,7 +12236,7 @@ snapshots:
 
   vue-eslint-parser@9.4.3(eslint@9.13.0(jiti@2.4.1)):
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.0(supports-color@9.4.0)
       eslint: 9.13.0(jiti@2.4.1)
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3

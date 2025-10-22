@@ -274,9 +274,7 @@ function handleClick(e) {
         target.href &&
         ['http://', 'https://', 'mailto:', 'tel:'].some((v) => target.href.startsWith(v)) &&
         !target.classList.contains('router-link-active') &&
-        !target.href.startsWith('http://localhost') &&
-        !target.href.startsWith('https://tauri.localhost') &&
-        !target.href.startsWith('http://tauri.localhost')
+        !target.href.startsWith('http://localhost')
       ) {
         openUrl(target.href).catch(handleError)
       }
@@ -303,7 +301,7 @@ function handleAuxClick(e) {
 </script>
 
 <template>
-  <SplashScreen v-if="!stateFailed" ref="splashScreen" data-tauri-drag-region />
+  <SplashScreen v-if="!stateFailed" ref="splashScreen" data-icmods-drag-region />
   <div id="teleports"></div>
   <div v-if="stateInitialized" class="app-grid-layout relative">
     <Suspense>
@@ -381,8 +379,8 @@ function handleAuxClick(e) {
         <template #label>Sign in</template>
       </NavButton>
     </div>
-    <div data-tauri-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
-      <div data-tauri-drag-region class="flex p-3">
+    <div data-icmods-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
+      <div data-icmods-drag-region class="flex p-3">
         <IcmodsIcon class="h-full w-auto text-contrast pointer-events-none" />
         <div class="flex items-center gap-1 ml-3">
           <button
@@ -510,7 +508,7 @@ function handleAuxClick(e) {
       </template>
     </div>
     <div class="view">
-      <div v-if="criticalErrorMessage" class="critical-error-banner" data-tauri-drag-region>
+      <div v-if="criticalErrorMessage" class="critical-error-banner" data-icmods-drag-region>
         <h1>{{ criticalErrorMessage.header }}</h1>
         <div class="markdown-body" v-html="renderString(criticalErrorMessage.body ?? '')"></div>
       </div>

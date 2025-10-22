@@ -1,6 +1,6 @@
 <template>
   <div v-if="!hidden" class="splash-screen dark" :class="{ 'fade-out': doneLoading }">
-    <div class="app-logo-wrapper" data-tauri-drag-region>
+    <div class="app-logo-wrapper" data-icmods-drag-region>
       <svg
         class="app-logo"
         viewBox="0 0 1215 175"
@@ -64,7 +64,7 @@
       <ProgressBar class="loading-bar" :progress="Math.min(loadingProgress, 100)" />
       <span v-if="message">{{ message }}</span>
     </div>
-    <div class="gradient-bg" data-tauri-drag-region></div>
+    <div class="gradient-bg" data-icmods-drag-region></div>
     <div class="cube-bg"></div>
     <div class="base-bg"></div>
   </div>

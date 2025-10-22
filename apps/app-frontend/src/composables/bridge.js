@@ -4,6 +4,14 @@ const listenHandlers = new Map()
 
 window.__ICMODS_RECEIVER__ || (window.__ICMODS_RECEIVER__ = {})
 
+function throwUnsupportedError(message) {
+  throw new Error(
+    'Unable to launch in this environment. ' +
+      'Please verify configuration issues and backend availability, then try again. ' +
+      message,
+  )
+}
+
 export function execute(cmd, args = {}) {
   if (window.__ICMODS_BRIDGE__ != null) {
     const payload = window.__ICMODS_BRIDGE__.execute(cmd, JSON.stringify(args))
@@ -12,21 +20,18 @@ export function execute(cmd, args = {}) {
     }
     return payload.data
   }
-  throw new Error('Calling bridge execute (cmd=' + cmd + ') without bridge!')
+  throwUnsupportedError('Calling bridge execute (cmd=' + cmd + ') without bridge!')
 }
 
 export async function invoke(cmd, args = {}) {
-  if (window.__ICMODS_BRIDGE__ == null) {
-    if (window.__TAURI_API_CORE__ == null) {
-      window.__TAURI_API_CORE__ = await import('@tauri-apps/api/core')
-    }
-    return window.__TAURI_API_CORE__.invoke(cmd, args)
+  if (window.__ICMODS_BRIDGE__ != null) {
+    return new Promise((resolve, reject) => {
+      const receiverId = cmd + '#' + invokeReceiverIdOffset++
+      invokeReceivers.set(receiverId, { resolve, reject })
+      window.__ICMODS_BRIDGE__.invoke(cmd, JSON.stringify(args), receiverId)
+    })
   }
-  return new Promise((resolve, reject) => {
-    const receiverId = cmd + '#' + invokeReceiverIdOffset++
-    invokeReceivers.set(receiverId, { resolve, reject })
-    window.__ICMODS_BRIDGE__.invoke(cmd, JSON.stringify(args), receiverId)
-  })
+  throwUnsupportedError('Calling bridge invoke (cmd=' + cmd + ') without bridge!')
 }
 
 window.__ICMODS_RECEIVER__.invoke = (receiverId, payload) => {
@@ -73,7 +78,7 @@ export function emit(event, payload = {}) {
   if (window.__ICMODS_BRIDGE__ != null) {
     return window.__ICMODS_BRIDGE__.emit(event, JSON.stringify(payload))
   }
-  throw new Error('Calling bridge emit (event=' + event + ') without bridge!')
+  throwUnsupportedError('Calling bridge emit (event=' + event + ') without bridge!')
 }
 
 window.__ICMODS_RECEIVER__.emit = (event, payload) => {
