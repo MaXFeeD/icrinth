@@ -103,7 +103,7 @@ import { Avatar, Button, Checkbox, Chips } from '@icmods/ui'
 import { computed, onUnmounted, ref, shallowRef } from 'vue'
 import { get_loaders, get_game_versions } from '@/helpers/tags'
 import { create } from '@/helpers/profile'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFile } from '@/helpers/intents'
 import { pathToUrl } from '@/helpers/utils'
 import { handleError } from '@/store/notifications.js'
 import Multiselect from 'vue-multiselect'
@@ -231,15 +231,7 @@ const create_instance = async () => {
 }
 
 const upload_icon = async () => {
-  const res = await open({
-    multiple: false,
-    filters: [
-      {
-        name: 'Image',
-        extensions: ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'],
-      },
-    ],
-  })
+  const res = await selectFile(false, ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'])
 
   icon.value = res.path ?? res
 

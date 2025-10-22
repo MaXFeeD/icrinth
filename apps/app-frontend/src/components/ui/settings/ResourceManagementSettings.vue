@@ -6,7 +6,7 @@ import { purge_cache_types } from '@/helpers/cache.js'
 import { handleError } from '@/store/notifications.js'
 import { BoxIcon, FolderSearchIcon, TrashIcon } from '@icmods/assets'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFolder } from '@/helpers/intents'
 
 const settings = ref(await get())
 
@@ -44,12 +44,7 @@ async function purgeCache() {
 }
 
 async function findLauncherDir() {
-  const newDir = await open({
-    multiple: false,
-    directory: true,
-    title: 'Select a new app directory',
-  })
-
+  const newDir = await selectFolder()
   if (newDir) {
     settings.value.custom_dir = newDir
   }

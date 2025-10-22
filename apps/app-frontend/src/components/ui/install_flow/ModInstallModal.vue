@@ -16,7 +16,7 @@ import {
   list,
   create,
 } from '@/helpers/profile'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFile } from '@/helpers/intents'
 import { installVersionDependencies } from '@/store/install.js'
 import { handleError } from '@/store/notifications.js'
 import { useRouter } from 'vue-router'
@@ -141,15 +141,7 @@ const toggleCreation = () => {
 }
 
 const upload_icon = async () => {
-  const res = await open({
-    multiple: false,
-    filters: [
-      {
-        name: 'Image',
-        extensions: ['png', 'jpeg'],
-      },
-    ],
-  })
+  const res = await selectFile(false, ['png', 'jpeg'])
   icon.value = res.path ?? res
 
   if (!icon.value) return

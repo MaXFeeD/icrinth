@@ -9,6 +9,14 @@ export async function openFolder(path) {
   return await invoke('plugin:intents|open_folder', { path })
 }
 
+export async function selectFile(multiple = false, filters = []) {
+  return await invoke('plugin:intents|select_file', { multiple, filters })
+}
+
+export async function selectFolder(recursive = false) {
+  return await invoke('plugin:intents|select_folder', { recursive })
+}
+
 export async function highlightInFolder(path) {
   return await invoke('plugin:intents|highlight_in_folder', { path })
 }

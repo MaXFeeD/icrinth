@@ -6,7 +6,7 @@ import { computed, ref, type Ref, watch } from 'vue'
 import { duplicate, edit, edit_icon, list, remove } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFile } from '@/helpers/intents'
 import { defineMessages, useVIntl } from '@vintl/vintl'
 import { useRouter } from 'vue-router'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
@@ -47,16 +47,7 @@ async function resetIcon() {
 }
 
 async function setIcon() {
-  const value = await open({
-    multiple: false,
-    filters: [
-      {
-        name: 'Image',
-        extensions: ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'],
-      },
-    ],
-  })
-
+  const value = await selectFile(false, ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'])
   if (!value) return
 
   icon.value = value
