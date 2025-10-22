@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { formatCategory } from '@icmods/utils'
 import { GameIcon, LeftArrowIcon } from '@icmods/assets'
 import { Avatar, ButtonStyled } from '@icmods/ui'
@@ -27,7 +27,7 @@ defineProps<{
     >
       <span class="flex items-center gap-2">
         <Avatar
-          :src="instance.icon_path ? convertFileSrc(instance.icon_path) : undefined"
+          :src="instance.icon_path ? pathToUrl(instance.icon_path) : undefined"
           :alt="instance.name"
           size="48px"
         />
@@ -44,7 +44,7 @@ defineProps<{
     </router-link>
     <ButtonStyled>
       <router-link :to="`/instance/${encodeURIComponent(instance.path)}`">
-        <LeftArrowIcon /> Back to instance
+        <LeftArrowIcon /> Back to modpack
       </router-link>
     </ButtonStyled>
   </div>

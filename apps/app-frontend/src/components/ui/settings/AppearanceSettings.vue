@@ -3,24 +3,16 @@ import { Toggle, ThemeSelector, TeleportDropdownMenu } from '@icmods/ui'
 import { useTheming } from '@/store/state'
 import { get, set } from '@/helpers/settings'
 import { watch, ref } from 'vue'
-import { getOS } from '@/helpers/utils'
 
 const themeStore = useTheming()
 
-const os = ref(await getOS())
 const settings = ref(await get())
 
-watch(
-  settings,
-  async () => {
-    await set(settings.value)
-  },
-  { deep: true },
-)
+watch(settings, async () => await set(settings.value), { deep: true })
 </script>
 <template>
   <h2 class="m-0 text-lg font-extrabold text-contrast">Color theme</h2>
-  <p class="m-0 mt-1">Select your preferred color theme for Modrinth App.</p>
+  <p class="m-0 mt-1">Select your preferred color theme for Inner Core Mod Browser.</p>
 
   <ThemeSelector
     :update-color-theme="
@@ -51,40 +43,6 @@ watch(
         (e) => {
           themeStore.advancedRendering = e
           settings.advanced_rendering = themeStore.advancedRendering
-        }
-      "
-    />
-  </div>
-
-  <div v-if="os !== 'MacOS'" class="mt-4 flex items-center justify-between gap-4">
-    <div>
-      <h2 class="m-0 text-lg font-extrabold text-contrast">Native Decorations</h2>
-      <p class="m-0 mt-1">Use system window frame (app restart required).</p>
-    </div>
-    <Toggle
-      id="native-decorations"
-      :model-value="settings.native_decorations"
-      :checked="settings.native_decorations"
-      @update:model-value="
-        (e) => {
-          settings.native_decorations = e
-        }
-      "
-    />
-  </div>
-
-  <div class="mt-4 flex items-center justify-between">
-    <div>
-      <h2 class="m-0 text-lg font-extrabold text-contrast">Minimize launcher</h2>
-      <p class="m-0 mt-1">Minimize the launcher when a Minecraft process starts.</p>
-    </div>
-    <Toggle
-      id="minimize-launcher"
-      :model-value="settings.hide_on_process_start"
-      :checked="settings.hide_on_process_start"
-      @update:model-value="
-        (e) => {
-          settings.hide_on_process_start = e
         }
       "
     />

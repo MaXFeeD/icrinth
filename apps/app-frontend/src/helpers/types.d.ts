@@ -1,4 +1,4 @@
-import type { ModrinthId } from '@icmods/utils'
+import type { IcmodsId } from '@icmods/utils'
 
 type GameInstance = {
   path: string
@@ -40,13 +40,13 @@ type InstallStage =
   | 'not_installed'
 
 type LinkedData = {
-  project_id: ModrinthId
-  version_id: ModrinthId
+  project_id: IcmodsId
+  version_id: IcmodsId
 
   locked: boolean
 }
 
-type InstanceLoader = 'vanilla' | 'forge' | 'fabric' | 'quilt' | 'neoforge'
+type InstanceLoader = 'vanilla' | 'innercore' | 'coreengine'
 
 type MemorySettings = {
   maximum: number
@@ -87,26 +87,14 @@ type AppSettings = {
   default_page: 'Home' | 'Library'
   collapsed_navigation: boolean
   advanced_rendering: boolean
-  native_decorations: boolean
 
   telemetry: boolean
-  discord_rpc: boolean
   developer_mode: boolean
   personalized_ads: boolean
 
   onboarded: boolean
 
-  extra_launch_args: string[]
-  custom_env_vars: [string, string][]
-  memory: MemorySettings
-  force_fullscreen: boolean
-  game_resolution: [number, number]
-  hide_on_process_start: boolean
-  hooks: Hooks
-
   custom_dir?: string
-  prev_custom_dir?: string
-  migrated: boolean
 }
 
 export type InstanceSettingsTabProps = {

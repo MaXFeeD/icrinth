@@ -6,7 +6,7 @@ import { onUnmounted, ref } from 'vue'
 import { profile_listener } from '@/helpers/events.js'
 import NavButton from '@/components/ui/NavButton.vue'
 import { Avatar } from '@icmods/ui'
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { SpinnerIcon } from '@icmods/assets'
 
 const recentInstances = ref([])
@@ -35,7 +35,7 @@ const getInstances = async () => {
 
 await getInstances()
 
-const unlistenProfile = await profile_listener(async (event) => {
+const unlistenProfile = profile_listener(async (event) => {
   if (event.event !== 'synced') {
     await getInstances()
   }
@@ -55,7 +55,7 @@ onUnmounted(() => {
     class="relative"
   >
     <Avatar
-      :src="instance.icon_path ? convertFileSrc(instance.icon_path) : null"
+      :src="instance.icon_path ? pathToUrl(instance.icon_path) : null"
       size="28px"
       :tint-by="instance.path"
       :class="`transition-all ${instance.install_stage !== 'installed' ? `brightness-[0.25] scale-[0.85]` : `group-hover:brightness-75`}`"

@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import {
   ReportIcon,
-  ModrinthIcon,
+  IcmodsIcon,
   ShieldIcon,
   SettingsIcon,
   GaugeIcon,
   PaintBrushIcon,
-  GameIcon,
-  CoffeeIcon,
 } from '@icmods/assets'
 import { TabbedModal } from '@icmods/ui'
 import { computed, ref, watch } from 'vue'
 import { useVIntl, defineMessage } from '@vintl/vintl'
 import AppearanceSettings from '@/components/ui/settings/AppearanceSettings.vue'
-import JavaSettings from '@/components/ui/settings/JavaSettings.vue'
 import ResourceManagementSettings from '@/components/ui/settings/ResourceManagementSettings.vue'
 import PrivacySettings from '@/components/ui/settings/PrivacySettings.vue'
-import DefaultInstanceSettings from '@/components/ui/settings/DefaultInstanceSettings.vue'
-import { getVersion } from '@tauri-apps/api/app'
-import { version as getOsVersion, platform as getOsPlatform } from '@tauri-apps/plugin-os'
+import { getOs, getOsVersion, getVersion } from '@/helpers/utils'
 import { useTheming } from '@/store/state'
 import FeatureFlagSettings from '@/components/ui/settings/FeatureFlagSettings.vue'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
@@ -54,22 +49,6 @@ const tabs = [
   },
   {
     name: defineMessage({
-      id: 'app.settings.tabs.java-installations',
-      defaultMessage: 'Java installations',
-    }),
-    icon: CoffeeIcon,
-    content: JavaSettings,
-  },
-  {
-    name: defineMessage({
-      id: 'app.settings.tabs.default-instance-options',
-      defaultMessage: 'Default instance options',
-    }),
-    icon: GameIcon,
-    content: DefaultInstanceSettings,
-  },
-  {
-    name: defineMessage({
       id: 'app.settings.tabs.resource-management',
       defaultMessage: 'Resource management',
     }),
@@ -98,8 +77,8 @@ const isOpen = computed(() => modal.value?.isOpen)
 defineExpose({ show, isOpen })
 
 const version = await getVersion()
-const osPlatform = getOsPlatform()
-const osVersion = getOsVersion()
+const osPlatform = await getOs()
+const osVersion = await getOsVersion()
 const settings = ref(await get())
 
 watch(
@@ -143,10 +122,10 @@ function devModeCount() {
               :class="{ 'text-brand': themeStore.devMode, 'text-secondary': !themeStore.devMode }"
               @click="devModeCount"
             >
-              <ModrinthIcon class="w-6 h-6" />
+              <IcmodsIcon class="w-6 h-6" />
             </button>
             <div>
-              <p class="m-0">Modrinth App {{ version }}</p>
+              <p class="m-0">Inner Core Mod Browser {{ version }}</p>
               <p class="m-0">
                 <span v-if="osPlatform === 'macos'">MacOS</span>
                 <span v-else class="capitalize">{{ osPlatform }}</span>

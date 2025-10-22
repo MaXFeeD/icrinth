@@ -22,9 +22,8 @@ pub fn get_image_ext(content_type: &str) -> Option<&'static str> {
 
 pub fn project_file_type(ext: &str) -> Option<&str> {
     match ext {
-        "jar" => Some("application/java-archive"),
-        "zip" | "litemod" => Some("application/zip"),
-        "mrpack" => Some("application/x-modrinth-modpack+zip"),
+        "zip" | "icmod" | "icpack" => Some("application/zip"),
+        "mrpack" => Some("application/x-innercore-modpack+zip"),
         _ => None,
     }
 }

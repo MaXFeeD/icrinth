@@ -9,49 +9,6 @@
       proceed-label="Delete"
       @proceed="deleteVersion()"
     />
-    <Modal v-if="auth.user && currentMember" ref="modal_package_mod" header="Package behavior pack">
-      <div class="modal-package-mod universal-labels">
-        <div class="markdown-body">
-          <p>
-            Package your behavior pack as a mod. This will create a new version with support for the
-            selected mod loaders. You will be redirected to the new version and can edit it to your
-            liking.
-          </p>
-        </div>
-        <label for="package-mod-loaders">
-          <span class="label__title">Mod loaders</span>
-          <span class="label__description">
-            The mod loaders you would like to package your behavior pack for.
-          </span>
-        </label>
-        <multiselect
-          id="package-mod-loaders"
-          v-model="packageLoaders"
-          :options="['fabric', 'forge', 'quilt', 'neoforge']"
-          :custom-label="(value) => value.charAt(0).toUpperCase() + value.slice(1)"
-          :multiple="true"
-          :searchable="false"
-          :show-no-results="false"
-          :show-labels="false"
-          placeholder="Choose loaders..."
-          open-direction="top"
-        />
-        <div class="button-group">
-          <ButtonStyled>
-            <button @click="$refs.modal_package_mod.hide()">
-              <CrossIcon aria-hidden="true" />
-              Cancel
-            </button>
-          </ButtonStyled>
-          <ButtonStyled color="brand">
-            <button @click="createBehaviorPackVersion">
-              <RightArrowIcon aria-hidden="true" />
-              Begin packaging behavior pack
-            </button>
-          </ButtonStyled>
-        </div>
-      </div>
-    </Modal>
     <div class="version-page__title universal-card">
       <Breadcrumbs
         :current-title="version.name"
@@ -175,18 +132,6 @@
             <EditIcon aria-hidden="true" />
             Edit
           </nuxt-link>
-        </ButtonStyled>
-        <ButtonStyled>
-          <button
-            v-if="
-              currentMember &&
-              version.loaders.some((x) => tags.loaderData.behaviorPackLoaders.includes(x))
-            "
-            @click="$refs.modal_package_mod.show()"
-          >
-            <BoxIcon aria-hidden="true" />
-            Package as mod
-          </button>
         </ButtonStyled>
         <ButtonStyled>
           <button v-if="currentMember" @click="$refs.modal_confirm.show()">
@@ -621,7 +566,6 @@ import { ButtonStyled, ConfirmModal, MarkdownEditor } from "@icmods/ui";
 import { Multiselect } from "vue-multiselect";
 import { acceptFileFromProjectType } from "~/helpers/fileUtils.js";
 import { inferVersionInfo } from "~/helpers/infer.js";
-import { createBehaviorPackVersion } from "~/helpers/package.js";
 import { renderHighlightedString } from "~/helpers/highlight.js";
 import { reportVersion } from "~/utils/report-helpers.ts";
 import { useImageUpload } from "~/composables/image-upload.ts";
@@ -915,7 +859,7 @@ export default defineNuxtComponent({
 
       newFileTypes: [],
 
-      packageLoaders: ["forge", "fabric", "quilt", "neoforge"],
+      packageLoaders: ["innercore", "coreengine"],
 
       showKnownErrors: false,
       shouldPreventActions: false,
@@ -1234,58 +1178,6 @@ export default defineNuxtComponent({
       await this.resetProjectVersions();
       await this.$router.replace(`/${this.project.project_type}/${this.project.id}/versions`);
       stopLoading();
-    },
-    async createBehaviorPackVersion() {
-      this.shouldPreventActions = true;
-      startLoading();
-      try {
-        const blob = await createBehaviorPackVersion(
-          this.project,
-          this.version,
-          this.primaryFile,
-          this.members,
-          this.tags.gameVersions,
-          this.packageLoaders,
-        );
-
-        this.newFiles = [];
-        this.newFileTypes = [];
-        this.replaceFile = new File(
-          [blob],
-          `${this.project.slug}-${this.version.version_number}.jar`,
-        );
-
-        await this.createVersionRaw({
-          project_id: this.project.id,
-          author_id: this.currentMember.user.id,
-          name: this.version.name,
-          version_number: `${this.version.version_number}+mod`,
-          changelog: this.version.changelog,
-          version_type: this.version.version_type,
-          dependencies: this.version.dependencies,
-          game_versions: this.version.game_versions,
-          loaders: this.packageLoaders,
-          featured: this.version.featured,
-        });
-
-        this.$refs.modal_package_mod.hide();
-
-        this.$notify({
-          group: "main",
-          title: "Packaging Success",
-          text: "Your behavior pack was successfully packaged as a mod! Make sure to playtest to check for errors.",
-          type: "success",
-        });
-      } catch (err) {
-        this.$notify({
-          group: "main",
-          title: "An error occurred",
-          text: err.data ? err.data.description : err,
-          type: "error",
-        });
-      }
-      stopLoading();
-      this.shouldPreventActions = false;
     },
     async resetProjectVersions() {
       const [versions, featuredVersions, dependencies] = await Promise.all([

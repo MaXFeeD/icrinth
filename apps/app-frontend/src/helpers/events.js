@@ -20,7 +20,7 @@
 
     Putting that in a script will print any emitted signal from rust
 */
-import { listen } from '@tauri-apps/api/event'
+import { listen } from '@/composables/bridge'
 
 /// Payload for the 'loading' event
 /*
@@ -40,8 +40,8 @@ import { listen } from '@tauri-apps/api/event'
         message: message to display to the user
     }
 */
-export async function loading_listener(callback) {
-  return await listen('loading', (event) => callback(event.payload))
+export function loading_listener(callback) {
+  return listen('loading', (event) => callback(event.payload))
 }
 
 /// Payload for the 'process' event
@@ -53,8 +53,8 @@ export async function loading_listener(callback) {
         message: message to display to the user
     }
 */
-export async function process_listener(callback) {
-  return await listen('process', (event) => callback(event.payload))
+export function process_listener(callback) {
+  return listen('process', (event) => callback(event.payload))
 }
 
 /// Payload for the 'profile' event
@@ -67,8 +67,8 @@ export async function process_listener(callback) {
         event: event type ("Created", "Added", "Edited", "Removed")
     }
 */
-export async function profile_listener(callback) {
-  return await listen('profile', (event) => callback(event.payload))
+export function profile_listener(callback) {
+  return listen('profile', (event) => callback(event.payload))
 }
 
 /// Payload for the 'command' event
@@ -78,10 +78,8 @@ export async function profile_listener(callback) {
     id: string id of the mod/modpack/version to install
   }
 */
-export async function command_listener(callback) {
-  return await listen('command', (event) => {
-    callback(event.payload)
-  })
+export function command_listener(callback) {
+  return listen('command', (event) => callback(event.payload))
 }
 
 /// Payload for the 'warning' event
@@ -90,10 +88,14 @@ export async function command_listener(callback) {
         message: message to display to the user
     }
 */
-export async function warning_listener(callback) {
-  return await listen('warning', (event) => callback(event.payload))
+export function warning_listener(callback) {
+  return listen('warning', (event) => callback(event.payload))
 }
 
-export async function friend_listener(callback) {
-  return await listen('friend', (event) => callback(event.payload))
+export function friend_listener(callback) {
+  return listen('friend', (event) => callback(event.payload))
+}
+
+export function drag_and_drop_listener(callback) {
+  return listen('drag_and_drop', (event) => callback(event.payload))
 }

@@ -37,7 +37,7 @@
               },
               {
                 id: 'open-in-browser',
-                link: `https://modrinth.com/${project.project_type}/${project.slug}/version/${version.id}`,
+                link: `https://inner-core.org/${project.project_type}/${project.slug}/version/${version.id}`,
               },
             ]"
             aria-label="More options"
@@ -45,7 +45,7 @@
             <MoreVerticalIcon aria-hidden="true" />
             <template #install-elsewhere>
               <DownloadIcon aria-hidden="true" />
-              Add to another instance
+              Add to another modpack
             </template>
             <template #open-in-browser> <ExternalIcon /> Open in browser </template>
           </OverflowMenu>
@@ -53,7 +53,7 @@
             v-else
             v-tooltip="`Open in browser`"
             class="group-hover:!bg-button-bg"
-            :href="`https://modrinth.com/${project.project_type}/${project.slug}/version/${version.id}`"
+            :href="`https://inner-core.org/${project.project_type}/${project.slug}/version/${version.id}`"
             target="_blank"
           >
             <ExternalIcon />

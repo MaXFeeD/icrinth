@@ -16,11 +16,11 @@ import {
   list,
   create,
 } from '@/helpers/profile'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFile } from '@/helpers/intents'
 import { installVersionDependencies } from '@/store/install.js'
 import { handleError } from '@/store/notifications.js'
 import { useRouter } from 'vue-router'
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { trackEvent } from '@/helpers/analytics'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 
@@ -141,19 +141,11 @@ const toggleCreation = () => {
 }
 
 const upload_icon = async () => {
-  const res = await open({
-    multiple: false,
-    filters: [
-      {
-        name: 'Image',
-        extensions: ['png', 'jpeg'],
-      },
-    ],
-  })
+  const res = await selectFile(false, ['png', 'jpeg'])
   icon.value = res.path ?? res
 
   if (!icon.value) return
-  display_icon.value = convertFileSrc(icon.value)
+  display_icon.value = pathToUrl(icon.value)
 }
 
 const reset_icon = () => {
@@ -165,9 +157,7 @@ const createInstance = async () => {
   creatingInstance.value = true
 
   const loader =
-    versions.value[0].loaders[0] !== 'forge' &&
-    versions.value[0].loaders[0] !== 'fabric' &&
-    versions.value[0].loaders[0] !== 'quilt'
+    versions.value[0].loaders[0] !== 'innercore' && versions.value[0].loaders[0] !== 'coreengine'
       ? 'vanilla'
       : versions.value[0].loaders[0]
 
@@ -213,14 +203,14 @@ const createInstance = async () => {
 </script>
 
 <template>
-  <ModalWrapper ref="installModal" header="Install project to instance" :on-hide="onInstall">
+  <ModalWrapper ref="installModal" header="Install project to modpack" :on-hide="onInstall">
     <div class="modal-body">
       <input
         v-model="searchFilter"
         autocomplete="off"
         type="text"
         class="search"
-        placeholder="Search for an instance"
+        placeholder="Search for an modpack"
       />
       <div class="profiles" :class="{ 'hide-creation': !showCreation }">
         <div v-for="profile in shownProfiles" :key="profile.name" class="option">
@@ -230,7 +220,7 @@ const createInstance = async () => {
             @click="installModal.hide()"
           >
             <Avatar
-              :src="profile.icon_path ? convertFileSrc(profile.icon_path) : null"
+              :src="profile.icon_path ? pathToUrl(profile.icon_path) : null"
               class="profile-image"
             />
             {{ profile.name }}
@@ -238,7 +228,7 @@ const createInstance = async () => {
           <div
             v-tooltip="
               profile.linked_data?.locked && !profile.installedMod
-                ? 'Unpair or unlock an instance to add mods.'
+                ? 'Unpair or unlock an modpack to add mods.'
                 : ''
             "
           >
@@ -292,7 +282,7 @@ const createInstance = async () => {
       <div class="input-group push-right">
         <Button :color="showCreation ? '' : 'primary'" @click="toggleCreation()">
           <PlusIcon />
-          {{ showCreation ? 'Hide New Instance' : 'Create new instance' }}
+          {{ showCreation ? 'Hide New Modpack' : 'Create new modpack' }}
         </Button>
         <Button @click="installModal.hide()">Cancel</Button>
       </div>

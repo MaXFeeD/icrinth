@@ -99,7 +99,7 @@ impl Thread {
     pub fn from(
         data: crate::database::models::Thread,
         users: Vec<User>,
-        user: &User,
+        user_option: Option<&User>,
     ) -> Self {
         let thread_type = data.type_;
 
@@ -113,15 +113,17 @@ impl Thread {
                 .into_iter()
                 .filter(|x| {
                     if let MessageBody::Text { private, .. } = x.body {
-                        !private || user.role.is_mod()
+                        !private
+                            || user_option.map_or(false, |u| u.role.is_mod())
                     } else if let MessageBody::Deleted { private, .. } = x.body
                     {
-                        !private || user.role.is_mod()
+                        !private
+                            || user_option.map_or(false, |u| u.role.is_mod())
                     } else {
                         true
                     }
                 })
-                .map(|x| ThreadMessage::from(x, user))
+                .map(|x| ThreadMessage::from(x, user_option))
                 .collect(),
             members: users,
         }
@@ -131,11 +133,13 @@ impl Thread {
 impl ThreadMessage {
     pub fn from(
         data: crate::database::models::ThreadMessage,
-        user: &User,
+        user_option: Option<&User>,
     ) -> Self {
         Self {
             id: data.id.into(),
-            author_id: if data.hide_identity && !user.role.is_mod() {
+            author_id: if data.hide_identity
+                && !user_option.map_or(false, |u| u.role.is_mod())
+            {
                 None
             } else {
                 data.author_id.map(|x| x.into())

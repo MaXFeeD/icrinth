@@ -153,7 +153,7 @@ pub async fn export(
         )
         .await?
         .into_iter()
-        .map(|x| crate::models::threads::ThreadMessage::from(x, &user))
+        .map(|x| crate::models::threads::ThreadMessage::from(x, Some(&user)))
         .collect::<Vec<_>>();
 
     let uploaded_images_ids = sqlx::query!(

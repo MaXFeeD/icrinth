@@ -4,17 +4,19 @@ use crate::database::models::DatabaseError;
 use crate::database::redis::RedisPool;
 use crate::models::pack::PackFormat;
 use crate::models::projects::{FileType, Loader};
+use crate::validate::icmod::CoreEngineValidator;
+use crate::validate::icpack::InnerCoreValidator;
+use crate::validate::java::NoJavaContentValidator;
 use crate::validate::modpack::ModpackValidator;
-use crate::validate::resourcepack::ResourcePackValidator;
-use crate::validate::behaviorpack::BehaviorPackValidator;
 use chrono::{DateTime, Utc};
 use std::io::Cursor;
 use thiserror::Error;
 use zip::ZipArchive;
 
-mod behaviorpack;
+mod icmod;
+mod icpack;
+mod java;
 mod modpack;
-mod resourcepack;
 
 #[derive(Error, Debug)]
 pub enum ValidationError {
@@ -77,9 +79,9 @@ static ALWAYS_ALLOWED_EXT: &[&str] = &["zip", "txt"];
 
 static VALIDATORS: &[&dyn Validator] = &[
     &ModpackValidator,
-    // &InnerCoreValidator,
-    &ResourcePackValidator,
-    &BehaviorPackValidator,
+    &InnerCoreValidator,
+    &CoreEngineValidator,
+    &NoJavaContentValidator,
 ];
 
 /// The return value is whether this file should be marked as primary or not, based on the analysis of the file
@@ -118,20 +120,11 @@ async fn validate_minecraft_file(
     loaders: Vec<Loader>,
     game_versions: Vec<MinecraftGameVersion>,
     all_game_versions: Vec<MinecraftGameVersion>,
-    file_type: Option<FileType>,
+    _file_type: Option<FileType>,
 ) -> Result<ValidationResult, ValidationError> {
     actix_web::web::block(move || {
         let reader = Cursor::new(data);
         let mut zip = ZipArchive::new(reader)?;
-
-        if let Some(file_type) = file_type {
-            match file_type {
-                FileType::RequiredResourcePack | FileType::OptionalResourcePack => {
-                    return ResourcePackValidator.validate(&mut zip);
-                }
-                FileType::Unknown => {}
-            }
-        }
 
         let mut visited = false;
         let mut saved_result = None;
@@ -230,10 +223,10 @@ pub fn filter_out_packs(
         && archive.by_name("manifest.json").is_ok())
         || archive
             .file_names()
-            .any(|x| x.starts_with("mods/") && x.ends_with(".jar"))
+            .any(|x| x.starts_with("mods/") && x.ends_with(".icmod"))
         || archive
             .file_names()
-            .any(|x| x.starts_with("override/mods/") && x.ends_with(".jar"))
+            .any(|x| x.starts_with("override/mods/") && x.ends_with(".icmod"))
     {
         return Ok(ValidationResult::Warning(
             "Invalid modpack file. You must upload a valid .MRPACK file.",

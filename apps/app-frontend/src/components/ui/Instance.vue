@@ -10,12 +10,12 @@ import {
   TimerIcon,
 } from '@icmods/assets'
 import { Avatar, ButtonStyled } from '@icmods/ui'
-import { convertFileSrc } from '@tauri-apps/api/core'
 import { finish_install, kill, run } from '@/helpers/profile'
 import { get_by_profile_path } from '@/helpers/process'
 import { process_listener } from '@/helpers/events'
 import { handleError } from '@/store/state.js'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { pathToUrl } from '@/helpers/utils'
+import { showProfileInFolder } from '@/helpers/intents'
 import { handleSevereError } from '@/store/error.js'
 import { trackEvent } from '@/helpers/analytics'
 import dayjs from 'dayjs'
@@ -120,7 +120,7 @@ defineExpose({
 
 const currentEvent = ref(null)
 
-const unlisten = await process_listener((e) => {
+const unlisten = process_listener((e) => {
   if (e.profile_path_id === props.instance.path) {
     currentEvent.value = e.event
     if (e.event === 'finished') {
@@ -142,7 +142,7 @@ onUnmounted(() => unlisten())
     >
       <Avatar
         size="48px"
-        :src="instance.icon_path ? convertFileSrc(instance.icon_path) : null"
+        :src="instance.icon_path ? pathToUrl(instance.icon_path) : null"
         :tint-by="instance.path"
         alt="Mod card"
       />
@@ -156,7 +156,7 @@ onUnmounted(() => unlisten())
           </button>
         </ButtonStyled>
         <ButtonStyled v-else-if="modLoading" color="standard" circular>
-          <button v-tooltip="'Instance is loading...'" disabled>
+          <button v-tooltip="'Modpack is loading...'" disabled>
             <SpinnerIcon class="animate-spin" />
           </button>
         </ButtonStyled>
@@ -186,7 +186,7 @@ onUnmounted(() => unlisten())
       <div class="relative flex items-center justify-center">
         <Avatar
           size="48px"
-          :src="instance.icon_path ? convertFileSrc(instance.icon_path) : null"
+          :src="instance.icon_path ? pathToUrl(instance.icon_path) : null"
           :tint-by="instance.path"
           alt="Mod card"
           :class="`transition-all ${modLoading || installing ? `brightness-[0.25] scale-[0.85]` : `group-hover:brightness-75`}`"
@@ -205,7 +205,7 @@ onUnmounted(() => unlisten())
           </ButtonStyled>
           <SpinnerIcon
             v-else-if="modLoading || installing"
-            v-tooltip="modLoading ? 'Instance is loading...' : 'Installing...'"
+            v-tooltip="modLoading ? 'Modpack is loading...' : 'Installing...'"
             class="animate-spin w-8 h-8"
             tabindex="-1"
           />

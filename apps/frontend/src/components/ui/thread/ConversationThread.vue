@@ -55,7 +55,7 @@
         <CloseIcon aria-hidden="true" /> Reopen thread
       </button>
     </template>
-    <template v-else-if="!report || !report.closed">
+    <template v-else-if="auth.user && (!report || !report.closed)">
       <div class="markdown-editor-spacing">
         <MarkdownEditor
           v-model="replyBody"
@@ -208,6 +208,15 @@
         </div>
       </div>
     </template>
+    <div v-else class="suggestion-blurb">
+      <div class="suggestion-blurb">
+        <SuggestionIcon />
+        <span>
+          Would you like to share your impressions or support developer?
+          <nuxt-link class="text-link" to="/auth/sign-in">Sign in</nuxt-link> to leave a comment.
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -224,6 +233,7 @@ import CrossIcon from "~/assets/images/utils/x.svg?component";
 import EyeOffIcon from "~/assets/images/utils/eye-off.svg?component";
 import CheckIcon from "~/assets/images/utils/check.svg?component";
 import ModerationIcon from "~/assets/images/sidebar/admin.svg?component";
+import SuggestionIcon from "~/assets/images/utils/lightbulb.svg?component";
 import ThreadMessage from "~/components/ui/thread/ThreadMessage.vue";
 import { isStaff } from "~/helpers/users.js";
 import { isApproved, isRejected } from "~/helpers/projects.js";
@@ -475,6 +485,13 @@ const requestedStatus = computed(() => props.project.requested_status ?? "approv
   .extra-options {
     flex-basis: fit-content;
   }
+}
+
+.suggestion-blurb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-xs);
 }
 
 .modal-submit {

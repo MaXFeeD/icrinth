@@ -69,7 +69,7 @@
               name: x.author,
               type: 'user',
               id: x.author,
-              link: 'https://modrinth.com/user/' + x.author,
+              link: 'https://inner-core.org/user/' + x.author,
               linkProps: { target: '_blank' },
             }
           }
@@ -223,9 +223,9 @@
   <div v-else class="w-full flex flex-col items-center justify-center mt-6 max-w-[48rem] mx-auto">
     <div class="top-box w-full">
       <div class="flex items-center gap-6 w-[32rem] mx-auto">
-        <img src="@/assets/sad-modrinth-bot.webp" class="h-24" />
+        <img src="@/assets/sad-expression.webp" class="h-24" />
         <span class="text-contrast font-bold text-xl"
-          >You haven't added any content to this instance yet.</span
+          >You haven't added any content to this modpack yet.</span
         >
       </div>
     </div>
@@ -289,7 +289,7 @@ import {
 } from '@/helpers/profile.js'
 import { handleError } from '@/store/notifications.js'
 import { trackEvent } from '@/helpers/analytics'
-import { highlightModInProfile } from '@/helpers/utils.js'
+import { highlightModInProfile } from '@/helpers/intents'
 import { TextInputIcon } from '@/assets/icons'
 import ExportModal from '@/components/ui/ExportModal.vue'
 import ModpackVersionModal from '@/components/ui/ModpackVersionModal.vue'
@@ -300,9 +300,8 @@ import {
   get_team_many,
   get_version_many,
 } from '@/helpers/cache.js'
-import { profile_listener } from '@/helpers/events.js'
+import { profile_listener, drag_and_drop_listener } from '@/helpers/events'
 import ShareModalWrapper from '@/components/ui/modal/ShareModalWrapper.vue'
-import { getCurrentWebview } from '@tauri-apps/api/webview'
 import dayjs from 'dayjs'
 
 const props = defineProps({
@@ -361,29 +360,29 @@ const initProjects = async (cacheBehaviour?) => {
     }
   }
 
-  const [modrinthProjects, modrinthVersions] = await Promise.all([
+  const [icmodsProjects, icmodsVersions] = await Promise.all([
     await get_project_many(fetchProjects).catch(handleError),
     await get_version_many(fetchVersions).catch(handleError),
   ])
 
-  const [modrinthTeams, modrinthOrganizations] = await Promise.all([
-    await get_team_many(modrinthProjects.map((x) => x.team)).catch(handleError),
-    await get_organization_many(
-      modrinthProjects.map((x) => x.organization).filter((x) => !!x),
-    ).catch(handleError),
+  const [icmodsTeams, icmodsOrganizations] = await Promise.all([
+    await get_team_many(icmodsProjects.map((x) => x.team)).catch(handleError),
+    await get_organization_many(icmodsProjects.map((x) => x.organization).filter((x) => !!x)).catch(
+      handleError,
+    ),
   ])
 
   for (const [path, file] of Object.entries(profileProjects)) {
     if (file.metadata) {
-      const project = modrinthProjects.find((x) => file.metadata.project_id === x.id)
-      const version = modrinthVersions.find((x) => file.metadata.version_id === x.id)
+      const project = icmodsProjects.find((x) => file.metadata.project_id === x.id)
+      const version = icmodsVersions.find((x) => file.metadata.version_id === x.id)
 
       if (project && version) {
         const org = project.organization
-          ? modrinthOrganizations.find((x) => x.id === project.organization)
+          ? icmodsOrganizations.find((x) => x.id === project.organization)
           : null
 
-        const team = modrinthTeams.find((x) => x[0].team_id === project.team)
+        const team = icmodsTeams.find((x) => x[0].team_id === project.team)
 
         let owner
 
@@ -688,7 +687,7 @@ const removeMod = async (mod) => {
 
 const copyModLink = async (mod) => {
   await navigator.clipboard.writeText(
-    `https://modrinth.com/${mod.data.project_type}/${mod.data.slug}`,
+    `https://inner-core.org/${mod.data.project_type}/${mod.data.slug}`,
   )
 }
 
@@ -712,7 +711,7 @@ const shareUrls = async () => {
   await shareModal.value.show(
     functionValues.value
       .filter((x) => x.slug)
-      .map((x) => `https://modrinth.com/${x.project_type}/${x.slug}`)
+      .map((x) => `https://inner-core.org/${x.project_type}/${x.slug}`)
       .join('\n'),
   )
 }
@@ -722,7 +721,7 @@ const shareMarkdown = async () => {
     functionValues.value
       .map((x) => {
         if (x.slug) {
-          return `[${x.name}](https://modrinth.com/${x.project_type}/${x.slug})`
+          return `[${x.name}](https://inner-core.org/${x.project_type}/${x.slug})`
         }
         return x.name
       })
@@ -773,17 +772,17 @@ async function refreshProjects() {
   refreshingProjects.value = false
 }
 
-const unlisten = await getCurrentWebview().onDragDropEvent(async (event) => {
-  if (event.payload.type !== 'drop') return
+const unlisten = drag_and_drop_listener(async (event) => {
+  if (event.type !== 'drop') return
 
-  for (const file of event.payload.paths) {
+  for (const file of event.paths) {
     if (file.endsWith('.mrpack')) continue
     await add_project_from_path(props.instance.path, file).catch(handleError)
   }
   await initProjects()
 })
 
-const unlistenProfiles = await profile_listener(async (event) => {
+const unlistenProfiles = profile_listener(async (event) => {
   if (
     event.profile_path_id === props.instance.path &&
     event.event === 'synced' &&

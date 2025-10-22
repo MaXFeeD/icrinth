@@ -1,5 +1,5 @@
 <template>
-  <div data-tauri-drag-region class="flex items-center gap-1 pl-3">
+  <div data-icmods-drag-region class="flex items-center gap-1 pl-3">
     <Button v-if="false" class="breadcrumbs__back transparent" icon-only @click="$router.back()">
       <ChevronLeftIcon />
     </Button>
@@ -27,7 +27,7 @@
       </router-link>
       <span
         v-else
-        data-tauri-drag-region
+        data-icmods-drag-region
         class="text-contrast font-semibold cursor-default select-none"
         >{{
           breadcrumb.name.charAt(0) === '?'
@@ -35,7 +35,7 @@
             : breadcrumb.name
         }}</span
       >
-      <ChevronRightIcon v-if="breadcrumb.link" data-tauri-drag-region class="w-5 h-5" />
+      <ChevronRightIcon v-if="breadcrumb.link" data-icmods-drag-region class="w-5 h-5" />
     </template>
   </div>
 </template>

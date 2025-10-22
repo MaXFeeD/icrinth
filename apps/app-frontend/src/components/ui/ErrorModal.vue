@@ -1,13 +1,11 @@
 <script setup>
-import { XIcon, HammerIcon, LogInIcon, UpdatedIcon } from '@icmods/assets'
+import { XIcon, HammerIcon, UpdatedIcon } from '@icmods/assets'
 import { ChatIcon } from '@/assets/icons'
 import { ref } from 'vue'
-import { login as login_flow, set_default_user } from '@/helpers/auth.js'
 import { handleError } from '@/store/notifications.js'
 import { handleSevereError } from '@/store/error.js'
 import { cancel_directory_change } from '@/helpers/settings.js'
 import { install } from '@/helpers/profile.js'
-import { trackEvent } from '@/helpers/analytics'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 
 const errorModal = ref()
@@ -16,7 +14,7 @@ const closable = ref(true)
 
 const title = ref('An error occurred')
 const errorType = ref('unknown')
-const supportLink = ref('https://support.modrinth.com')
+const supportLink = ref('https://vk.me/core_engine')
 const metadata = ref({})
 
 defineExpose({
@@ -38,14 +36,10 @@ defineExpose({
       if (errorVal.message.includes('because the target machine actively refused it')) {
         metadata.value.hostsFile = true
       }
-    } else if (errorVal.message && errorVal.message.includes('User is not logged in')) {
-      title.value = 'Sign in to Minecraft'
-      errorType.value = 'minecraft_sign_in'
-      supportLink.value = 'https://support.modrinth.com'
     } else if (errorVal.message && errorVal.message.includes('Move directory error:')) {
       title.value = 'Could not change app directory'
       errorType.value = 'directory_move'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
 
       if (errorVal.message.includes('directory is not writeable')) {
         metadata.value.readOnly = true
@@ -57,16 +51,16 @@ defineExpose({
     } else if (errorVal.message && errorVal.message.includes('No loader version selected for')) {
       title.value = 'No loader selected'
       errorType.value = 'no_loader_version'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
       metadata.value.profilePath = context.profilePath
     } else if (source === 'state_init') {
-      title.value = 'Error initializing Modrinth App'
+      title.value = 'Error initializing Inner Core Mod Browser'
       errorType.value = 'state_init'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
     } else {
       title.value = 'An error occurred'
       errorType.value = 'unknown'
-      supportLink.value = 'https://support.modrinth.com'
+      supportLink.value = 'https://vk.me/core_engine'
       metadata.value = {}
     }
 
@@ -74,25 +68,6 @@ defineExpose({
     errorModal.value.show()
   },
 })
-
-const loadingMinecraft = ref(false)
-async function loginMinecraft() {
-  try {
-    loadingMinecraft.value = true
-    const loggedIn = await login_flow()
-
-    if (loggedIn) {
-      await set_default_user(loggedIn.id).catch(handleError)
-    }
-
-    await trackEvent('AccountLogIn', { source: 'ErrorModal' })
-    loadingMinecraft.value = false
-    errorModal.value.hide()
-  } catch (err) {
-    loadingMinecraft.value = false
-    handleSevereError(err)
-  }
-}
 
 async function cancelDirectoryChange() {
   try {
@@ -128,9 +103,9 @@ async function repairInstance() {
           <template v-if="metadata.network">
             <h3>Network issues</h3>
             <p>
-              It looks like there were issues with the Modrinth App connecting to Microsoft's
-              servers. This is often the result of a poor connection, so we recommend trying again
-              to see if it works. If issues continue to persist, follow the steps in
+              It looks like there were issues with the Inner Core Mod Browser connecting to
+              Microsoft's servers. This is often the result of a poor connection, so we recommend
+              trying again to see if it works. If issues continue to persist, follow the steps in
               <a
                 href="https://support.modrinth.com/en/articles/9038231-minecraft-sign-in-issues#h_e71a5f805f"
               >
@@ -139,12 +114,12 @@ async function repairInstance() {
               to troubleshoot.
             </p>
           </template>
-          <template v-else-if="metadata.hostsFile">
+          <template v-else>
             <h3>Network issues</h3>
             <p>
-              The Modrinth App tried to connect to Microsoft / Xbox / Minecraft services, but the
-              remote server rejected the connection. This may indicate that these services are
-              blocked by the hosts file. Please visit
+              The Inner Core Mod Browser tried to connect to Microsoft / Xbox / Minecraft services,
+              but the remote server rejected the connection. This may indicate that these services
+              are blocked by the hosts file. Please visit
               <a
                 href="https://support.modrinth.com/en/articles/9038231-minecraft-sign-in-issues#h_d694a29256"
               >
@@ -153,37 +128,14 @@ async function repairInstance() {
               for steps on how to fix the issue.
             </p>
           </template>
-          <template v-else>
-            <h3>Try another Microsoft account</h3>
-            <p>
-              Double check you've signed in with the right account. You may own Minecraft on a
-              different Microsoft account.
-            </p>
-            <div class="cta-button">
-              <button class="btn btn-primary" :disabled="loadingMinecraft" @click="loginMinecraft">
-                <LogInIcon /> Try another account
-              </button>
-            </div>
-            <h3>Using PC Game Pass, coming from Bedrock, or just bought the game?</h3>
-            <p>
-              Try signing in with the
-              <a href="https://www.minecraft.net/en-us/download">official Minecraft Launcher</a>
-              first. Once you're done, come back here and sign in!
-            </p>
-          </template>
-          <div class="cta-button">
-            <button class="btn btn-primary" :disabled="loadingMinecraft" @click="loginMinecraft">
-              <LogInIcon /> Try signing in again
-            </button>
-          </div>
         </template>
         <template v-if="errorType === 'directory_move'">
           <template v-if="metadata.readOnly">
             <h3>Change directory permissions</h3>
             <p>
-              It looks like the Modrinth App is unable to write to the directory you selected.
-              Please adjust the permissions of the directory and try again or cancel the directory
-              change.
+              It looks like the Inner Core Mod Browser is unable to write to the directory you
+              selected. Please adjust the permissions of the directory and try again or cancel the
+              directory change.
             </p>
           </template>
           <template v-else-if="metadata.notEnoughSpace">
@@ -195,8 +147,8 @@ async function repairInstance() {
           </template>
           <template v-else>
             <p>
-              The Modrinth App is unable to migrate to the new directory you selected. Please
-              contact support for help or cancel the directory change.
+              The Inner Core Mod Browser is unable to migrate to the new directory you selected.
+              Please contact support for help or cancel the directory change.
             </p>
           </template>
 
@@ -209,24 +161,10 @@ async function repairInstance() {
             </button>
           </div>
         </template>
-        <div v-else-if="errorType === 'minecraft_sign_in'">
-          <p>
-            To play this instance, you must sign in through Microsoft below. If you don't have a
-            Minecraft account, you can purchase the game on the
-            <a href="https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc"
-              >Minecraft website</a
-            >.
-          </p>
-          <div class="cta-button">
-            <button class="btn btn-primary" :disabled="loadingMinecraft" @click="loginMinecraft">
-              <LogInIcon /> Sign in to Minecraft
-            </button>
-          </div>
-        </div>
         <template v-else-if="errorType === 'state_init'">
           <p>
-            Modrinth App failed to load correctly. This may be because of a corrupted file, or
-            because the app is missing crucial files.
+            Inner Core Mod Browser failed to load correctly. This may be because of a corrupted
+            file, or because the app is missing crucial files.
           </p>
           <p>You may be able to fix it through one of the following ways:</p>
           <ul>
@@ -235,11 +173,11 @@ async function repairInstance() {
           </ul>
         </template>
         <template v-else-if="errorType === 'no_loader_version'">
-          <p>The Modrinth App failed to find the loader version for this instance.</p>
-          <p>To resolve this, you need to repair the instance. Click the button below to do so.</p>
+          <p>The Inner Core Mod Browser failed to find the loader version for this modpack.</p>
+          <p>To resolve this, you need to repair the modpack. Click the button below to do so.</p>
           <div class="cta-button">
             <button class="btn btn-primary" :disabled="loadingRepair" @click="repairInstance">
-              <HammerIcon /> Repair instance
+              <HammerIcon /> Repair modpack
             </button>
           </div>
         </template>

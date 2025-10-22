@@ -13,7 +13,7 @@ defineProps({
   },
   shareTitle: {
     type: String,
-    default: 'Modrinth',
+    default: 'Inner Core Mods',
   },
   shareText: {
     type: String,

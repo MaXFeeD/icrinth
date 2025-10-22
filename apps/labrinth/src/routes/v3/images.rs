@@ -136,7 +136,7 @@ pub async fn images_add(
                                 .to_string(),
                         )
                     })?;
-                if is_authorized_thread(&thread, &user, &pool).await? {
+                if is_authorized_thread(&thread, Some(&user), &pool).await? {
                     *thread_message_id = Some(thread_message.id.into());
                 } else {
                     return Err(ApiError::CustomAuthentication(
@@ -162,7 +162,7 @@ pub async fn images_add(
                             "The thread associated with the report could not be found.".to_string(),
                         )
                     })?;
-                if is_authorized_thread(&thread, &user, &pool).await? {
+                if is_authorized_thread(&thread, Some(&user), &pool).await? {
                     *report_id = Some(report.id.into());
                 } else {
                     return Err(ApiError::CustomAuthentication(

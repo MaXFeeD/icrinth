@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::auth::get_user_from_headers;
+use crate::auth::{get_user_from_headers, AuthenticationError};
 use crate::database;
 use crate::database::models::image_item;
 use crate::database::models::notification_item::NotificationBuilder;
@@ -35,45 +35,38 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 pub async fn is_authorized_thread(
     thread: &database::models::Thread,
-    user: &User,
+    user_option: Option<&User>,
     pool: &PgPool,
 ) -> Result<bool, ApiError> {
-    if user.role.is_mod() {
+    if user_option.map_or(false, |u| u.role.is_mod())
+        || thread.type_ == ThreadType::Comment
+    {
         return Ok(true);
     }
 
-    let user_id: database::models::UserId = user.id.into();
-    Ok(match thread.type_ {
-        ThreadType::Report => {
-            if let Some(report_id) = thread.report_id {
-                let report_exists = sqlx::query!(
-                    "SELECT EXISTS(SELECT 1 FROM reports WHERE id = $1 AND reporter = $2)",
-                    report_id as database::models::ids::ReportId,
-                    user_id as database::models::ids::UserId,
-                )
-                .fetch_one(pool)
-                .await?
-                .exists;
-
-                report_exists.unwrap_or(false)
-            } else {
-                false
-            }
-        }
-        ThreadType::Project => {
-            if let Some(project_id) = thread.project_id {
-                let project_exists = sqlx::query!(
-                    "SELECT EXISTS(SELECT 1 FROM mods m INNER JOIN team_members tm ON tm.team_id = m.team_id AND tm.user_id = $2 WHERE m.id = $1)",
-                    project_id as database::models::ids::ProjectId,
-                    user_id as database::models::ids::UserId,
-                )
+    if let Some(user) = user_option {
+        let user_id: database::models::UserId = user.id.into();
+        Ok(match thread.type_ {
+            ThreadType::Report => {
+                if let Some(report_id) = thread.report_id {
+                    let report_exists = sqlx::query!(
+                        "SELECT EXISTS(SELECT 1 FROM reports WHERE id = $1 AND reporter = $2)",
+                        report_id as database::models::ids::ReportId,
+                        user_id as database::models::ids::UserId,
+                    )
                     .fetch_one(pool)
                     .await?
                     .exists;
 
-                if !project_exists.unwrap_or(false) {
-                    let org_exists = sqlx::query!(
-                        "SELECT EXISTS(SELECT 1 FROM mods m INNER JOIN organizations o ON m.organization_id = o.id INNER JOIN team_members tm ON tm.team_id = o.team_id AND tm.user_id = $2 WHERE m.id = $1)",
+                    report_exists.unwrap_or(false)
+                } else {
+                    false
+                }
+            }
+            ThreadType::Project => {
+                if let Some(project_id) = thread.project_id {
+                    let project_exists = sqlx::query!(
+                        "SELECT EXISTS(SELECT 1 FROM mods m INNER JOIN team_members tm ON tm.team_id = m.team_id AND tm.user_id = $2 WHERE m.id = $1)",
                         project_id as database::models::ids::ProjectId,
                         user_id as database::models::ids::UserId,
                     )
@@ -81,17 +74,32 @@ pub async fn is_authorized_thread(
                         .await?
                         .exists;
 
-                    org_exists.unwrap_or(false)
+                    if !project_exists.unwrap_or(false) {
+                        let org_exists = sqlx::query!(
+                            "SELECT EXISTS(SELECT 1 FROM mods m INNER JOIN organizations o ON m.organization_id = o.id INNER JOIN team_members tm ON tm.team_id = o.team_id AND tm.user_id = $2 WHERE m.id = $1)",
+                            project_id as database::models::ids::ProjectId,
+                            user_id as database::models::ids::UserId,
+                        )
+                            .fetch_one(pool)
+                            .await?
+                            .exists;
+
+                        org_exists.unwrap_or(false)
+                    } else {
+                        true
+                    }
                 } else {
-                    true
+                    false
                 }
-            } else {
-                false
             }
-        }
-        ThreadType::DirectMessage => thread.members.contains(&user_id),
-        ThreadType::Comment => true,
-    })
+            ThreadType::DirectMessage => thread.members.contains(&user_id),
+            ThreadType::Comment => true,
+        })
+    } else {
+        Err(ApiError::Authentication(
+            AuthenticationError::InvalidCredentials,
+        ))
+    }
 }
 
 pub async fn filter_authorized_threads(
@@ -264,7 +272,7 @@ pub async fn filter_authorized_threads(
                 .filter(|x| authors.contains(&x.id.into()))
                 .cloned()
                 .collect(),
-            user,
+            Some(user),
         ));
     }
 
@@ -282,18 +290,19 @@ pub async fn thread_get(
 
     let thread_data = database::models::Thread::get(string, &**pool).await?;
 
-    let user = get_user_from_headers(
+    let user_option = get_user_from_headers(
         &req,
         &**pool,
         &redis,
         &session_queue,
         Some(&[Scopes::THREAD_READ]),
     )
-    .await?
-    .1;
+    .await
+    .map(|x| x.1)
+    .ok();
 
     if let Some(mut data) = thread_data {
-        if is_authorized_thread(&data, &user, &pool).await? {
+        if is_authorized_thread(&data, user_option.as_ref(), &pool).await? {
             let authors = &mut data.members;
 
             authors.append(
@@ -301,7 +310,11 @@ pub async fn thread_get(
                     .messages
                     .iter()
                     .filter_map(|x| {
-                        if x.hide_identity && !user.role.is_mod() {
+                        if x.hide_identity
+                            && !user_option
+                                .as_ref()
+                                .map_or(false, |u| u.role.is_mod())
+                        {
                             None
                         } else {
                             x.author_id
@@ -317,9 +330,11 @@ pub async fn thread_get(
                     .map(From::from)
                     .collect();
 
-            return Ok(
-                HttpResponse::Ok().json(Thread::from(data, users, &user))
-            );
+            return Ok(HttpResponse::Ok().json(Thread::from(
+                data,
+                users,
+                user_option.as_ref(),
+            )));
         }
     }
     Err(ApiError::NotFound)
@@ -435,7 +450,7 @@ pub async fn thread_send_message(
     let result = database::models::Thread::get(string, &**pool).await?;
 
     if let Some(thread) = result {
-        if !is_authorized_thread(&thread, &user, &pool).await? {
+        if !is_authorized_thread(&thread, Some(&user), &pool).await? {
             return Err(ApiError::NotFound);
         }
 

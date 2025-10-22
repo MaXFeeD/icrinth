@@ -222,7 +222,7 @@
                 <a
                   class="mt-2 flex justify-center text-brand-blue hover:underline"
                   :target="$external()"
-                  href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+                  href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
                 >
                   Don't have Horizon?
                 </a>
@@ -824,7 +824,14 @@ import {
   ScrollablePanel,
 } from "@icmods/ui";
 import VersionSummary from "@icmods/ui/src/components/version/VersionSummary.vue";
-import { formatCategory, isRejected, isStaff, isUnderReview, renderString } from "@icmods/utils";
+import {
+  formatCategory,
+  isApproved,
+  isRejected,
+  isStaff,
+  isUnderReview,
+  renderString,
+} from "@icmods/utils";
 import { navigateTo } from "#app";
 import dayjs from "dayjs";
 // TODO: There should be Horizon, but we haven't those...
@@ -1231,7 +1238,7 @@ if (!route.name.startsWith("type-id-settings")) {
     description: () => description.value,
     ogTitle: () => title.value,
     ogDescription: () => project.value.description,
-    ogImage: () => project.value.icon_url ?? "https://cdn.modrinth.com/placeholder.png",
+    ogImage: () => project.value.icon_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
     robots: () =>
       project.value.status === "approved" || project.value.status === "archived"
         ? "all"
@@ -1429,7 +1436,7 @@ const navLinks = computed(() => {
     {
       label: "Comments",
       href: `${projectUrl}/comments`,
-      shown: !!auth.value.user,
+      shown: isApproved(project.value),
     },
     {
       label: "Changelog",

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { DropdownIcon, PlusIcon, FolderOpenIcon } from '@icmods/assets'
 import { ButtonStyled, OverflowMenu } from '@icmods/ui'
-import { open } from '@tauri-apps/plugin-dialog'
 import { add_project_from_path } from '@/helpers/profile.js'
+import { selectFile } from '@/helpers/intents'
 import { handleError } from '@/store/notifications.js'
 import { useRouter } from 'vue-router'
 
@@ -16,7 +16,7 @@ const props = defineProps({
 const router = useRouter()
 
 const handleAddContentFromFile = async () => {
-  const newProject = await open({ multiple: true })
+  const newProject = await selectFile(true)
   if (!newProject) return
 
   for (const project of newProject) {

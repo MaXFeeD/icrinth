@@ -90,9 +90,7 @@ pub async fn loader_list(
                     // a project type before any versions are set.
                     supported_project_types.push("project".to_string());
 
-                    if ["forge", "fabric", "quilt", "neoforge"]
-                        .contains(&&*l.name)
-                    {
+                    if ["innercore", "coreengine"].contains(&&*l.name) {
                         supported_project_types.push("modpack".to_string());
                     }
 

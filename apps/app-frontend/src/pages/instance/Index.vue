@@ -15,10 +15,10 @@
       <template #summary> </template>
       <template #stats>
         <div
-          class="flex items-center gap-2 font-semibold transform capitalize border-0 border-solid border-divider pr-4 md:border-r"
+          class="flex items-center gap-2 font-semibold transform border-0 border-solid border-divider pr-4 md:border-r"
         >
           <GameIcon class="h-6 w-6 text-secondary" />
-          {{ instance.loader }} {{ instance.game_version }}
+          {{ formatCategory(instance.loader) }} {{ instance.game_version }}
         </div>
         <div class="flex items-center gap-2 font-semibold">
           <TimerIcon class="h-6 w-6 text-secondary" />
@@ -71,7 +71,7 @@
             <button disabled>Loading...</button>
           </ButtonStyled>
           <ButtonStyled size="large" circular>
-            <button v-tooltip="'Instance settings'" @click="settingsModal.show()">
+            <button v-tooltip="'Modpack settings'" @click="settingsModal.show()">
               <SettingsIcon />
             </button>
           </ButtonStyled>
@@ -89,7 +89,7 @@
               ]"
             >
               <MoreVerticalIcon />
-              <template #share-instance> <UserPlusIcon /> Share instance </template>
+              <template #share-instance> <UserPlusIcon /> Share modpack </template>
               <template #host-a-server> <ServerIcon /> Create a server </template>
               <template #open-folder> <FolderOpenIcon /> Open folder </template>
               <template #export-mrpack> <PackageIcon /> Export modpack </template>
@@ -116,7 +116,7 @@
             :options="options"
             :offline="offline"
             :playing="playing"
-            :versions="modrinthVersions"
+            :versions="icmodsVersions"
             :installed="instance.install_stage !== 'installed'"
           ></component>
           <template #fallback>
@@ -134,7 +134,7 @@
     <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #open_folder> <ClipboardCopyIcon /> Open folder </template>
     <template #copy_link> <ClipboardCopyIcon /> Copy link </template>
-    <template #open_link> <ClipboardCopyIcon /> Open in Modrinth <ExternalIcon /> </template>
+    <template #open_link> <ClipboardCopyIcon /> Open in browser <ExternalIcon /> </template>
     <template #copy_names><EditIcon />Copy names</template>
     <template #copy_slugs><HashIcon />Copy slugs</template>
     <template #copy_links><GlobeIcon />Copy links</template>
@@ -179,13 +179,14 @@ import { process_listener, profile_listener } from '@/helpers/events'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { handleError, useBreadcrumbs, useLoading } from '@/store/state'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { pathToUrl } from '@/helpers/utils.js'
+import { showProfileInFolder } from '@/helpers/intents'
 import ContextMenu from '@/components/ui/ContextMenu.vue'
 import NavTabs from '@/components/ui/NavTabs.vue'
 import { trackEvent } from '@/helpers/analytics'
-import { convertFileSrc } from '@tauri-apps/api/core'
 import { handleSevereError } from '@/store/error.js'
 import { get_project, get_version_many } from '@/helpers/cache.js'
+import { formatCategory } from '@icmods/utils'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -209,7 +210,7 @@ window.addEventListener('online', () => {
 })
 
 const instance = ref()
-const modrinthVersions = ref([])
+const icmodsVersions = ref([])
 const playing = ref(false)
 const loading = ref(false)
 
@@ -224,7 +225,7 @@ async function fetchInstance() {
           get_version_many(project.versions, 'must_revalidate')
             .catch(handleError)
             .then((versions) => {
-              modrinthVersions.value = versions.sort(
+              icmodsVersions.value = versions.sort(
                 (a, b) => dayjs(b.date_published) - dayjs(a.date_published),
               )
             })
@@ -367,7 +368,7 @@ const handleOptionsClick = async (args) => {
   }
 }
 
-const unlistenProfiles = await profile_listener(async (event) => {
+const unlistenProfiles = profile_listener(async (event) => {
   if (event.profile_path_id === route.params.id) {
     if (event.event === 'removed') {
       await router.push({
@@ -379,15 +380,13 @@ const unlistenProfiles = await profile_listener(async (event) => {
   }
 })
 
-const unlistenProcesses = await process_listener((e) => {
+const unlistenProcesses = process_listener((e) => {
   if (e.event === 'finished' && e.profile_path_id === route.params.id) {
     playing.value = false
   }
 })
 
-const icon = computed(() =>
-  instance.value.icon_path ? convertFileSrc(instance.value.icon_path) : null,
-)
+const icon = computed(() => (instance.value.icon_path ? pathToUrl(instance.value.icon_path) : null))
 
 const settingsModal = ref()
 

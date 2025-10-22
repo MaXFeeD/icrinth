@@ -35,12 +35,12 @@
           Report
         </Button>
         <a
-          :href="`https://modrinth.com/mod/${route.params.id}/version/${route.params.version}`"
+          :href="`https://inner-core.org/mod/${route.params.id}/version/${route.params.version}`"
           rel="external"
           class="btn"
         >
           <ExternalIcon />
-          Modrinth website
+          Open in browser
         </a>
       </div>
     </Card>
@@ -118,14 +118,6 @@
             <span class="metadata-value">{{ version.version_number }}</span>
           </div>
           <div class="metadata-item">
-            <span class="metadata-label">Loaders</span>
-            <span class="metadata-value">{{
-              version.loaders
-                .map((loader) => loader.charAt(0).toUpperCase() + loader.slice(1))
-                .join(', ')
-            }}</span>
-          </div>
-          <div class="metadata-item">
             <span class="metadata-label">Game Versions</span>
             <span class="metadata-value"> {{ version.game_versions.join(', ') }} </span>
           </div>
@@ -157,7 +149,7 @@
           <div v-if="author" class="metadata-item">
             <span class="metadata-label">Author</span>
             <a
-              :href="`https://modrinth.com/user/${author.user.username}`"
+              :href="`https://inner-core.org/user/${author.user.username}`"
               rel="external"
               class="metadata-value btn author"
             >

@@ -181,9 +181,9 @@ export const formatProjectType = (name) => {
 };
 
 export const formatCategory = (name) => {
-  if (name == "innercore") {
+  if (name === "innercore") {
     return "Inner Core";
-  } else if (name == "coreengine") {
+  } else if (name === "coreengine") {
     return "Core Engine";
   } else if (name === "game-mechanics") {
     return "Game Mechanics";

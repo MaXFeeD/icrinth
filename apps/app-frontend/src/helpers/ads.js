@@ -1,7 +1,10 @@
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 export async function init_ads_window(overrideShown = false) {
-  return await invoke('plugin:ads|init_ads_window', { overrideShown, dpr: window.devicePixelRatio })
+  return await invoke('plugin:ads|init_ads_window', {
+    overrideShown,
+    dpr: window.devicePixelRatio,
+  })
 }
 
 export async function show_ads_window() {
@@ -10,12 +13,4 @@ export async function show_ads_window() {
 
 export async function hide_ads_window(reset) {
   return await invoke('plugin:ads|hide_ads_window', { reset })
-}
-
-export async function record_ads_click() {
-  return await invoke('plugin:ads|record_ads_click')
-}
-
-export async function open_ads_link(path, origin) {
-  return await invoke('plugin:ads|open_link', { path, origin })
 }

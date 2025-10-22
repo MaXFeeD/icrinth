@@ -4,9 +4,9 @@ use serde_json::json;
 #[get("/")]
 pub async fn index_get() -> HttpResponse {
     let data = json!({
-        "name": "icmods-labrinth",
+        "name": "icmods-backend",
         "version": env!("CARGO_PKG_VERSION"),
-        "documentation": "https://docs.modrinth.com",
+        "documentation": "https://docs.inner-core.org",
         "about": "Welcome traveler!"
     });
 

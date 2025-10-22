@@ -21,11 +21,11 @@ import { get_by_profile_path } from '@/helpers/process.js'
 import { handleError } from '@/store/notifications.js'
 import { duplicate, kill, remove, run } from '@/helpers/profile.js'
 import { useRouter } from 'vue-router'
-import { showProfileInFolder } from '@/helpers/utils.js'
+import { showProfileInFolder } from '@/helpers/intents'
 import { trackEvent } from '@/helpers/analytics'
 import { handleSevereError } from '@/store/error.js'
 import { install as installVersion } from '@/store/install.js'
-import { openUrl } from '@tauri-apps/plugin-opener'
+import { openUrl } from '@/helpers/intents'
 
 const router = useRouter()
 
@@ -166,11 +166,13 @@ const handleOptionsClick = async (args) => {
       break
     }
     case 'open_link':
-      openUrl(`https://modrinth.com/${args.item.project_type}/${args.item.slug}`)
+      await openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+        handleError,
+      )
       break
     case 'copy_link':
       await navigator.clipboard.writeText(
-        `https://modrinth.com/${args.item.project_type}/${args.item.slug}`,
+        `https://inner-core.org/${args.item.project_type}/${args.item.slug}`,
       )
       break
   }
@@ -220,8 +222,8 @@ onUnmounted(() => {
 <template>
   <ConfirmModalWrapper
     ref="deleteConfirmModal"
-    title="Are you sure you want to delete this instance?"
-    description="If you proceed, all data for your instance will be removed. You will not be able to recover it."
+    title="Are you sure you want to delete this modpack?"
+    description="If you proceed, all data for your modpack will be removed. You will not be able to recover it."
     :has-to-type="false"
     proceed-label="Delete"
     @proceed="deleteProfile"
@@ -272,13 +274,13 @@ onUnmounted(() => {
     <template #play> <PlayIcon /> Play </template>
     <template #stop> <StopCircleIcon /> Stop </template>
     <template #add_content> <PlusIcon /> Add content </template>
-    <template #edit> <EyeIcon /> View instance </template>
+    <template #edit> <EyeIcon /> View modpack </template>
     <template #delete> <TrashIcon /> Delete </template>
     <template #open_folder> <FolderOpenIcon /> Open folder </template>
-    <template #duplicate> <ClipboardCopyIcon /> Duplicate instance</template>
+    <template #duplicate> <ClipboardCopyIcon /> Duplicate modpack</template>
     <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #install> <DownloadIcon /> Install </template>
-    <template #open_link> <GlobeIcon /> Open in Modrinth <ExternalIcon /> </template>
+    <template #open_link> <GlobeIcon /> Open in browser <ExternalIcon /> </template>
     <template #copy_link> <ClipboardCopyIcon /> Copy link </template>
   </ContextMenu>
 </template>

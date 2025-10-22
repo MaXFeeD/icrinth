@@ -11,10 +11,10 @@ import { consola } from "consola";
 const STAGING_API_URL = "https://api.inner-core.org/v2/";
 
 const preloadedFonts = [
-  "inter/Inter-Regular.woff2",
-  "inter/Inter-Medium.woff2",
-  "inter/Inter-SemiBold.woff2",
-  "inter/Inter-Bold.woff2",
+  "Inter-Regular.woff2",
+  "Inter-Medium.woff2",
+  "Inter-SemiBold.woff2",
+  "Inter-Bold.woff2",
 ];
 
 const favicons = {
@@ -58,7 +58,7 @@ export default defineNuxtConfig({
         ...preloadedFonts.map((font): object => {
           return {
             rel: "preload",
-            href: `https://cdn-raw.modrinth.com/fonts/${font}?v=3.19`,
+            href: `https://cdn.inner-core.org/fonts/${font}?v=3.19`,
             as: "font",
             type: "font/woff2",
             crossorigin: "anonymous",
@@ -153,7 +153,7 @@ export default defineNuxtConfig({
 
       const headers = {
         headers: {
-          "user-agent": "Knossos generator (support@modrinth.com)",
+          "user-agent": "Knossos generator (support@inner-core.org)",
         },
       };
 

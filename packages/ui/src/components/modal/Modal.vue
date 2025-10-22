@@ -2,8 +2,8 @@
   <div v-if="shown">
     <div
       :class="{ shown: actuallyShown }"
-      class="tauri-overlay"
-      data-tauri-drag-region
+      class="icmods-overlay"
+      data-icmods-drag-region
       @click="() => (closable ? hide() : {})"
     />
     <div
@@ -81,7 +81,7 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.tauri-overlay {
+.icmods-overlay {
   position: fixed;
   visibility: hidden;
   top: 0;

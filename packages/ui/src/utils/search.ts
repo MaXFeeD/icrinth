@@ -58,10 +58,7 @@ export interface GameVersion {
 
 export type ProjectType = 'mod' | 'modpack'
 
-const ALL_PROJECT_TYPES: ProjectType[] = [
-  'mod',
-  'modpack',
-]
+const ALL_PROJECT_TYPES: ProjectType[] = ['mod', 'modpack']
 
 export interface Platform {
   name: string
@@ -125,9 +122,7 @@ export function useSearch(
           id: filterTypeId,
           formatted_name: formatCategoryHeader(category.header),
           supported_project_types:
-            category.project_type === 'mod'
-              ? ['mod']
-              : [category.project_type],
+            category.project_type === 'mod' ? ['mod'] : [category.project_type],
           display: 'all',
           query_param: category.header === 'resolutions' ? 'g' : 'f',
           supports_negative_filter: true,
@@ -214,7 +209,7 @@ export function useSearch(
         display: 'expandable',
         query_param: 'g',
         supports_negative_filter: true,
-        default_values: ['fabric', 'forge', 'neoforge', 'quilt'],
+        default_values: ['innercore', 'coreengine'],
         searchable: false,
         options: tags.value.loaders
           .filter(

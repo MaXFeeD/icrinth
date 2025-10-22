@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core'
+import { pathToUrl } from '@/helpers/utils'
 import { SpinnerIcon, TrashIcon, UploadIcon, PlusIcon, EditIcon, CopyIcon } from '@icmods/assets'
 import { Avatar, ButtonStyled, OverflowMenu, Checkbox } from '@icmods/ui'
 import { computed, ref, type Ref, watch } from 'vue'
 import { duplicate, edit, edit_icon, list, remove } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFile } from '@/helpers/intents'
 import { defineMessages, useVIntl } from '@vintl/vintl'
 import { useRouter } from 'vue-router'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
@@ -47,16 +47,7 @@ async function resetIcon() {
 }
 
 async function setIcon() {
-  const value = await open({
-    multiple: false,
-    filters: [
-      {
-        name: 'Image',
-        extensions: ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'],
-      },
-    ],
-  })
-
+  const value = await selectFile(false, ['png', 'jpeg', 'svg', 'webp', 'gif', 'jpg'])
   if (!value) return
 
   icon.value = value
@@ -66,7 +57,7 @@ async function setIcon() {
 }
 
 const editProfileObject = computed(() => ({
-  name: title.value.trim().substring(0, 32) ?? 'Instance',
+  name: title.value.trim().substring(0, 32) ?? 'Modpack',
   groups: groups.value.map((x) => x.trim().substring(0, 32)).filter((x) => x.length > 0),
 }))
 
@@ -121,7 +112,7 @@ const messages = defineMessages({
   libraryGroupsDescription: {
     id: 'instance.settings.tabs.general.library-groups.description',
     defaultMessage:
-      'Library groups allow you to organize your instances into different sections in your library.',
+      'Library groups allow you to organize your modpacks into different sections in your library.',
   },
   libraryGroupsEnterName: {
     id: 'instance.settings.tabs.general.library-groups.enter-name',
@@ -149,11 +140,11 @@ const messages = defineMessages({
   },
   duplicateInstance: {
     id: 'instance.settings.tabs.general.duplicate-instance',
-    defaultMessage: 'Duplicate instance',
+    defaultMessage: 'Duplicate modpack',
   },
   duplicateInstanceDescription: {
     id: 'instance.settings.tabs.general.duplicate-instance.description',
-    defaultMessage: 'Creates a copy of this instance, including worlds, configs, mods, etc.',
+    defaultMessage: 'Creates a copy of this modpack, including worlds, configs, mods, etc.',
   },
   duplicateButtonTooltipInstalling: {
     id: 'instance.settings.tabs.general.duplicate-button.tooltip.installing',
@@ -165,16 +156,16 @@ const messages = defineMessages({
   },
   deleteInstance: {
     id: 'instance.settings.tabs.general.delete',
-    defaultMessage: 'Delete instance',
+    defaultMessage: 'Delete modpack',
   },
   deleteInstanceDescription: {
     id: 'instance.settings.tabs.general.delete.description',
     defaultMessage:
-      'Permanently deletes an instance from your device, including your worlds, configs, and all installed content. Be careful, as once you delete a instance there is no way to recover it.',
+      'Permanently deletes an modpack from your device, including your worlds, configs, and all installed content. Be careful, as once you delete a modpack there is no way to recover it.',
   },
   deleteInstanceButton: {
     id: 'instance.settings.tabs.general.delete.button',
-    defaultMessage: 'Delete instance',
+    defaultMessage: 'Delete modpack',
   },
   deletingInstanceButton: {
     id: 'instance.settings.tabs.general.deleting.button',
@@ -186,8 +177,8 @@ const messages = defineMessages({
 <template>
   <ConfirmModalWrapper
     ref="deleteConfirmModal"
-    title="Are you sure you want to delete this instance?"
-    description="If you proceed, all data for your instance will be permanently erased, including your worlds. You will not be able to recover it."
+    title="Are you sure you want to delete this modpack?"
+    description="If you proceed, all data for your modpack will be permanently erased, including your worlds. You will not be able to recover it."
     :has-to-type="false"
     proceed-label="Delete"
     :show-ad-on-close="false"
@@ -212,7 +203,7 @@ const messages = defineMessages({
         ]"
       >
         <Avatar
-          :src="icon ? convertFileSrc(icon) : icon"
+          :src="icon ? pathToUrl(icon) : icon"
           size="108px"
           class="!border-4 group-hover:brightness-75"
           :tint-by="props.instance.path"

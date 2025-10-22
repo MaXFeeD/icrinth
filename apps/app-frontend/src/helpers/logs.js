@@ -3,7 +3,7 @@
  * So, for example, addDefaultInstance creates a blank Profile object, where the Rust struct is serialized,
  *  and deserialized into a usable JS object.
  */
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 /*
 A log is a struct containing the filename string, stdout, and stderr, as follows:
@@ -28,7 +28,11 @@ export async function get_logs_by_filename(profilePath, logType, filename) {
 
 /// Get a profile's log text only by filename
 export async function get_output_by_filename(profilePath, logType, filename) {
-  return await invoke('plugin:logs|logs_get_output_by_filename', { profilePath, logType, filename })
+  return await invoke('plugin:logs|logs_get_output_by_filename', {
+    profilePath,
+    logType,
+    filename,
+  })
 }
 
 /// Delete a profile's log by filename

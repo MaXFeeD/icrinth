@@ -5,7 +5,7 @@ use labrinth::database::redis::RedisPool;
 use labrinth::file_hosting::S3Host;
 use labrinth::search;
 use labrinth::util::ratelimit::RateLimit;
-use labrinth::{check_env_vars, database, file_hosting, queue};
+use labrinth::{check_env_vars, database, file_hosting};
 use log::{error, info};
 use std::sync::Arc;
 
@@ -84,9 +84,6 @@ async fn main() -> std::io::Result<()> {
             _ => panic!("Invalid storage backend specified. Aborting startup!"),
         };
 
-    let maxmind_reader =
-        Arc::new(queue::maxmind::MaxMindIndexer::new().await.unwrap());
-
     let prometheus = PrometheusMetricsBuilder::new("labrinth")
         .endpoint("/metrics")
         .exclude("/_internal/launcher_socket")
@@ -100,7 +97,6 @@ async fn main() -> std::io::Result<()> {
         redis_pool.clone(),
         search_config.clone(),
         file_host.clone(),
-        maxmind_reader.clone(),
     );
 
     info!("Starting Actix HTTP server!");

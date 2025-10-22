@@ -11,12 +11,11 @@ import {
   UnlinkIcon,
 } from '@icmods/assets'
 import { Avatar, Checkbox, Chips, ButtonStyled, TeleportDropdownMenu } from '@icmods/ui'
-import { computed, type ComputedRef, type Ref, ref, shallowRef, watch } from 'vue'
+import { computed, type ComputedRef, type Ref, ref, shallowRef, version, watch } from 'vue'
 import { edit, install, update_repair_modrinth } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
 import { defineMessages, useVIntl } from '@vintl/vintl'
-import { get_loader_versions } from '@/helpers/metadata'
 import { get_game_versions, get_loaders } from '@/helpers/tags'
 import {
   formatCategory,
@@ -49,35 +48,14 @@ const gameVersion = ref(props.instance.game_version)
 
 const showSnapshots = ref(false)
 
-const [
-  fabric_versions,
-  forge_versions,
-  quilt_versions,
-  neoforge_versions,
-  all_game_versions,
-  loaders,
-] = await Promise.all([
-  get_loader_versions('fabric')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('forge')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('quilt')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
-  get_loader_versions('neo')
-    .then((manifest: Manifest) => shallowRef(manifest))
-    .catch(handleError),
+const [all_game_versions, loaders] = await Promise.all([
   get_game_versions()
     .then((gameVersions: GameVersionTag[]) => shallowRef(gameVersions))
     .catch(handleError),
   get_loaders()
     .then((value: PlatformTag[]) =>
       value
-        .filter(
-          (item) => item.supported_project_types.includes('modpack') || item.name === 'vanilla',
-        )
+        // .filter((item) => item.supported_project_types.includes('modpack') || item.name === 'vanilla')
         .sort((a, b) => (a.name === 'vanilla' ? -1 : b.name === 'vanilla' ? 1 : 0)),
     )
     .then((loader: PlatformTag[]) => ref(loader))
@@ -123,21 +101,7 @@ const currentLoaderIcon = computed(
   () => loaders?.value.find((x) => x.name === props.instance.loader)?.icon,
 )
 
-const gameVersionsForLoader = computed(() => {
-  return all_game_versions?.value.filter((item) => {
-    if (loader.value === 'fabric') {
-      return !!fabric_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'forge') {
-      return !!forge_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'quilt') {
-      return !!quilt_versions?.value.gameVersions.some((x) => item.version === x.id)
-    } else if (loader.value === 'neoforge') {
-      return !!neoforge_versions?.value.gameVersions.some((x) => item.version === x.id)
-    }
-
-    return []
-  })
-})
+const gameVersionsForLoader = computed(() => all_game_versions?.value)
 
 const hasSnapshots = computed(() =>
   gameVersionsForLoader.value?.some((x) => x.version_type !== 'release'),
@@ -150,20 +114,40 @@ const selectableGameVersionNumbers = computed(() => {
 })
 
 const selectableLoaderVersions: ComputedRef<ManifestLoaderVersion[] | undefined> = computed(() => {
-  if (gameVersion.value) {
-    if (loader.value === 'fabric') {
-      return fabric_versions?.value.gameVersions[0].loaders
-    } else if (loader.value === 'forge') {
-      return forge_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
-        ?.loaders
-    } else if (loader.value === 'quilt') {
-      return quilt_versions?.value.gameVersions[0].loaders
-    } else if (loader.value === 'neoforge') {
-      return neoforge_versions?.value?.gameVersions?.find((item) => item.id === gameVersion.value)
-        ?.loaders
-    }
+  switch (gameVersion.value) {
+    case '1.0.3':
+      return [
+        {
+          id: '1.1.2b42',
+          url: '',
+          stable: true,
+        },
+      ]
+    case '1.11.4':
+      return [
+        {
+          id: '2.1.0b71',
+          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore-legacy/pack.zip',
+          stable: true,
+        },
+      ]
+    case '1.16.201-arm32':
+      return [
+        {
+          id: '2.4.0b123 test',
+          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore-test/pack.zip',
+          stable: true,
+        },
+      ]
+    case '1.16.201-arm64':
+      return [
+        {
+          id: '2.4.0b125 arm64-test',
+          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore64/pack.zip',
+          stable: true,
+        },
+      ]
   }
-  return []
 })
 const loaderVersionIndex: Ref<number> = ref(-1)
 
@@ -173,14 +157,6 @@ function resetLoaderVersionIndex() {
   loaderVersionIndex.value =
     selectableLoaderVersions.value?.findIndex((x) => x.id === props.instance.loader_version) ?? -1
 }
-
-const isValid = computed(() => {
-  return (
-    selectableGameVersionNumbers.value?.includes(gameVersion.value) &&
-    ((loaderVersionIndex.value !== undefined && loaderVersionIndex.value >= 0) ||
-      loader.value === 'vanilla')
-  )
-})
 
 const isChanged = computed(() => {
   return (
@@ -309,7 +285,7 @@ const messages = defineMessages({
   },
   repairConfirmTitle: {
     id: 'instance.settings.tabs.installation.repair.confirm.title',
-    defaultMessage: 'Repair instance?',
+    defaultMessage: 'Repair modpack?',
   },
   repairConfirmDescription: {
     id: 'instance.settings.tabs.installation.repair.confirm.description',
@@ -387,7 +363,7 @@ const messages = defineMessages({
   noModpackFound: {
     id: 'instance.settings.tabs.installation.no-modpack-found',
     defaultMessage:
-      'This instance is linked to a modpack, but the modpack could not be found on Modrinth.',
+      'This modpack is linked to remote, but the modpack could not be found on Inner Core Mods.',
   },
   debugInformation: {
     id: 'instance.settings.tabs.installation.debug-information',
@@ -403,28 +379,28 @@ const messages = defineMessages({
   },
   unlinkInstanceDescription: {
     id: 'instance.settings.tabs.installation.unlink.description',
-    defaultMessage: `This instance is linked to a modpack, which means mods can't be updated and you can't change the mod loader or Minecraft version. Unlinking will permanently disconnect this instance from the modpack.`,
+    defaultMessage: `This modpack is linked to remote, which means mods can't be updated. Unlinking will permanently disconnect this modpack.`,
   },
   unlinkInstanceButton: {
     id: 'instance.settings.tabs.installation.unlink.button',
-    defaultMessage: 'Unlink instance',
+    defaultMessage: 'Unlink modpack',
   },
   unlinkInstanceConfirmTitle: {
     id: 'instance.settings.tabs.installation.unlink.confirm.title',
-    defaultMessage: 'Are you sure you want to unlink this instance?',
+    defaultMessage: 'Are you sure you want to unlink this modpack?',
   },
   unlinkInstanceConfirmDescription: {
     id: 'instance.settings.tabs.installation.unlink.confirm.description',
     defaultMessage:
-      'If you proceed, you will not be able to re-link it without creating an entirely new instance. You will no longer receive modpack updates and it will become a normal.',
+      'If you proceed, you will not be able to re-link it without creating an entirely new modpack. You will no longer receive modpack updates and it will become a normal.',
   },
   reinstallModpackConfirmTitle: {
     id: 'instance.settings.tabs.installation.reinstall.confirm.title',
-    defaultMessage: 'Are you sure you want to reinstall this instance?',
+    defaultMessage: 'Are you sure you want to reinstall this modpack?',
   },
   reinstallModpackConfirmDescription: {
     id: 'instance.settings.tabs.installation.reinstall.confirm.description',
-    defaultMessage: `Reinstalling will reset all installed or modified content to what is provided by the modpack, removing any mods or content you have added on top of the original installation. This may fix unexpected behavior if changes have been made to the instance, but if your worlds now depend on additional installed content, it may break existing worlds.`,
+    defaultMessage: `Reinstalling will reset all installed or modified content to what is provided by the modpack, removing any mods or content you have added on top of the original installation. This may fix unexpected behavior if changes have been made to the modpack, but if your worlds now depend on additional installed content, it may break existing worlds.`,
   },
   reinstallModpackTitle: {
     id: 'instance.settings.tabs.installation.reinstall.title',
@@ -432,7 +408,7 @@ const messages = defineMessages({
   },
   reinstallModpackDescription: {
     id: 'instance.settings.tabs.installation.reinstall.description',
-    defaultMessage: `Resets the instance's content to its original state, removing any mods or content you have added on top of the original modpack.`,
+    defaultMessage: `Resets the modpack's content to its original state, removing any mods or content you have added on top of the original modpack.`,
   },
   reinstallModpackButton: {
     id: 'instance.settings.tabs.installation.reinstall.button',
@@ -630,7 +606,13 @@ const messages = defineMessages({
       <h2 class="m-0 mt-4 text-lg font-extrabold text-contrast block">
         {{ formatMessage(messages.platform) }}
       </h2>
-      <Chips v-if="loaders" v-model="loader" :items="loaders.map((x) => x.name)" class="mt-2" />
+      <Chips
+        v-if="loaders"
+        v-model="loader"
+        :formatLabel="formatCategory"
+        :items="loaders.map((x) => x.name)"
+        class="mt-2"
+      />
       <h2 class="m-0 mt-4 text-lg font-extrabold text-contrast block">
         {{ formatMessage(messages.gameVersion) }}
       </h2>
@@ -692,7 +674,7 @@ const messages = defineMessages({
                         })
                       : null
             "
-            :disabled="!isValid || !isChanged || editing || offline || repairing"
+            :disabled="!isChanged || editing || offline || repairing"
             @click="saveGvLoaderEdits()"
           >
             <SpinnerIcon v-if="editing" class="animate-spin" />

@@ -4,7 +4,7 @@ import { Button, Checkbox } from '@icmods/ui'
 import { PackageIcon, VersionIcon } from '@/assets/icons'
 import { ref } from 'vue'
 import { export_profile_mrpack, get_pack_export_candidates } from '@/helpers/profile.js'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFolder } from '@/helpers/intents'
 import { handleError } from '@/store/notifications.js'
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
 
@@ -84,11 +84,8 @@ const exportPack = async () => {
       }
     })
   })
-  const outputPath = await open({
-    directory: true,
-    multiple: false,
-  })
 
+  const outputPath = await selectFolder()
   if (outputPath) {
     export_profile_mrpack(
       props.instance.path,

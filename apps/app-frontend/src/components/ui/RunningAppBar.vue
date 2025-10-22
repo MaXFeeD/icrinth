@@ -5,43 +5,6 @@
         <DownloadIcon />
       </button>
     </ButtonStyled>
-    <div v-if="offline" class="status">
-      <UnplugIcon />
-      <div class="running-text">
-        <span> Offline </span>
-      </div>
-    </div>
-    <div v-if="selectedProcess" class="status">
-      <span class="circle running" />
-      <div ref="profileButton" class="running-text">
-        <router-link :to="`/instance/${encodeURIComponent(selectedProcess.profile.path)}`">
-          {{ selectedProcess.profile.name }}
-        </router-link>
-        <div
-          v-if="currentProcesses.length > 1"
-          class="arrow button-base"
-          :class="{ rotate: showProfiles }"
-          @click="toggleProfiles()"
-        >
-          <DropdownIcon />
-        </div>
-      </div>
-      <Button
-        v-tooltip="'Stop instance'"
-        icon-only
-        class="icon-button stop"
-        @click="stop(selectedProcess)"
-      >
-        <StopCircleIcon />
-      </Button>
-      <Button v-tooltip="'View logs'" icon-only class="icon-button" @click="goToTerminal()">
-        <TerminalSquareIcon />
-      </Button>
-    </div>
-    <div v-else class="status">
-      <span class="circle stopped" />
-      <span class="running-text"> No instances running </span>
-    </div>
   </div>
   <transition name="download">
     <Card v-if="showCard === true && currentLoadingBars.length > 0" ref="card" class="info-card">
@@ -70,7 +33,7 @@
       >
         <div class="text"><span class="circle running" /> {{ process.profile.name }}</div>
         <Button
-          v-tooltip="'Stop instance'"
+          v-tooltip="'Stop modpack'"
           icon-only
           class="icon-button stop"
           @click.stop="stop(process)"
@@ -144,7 +107,7 @@ window.addEventListener('online', () => {
   offline.value = false
 })
 
-const unlistenProcess = await process_listener(async () => {
+const unlistenProcess = process_listener(async () => {
   await refresh()
 })
 
@@ -205,7 +168,7 @@ const refreshInfo = async () => {
 }
 
 await refreshInfo()
-const unlistenLoading = await loading_listener(async () => {
+const unlistenLoading = loading_listener(async () => {
   await refreshInfo()
 })
 

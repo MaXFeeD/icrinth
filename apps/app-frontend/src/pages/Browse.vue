@@ -26,7 +26,7 @@ import type Instance from '@/components/ui/Instance.vue'
 import InstanceIndicator from '@/components/ui/InstanceIndicator.vue'
 import { defineMessages, useVIntl } from '@vintl/vintl'
 import ContextMenu from '@/components/ui/ContextMenu.vue'
-import { openUrl } from '@tauri-apps/plugin-opener'
+import { openUrl } from '@/helpers/intents'
 
 const { formatMessage } = useVIntl()
 
@@ -110,7 +110,7 @@ const instanceFilters = computed(() => {
 
     const platform = instance.value.loader
 
-    const supportedModLoaders = ['fabric', 'forge', 'quilt', 'neoforge']
+    const supportedModLoaders = ['innercore', 'coreengine']
 
     if (platform && projectTypes.value.includes('mod') && supportedModLoaders.includes(platform)) {
       filters.push({
@@ -314,9 +314,7 @@ const selectableProjectTypes = computed(() => {
   const links = [
     { label: 'Modpacks', href: `/browse/modpack`, shown: modpacks },
     { label: 'Mods', href: `/browse/mod`, shown: mods },
-    { label: 'Resource Packs', href: `/browse/resourcepack` },
-    { label: 'Data Packs', href: `/browse/datapack`, shown: dataPacks },
-    { label: 'Shaders', href: `/browse/shader` },
+    { label: 'Servers', href: `/browse/server`, shown: mods && modpacks },
   ]
 
   if (params) {
@@ -337,19 +335,19 @@ const selectableProjectTypes = computed(() => {
 const messages = defineMessages({
   gameVersionProvidedByInstance: {
     id: 'search.filter.locked.instance-game-version.title',
-    defaultMessage: 'Game version is provided by the instance',
+    defaultMessage: 'Game version is provided by the modpack',
   },
   modLoaderProvidedByInstance: {
     id: 'search.filter.locked.instance-loader.title',
-    defaultMessage: 'Loader is provided by the instance',
+    defaultMessage: 'Loader is provided by the modpack',
   },
   providedByInstance: {
     id: 'search.filter.locked.instance',
-    defaultMessage: 'Provided by the instance',
+    defaultMessage: 'Provided by the modpack',
   },
   syncFilterButton: {
     id: 'search.filter.locked.instance.sync',
-    defaultMessage: 'Sync with instance',
+    defaultMessage: 'Sync with modpack',
   },
 })
 
@@ -367,11 +365,13 @@ const handleRightClick = (event, result) => {
 const handleOptionsClick = (args) => {
   switch (args.option) {
     case 'open_link':
-      openUrl(`https://modrinth.com/${args.item.project_type}/${args.item.slug}`)
+      openUrl(`https://inner-core.org/${args.item.project_type}/${args.item.slug}`).catch(
+        handleError,
+      )
       break
     case 'copy_link':
       navigator.clipboard.writeText(
-        `https://modrinth.com/${args.item.project_type}/${args.item.slug}`,
+        `https://inner-core.org/${args.item.project_type}/${args.item.slug}`,
       )
       break
   }
@@ -425,7 +425,7 @@ await refreshSearch()
   <div ref="searchWrapper" class="flex flex-col gap-3 p-6">
     <template v-if="instance">
       <InstanceIndicator :instance="instance" />
-      <h1 class="m-0 mb-1 text-xl">Install content to instance</h1>
+      <h1 class="m-0 mb-1 text-xl">Install content to modpack</h1>
     </template>
     <NavTabs :links="selectableProjectTypes" />
     <div class="iconified-input">
@@ -478,7 +478,7 @@ await refreshSearch()
         <LoadingIndicator />
       </section>
       <section v-else-if="offline && results.total_hits === 0" class="offline">
-        You are currently offline. Connect to the internet to browse Modrinth!
+        You are currently offline. Connect to the internet to browse Inner Core Mods!
       </section>
       <section v-else class="project-list display-mode--list instance-results" role="list">
         <SearchCard
@@ -506,7 +506,7 @@ await refreshSearch()
           @contextmenu.prevent.stop="(event) => handleRightClick(event, result)"
         />
         <ContextMenu ref="options" @option-clicked="handleOptionsClick">
-          <template #open_link> <GlobeIcon /> Open in Modrinth <ExternalIcon /> </template>
+          <template #open_link> <GlobeIcon /> Open in browser <ExternalIcon /> </template>
           <template #copy_link> <ClipboardCopyIcon /> Copy link </template>
         </ContextMenu>
       </section>

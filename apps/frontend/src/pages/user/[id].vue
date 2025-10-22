@@ -67,8 +67,8 @@
               user.bio
                 ? user.bio
                 : projects.length === 0
-                  ? "A Inner Core user."
-                  : "A Inner Core creator."
+                  ? "User on Inner Core Mods."
+                  : "Creator on Inner Core Mods."
             }}
           </template>
           <template #stats>
@@ -303,12 +303,12 @@
           <h2 class="text-lg text-contrast">{{ formatMessage(messages.profileBadges) }}</h2>
           <div class="flex flex-wrap gap-2">
             <div v-for="badge in badges" :key="badge">
-              <StaffBadge v-if="badge === 'staff'" class="h-14 w-14" />
-              <ModBadge v-else-if="badge === 'mod'" class="h-14 w-14" />
-              <TenMClubBadge v-else-if="badge === '10m-club'" class="h-14 w-14" />
-              <EarlyAdopterBadge v-else-if="badge === 'early-adopter'" class="h-14 w-14" />
-              <AlphaTesterBadge v-else-if="badge === 'alpha-tester'" class="h-14 w-14" />
-              <BetaTesterBadge v-else-if="badge === 'beta-tester'" class="h-14 w-14" />
+              <DeveloperBadge v-if="badge === 'developer'" class="h-14 w-14" />
+              <ModeratorBadge v-else-if="badge === 'moderator'" class="h-14 w-14" />
+              <LegendaryMillionBadge v-else-if="badge === 'legendary-million'" class="h-14 w-14" />
+              <AdopterBadge v-else-if="badge === 'adopter'" class="h-14 w-14" />
+              <ModdingPioneerBadge v-else-if="badge === 'modding-pioneer'" class="h-14 w-14" />
+              <MightyServantBadge v-else-if="badge === 'mighty-servant'" class="h-14 w-14" />
             </div>
           </div>
         </div>
@@ -346,12 +346,12 @@ import NavTabs from "~/components/ui/NavTabs.vue";
 import ProjectCard from "~/components/ui/ProjectCard.vue";
 import { reportUser } from "~/utils/report-helpers.ts";
 
-import StaffBadge from "~/assets/images/badges/staff.svg?component";
-import ModBadge from "~/assets/images/badges/mod.svg?component";
-import TenMClubBadge from "~/assets/images/badges/10m-club.svg?component";
-import EarlyAdopterBadge from "~/assets/images/badges/early-adopter.svg?component";
-import AlphaTesterBadge from "~/assets/images/badges/alpha-tester.svg?component";
-import BetaTesterBadge from "~/assets/images/badges/beta-tester.svg?component";
+import DeveloperBadge from "~/assets/images/badges/developer.svg?component";
+import ModeratorBadge from "~/assets/images/badges/moderator.svg?component";
+import LegendaryMillionBadge from "~/assets/images/badges/legendary-million.svg?component";
+import AdopterBadge from "~/assets/images/badges/adopter.svg?component";
+import ModdingPioneerBadge from "~/assets/images/badges/modding-pioneer.svg?component";
+import MightyServantBadge from "~/assets/images/badges/mighty-servant.svg?component";
 
 import ReportIcon from "~/assets/images/utils/report.svg?component";
 import UpToDate from "~/assets/images/illustrations/up_to_date.svg?component";
@@ -523,7 +523,7 @@ useSeoMeta({
   description: () => description.value,
   ogTitle: () => title.value,
   ogDescription: () => description.value,
-  ogImage: () => user.value.avatar_url ?? "https://cdn.modrinth.com/placeholder.png",
+  ogImage: () => user.value.avatar_url ?? "https://cdn.inner-core.org/artwork/placeholder.png",
 });
 
 const projectTypes = computed(() => {
@@ -552,44 +552,39 @@ const sumDownloads = computed(() => {
 });
 
 const joinDate = computed(() => new Date(user.value.created));
-const ICMODS_BETA_END_DATE = new Date("2025-05-31T08:00:00.000Z");
-const ICMODS_ALPHA_END_DATE = new Date("2025-05-31T08:00:00.000Z");
+const MIGRATION_TO_NETHER_UPDATE_DATE = new Date("2021-02-03T15:04:00.000Z");
+const MIGRATION_TO_HORIZON_DATE = new Date("2020-04-18T15:13:00.000Z");
 
 const badges = computed(() => {
   const badges = [];
 
   if (user.value.role === "admin") {
-    badges.push("staff");
+    badges.push("developer");
   }
 
   if (user.value.role === "moderator") {
-    badges.push("mod");
+    badges.push("moderator");
   }
 
-  if (sumDownloads.value > 10000000) {
-    badges.push("10m-club");
+  if (isPermission(user.value.badges, 1 << 1)) {
+    badges.push("adopter");
   }
 
-  if (
-    isPermission(user.value.badges, 1 << 1) ||
-    isPermission(user.value.badges, 1 << 2) ||
-    isPermission(user.value.badges, 1 << 3)
+  if (sumDownloads.value > 1000000) {
+    badges.push("legendary-million");
+  }
+
+  if (isPermission(user.value.badges, 1 << 2) || joinDate.value < MIGRATION_TO_HORIZON_DATE) {
+    badges.push("modding-pioneer");
+  } else if (
+    isPermission(user.value.badges, 1 << 3) ||
+    joinDate.value < MIGRATION_TO_NETHER_UPDATE_DATE
   ) {
-    badges.push("early-adopter");
+    badges.push("horizoneer");
   }
 
-  if (isPermission(user.value.badges, 1 << 4) || joinDate.value < ICMODS_ALPHA_END_DATE) {
-    badges.push("alpha-tester");
-  } else if (isPermission(user.value.badges, 1 << 4) || joinDate.value < ICMODS_BETA_END_DATE) {
-    badges.push("beta-tester");
-  }
-
-  if (isPermission(user.value.badges, 1 << 5)) {
-    badges.push("contributor");
-  }
-
-  if (isPermission(user.value.badges, 1 << 6)) {
-    badges.push("translator");
+  if (isPermission(user.value.badges, 1 << 4)) {
+    badges.push("mighty-servant");
   }
 
   return badges;

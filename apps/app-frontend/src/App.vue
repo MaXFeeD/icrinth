@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import {
-  ArrowBigUpDashIcon,
+  IcmodsIcon,
   CompassIcon,
   DownloadIcon,
   HomeIcon,
@@ -10,31 +10,23 @@ import {
   LibraryIcon,
   LogInIcon,
   LogOutIcon,
-  MaximizeIcon,
-  MinimizeIcon,
   PlusIcon,
-  RestoreIcon,
   RightArrowIcon,
   SettingsIcon,
-  XIcon,
 } from '@icmods/assets'
-import { Avatar, Button, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
+import { Avatar, ButtonStyled, Notifications, OverflowMenu } from '@icmods/ui'
 import { useLoading, useTheming } from '@/store/state'
-import AccountsCard from '@/components/ui/AccountsCard.vue'
 import InstanceCreationModal from '@/components/ui/InstanceCreationModal.vue'
 import { get } from '@/helpers/settings'
 import Breadcrumbs from '@/components/ui/Breadcrumbs.vue'
 import RunningAppBar from '@/components/ui/RunningAppBar.vue'
 import SplashScreen from '@/components/ui/SplashScreen.vue'
 import ErrorModal from '@/components/ui/ErrorModal.vue'
-import ModrinthLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
+import IcmodsLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
 import { handleError, useNotifications } from '@/store/notifications.js'
 import { command_listener, warning_listener } from '@/helpers/events.js'
-import { type } from '@tauri-apps/plugin-os'
-import { getOS, isDev, restartApp } from '@/helpers/utils.js'
-import { debugAnalytics, initAnalytics, optOutAnalytics, trackEvent } from '@/helpers/analytics'
-import { getCurrentWindow } from '@tauri-apps/api/window'
-import { getVersion } from '@tauri-apps/api/app'
+import { isDev, getVersion } from '@/helpers/utils.js'
+import { trackEvent } from '@/helpers/analytics'
 import URLConfirmModal from '@/components/ui/URLConfirmModal.vue'
 import { create_profile_and_install_from_file } from './helpers/pack'
 import { useError } from '@/store/error.js'
@@ -42,21 +34,20 @@ import ModInstallModal from '@/components/ui/install_flow/ModInstallModal.vue'
 import IncompatibilityWarningModal from '@/components/ui/install_flow/IncompatibilityWarningModal.vue'
 import InstallConfirmModal from '@/components/ui/install_flow/InstallConfirmModal.vue'
 import { useInstall } from '@/store/install.js'
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 import { get_opening_command, initialize_state } from '@/helpers/state'
-import { saveWindowState, StateFlags } from '@tauri-apps/plugin-window-state'
 import { renderString } from '@icmods/utils'
 import { useFetch } from '@/helpers/fetch.js'
-import { check } from '@tauri-apps/plugin-updater'
+import { checkUpdates as check_updates } from '@/helpers/utils'
 import NavButton from '@/components/ui/NavButton.vue'
-import { get as getCreds, login, logout } from '@/helpers/mr_auth.js'
+import { get as getCreds, login, logout } from '@/helpers/auth.js'
 import { get_user } from '@/helpers/cache.js'
 import AppSettingsModal from '@/components/ui/modal/AppSettingsModal.vue'
 import dayjs from 'dayjs'
 import PromotionWrapper from '@/components/ui/PromotionWrapper.vue'
-import { hide_ads_window, init_ads_window } from '@/helpers/ads.js'
+import { hide_ads_window } from '@/helpers/ads.js'
 import FriendsList from '@/components/ui/friends/FriendsList.vue'
-import { openUrl } from '@tauri-apps/plugin-opener'
+import { openUrl } from '@/helpers/intents'
 import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
 
 const themeStore = useTheming()
@@ -74,15 +65,10 @@ window.addEventListener('online', () => {
 })
 
 const showOnboarding = ref(false)
-const nativeDecorations = ref(false)
-
-const os = ref('')
 
 const stateInitialized = ref(false)
 
 const criticalErrorMessage = ref()
-
-const isMaximized = ref(false)
 
 onMounted(async () => {
   document.querySelector('body').addEventListener('click', handleClick)
@@ -97,7 +83,6 @@ onUnmounted(() => {
 async function setupApp() {
   stateInitialized.value = true
   const {
-    native_decorations,
     theme,
     telemetry,
     collapsed_navigation,
@@ -113,44 +98,22 @@ async function setupApp() {
     await router.push('/library')
   }
 
-  os.value = await getOS()
   const dev = await isDev()
   const version = await getVersion()
   showOnboarding.value = !onboarded
-
-  nativeDecorations.value = native_decorations
-  if (os.value !== 'MacOS') await getCurrentWindow().setDecorations(native_decorations)
 
   themeStore.setThemeState(theme)
   themeStore.collapsedNavigation = collapsed_navigation
   themeStore.advancedRendering = advanced_rendering
   themeStore.toggleSidebar = toggle_sidebar
   themeStore.devMode = developer_mode
-  themeStore.featureFlags = feature_flags
+  themeStore.featureFlags = feature_flags || {}
 
-  isMaximized.value = await getCurrentWindow().isMaximized()
-
-  await getCurrentWindow().onResized(async () => {
-    isMaximized.value = await getCurrentWindow().isMaximized()
-  })
-
-  initAnalytics()
-  if (!telemetry) {
-    optOutAnalytics()
-  }
-  if (dev) debugAnalytics()
   trackEvent('Launched', { version, dev, onboarded })
 
   if (!dev) document.addEventListener('contextmenu', (event) => event.preventDefault())
 
-  const osType = await type()
-  if (osType === 'macos') {
-    document.getElementsByTagName('html')[0].classList.add('mac')
-  } else {
-    document.getElementsByTagName('html')[0].classList.add('windows')
-  }
-
-  await warning_listener((e) =>
+  warning_listener((e) =>
     notificationsWrapper.value.addNotification({
       title: 'Warning',
       text: e.message,
@@ -168,7 +131,7 @@ async function setupApp() {
     }
   })
 
-  useFetch(`https://modrinth.com/blog/news.json`, 'news', true).then((res) => {
+  useFetch(`https://api.npoint.io/afbb234aecba3b7af821`, 'news', true).then((res) => {
     if (res && res.articles) {
       news.value = res.articles
     }
@@ -193,11 +156,6 @@ initialize_state()
     console.error('Failed to initialize app', err)
     error.showError(err, null, false, 'state_init')
   })
-
-const handleClose = async () => {
-  await saveWindowState(StateFlags.ALL)
-  await getCurrentWindow().close()
-}
 
 const router = useRouter()
 router.afterEach((to, from, failure) => {
@@ -283,8 +241,6 @@ onMounted(() => {
   install.setModInstallModal(modInstallModal)
 })
 
-const accounts = ref(null)
-
 command_listener(handleCommand)
 async function handleCommand(e) {
   if (!e) return
@@ -305,15 +261,9 @@ async function handleCommand(e) {
 
 const updateAvailable = ref(false)
 async function checkUpdates() {
-  const update = await check()
+  const update = await check_updates()
   updateAvailable.value = !!update
-
-  setTimeout(
-    () => {
-      checkUpdates()
-    },
-    5 * 1000 * 60,
-  )
+  setTimeout(() => checkUpdates(), 5 * 1000 * 60)
 }
 
 function handleClick(e) {
@@ -324,11 +274,9 @@ function handleClick(e) {
         target.href &&
         ['http://', 'https://', 'mailto:', 'tel:'].some((v) => target.href.startsWith(v)) &&
         !target.classList.contains('router-link-active') &&
-        !target.href.startsWith('http://localhost') &&
-        !target.href.startsWith('https://tauri.localhost') &&
-        !target.href.startsWith('http://tauri.localhost')
+        !target.href.startsWith('http://localhost')
       ) {
-        openUrl(target.href)
+        openUrl(target.href).catch(handleError)
       }
       e.preventDefault()
       break
@@ -353,7 +301,7 @@ function handleAuxClick(e) {
 </script>
 
 <template>
-  <SplashScreen v-if="!stateFailed" ref="splashScreen" data-tauri-drag-region />
+  <SplashScreen v-if="!stateFailed" ref="splashScreen" data-icmods-drag-region />
   <div id="teleports"></div>
   <div v-if="stateInitialized" class="app-grid-layout relative">
     <Suspense>
@@ -393,7 +341,7 @@ function handleAuxClick(e) {
         <QuickInstanceSwitcher />
       </suspense>
       <NavButton
-        v-tooltip.right="'Create new instance'"
+        v-tooltip.right="'Create new modpack'"
         :to="() => $refs.installationModal.show()"
         :disabled="offline"
       >
@@ -431,9 +379,9 @@ function handleAuxClick(e) {
         <template #label>Sign in</template>
       </NavButton>
     </div>
-    <div data-tauri-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
-      <div data-tauri-drag-region class="flex p-3">
-        <!-- IcmodsAppLogo class="h-full w-auto text-contrast pointer-events-none" /-->
+    <div data-icmods-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
+      <div data-icmods-drag-region class="flex p-3">
+        <IcmodsIcon class="h-full w-auto text-contrast pointer-events-none" />
         <div class="flex items-center gap-1 ml-3">
           <button
             class="cursor-pointer p-0 m-0 border-none outline-none bg-button-bg rounded-full flex items-center justify-center w-6 h-6 hover:brightness-75 transition-all"
@@ -469,22 +417,6 @@ function handleAuxClick(e) {
             <RunningAppBar />
           </Suspense>
         </div>
-        <section v-if="!nativeDecorations" class="window-controls">
-          <Button class="titlebar-button" icon-only @click="() => getCurrentWindow().minimize()">
-            <MinimizeIcon />
-          </Button>
-          <Button
-            class="titlebar-button"
-            icon-only
-            @click="() => getCurrentWindow().toggleMaximize()"
-          >
-            <RestoreIcon v-if="isMaximized" />
-            <MaximizeIcon v-else />
-          </Button>
-          <Button class="titlebar-button close" icon-only @click="handleClose">
-            <XIcon />
-          </Button>
-        </section>
       </section>
     </div>
   </div>
@@ -502,7 +434,7 @@ function handleAuxClick(e) {
           width: 'calc(100% - var(--left-bar-width) - var(--right-bar-width))',
         }"
       >
-        <ModrinthLoadingIndicator />
+        <IcmodsLoadingIndicator />
       </div>
       <div
         v-if="themeStore.featureFlags.page_path"
@@ -535,12 +467,6 @@ function handleAuxClick(e) {
       >
         <div id="sidebar-teleport-target" class="sidebar-teleport-content"></div>
         <div class="sidebar-default-content" :class="{ 'sidebar-enabled': sidebarVisible }">
-          <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
-            <h3 class="text-lg m-0">Playing as</h3>
-            <suspense>
-              <AccountsCard ref="accounts" mode="small" />
-            </suspense>
-          </div>
           <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
             <suspense>
               <FriendsList :credentials="credentials" :sign-in="() => signIn()" />
@@ -578,18 +504,11 @@ function handleAuxClick(e) {
         </div>
       </div>
       <template v-if="showAd">
-        <a
-          href="https://modrinth.plus?app"
-          class="absolute bottom-[250px] w-full flex justify-center items-center gap-1 px-4 py-3 text-purple font-medium hover:underline z-10"
-          target="_blank"
-        >
-          <ArrowBigUpDashIcon class="text-2xl" /> Upgrade to Modrinth+
-        </a>
         <PromotionWrapper />
       </template>
     </div>
     <div class="view">
-      <div v-if="criticalErrorMessage" class="critical-error-banner" data-tauri-drag-region>
+      <div v-if="criticalErrorMessage" class="critical-error-banner" data-icmods-drag-region>
         <h1>{{ criticalErrorMessage.header }}</h1>
         <div class="markdown-body" v-html="renderString(criticalErrorMessage.body ?? '')"></div>
       </div>
@@ -604,72 +523,6 @@ function handleAuxClick(e) {
 </template>
 
 <style lang="scss" scoped>
-.window-controls {
-  z-index: 20;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-
-  .titlebar-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all ease-in-out 0.1s;
-    background-color: transparent;
-    color: var(--color-base);
-    height: 100%;
-    width: 3rem;
-    position: relative;
-    box-shadow: none;
-
-    &:last-child {
-      padding-right: 0.75rem;
-      width: 3.75rem;
-    }
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    &::before {
-      content: '';
-      border-radius: 999999px;
-      width: 3rem;
-      height: 3rem;
-      aspect-ratio: 1 / 1;
-      margin-block: auto;
-      position: absolute;
-      background-color: transparent;
-      scale: 0.9;
-      transition: all ease-in-out 0.2s;
-      z-index: -1;
-    }
-
-    &.close {
-      &:hover,
-      &:active {
-        color: var(--color-accent-contrast);
-
-        &::before {
-          background-color: var(--color-red);
-        }
-      }
-    }
-
-    &:hover,
-    &:active {
-      color: var(--color-contrast);
-
-      &::before {
-        background-color: var(--color-button-bg);
-        scale: 1;
-      }
-    }
-  }
-}
-
 .app-grid-layout,
 .app-contents {
   --top-bar-height: 3rem;
@@ -804,10 +657,6 @@ function handleAuxClick(e) {
 .windows {
   .fake-appbar {
     height: 2.5rem !important;
-  }
-
-  .window-controls {
-    display: flex !important;
   }
 
   .info-card {

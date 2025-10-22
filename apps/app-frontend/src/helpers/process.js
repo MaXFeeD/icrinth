@@ -3,7 +3,7 @@
  * So, for example, addDefaultInstance creates a blank Profile object, where the Rust struct is serialized,
  *  and deserialized into a usable JS object.
  */
-import { invoke } from '@/composables/androidBridge'
+import { invoke } from '@/composables/bridge'
 
 /// Gets all running process IDs with a given profile path
 /// Returns [u32]

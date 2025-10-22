@@ -6,7 +6,6 @@ use crate::models::ids::ProjectId;
 use crate::models::pats::Scopes;
 use crate::models::threads::MessageBody;
 use crate::queue::analytics::AnalyticsQueue;
-use crate::queue::maxmind::MaxMindIndexer;
 use crate::queue::moderation::AUTOMOD_ID;
 use crate::queue::payouts::PayoutsQueue;
 use crate::queue::session::AuthQueue;
@@ -49,7 +48,6 @@ pub async fn count_download(
     req: HttpRequest,
     pool: web::Data<PgPool>,
     redis: web::Data<RedisPool>,
-    maxmind: web::Data<Arc<MaxMindIndexer>>,
     analytics_queue: web::Data<Arc<AnalyticsQueue>>,
     session_queue: web::Data<AuthQueue>,
     download_body: web::Json<DownloadBody>,
@@ -134,7 +132,11 @@ pub async fn count_download(
         project_id: project_id as u64,
         version_id: version_id as u64,
         ip,
-        country: maxmind.query(ip).await.unwrap_or_default(),
+        country: download_body
+            .headers
+            .get("cf-ipcountry")
+            .cloned()
+            .unwrap_or_default(),
         user_agent: download_body
             .headers
             .get("user-agent")

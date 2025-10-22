@@ -1,3 +1,4 @@
+pub mod analytics;
 pub mod models;
 mod postgres_database;
 pub mod redis;

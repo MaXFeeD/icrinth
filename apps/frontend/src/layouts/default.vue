@@ -104,7 +104,7 @@
         >
           <a
             :target="$external()"
-            href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+            href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
           >
             <DownloadIcon aria-hidden="true" />
             <span class="hidden md:contents">Get Horizon</span>
@@ -395,7 +395,7 @@
         <a
           class="btn btn-outline btn-primary"
           :target="$external()"
-          href="https://drive.google.com/file/d/14SBKQSYbMGRT-Z5_cowYVfYiWTKD605c/view"
+          href="https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/horizon/app-x64-release.apk?inline=false"
         >
           <DownloadIcon aria-hidden="true" />
           {{ formatMessage(messages.getHorizon) }}
@@ -628,12 +628,8 @@ useSeoMeta({
       defaultMessage: "Discover and publish Inner Core content!",
     }),
   ogType: "website",
-  ogImage: "https://cdn.modrinth.com/modrinth-new.png",
+  ogImage: "https://cdn.inner-core.org/logo-128.png",
   ogUrl: link,
-
-  // Twitter
-  twitterCard: "summary",
-  twitterSite: "@modrinth",
 });
 
 const developerModeCounter = ref(0);

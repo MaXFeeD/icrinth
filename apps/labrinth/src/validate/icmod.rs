@@ -4,15 +4,15 @@ use crate::validate::{
 use std::io::Cursor;
 use zip::ZipArchive;
 
-pub struct ResourcePackValidator;
+pub struct CoreEngineValidator;
 
-impl super::Validator for ResourcePackValidator {
+impl super::Validator for CoreEngineValidator {
     fn get_file_extensions(&self) -> &[&str] {
-        &["zip"]
+        &["icmod", "zip"]
     }
 
     fn get_supported_loaders(&self) -> &[&str] {
-        &["minecraft"]
+        &["coreengine"]
     }
 
     fn get_supported_game_versions(&self) -> SupportedGameVersions {
@@ -23,9 +23,11 @@ impl super::Validator for ResourcePackValidator {
         &self,
         archive: &mut ZipArchive<Cursor<bytes::Bytes>>,
     ) -> Result<ValidationResult, ValidationError> {
-        if archive.by_name("manifest.json").is_err() {
+        if archive.by_name("build.config").is_err()
+            && !archive.file_names().any(|x| x.ends_with("/build.config"))
+        {
             return Ok(ValidationResult::Warning(
-                "No manifest.json present for resource pack file. Tip: Make sure manifest.json is in the root directory of your resource pack!",
+                "No build.config present for mod file.",
             ));
         }
 

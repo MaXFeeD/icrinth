@@ -6,7 +6,7 @@ import { purge_cache_types } from '@/helpers/cache.js'
 import { handleError } from '@/store/notifications.js'
 import { BoxIcon, FolderSearchIcon, TrashIcon } from '@icmods/assets'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
-import { open } from '@tauri-apps/plugin-dialog'
+import { selectFolder } from '@/helpers/intents'
 
 const settings = ref(await get())
 
@@ -44,12 +44,7 @@ async function purgeCache() {
 }
 
 async function findLauncherDir() {
-  const newDir = await open({
-    multiple: false,
-    directory: true,
-    title: 'Select a new app directory',
-  })
-
+  const newDir = await selectFolder()
   if (newDir) {
     settings.value.custom_dir = newDir
   }
@@ -86,8 +81,8 @@ async function findLauncherDir() {
 
     <h2 class="m-0 text-lg font-extrabold text-contrast">App cache</h2>
     <p class="m-0 mt-1 mb-2 leading-tight text-secondary">
-      The Modrinth app stores a cache of data to speed up loading. This can be purged to force the
-      app to reload data. This may slow down the app temporarily.
+      The Inner Core Mod Browser stores a cache of data to speed up loading. This can be purged to
+      force the app to reload data. This may slow down the app temporarily.
     </p>
   </div>
   <button id="purge-cache" class="btn min-w-max" @click="$refs.purgeCacheConfirmModal.show()">
