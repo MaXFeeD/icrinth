@@ -39,7 +39,7 @@ export default defineConfig({
     strictPort: true,
   },
   build: {
-    target: 'chrome105',
+    target: 'chrome64',
     // don't minify for debug builds
     minify: process.env.NODE_ENV === 'production' ? 'esbuild' : false,
     // produce sourcemaps for debug builds
