@@ -20,7 +20,6 @@ import InstanceCreationModal from '@/components/ui/InstanceCreationModal.vue'
 import { get } from '@/helpers/settings'
 import Breadcrumbs from '@/components/ui/Breadcrumbs.vue'
 import RunningAppBar from '@/components/ui/RunningAppBar.vue'
-import SplashScreen from '@/components/ui/SplashScreen.vue'
 import ErrorModal from '@/components/ui/ErrorModal.vue'
 import IcmodsLoadingIndicator from '@/components/LoadingIndicatorBar.vue'
 import { handleError, useNotifications } from '@/store/notifications.js'
@@ -301,7 +300,7 @@ function handleAuxClick(e) {
 </script>
 
 <template>
-  <SplashScreen v-if="!stateFailed" ref="splashScreen" data-icmods-drag-region />
+  <!-- SplashScreen v-if="!stateFailed" ref="splashScreen" data-icmods-drag-region /-->
   <div id="teleports"></div>
   <div v-if="stateInitialized" class="app-grid-layout relative">
     <Suspense>
