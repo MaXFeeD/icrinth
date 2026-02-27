@@ -2,6 +2,21 @@
   "admin.billing.error.not-found": {
     "message": "User not found"
   },
+  "amogus": {
+    "message": "Amogus is our Lord and saviour."
+  },
+  "amogus.altText": {
+    "message": "sus"
+  },
+  "amogus.seenPeople": {
+    "message": "{count, plural, one {{count} more person} other {{count} more people}} were also seen Amogus!"
+  },
+  "amogus.sinceOpened": {
+    "message": "This page was opened {ago}"
+  },
+  "amogus.title": {
+    "message": "Amogus"
+  },
   "auth.authorize.action.authorize": {
     "message": "Authorize"
   },
@@ -239,21 +254,6 @@
   "dashboard.collections.long-title": {
     "message": "Your collections"
   },
-  "frog": {
-    "message": "You've been frogged! 🐸"
-  },
-  "frog.altText": {
-    "message": "A photorealistic painting of a frog labyrinth"
-  },
-  "frog.froggedPeople": {
-    "message": "{count, plural, one {{count} more person} other {{count} more people}} were also frogged!"
-  },
-  "frog.sinceOpened": {
-    "message": "This page was opened {ago}"
-  },
-  "frog.title": {
-    "message": "Frog"
-  },
   "layout.action.change-theme": {
     "message": "Change theme"
   },
@@ -287,6 +287,9 @@
   "layout.banner.verify-email.title": {
     "message": "For security purposes, please verify your email address on Inner Core Mods."
   },
+  "layout.footer.based-on-modrinth": {
+    "message": "Based on <github-link>Modrinth</github-link>."
+  },
   "layout.footer.company.careers": {
     "message": "Careers"
   },
@@ -307,6 +310,9 @@
   },
   "layout.footer.legal-disclaimer": {
     "message": "NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT."
+  },
+  "layout.footer.open-source": {
+    "message": "Inner Core Mods is <github-link>open source</github-link>."
   },
   "layout.footer.resources.blog": {
     "message": "Blog"
@@ -392,17 +398,17 @@
   "profile.user-id": {
     "message": "User ID: {id}"
   },
+  "project-type.Behavior.plural": {
+    "message": "Behavior Packs"
+  },
+  "project-type.behaviorpack.singular": {
+    "message": "Behavior Pack"
+  },
   "project-type.collection.plural": {
     "message": "Collections"
   },
   "project-type.collection.singular": {
     "message": "Collection"
-  },
-  "project-type.behaviorpack.plural": {
-    "message": "Behavior Packs"
-  },
-  "project-type.behaviorpack.singular": {
-    "message": "Behavior Pack"
   },
   "project-type.mod.plural": {
     "message": "Mods"
@@ -416,17 +422,17 @@
   "project-type.modpack.singular": {
     "message": "Modpack"
   },
-  "project-type.server.plural": {
-    "message": "Servers"
-  },
-  "project-type.server.singular": {
-    "message": "Server"
-  },
   "project-type.project.plural": {
     "message": "Projects"
   },
   "project-type.project.singular": {
     "message": "Project"
+  },
+  "project-type.server.plural": {
+    "message": "Servers"
+  },
+  "project-type.server.singular": {
+    "message": "Server"
   },
   "project.about.details.created": {
     "message": "Created {date}"
@@ -801,7 +807,7 @@
     "message": "Visa"
   },
   "settings.billing.subscription.description": {
-    "message": "Manage your Inner Core subscriptions."
+    "message": "Manage your Inner Core Mods subscriptions."
   },
   "settings.billing.subscription.title": {
     "message": "Subscriptions"
@@ -810,7 +816,7 @@
     "message": "Deactivate developer mode"
   },
   "settings.display.banner.developer-mode.description": {
-    "message": "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Inner Core Mods that may be helpful if you're a developer using the Inner Core Mods API. Click on the icmods logo at the bottom of the page 5 times to toggle developer mode."
+    "message": "<strong>Developer mode</strong> is active. This will allow you to view the internal IDs of various things throughout Inner Core Mods that may be helpful if you're a developer using the Inner Core Mods API. Click on the Inner Core Mods logo at the bottom of the page 5 times to toggle developer mode."
   },
   "settings.display.flags.description": {
     "message": "Enable or disable certain features on this device."

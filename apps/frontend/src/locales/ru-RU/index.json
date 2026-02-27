@@ -1,4 +1,19 @@
 {
+  "amogus": {
+    "message": "Амогус наш Бог и спаситель."
+  },
+  "amogus.altText": {
+    "message": "сус"
+  },
+  "amogus.seenPeople": {
+    "message": "Кроме вас {count, plural, one {{count} человека} other {{count} человек}} тоже видели Амогуса!"
+  },
+  "amogus.sinceOpened": {
+    "message": "Страница открылась {ago}"
+  },
+  "amogus.title": {
+    "message": "Амогус"
+  },
   "auth.authorize.action.authorize": {
     "message": "Авторизовать"
   },
@@ -152,6 +167,9 @@
   "auth.verify-email.title": {
     "message": "Подтверждение электронной почты"
   },
+  "layout.footer.based-on-modrinth": {
+    "message": "Основано на <github-link>Modrinth</github-link>."
+  },
   "auth.welcome.checkbox.subscribe": {
     "message": "Подписаться на получение новостей Inner Core Mods"
   },
@@ -266,21 +284,6 @@
   "dashboard.collections.long-title": {
     "message": "Ваши коллекции"
   },
-  "frog": {
-    "message": "Вас жабнули! 🐸"
-  },
-  "frog.altText": {
-    "message": "Фотореалистичное изображение жаберинта"
-  },
-  "frog.froggedPeople": {
-    "message": "Кроме вас жабнули ещё {count, plural, one {{count} человека} other {{count} человек}}!"
-  },
-  "frog.sinceOpened": {
-    "message": "Станица открылась {ago}"
-  },
-  "frog.title": {
-    "message": "Жаба"
-  },
   "input.view.gallery": {
     "message": "Галерея"
   },
@@ -393,7 +396,10 @@
     "message": "Сообщество"
   },
   "layout.footer.legal-disclaimer": {
-    "message": "НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНОЙ УСЛУГОЙ MINECRAFT. НЕ ОДОБРЕНО И НЕ СВЯЗАНО С КОМПАНИЕЙ MOJANG ИЛИ MICROSOFT."
+    "message": "НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНЫМ СЕРВИСОМ MINECRAFT. НЕ ОДОБРЕНО И НЕ СВЯЗАНО С КОМПАНИЯМИ MOJANG ИЛИ MICROSOFT."
+  },
+  "layout.footer.open-source": {
+    "message": "Inner Core Mods имеет <github-link>открытый исходный код</github-link>."
   },
   "layout.footer.resources.blog": {
     "message": "Блог"
