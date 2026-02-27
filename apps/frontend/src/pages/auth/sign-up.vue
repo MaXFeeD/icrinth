@@ -85,12 +85,12 @@
         />
       </div>
 
-      <Checkbox
+      <!-- Checkbox
         v-model="subscribe"
         class="subscribe-btn"
         :label="formatMessage(messages.subscribeLabel)"
         :description="formatMessage(messages.subscribeLabel)"
-      />
+      / -->
 
       <p v-if="!route.query.launcher">
         <IntlFormatted :message-id="messages.legalDisclaimer">
@@ -219,7 +219,7 @@ const username = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const token = ref("");
-const subscribe = ref(true);
+// const subscribe = ref(true);
 
 async function createAccount() {
   startLoading();
@@ -244,7 +244,7 @@ async function createAccount() {
         password: password.value,
         email: email.value,
         challenge: token.value,
-        sign_up_newsletter: subscribe.value,
+        sign_up_newsletter: false, // subscribe.value
       },
     });
 

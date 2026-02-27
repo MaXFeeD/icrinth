@@ -1436,7 +1436,7 @@ pub async fn create_account_with_password(
     )?;
 
     if new_account.sign_up_newsletter.unwrap_or(false) {
-        sign_up_sendy(&new_account.email).await?;
+        // sign_up_sendy(&new_account.email).await?;
     }
 
     transaction.commit().await?;
@@ -2310,10 +2310,13 @@ pub async fn subscribe_newsletter(
     .await?
     .1;
 
-    if let Some(email) = user.email {
-        sign_up_sendy(&email).await?;
+    if let Some(_email) = user.email {
+        // sign_up_sendy(&email).await?;
 
-        Ok(HttpResponse::NoContent().finish())
+        Err(ApiError::Validation(
+            "Subscription is not supported.".to_string(),
+        ))
+        // Ok(HttpResponse::NoContent().finish())
     } else {
         Err(ApiError::InvalidInput(
             "User does not have an email.".to_string(),
