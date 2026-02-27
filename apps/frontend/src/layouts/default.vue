@@ -352,7 +352,7 @@
           class="text-logo button-base mx-auto mb-4 lg:mx-0"
           @click="developerModeIncrement()"
         />
-        <p class="mb-4">
+        <!-- p class="mb-4">
           {{ config.public.branch }}@<a
             :target="$external()"
             :href="
@@ -367,8 +367,35 @@
             rel="noopener"
             >{{ config.public.hash.substring(0, 7) }}</a
           >
+        </p -->
+        <p class="mb-4">
+          <IntlFormatted :message-id="footerMessages.openSource">
+            <template #github-link="{ children }">
+              <a
+                :target="$external()"
+                href="https://github.com/nernar/icmods"
+                class="text-link"
+                rel="noopener"
+              >
+                <component :is="() => children" />
+              </a>
+            </template>
+          </IntlFormatted>
+          {{ " " }}
+          <IntlFormatted :message-id="footerMessages.basedOnModrinth">
+            <template #github-link="{ children }">
+              <a
+                :target="$external()"
+                href="https://github.com/modrinth/code"
+                class="text-link"
+                rel="noopener"
+              >
+                <component :is="() => children" />
+              </a>
+            </template>
+          </IntlFormatted>
         </p>
-        <p>© Horizon Team</p>
+        <p>© 2026 Horizon Team</p>
       </div>
       <div class="links links-1" role="region" aria-label="Legal">
         <h4 aria-hidden="true">{{ formatMessage(footerMessages.companyTitle) }}</h4>
@@ -549,6 +576,14 @@ const messages = defineMessages({
 });
 
 const footerMessages = defineMessages({
+  openSource: {
+    id: "layout.footer.open-source",
+    defaultMessage: "Inner Core Mods is <github-link>open source</github-link>.",
+  },
+  basedOnModrinth: {
+    id: "layout.footer.based-on-modrinth",
+    defaultMessage: "Based on <github-link>Modrinth</github-link>.",
+  },
   companyTitle: {
     id: "layout.footer.company.title",
     defaultMessage: "Company",

@@ -326,7 +326,7 @@ export default defineNuxtConfig({
       production: isProduction(),
       featureFlagOverrides: getFeatureFlagOverrides(),
 
-      owner: process.env.VERCEL_GIT_REPO_OWNER || "Horizon Team",
+      owner: process.env.VERCEL_GIT_REPO_OWNER || "nernar",
       slug: process.env.VERCEL_GIT_REPO_SLUG || "icmods",
       branch:
         process.env.VERCEL_GIT_COMMIT_REF ||
