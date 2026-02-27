@@ -4,14 +4,15 @@
       <aside class="universal-card">
         <h1>Legal</h1>
         <NavStack>
+          <NavStackItem link="/legal/terms" label="Terms of Use">
+            <HeartHandshakeIcon aria-hidden="true" />
+          </NavStackItem>
           <NavStackItem link="/legal/rules" label="Content Rules">
             <ScaleIcon aria-hidden="true" />
           </NavStackItem>
-          <NavStackItem link="/legal/copyright" label="Copyright Policy">
-            <CopyrightIcon aria-hidden="true" />
-          </NavStackItem>
-          <NavStackItem link="/legal/security" label="Security Notice">
-            <ShieldIcon aria-hidden="true" />
+          <h3>Privacy</h3>
+          <NavStackItem link="/legal/privacy" label="Privacy Policy">
+            <LockIcon aria-hidden="true" />
           </NavStackItem>
         </NavStack>
       </aside>
@@ -23,7 +24,7 @@
 </template>
 
 <script setup>
-import { ScaleIcon, ShieldIcon, CopyrightIcon } from "@icmods/assets";
+import { ScaleIcon, HeartHandshakeIcon, LockIcon } from "@icmods/assets";
 import NavStack from "~/components/ui/NavStack.vue";
 import NavStackItem from "~/components/ui/NavStackItem.vue";
 
