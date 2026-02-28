@@ -156,12 +156,12 @@
 
 <script setup>
 const description =
-  "The Terms of Use of Inner Core Mods, an modding platform focused on Inner Core.";
+  "The Privacy Policy of Inner Core Mods, an modding platform focused on Inner Core.";
 
 useSeoMeta({
-  title: "Terms of Use — Inner Core Mods",
+  title: "Privacy Policy — Inner Core Mods",
   description,
-  ogTitle: "Terms of Use",
+  ogTitle: "Privacy Policy",
   ogDescription: description,
 });
 </script>
