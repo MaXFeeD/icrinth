@@ -17,8 +17,8 @@
   "app.settings.tabs.privacy": {
     "message": "Privacy"
   },
-  "app.settings.tabs.resource-management": {
-    "message": "Resource management"
+  "app.settings.tabs.performance": {
+    "message": "Performance"
   },
   "instance.filter.updates-available": {
     "message": "Updates available"

@@ -32,7 +32,7 @@ function updateAdPosition() {
 
 <template>
   <div ref="adsWrapper" class="ad-parent relative flex w-full justify-center cursor-pointer bg-bg">
-    <div class="flex max-h-[250px] min-h-[250px] min-w-[300px] max-w-[300px] flex-col gap-4 p-6">
+    <div class="flex max-h-[150px] min-h-[150px] min-w-[260px] max-w-[260px] flex-col gap-4 p-6">
       <p class="m-0 text-2xl font-bold text-contrast">мы пиздим ваши деньги за рекламу</p>
     </div>
   </div>

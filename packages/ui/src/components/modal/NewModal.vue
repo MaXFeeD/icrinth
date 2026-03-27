@@ -22,7 +22,7 @@
       <div class="modal-body flex flex-col bg-bg-raised rounded-2xl">
         <div
           data-icmods-drag-region
-          class="grid grid-cols-[auto_min-content] items-center gap-12 p-6 border-solid border-0 border-b-[1px] border-divider max-w-full"
+          class="grid grid-cols-[auto_min-content] items-center gap-12 p-6 py-3 border-solid border-0 border-b-[1px] border-divider max-w-full"
         >
           <div class="flex text-wrap break-words items-center gap-3 min-w-0">
             <slot name="title">
@@ -37,7 +37,7 @@
             </button>
           </ButtonStyled>
         </div>
-        <div class="overflow-y-auto p-6">
+        <div class="overflow-y-auto p-3">
           <slot> You just lost the game.</slot>
         </div>
       </div>

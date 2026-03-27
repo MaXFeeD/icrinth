@@ -45,7 +45,7 @@ import AppSettingsModal from '@/components/ui/modal/AppSettingsModal.vue'
 import dayjs from 'dayjs'
 import PromotionWrapper from '@/components/ui/PromotionWrapper.vue'
 import { init_ads_window, hide_ads_window } from '@/helpers/ads.js'
-import FriendsList from '@/components/ui/friends/FriendsList.vue'
+// import FriendsList from '@/components/ui/friends/FriendsList.vue'
 import { openUrl } from '@/helpers/intents'
 import QuickInstanceSwitcher from '@/components/ui/QuickInstanceSwitcher.vue'
 
@@ -121,7 +121,7 @@ async function setupApp() {
   )
 
   useFetch(
-    `https://api.modrinth.com/appCriticalAnnouncement.json?version=${version}`,
+    `https://api.inner-core.org/appCriticalAnnouncement.json?version=${version}`,
     'criticalAnnouncements',
     true,
   ).then((res) => {
@@ -210,9 +210,7 @@ themeStore.$subscribe(() => {
   sidebarToggled.value = !themeStore.toggleSidebar
 })
 
-const forceSidebar = computed(
-  () => route.path.startsWith('/browse') || route.path.startsWith('/project'),
-)
+const forceSidebar = ref(false) // computed(() => route.path.startsWith('/browse') || route.path.startsWith('/project'))
 const sidebarVisible = computed(() => sidebarToggled.value || forceSidebar.value)
 const showAd = computed(() => !(!sidebarVisible.value || hasPlus.value))
 
@@ -310,7 +308,7 @@ function handleAuxClick(e) {
       <InstanceCreationModal ref="installationModal" />
     </Suspense>
     <div
-      class="app-grid-navbar bg-bg-raised flex flex-col p-[0.5rem] pt-0 gap-[0.5rem] w-[--left-bar-width]"
+      class="app-grid-navbar bg-bg-raised flex flex-col p-[0.5rem] pt-0 gap-[0.375rem] w-[--left-bar-width]"
     >
       <NavButton v-tooltip.right="'Home'" to="/">
         <HomeIcon />
@@ -346,37 +344,6 @@ function handleAuxClick(e) {
       >
         <PlusIcon />
       </NavButton>
-      <div class="flex flex-grow"></div>
-      <NavButton v-if="updateAvailable" v-tooltip.right="'Install update'" :to="() => restartApp()">
-        <DownloadIcon />
-      </NavButton>
-      <NavButton v-tooltip.right="'Settings'" :to="() => $refs.settingsModal.show()">
-        <SettingsIcon />
-      </NavButton>
-      <ButtonStyled v-if="credentials" type="transparent" circular>
-        <OverflowMenu
-          :options="[
-            {
-              id: 'sign-out',
-              action: () => logOut(),
-              color: 'danger',
-            },
-          ]"
-          direction="left"
-        >
-          <Avatar
-            :src="credentials.user.avatar_url"
-            :alt="credentials.user.username"
-            size="32px"
-            circle
-          />
-          <template #sign-out> <LogOutIcon /> Sign out </template>
-        </OverflowMenu>
-      </ButtonStyled>
-      <NavButton v-else v-tooltip.right="'Sign in'" :to="() => signIn()">
-        <LogInIcon />
-        <template #label>Sign in</template>
-      </NavButton>
     </div>
     <div data-icmods-drag-region class="app-grid-statusbar bg-bg-raised h-[--top-bar-height] flex">
       <div data-icmods-drag-region class="flex p-3">
@@ -410,6 +377,42 @@ function handleAuxClick(e) {
           >
             <RightArrowIcon />
           </button>
+        </ButtonStyled>
+        <ButtonStyled v-if="updateAvailable" type="standard" circular>
+          <button v-tooltip="'Install update'" class="mr-3" @click="() => restartApp()">
+            <DownloadIcon />
+          </button>
+        </ButtonStyled>
+        <ButtonStyled type="transparent" circular>
+          <button v-tooltip="'Settings'" class="mr-3" @click="() => $refs.settingsModal.show()">
+            <SettingsIcon />
+          </button>
+        </ButtonStyled>
+        <ButtonStyled v-if="credentials" type="transparent" circular>
+          <OverflowMenu
+            :options="[
+              {
+                id: 'sign-out',
+                action: () => logOut(),
+                color: 'danger',
+              },
+            ]"
+            direction="left"
+          >
+            <Avatar
+              :src="credentials.user.avatar_url"
+              :alt="credentials.user.username"
+              size="32px"
+              circle
+            />
+            <template #sign-out> <LogOutIcon /> Sign out </template>
+          </OverflowMenu>
+        </ButtonStyled>
+        <ButtonStyled v-else type="transparent" circular>
+          <button v-tooltip="'Sign in'" class="mr-3" @click="() => signIn()">
+            <LogInIcon />
+          </button>
+          <template #label>Sign in</template>
         </ButtonStyled>
         <div class="flex mr-3">
           <Suspense>
@@ -466,11 +469,11 @@ function handleAuxClick(e) {
       >
         <div id="sidebar-teleport-target" class="sidebar-teleport-content"></div>
         <div class="sidebar-default-content" :class="{ 'sidebar-enabled': sidebarVisible }">
-          <div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
+          <!-- div class="p-4 border-0 border-b-[1px] border-[--brand-gradient-border] border-solid">
             <suspense>
               <FriendsList :credentials="credentials" :sign-in="() => signIn()" />
             </suspense>
-          </div>
+          </div -->
           <div v-if="news && news.length > 0" class="pt-4 flex flex-col">
             <h3 class="px-4 text-lg m-0">News</h3>
             <template v-for="(item, index) in news" :key="`news-${index}`">
@@ -526,7 +529,7 @@ function handleAuxClick(e) {
 .app-contents {
   --top-bar-height: 3rem;
   --left-bar-width: 4rem;
-  --right-bar-width: 300px;
+  --right-bar-width: 260px;
 }
 
 .app-grid-layout {
@@ -564,7 +567,7 @@ function handleAuxClick(e) {
   // transition: grid-template-columns 0.4s ease-in-out;
 
   &.sidebar-enabled {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 260px;
   }
 }
 
@@ -575,7 +578,7 @@ function handleAuxClick(e) {
 
 .app-sidebar {
   overflow: visible;
-  width: 300px;
+  width: 260px;
   position: relative;
   height: calc(100vh - var(--top-bar-height));
   background: var(--brand-gradient-bg);
@@ -589,7 +592,7 @@ function handleAuxClick(e) {
 .app-sidebar::after {
   content: '';
   position: absolute;
-  bottom: 250px;
+  bottom: 150px;
   left: 0;
   right: 0;
   height: 5rem;

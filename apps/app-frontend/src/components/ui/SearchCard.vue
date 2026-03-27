@@ -76,14 +76,12 @@
         <DownloadIcon class="shrink-0" />
         <span>
           {{ formatNumber(project.downloads) }}
-          <span class="text-secondary">downloads</span>
         </span>
       </div>
       <div class="flex items-center gap-2">
         <HeartIcon class="shrink-0" />
         <span>
           {{ formatNumber(project.follows ?? project.followers) }}
-          <span class="text-secondary">followers</span>
         </span>
       </div>
       <div class="mt-auto relative">
@@ -106,7 +104,7 @@
                     ? 'Installed'
                     : modpack || instance
                       ? 'Install'
-                      : 'Add to an modpack'
+                      : 'Add'
               }}
             </button>
           </ButtonStyled>

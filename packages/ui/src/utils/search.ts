@@ -142,6 +142,25 @@ export function useSearch(
     const filterTypes: FilterType[] = [
       ...Object.values(categoryFilters),
       {
+        id: 'game_version',
+        formatted_name: formatMessage(
+          defineMessage({ id: 'search.filter_type.game_version', defaultMessage: 'Game version' }),
+        ),
+        supported_project_types: ALL_PROJECT_TYPES,
+        display: 'scrollable',
+        query_param: 'v',
+        supports_negative_filter: false,
+        searchable: false,
+        options: tags.value.gameVersions
+          .filter((gameVersion) => gameVersion.version_type === 'release')
+          .map((gameVersion) => ({
+            id: gameVersion.version,
+            value: `versions:${gameVersion.version}`,
+            query_value: gameVersion.version,
+            method: 'or',
+          })),
+      },
+      {
         id: 'environment',
         formatted_name: formatMessage(
           defineMessage({ id: 'search.filter_type.environment', defaultMessage: 'Environment' }),
@@ -177,26 +196,6 @@ export function useSearch(
             environment: 'server',
           },
         ],
-      },
-      {
-        id: 'game_version',
-        formatted_name: formatMessage(
-          defineMessage({ id: 'search.filter_type.game_version', defaultMessage: 'Game version' }),
-        ),
-        supported_project_types: ALL_PROJECT_TYPES,
-        display: 'scrollable',
-        query_param: 'v',
-        supports_negative_filter: false,
-        searchable: false,
-        options: tags.value.gameVersions
-          .filter((gameVersion) => gameVersion.version_type === 'release')
-          .map((gameVersion) => ({
-            id: gameVersion.version,
-            value: `versions:${gameVersion.version}`,
-            query_value: gameVersion.version,
-            method: 'or',
-          })),
-        ordering: projectTypes.value.includes('mod') ? 2 : undefined,
       },
       /*
       TODO: Do we really need to support other loaders, like ModPE and such?

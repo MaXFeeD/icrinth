@@ -25,8 +25,8 @@ const featuredCategory = computed(() => {
     return 'optimization'
   }
 
-  if (props.project.categories.length > 0) {
-    return props.project.categories[0]
+  if (props.project.categories.length > 1) {
+    return props.project.categories[1]
   }
   return undefined
 })
@@ -95,15 +95,11 @@ const toTransparent = computed(() => {
         {{ project.description }}
       </p>
       <div class="flex items-center gap-2 text-sm text-secondary font-semibold mt-auto">
-        <div
-          class="flex items-center gap-1 pr-2 border-0 border-r-[1px] border-solid border-button-border"
-        >
+        <div class="flex items-center gap-1 pr-2 border-0">
           <DownloadIcon />
           {{ formatNumber(project.downloads) }}
         </div>
-        <div
-          class="flex items-center gap-1 pr-2 border-0 border-r-[1px] border-solid border-button-border"
-        >
+        <div class="flex items-center gap-1 pr-2 border-0">
           <HeartIcon />
           {{ formatNumber(project.follows) }}
         </div>

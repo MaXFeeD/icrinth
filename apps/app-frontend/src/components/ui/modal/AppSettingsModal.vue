@@ -49,8 +49,8 @@ const tabs = [
   },
   {
     name: defineMessage({
-      id: 'app.settings.tabs.resource-management',
-      defaultMessage: 'Resource management',
+      id: 'app.settings.tabs.performance',
+      defaultMessage: 'Performance',
     }),
     icon: GaugeIcon,
     content: ResourceManagementSettings,
