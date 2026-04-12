@@ -2,8 +2,7 @@
   <div>
     <h1>{{ formatMessage(messages.signUpWithTitle) }}</h1>
 
-    <!-- TODO: Redo third party integrations, probably. -->
-    <!-- section class="third-party">
+    <section class="third-party">
       <a class="btn discord-btn" :href="getAuthUrl('discord', redirectTarget)">
         <SSODiscordIcon />
         <span>Discord</span>
@@ -12,25 +11,25 @@
         <SSOGitHubIcon />
         <span>GitHub</span>
       </a>
-      <a class="btn" :href="getAuthUrl('microsoft', redirectTarget)">
+      <!-- a class="btn" :href="getAuthUrl('microsoft', redirectTarget)">
         <SSOMicrosoftIcon />
         <span>Microsoft</span>
-      </a>
+      </a -->
       <a class="btn" :href="getAuthUrl('google', redirectTarget)">
         <SSOGoogleIcon />
         <span>Google</span>
       </a>
-      <a class="btn" :href="getAuthUrl('steam', redirectTarget)">
+      <!-- a class="btn" :href="getAuthUrl('steam', redirectTarget)">
         <SSOSteamIcon />
         <span>Steam</span>
       </a>
       <a class="btn" :href="getAuthUrl('gitlab', redirectTarget)">
         <SSOGitLabIcon />
         <span>GitLab</span>
-      </a>
+      </a -->
     </section>
 
-    <h1>{{ formatMessage(messages.createAccountTitle) }}</h1 -->
+    <h1>{{ formatMessage(messages.createAccountTitle) }}</h1>
 
     <section class="auth-form">
       <div class="iconified-input">
