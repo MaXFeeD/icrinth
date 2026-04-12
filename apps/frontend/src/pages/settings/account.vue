@@ -585,7 +585,7 @@ const authProviders = [
     display: "GitHub",
     icon: GitHubIcon,
   },
-  {
+  /* {
     id: "gitlab",
     display: "GitLab",
     icon: GitLabIcon,
@@ -594,17 +594,17 @@ const authProviders = [
     id: "steam",
     display: "Steam",
     icon: SteamIcon,
-  },
+  }, */
   {
     id: "discord",
     display: "Discord",
     icon: DiscordIcon,
   },
-  {
+  /* {
     id: "microsoft",
     display: "Microsoft",
     icon: MicrosoftIcon,
-  },
+  }, */
   {
     id: "google",
     display: "Google",
