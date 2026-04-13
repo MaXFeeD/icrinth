@@ -269,7 +269,7 @@ impl AutomatedModerationQueue {
 
                                     let pack: PackFormat = {
                                         let mut file =
-                                            if let Ok(file) = zip.by_name("modrinth.index.json") {
+                                            if let Ok(file) = zip.by_name("icmods.index.json") {
                                                 file
                                             } else {
                                                 continue;

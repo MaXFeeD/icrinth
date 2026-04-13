@@ -158,7 +158,7 @@ impl TestFile {
         {
             let mut zip = ZipWriter::new(&mut cursor);
             zip.start_file(
-                "modrinth.index.json",
+                "icmods.index.json",
                 FileOptions::default()
                     .compression_method(CompressionMethod::Stored),
             )

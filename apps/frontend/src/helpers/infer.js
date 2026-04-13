@@ -33,7 +33,7 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
       };
     },
     // Modpacks, .mrpack requires placing in root folder
-    "/modrinth.index.json": (file) => {
+    "/icmods.index.json": (file) => {
       const metadata = JSON.parse(file);
 
       return {
@@ -85,4 +85,8 @@ export const inferVersionInfo = async function (rawFile, project, gameVersions) 
       return inferFunctions[fileName](text, zip);
     }
   }
+
+  throw new Error(
+    "Invalid project structure. Missing required metadata file (mod.info, modpack.json, or icmods.index.json).",
+  );
 };

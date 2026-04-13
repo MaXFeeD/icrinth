@@ -159,6 +159,7 @@ import {
 } from "@icmods/assets";
 import DropArea from "~/components/ui/DropArea.vue";
 import { acceptFileFromProjectType } from "~/helpers/fileUtils.js";
+import { inferVersionInfo } from "~/helpers/infer.js";
 
 const props = defineProps({
   project: {
@@ -196,6 +197,30 @@ function getPrimaryFile(version) {
 }
 
 async function handleFiles(files) {
+  try {
+    const inferredData = await inferVersionInfo(
+      files[0],
+      props.project,
+      tags.value.gameVersions,
+    );
+
+    if (props.versions && props.versions.length > 0 && props.project.loaders && !props.project.loaders.includes(inferredData.loaders[0])) {
+      throw new Error("Incompatible project type.");
+    }
+  } catch (err) {
+    console.error("Error parsing version file data", err);
+    const data = useNuxtApp();
+    if (data.$notify) {
+      data.$notify({
+        group: "main",
+        title: "Invalid file structure",
+        text: err.message || "Missing required metadata file (mod.info or modpack.json).",
+        type: "error",
+      });
+    }
+    return;
+  }
+
   await router.push({
     name: "type-id-version-version",
     params: {

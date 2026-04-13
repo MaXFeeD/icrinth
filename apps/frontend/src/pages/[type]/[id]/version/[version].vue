@@ -40,14 +40,16 @@
           Auto-featured
         </div>
       </div>
+      <div v-if="newFiles.length === 0 && version.files.length === 0 && !replaceFile" class="known-errors">
+        <ul>
+          <li>Your version must have a file uploaded.</li>
+        </ul>
+      </div>
       <div v-if="fieldErrors && showKnownErrors" class="known-errors">
         <ul>
           <li v-if="version.version_number === ''">Your version must have a version number.</li>
           <li v-if="version.game_versions.length === 0">
             Your version must have the supported Minecraft versions selected.
-          </li>
-          <li v-if="newFiles.length === 0 && version.files.length === 0 && !replaceFile">
-            Your version must have a file uploaded.
           </li>
           <li v-if="version.loaders.length === 0">
             Your version must have the supported mod loaders selected.
@@ -274,7 +276,7 @@
           :accept="acceptFileFromProjectType(project.project_type)"
           :max-size="524288000"
           should-always-reset
-          @change="(x) => (replaceFile = x[0])"
+          @change="(x) => handleFileChange(x[0])"
         >
           <TransferIcon aria-hidden="true" />
         </FileInput>
@@ -399,13 +401,7 @@
             long-style
             :accept="acceptFileFromProjectType(project.project_type)"
             :max-size="524288000"
-            @change="
-              (x) =>
-                x.forEach((y) => {
-                  newFiles.push(y);
-                  newFileTypes.push(null);
-                })
-            "
+            @change="(x) => handleAdditionalFiles(x)"
           >
             <UploadIcon aria-hidden="true" />
           </FileInput>
@@ -466,7 +462,7 @@
           <span v-else>{{ version.version_number }}</span>
         </div>
         <!-- TODO: Do we really need to support other loaders, like ModPE and such? -->
-        <div v-if="isEditing">
+        <!-- div v-if="isEditing">
           <h4>Loaders</h4>
           <Multiselect
             v-if="isEditing"
@@ -491,7 +487,7 @@
             placeholder="Choose loaders..."
           />
           <Categories v-else :categories="version.loaders" :type="project.actualProjectType" />
-        </div>
+        </div -->
         <div>
           <h4>Game versions</h4>
           <template v-if="isEditing">
@@ -727,7 +723,7 @@ export default defineNuxtComponent({
         files: [],
         dependencies: [],
         game_versions: [],
-        loaders: [],
+        loaders: [props.project.project_type === 'modpack' ? 'innercore' : (props.project.project_type === 'server' ? 'zotecore' : 'coreengine')],
         featured: false,
       };
       // For navigation from versions page / upload file prompt
@@ -741,12 +737,25 @@ export default defineNuxtComponent({
             tags.value.gameVersions,
           );
 
+          if (props.versions && props.versions.length > 0 && props.project.loaders && !props.project.loaders.includes(inferredData.loaders[0])) {
+            throw new Error("Incompatible project type.");
+          }
+
           version = {
             ...version,
             ...inferredData,
           };
         } catch (err) {
           console.error("Error parsing version file data", err);
+          replaceFile = null;
+          if (data.$notify) {
+            data.$notify({
+              group: "main",
+              title: "Invalid file structure",
+              text: err.message || "Missing required metadata file (mod.info or modpack.json).",
+              type: "error",
+            });
+          }
         }
       }
     } else if (route.params.version === "latest") {
@@ -890,6 +899,39 @@ export default defineNuxtComponent({
     },
   },
   methods: {
+    async handleFileChange(file) {
+      try {
+        const inferredData = await inferVersionInfo(
+          file,
+          this.project,
+          this.tags.gameVersions,
+        );
+
+        if (this.versions && this.versions.length > 0 && this.project.loaders && !this.project.loaders.includes(inferredData.loaders[0])) {
+          throw new Error("Incompatible project type.");
+        }
+
+        this.version = {
+          ...this.version,
+          ...inferredData,
+        };
+        this.replaceFile = file;
+      } catch (err) {
+        console.error("Error parsing version file data", err);
+        this.$notify({
+          group: "main",
+          title: "Invalid file structure",
+          text: err.message || "Missing required metadata file (mod.info, modpack.json, or icmods.index.json).",
+          type: "error",
+        });
+      }
+    },
+    async handleAdditionalFiles(files) {
+      files.forEach((y) => {
+        this.newFiles.push(y);
+        this.newFileTypes.push(null);
+      });
+    },
     async onImageUpload(file) {
       const response = await useImageUpload(file, { context: "version" });
 

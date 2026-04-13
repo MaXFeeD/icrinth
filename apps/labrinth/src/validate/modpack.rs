@@ -29,7 +29,7 @@ impl super::Validator for ModpackValidator {
     ) -> Result<ValidationResult, ValidationError> {
         let pack: PackFormat = {
             let mut file =
-                if let Ok(file) = archive.by_name("modrinth.index.json") {
+                if let Ok(file) = archive.by_name("icmods.index.json") {
                     file
                 } else {
                     return Ok(ValidationResult::Warning(
