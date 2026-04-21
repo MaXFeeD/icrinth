@@ -55,14 +55,32 @@ impl AnalyticsQueue {
         redis: &RedisPool,
         pool: &PgPool,
     ) -> Result<(), ApiError> {
-        let views_queue = self.views_queue.clone();
-        self.views_queue.clear();
+        let mut views_keys = Vec::new();
+        let mut raw_views = Vec::new();
+        self.views_queue.retain(|key, views| {
+            let extracted_views = std::mem::take(views);
+            if !extracted_views.is_empty() {
+                views_keys.push(*key);
+                raw_views.push((extracted_views, true));
+            }
+            false
+        });
 
-        let downloads_queue = self.downloads_queue.clone();
-        self.downloads_queue.clear();
+        let mut downloads_keys = Vec::new();
+        let raw_downloads = DashMap::new();
+        let mut idx = 0;
+        self.downloads_queue.retain(|key, download| {
+            downloads_keys.push(*key);
+            raw_downloads.insert(idx, download.clone());
+            idx += 1;
+            false
+        });
 
-        let playtime_queue = self.playtime_queue.clone();
-        self.playtime_queue.clear();
+        let mut playtime_queue = Vec::new();
+        self.playtime_queue.retain(|playtime| {
+            playtime_queue.push(playtime.clone());
+            false
+        });
 
         if !playtime_queue.is_empty() {
             let mut transaction = pool.begin().await?;
@@ -71,7 +89,7 @@ impl AnalyticsQueue {
                 sqlx::query!(
                     "INSERT INTO analytics_playtime (recorded, seconds, user_id, project_id, version_id, loader, game_version, parent_id) 
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-                    chrono::DateTime::from_timestamp(playtime.recorded, 0).unwrap_or_default(),
+                    chrono::DateTime::from_timestamp(playtime.recorded / 10000, ((playtime.recorded % 10000) * 100_000) as u32).unwrap_or_default(),
                     playtime.seconds as i32,
                     playtime.user_id as i64,
                     playtime.project_id as i64,
@@ -87,15 +105,7 @@ impl AnalyticsQueue {
             transaction.commit().await?;
         }
 
-        if !views_queue.is_empty() {
-            let mut views_keys = Vec::new();
-            let mut raw_views = Vec::new();
-
-            for (key, views) in views_queue {
-                views_keys.push(key);
-                raw_views.push((views, true));
-            }
-
+        if !views_keys.is_empty() {
             let mut redis =
                 redis.pool.get().await.map_err(DatabaseError::RedisPool)?;
 
@@ -119,14 +129,13 @@ impl AnalyticsQueue {
                         if let Some(count) = count {
                             if count > 3 {
                                 *monetized = false;
-                                continue;
+                                count
+                            } else {
+                                if (count + views.len() as u32) > 3 {
+                                    *monetized = false;
+                                }
+                                count + (views.len() as u32)
                             }
-
-                            if (count + views.len() as u32) > 3 {
-                                *monetized = false;
-                            }
-
-                            count + (views.len() as u32)
                         } else {
                             views.len() as u32
                         }
@@ -155,7 +164,7 @@ impl AnalyticsQueue {
                     sqlx::query!(
                         "INSERT INTO analytics_views (recorded, domain, site_path, user_id, project_id, monetized, ip, country, user_agent, headers) 
                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-                        chrono::DateTime::from_timestamp(view.recorded, 0).unwrap_or_default(),
+                        chrono::DateTime::from_timestamp(view.recorded / 10000, ((view.recorded % 10000) * 100_000) as u32).unwrap_or_default(),
                         view.domain,
                         view.site_path,
                         view.user_id as i64,
@@ -174,17 +183,7 @@ impl AnalyticsQueue {
             transaction.commit().await?;
         }
 
-        if !downloads_queue.is_empty() {
-            let mut downloads_keys = Vec::new();
-            let raw_downloads = DashMap::new();
-
-            for (index, (key, download)) in
-                downloads_queue.into_iter().enumerate()
-            {
-                downloads_keys.push(key);
-                raw_downloads.insert(index, download);
-            }
-
+        if !downloads_keys.is_empty() {
             let mut redis =
                 redis.pool.get().await.map_err(DatabaseError::RedisPool)?;
 
@@ -208,10 +207,10 @@ impl AnalyticsQueue {
                 let new_count = if let Some(count) = count {
                     if count > 5 {
                         raw_downloads.remove(&idx);
-                        continue;
+                        count
+                    } else {
+                        count + 1
                     }
-
-                    count + 1
                 } else {
                     1
                 };
@@ -242,7 +241,7 @@ impl AnalyticsQueue {
                 sqlx::query!(
                     "INSERT INTO analytics_downloads (recorded, domain, site_path, user_id, project_id, version_id, ip, country, user_agent, headers) 
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-                    chrono::DateTime::from_timestamp(download.recorded, 0).unwrap_or_default(),
+                    chrono::DateTime::from_timestamp(download.recorded / 10000, ((download.recorded % 10000) * 100_000) as u32).unwrap_or_default(),
                     download.domain,
                     download.site_path,
                     download.user_id as i64,
