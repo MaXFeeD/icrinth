@@ -68,7 +68,6 @@ pub async fn download_version(
     redis: web::Data<RedisPool>,
     hash_query: web::Query<HashQuery>,
     session_queue: web::Data<AuthQueue>,
-    analytics_queue: web::Data<std::sync::Arc<crate::queue::analytics::AnalyticsQueue>>,
 ) -> Result<HttpResponse, ApiError> {
     // Returns TemporaryRedirect, so no need to convert to V2
     v3::version_file::download_version(
@@ -78,7 +77,6 @@ pub async fn download_version(
         redis,
         hash_query,
         session_queue,
-        analytics_queue,
     )
     .await
     .or_else(v2_reroute::flatten_404_error)

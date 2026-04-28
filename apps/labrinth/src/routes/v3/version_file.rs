@@ -688,7 +688,6 @@ pub async fn download_version(
     redis: web::Data<RedisPool>,
     hash_query: web::Query<HashQuery>,
     session_queue: web::Data<AuthQueue>,
-    analytics_queue: web::Data<std::sync::Arc<crate::queue::analytics::AnalyticsQueue>>,
 ) -> Result<HttpResponse, ApiError> {
     let user_option = get_user_from_headers(
         &req,
@@ -726,40 +725,6 @@ pub async fn download_version(
             {
                 return Err(ApiError::NotFound);
             }
-
-            let ip = crate::util::ip::convert_to_ip_v6(
-                &crate::util::ip::get_peer_addr_from_request(&req).unwrap_or_default()
-            ).unwrap_or_else(|_| std::net::Ipv4Addr::new(127, 0, 0, 1).to_ipv6_mapped());
-
-            let headers = req
-                .headers()
-                .into_iter()
-                .map(|(key, val)| {
-                    (
-                        key.to_string().to_lowercase(),
-                        val.to_str().unwrap_or_default().to_string(),
-                    )
-                })
-                .filter(|x| {
-                    !crate::routes::analytics::FILTERED_HEADERS
-                        .contains(&&*x.0.to_lowercase())
-                })
-                .collect::<Vec<_>>();
-
-            let url_obj = url::Url::parse(&file.url).ok();
-
-            analytics_queue.add_download(crate::models::analytics::Download {
-                recorded: crate::util::date::get_current_tenths_of_ms(),
-                domain: url_obj.as_ref().and_then(|u| u.host_str()).unwrap_or_default().to_string(),
-                site_path: url_obj.as_ref().map(|u| u.path()).unwrap_or_default().to_string(),
-                user_id: user_option.as_ref().map(|u| u.id.0 as u64).unwrap_or(0),
-                project_id: version.inner.project_id.0 as u64,
-                version_id: version.inner.id.0 as u64,
-                ip,
-                country: req.headers().get("cf-ipcountry").and_then(|h| h.to_str().ok()).unwrap_or_default().to_string(),
-                user_agent: req.headers().get("user-agent").and_then(|h| h.to_str().ok()).unwrap_or_default().to_string(),
-                headers,
-            });
 
             Ok(HttpResponse::TemporaryRedirect()
                 .append_header(("Location", &*file.url))
