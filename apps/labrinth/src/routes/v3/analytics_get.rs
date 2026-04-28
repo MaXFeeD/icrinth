@@ -103,7 +103,7 @@ pub async fn playtimes_get(
 
     // Get the views
     let playtimes = crate::database::analytics::fetch_playtimes(
-        project_ids.unwrap_or_default(),
+        project_ids.clone().unwrap_or_default(),
         start_date,
         end_date,
         resolution_minutes,
@@ -170,7 +170,7 @@ pub async fn views_get(
 
     // Get the views
     let views = crate::database::analytics::fetch_views(
-        project_ids.unwrap_or_default(),
+        project_ids.clone().unwrap_or_default(),
         start_date,
         end_date,
         resolution_minutes,
@@ -178,14 +178,21 @@ pub async fn views_get(
     )
     .await?;
 
-    let mut hm = HashMap::new();
+    let mut hm: HashMap<String, HashMap<_, _>> = project_ids
+        .clone()
+        .unwrap_or_default()
+        .into_iter()
+        .map(|x| (to_base62(x.0 as u64), HashMap::new()))
+        .collect();
+
     for views in views {
         let id_string = to_base62(views.id);
-        if !hm.contains_key(&id_string) {
-            hm.insert(id_string.clone(), HashMap::new());
-        }
-        if let Some(hm) = hm.get_mut(&id_string) {
-            hm.insert(views.time, views.total);
+        if let Some(project_hm) = hm.get_mut(&id_string) {
+            project_hm.insert(views.time, views.total);
+        } else {
+            let mut new_hm = HashMap::new();
+            new_hm.insert(views.time, views.total);
+            hm.insert(id_string, new_hm);
         }
     }
 
@@ -238,7 +245,7 @@ pub async fn downloads_get(
 
     // Get the downloads
     let downloads = crate::database::analytics::fetch_downloads(
-        project_ids.unwrap_or_default(),
+        project_ids.clone().unwrap_or_default(),
         start_date,
         end_date,
         resolution_minutes,
@@ -246,14 +253,21 @@ pub async fn downloads_get(
     )
     .await?;
 
-    let mut hm = HashMap::new();
+    let mut hm: HashMap<String, HashMap<_, _>> = project_ids
+        .clone()
+        .unwrap_or_default()
+        .into_iter()
+        .map(|x| (to_base62(x.0 as u64), HashMap::new()))
+        .collect();
+
     for downloads in downloads {
         let id_string = to_base62(downloads.id);
-        if !hm.contains_key(&id_string) {
-            hm.insert(id_string.clone(), HashMap::new());
-        }
-        if let Some(hm) = hm.get_mut(&id_string) {
-            hm.insert(downloads.time, downloads.total);
+        if let Some(project_hm) = hm.get_mut(&id_string) {
+            project_hm.insert(downloads.time, downloads.total);
+        } else {
+            let mut new_hm = HashMap::new();
+            new_hm.insert(downloads.time, downloads.total);
+            hm.insert(id_string, new_hm);
         }
     }
 
@@ -442,7 +456,7 @@ pub async fn countries_downloads_get(
 
     // Get the countries
     let countries = crate::database::analytics::fetch_countries_downloads(
-        project_ids.unwrap_or_default(),
+        project_ids.clone().unwrap_or_default(),
         start_date,
         end_date,
         pool.get_ref(),
@@ -515,7 +529,7 @@ pub async fn countries_views_get(
 
     // Get the countries
     let countries = crate::database::analytics::fetch_countries_views(
-        project_ids.unwrap_or_default(),
+        project_ids.clone().unwrap_or_default(),
         start_date,
         end_date,
         pool.get_ref(),
