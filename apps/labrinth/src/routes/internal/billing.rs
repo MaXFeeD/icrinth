@@ -20,7 +20,7 @@ use chrono::Utc;
 use log::{info, warn};
 use rust_decimal::prelude::ToPrimitive;
 use rust_decimal::Decimal;
-use serde_with::serde_derive::Deserialize;
+use serde::Deserialize;
 use sqlx::{PgPool, Postgres, Transaction};
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
