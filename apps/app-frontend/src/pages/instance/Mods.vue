@@ -183,6 +183,11 @@
           @update:model-value="toggleDisableMod(item.data)"
         />
         <ButtonStyled type="transparent" circular>
+          <button v-tooltip="'Configure'" @click="">
+            <SettingsIcon />
+          </button>
+        </ButtonStyled>
+        <ButtonStyled type="transparent" circular>
           <button v-tooltip="'Remove'" @click="removeMod(item)">
             <TrashIcon />
           </button>
@@ -261,6 +266,7 @@ import {
   LinkIcon,
   MoreVerticalIcon,
   SearchIcon,
+  SettingsIcon,
   ShareIcon,
   SlashIcon,
   TrashIcon,
