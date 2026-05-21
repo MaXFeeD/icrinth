@@ -417,10 +417,10 @@ const initProjects = async (cacheBehaviour?) => {
     newProjects.push({
       path,
       name: file.file_name.replace('.disabled', ''),
-      author: '',
-      version: null,
+      author: file.project_author || '',
+      version: file.project_version || null,
       file_name: file.file_name,
-      icon: null,
+      icon: file.project_icon || null,
       disabled: file.file_name.endsWith('.disabled'),
       outdated: false,
       updated: dayjs(0),
