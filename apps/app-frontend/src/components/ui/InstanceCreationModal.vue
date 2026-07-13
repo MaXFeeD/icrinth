@@ -28,46 +28,6 @@
           maxlength="100"
         />
       </div>
-      <div class="input-row">
-        <p class="input-label">Loader</p>
-        <Chips v-model="loader" :formatLabel="formatCategory" :items="loaders" />
-      </div>
-      <div class="input-row">
-        <p class="input-label">Game version</p>
-        <div class="versions">
-          <multiselect
-            v-model="game_version"
-            class="selector"
-            :options="game_versions"
-            :multiple="false"
-            :searchable="true"
-            placeholder="Select game version"
-            open-direction="top"
-            :show-labels="false"
-          />
-        </div>
-      </div>
-      <div v-if="loader !== 'vanilla'" class="input-row">
-        <p class="input-label">Loader version</p>
-        <Chips v-model="loader_version" :items="['stable', 'latest', 'other']" />
-      </div>
-      <div v-if="loader_version === 'other' && loader !== 'vanilla'">
-        <div v-if="game_version" class="input-row">
-          <p class="input-label">Select version</p>
-          <multiselect
-            v-model="specified_loader_version"
-            class="selector"
-            :options="selectable_versions"
-            :searchable="true"
-            placeholder="Select loader version"
-            open-direction="top"
-            :show-labels="false"
-          />
-        </div>
-        <div v-else class="input-row">
-          <p class="warning">Select a game version before you select a loader version</p>
-        </div>
-      </div>
       <div class="input-group push-right">
         <Button @click="hide()">
           <XIcon />
@@ -88,25 +48,18 @@
 
 <script setup>
 import ModalWrapper from '@/components/ui/modal/ModalWrapper.vue'
-import { CodeIcon, FolderOpenIcon, InfoIcon, PlusIcon, UploadIcon, XIcon } from '@icmods/assets'
-import { Avatar, Button, Checkbox, Chips } from '@icmods/ui'
-import { computed, onUnmounted, ref, shallowRef } from 'vue'
-import { get_loaders, get_game_versions } from '@/helpers/tags'
+import { FolderOpenIcon, InfoIcon, PlusIcon, UploadIcon, XIcon } from '@icmods/assets'
+import { Avatar, Button, Chips } from '@icmods/ui'
+import { computed, onUnmounted, ref } from 'vue'
 import { create } from '@/helpers/profile'
 import { selectFile } from '@/helpers/intents'
 import { pathToUrl } from '@/helpers/utils'
 import { handleError } from '@/store/notifications.js'
-import Multiselect from 'vue-multiselect'
 import { trackEvent } from '@/helpers/analytics'
 import { create_profile_and_install_from_file } from '@/helpers/pack.js'
 import { drag_and_drop_listener } from '@/helpers/events'
-import { formatCategory } from '@icmods/utils'
 
 const profile_name = ref('')
-const game_version = ref('')
-const loader = ref('vanilla')
-const loader_version = ref('stable')
-const specified_loader_version = ref('')
 const icon = ref(null)
 const display_icon = ref(null)
 const creating = ref(false)
@@ -116,13 +69,9 @@ const isShowing = ref(false)
 
 defineExpose({
   show: async () => {
-    game_version.value = ''
-    specified_loader_version.value = ''
     profile_name.value = ''
     creating.value = false
     showSnapshots.value = false
-    loader.value = 'vanilla'
-    loader_version.value = 'stable'
     icon.value = null
     display_icon.value = null
     isShowing.value = true
@@ -162,57 +111,24 @@ onUnmounted(() => {
   }
 })
 
-const [all_game_versions, loaders] = await Promise.all([
-  get_game_versions().then(shallowRef).catch(handleError),
-  get_loaders()
-    .then((value) =>
-      value
-        .filter((item) => item.supported_project_types.includes('modpack'))
-        .map((item) => item.name.toLowerCase()),
-    )
-    .then(ref)
-    .catch(handleError),
-])
-loaders.value.unshift('vanilla')
-
-const game_versions = computed(() => {
-  return all_game_versions.value
-    .filter((item) => item.version_type === 'release' || showSnapshots.value)
-    .map((item) => item.version)
-})
-
 const modal = ref(null)
 
 const check_valid = computed(() => {
-  return (
-    profile_name.value.trim() &&
-    game_version.value &&
-    game_versions.value.includes(game_version.value)
-  )
+  return profile_name.value.trim()
 })
 
 const create_instance = async () => {
   creating.value = true
-  const loader_version_value =
-    loader_version.value === 'other' ? specified_loader_version.value : loader_version.value
-  const loaderVersion = loader.value === 'vanilla' ? null : loader_version_value ?? 'stable'
-
   hide()
   creating.value = false
 
   await create(
     profile_name.value,
-    game_version.value,
-    loader.value,
-    loader.value === 'vanilla' ? null : loader_version_value ?? 'stable',
     icon.value,
   ).catch(handleError)
 
   trackEvent('InstanceCreate', {
     profile_name: profile_name.value,
-    game_version: game_version.value,
-    loader: loader.value,
-    loader_version: loaderVersion,
     has_icon: !!icon.value,
     source: 'CreationModal',
   })
@@ -231,20 +147,6 @@ const reset_icon = () => {
   icon.value = null
   display_icon.value = null
 }
-
-const selectable_versions = computed(() => {
-  switch (game_version.value) {
-    case '1.0.3':
-      return ['1.1.2b42']
-    case '1.11.4':
-      return ['2.1.0b71']
-    case '1.16.201-arm32':
-      return ['2.4.0b123 test']
-    case '1.16.201-arm64':
-      return ['2.4.0b125 arm64-test']
-  }
-  return []
-})
 
 const openFile = async () => {
   const newProject = await open({ multiple: false })

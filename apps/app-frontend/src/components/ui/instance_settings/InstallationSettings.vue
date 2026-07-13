@@ -5,21 +5,19 @@ import {
   HammerIcon,
   DownloadIcon,
   WrenchIcon,
-  UndoIcon,
   SpinnerIcon,
   UnplugIcon,
   UnlinkIcon,
 } from '@icmods/assets'
-import { Avatar, Checkbox, Chips, ButtonStyled, TeleportDropdownMenu } from '@icmods/ui'
-import { computed, type ComputedRef, type Ref, ref, shallowRef, version, watch } from 'vue'
+import { Avatar, ButtonStyled } from '@icmods/ui'
+import { computed, type Ref, ref } from 'vue'
 import { edit, install, update_repair_modrinth } from '@/helpers/profile'
 import { handleError } from '@/store/notifications'
 import { trackEvent } from '@/helpers/analytics'
 import { defineMessages, useVIntl } from '@vintl/vintl'
-import { get_game_versions, get_loaders } from '@/helpers/tags'
+import { get_loaders } from '@/helpers/tags'
 import {
   formatCategory,
-  type GameVersionTag,
   type PlatformTag,
   type Project,
   type Version,
@@ -30,8 +28,6 @@ import ModpackVersionModal from '@/components/ui/ModpackVersionModal.vue'
 import dayjs from 'dayjs'
 import type {
   InstanceSettingsTabProps,
-  ManifestLoaderVersion,
-  Manifest,
 } from '../../../helpers/types'
 
 const { formatMessage } = useVIntl()
@@ -43,15 +39,7 @@ const modalConfirmReinstall = ref()
 
 const props = defineProps<InstanceSettingsTabProps>()
 
-const loader = ref(props.instance.loader)
-const gameVersion = ref(props.instance.game_version)
-
-const showSnapshots = ref(false)
-
-const [all_game_versions, loaders] = await Promise.all([
-  get_game_versions()
-    .then((gameVersions: GameVersionTag[]) => shallowRef(gameVersions))
-    .catch(handleError),
+const [loaders] = await Promise.all([
   get_loaders()
     .then((value: PlatformTag[]) =>
       value
@@ -100,102 +88,6 @@ if (props.instance.linked_data && props.instance.linked_data.project_id && !prop
 const currentLoaderIcon = computed(
   () => loaders?.value.find((x) => x.name === props.instance.loader)?.icon,
 )
-
-const gameVersionsForLoader = computed(() => all_game_versions?.value)
-
-const hasSnapshots = computed(() =>
-  gameVersionsForLoader.value?.some((x) => x.version_type !== 'release'),
-)
-
-const selectableGameVersionNumbers = computed(() => {
-  return gameVersionsForLoader.value
-    ?.filter((x) => x.version_type === 'release' || showSnapshots.value)
-    .map((x) => x.version)
-})
-
-const selectableLoaderVersions: ComputedRef<ManifestLoaderVersion[] | undefined> = computed(() => {
-  switch (gameVersion.value) {
-    case '1.0.3':
-      return [
-        {
-          id: '1.1.2b42',
-          url: '',
-          stable: true,
-        },
-      ]
-    case '1.11.4':
-      return [
-        {
-          id: '2.1.0b71',
-          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore-legacy/pack.zip',
-          stable: true,
-        },
-      ]
-    case '1.16.201-arm32':
-      return [
-        {
-          id: '2.4.0b123 test',
-          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore-test/pack.zip',
-          stable: true,
-        },
-      ]
-    case '1.16.201-arm64':
-      return [
-        {
-          id: '2.4.0b125 arm64-test',
-          url: 'https:/https://gitlab.com/zhekasmirnov/horizon-cloud-config/-/raw/master/innercore64/pack.zip',
-          stable: true,
-        },
-      ]
-  }
-})
-const loaderVersionIndex: Ref<number> = ref(-1)
-
-resetLoaderVersionIndex()
-
-function resetLoaderVersionIndex() {
-  loaderVersionIndex.value =
-    selectableLoaderVersions.value?.findIndex((x) => x.id === props.instance.loader_version) ?? -1
-}
-
-const isChanged = computed(() => {
-  return (
-    loader.value !== props.instance.loader ||
-    gameVersion.value !== props.instance.game_version ||
-    (loader.value !== 'vanilla' &&
-      loaderVersionIndex.value !== undefined &&
-      loaderVersionIndex.value >= 0 &&
-      selectableLoaderVersions.value?.[loaderVersionIndex.value].id !==
-        props.instance.loader_version)
-  )
-})
-
-watch(loader, () => {
-  loaderVersionIndex.value = 0
-})
-
-const editing = ref(false)
-
-async function saveGvLoaderEdits() {
-  editing.value = true
-
-  const editProfile: { loader?: string; game_version?: string; loader_version?: string } = {}
-  editProfile.loader = loader.value
-  editProfile.game_version = gameVersion.value
-
-  if (loader.value !== 'vanilla' && loaderVersionIndex.value !== undefined) {
-    editProfile.loader_version = selectableLoaderVersions.value?.[loaderVersionIndex.value].id
-  } else {
-    loaderVersionIndex.value = -1
-  }
-  console.log('Editing:')
-  console.log(loader.value)
-
-  await edit(props.instance.path, editProfile).catch(handleError)
-  await repairProfile(false)
-
-  editing.value = false
-}
 
 const installing = computed(() => props.instance.install_stage !== 'installed')
 const repairing = ref(false)
@@ -255,30 +147,6 @@ const messages = defineMessages({
     id: 'instance.settings.tabs.installation.currently-installed',
     defaultMessage: 'Currently installed',
   },
-  platform: {
-    id: 'instance.settings.tabs.installation.platform',
-    defaultMessage: 'Platform',
-  },
-  gameVersion: {
-    id: 'instance.settings.tabs.installation.game-version',
-    defaultMessage: 'Game version',
-  },
-  loaderVersion: {
-    id: 'instance.settings.tabs.installation.loader-version',
-    defaultMessage: '{loader} version',
-  },
-  showAllVersions: {
-    id: 'instance.settings.tabs.installation.show-all-versions',
-    defaultMessage: 'Show all versions',
-  },
-  install: {
-    id: 'instance.settings.tabs.installation.install',
-    defaultMessage: 'Install',
-  },
-  resetSelections: {
-    id: 'instance.settings.tabs.installation.reset-selections',
-    defaultMessage: 'Reset to current',
-  },
   unknownVersion: {
     id: 'instance.settings.tabs.installation.unknown-version',
     defaultMessage: '(unknown version)',
@@ -324,26 +192,6 @@ const messages = defineMessages({
     id: 'instance.settings.tabs.installation.change-version.button.installing',
     defaultMessage: 'Installing',
   },
-  installInProgress: {
-    id: 'instance.settings.tabs.installation.install.in-progress',
-    defaultMessage: 'Installation in progress',
-  },
-  installButton: {
-    id: 'instance.settings.tabs.installation.change-version.button.install',
-    defaultMessage: 'Install',
-  },
-  alreadyInstalledVanilla: {
-    id: 'instance.settings.tabs.installation.change-version.already-installed.vanilla',
-    defaultMessage: 'Vanilla {game_version} already installed',
-  },
-  alreadyInstalledModded: {
-    id: 'instance.settings.tabs.installation.change-version.already-installed.modded',
-    defaultMessage: '{platform} {version} for Minecraft {game_version} already installed',
-  },
-  installAction: {
-    id: 'instance.settings.tabs.installation.tooltip.action.install',
-    defaultMessage: 'install',
-  },
   installingNewVersion: {
     id: 'instance.settings.tabs.installation.change-version.in-progress',
     defaultMessage: 'Installing new version',
@@ -351,10 +199,6 @@ const messages = defineMessages({
   minecraftVersion: {
     id: 'instance.settings.tabs.installation.minecraft-version',
     defaultMessage: 'Minecraft {version}',
-  },
-  noLoaderVersions: {
-    id: 'instance.settings.tabs.installation.no-loader-versions',
-    defaultMessage: '{loader} is not available for Minecraft {version}. Try another mod loader.',
   },
   noConnection: {
     id: 'instance.settings.tabs.installation.no-connection',
@@ -602,169 +446,66 @@ const messages = defineMessages({
         </div>
       </template>
     </div>
-    <template v-if="!instance.linked_data || !instance.linked_data.locked">
-      <h2 class="m-0 mt-4 text-lg font-extrabold text-contrast block">
-        {{ formatMessage(messages.platform) }}
+    <template v-if="instance.linked_data && instance.linked_data.locked">
+      <h2 class="mt-4 mb-1 text-lg font-extrabold text-contrast block">
+        {{ formatMessage(messages.unlinkInstanceTitle) }}
       </h2>
-      <Chips
-        v-if="loaders"
-        v-model="loader"
-        :formatLabel="formatCategory"
-        :items="loaders.map((x) => x.name)"
-        class="mt-2"
-      />
-      <h2 class="m-0 mt-4 text-lg font-extrabold text-contrast block">
-        {{ formatMessage(messages.gameVersion) }}
-      </h2>
-      <div class="flex flex-wrap mt-2 gap-2">
-        <TeleportDropdownMenu
-          v-if="selectableGameVersionNumbers !== undefined"
-          v-model="gameVersion"
-          :options="selectableGameVersionNumbers"
-          name="Game Version Dropdown"
-        />
-        <Checkbox
-          v-if="hasSnapshots"
-          v-model="showSnapshots"
-          :label="formatMessage(messages.showAllVersions)"
-        />
-      </div>
-      <template v-if="loader !== 'vanilla'">
-        <h2 class="m-0 mt-4 text-lg font-extrabold text-contrast block">
-          {{ formatMessage(messages.loaderVersion, { loader: formatCategory(loader) }) }}
-        </h2>
-        <TeleportDropdownMenu
-          v-if="selectableLoaderVersions"
-          :model-value="selectableLoaderVersions[loaderVersionIndex]"
-          :options="selectableLoaderVersions"
-          :display-name="(option: ManifestLoaderVersion) => option?.id"
-          name="Version selector"
-          class="mt-2"
-          @change="(value) => (loaderVersionIndex = value.index)"
-        />
-        <div v-else class="mt-2 text-brand-red flex gap-2 items-center">
-          <IssuesIcon />
-          {{ formatMessage(messages.noLoaderVersions, { loader: loader, version: gameVersion }) }}
+      <p class="m-0">
+        {{ formatMessage(messages.unlinkInstanceDescription) }}
+      </p>
+      <ButtonStyled>
+        <button class="mt-2" @click="modalConfirmUnpair.show()">
+          <UnlinkIcon /> {{ formatMessage(messages.unlinkInstanceButton) }}
+        </button>
+      </ButtonStyled>
+      <template v-if="modpackProject">
+        <div>
+          <h2 class="m-0 mb-1 text-lg font-extrabold text-contrast block mt-4">
+            {{ formatMessage(messages.reinstallModpackTitle) }}
+          </h2>
+          <p class="m-0">
+            {{ formatMessage(messages.reinstallModpackDescription) }}
+          </p>
         </div>
-      </template>
-      <div class="mt-4 flex flex-wrap gap-2">
-        <ButtonStyled color="brand">
+        <ButtonStyled color="red" type="outlined">
           <button
             v-tooltip="
-              installing || reinstalling
-                ? formatMessage(messages.installInProgress)
-                : !isChanged
-                  ? formatMessage(
-                      loader === 'vanilla'
-                        ? messages.alreadyInstalledVanilla
-                        : messages.alreadyInstalledModded,
-                      {
-                        platform: formatCategory(loader),
-                        version: instance.loader_version,
-                        game_version: gameVersion,
-                      },
-                    )
-                  : repairing
-                    ? formatMessage(messages.cannotWhileRepairing, {
-                        action: formatMessage(messages.installAction),
+              reinstalling
+                ? formatMessage(messages.reinstallingModpackButton)
+                : repairing
+                  ? formatMessage(messages.cannotWhileRepairing, {
+                      action: formatMessage(messages.reinstallAction),
+                    })
+                  : installing
+                    ? formatMessage(messages.cannotWhileInstalling, {
+                        action: formatMessage(messages.reinstallAction),
                       })
                     : offline
                       ? formatMessage(messages.cannotWhileOffline, {
-                          action: formatMessage(messages.installAction),
+                          action: formatMessage(messages.reinstallAction),
                         })
                       : null
             "
-            :disabled="!isChanged || editing || offline || repairing"
-            @click="saveGvLoaderEdits()"
+            class="mt-2"
+            :disabled="
+              changingVersion ||
+              repairing ||
+              installing ||
+              offline ||
+              fetching ||
+              !modpackVersions
+            "
+            @click="modalConfirmReinstall.show()"
           >
-            <SpinnerIcon v-if="editing" class="animate-spin" />
+            <SpinnerIcon v-if="reinstalling" class="animate-spin" />
             <DownloadIcon v-else />
             {{
-              editing
-                ? formatMessage(messages.installingButton)
-                : formatMessage(messages.installButton)
+              reinstalling
+                ? formatMessage(messages.reinstallingModpackButton)
+                : formatMessage(messages.reinstallModpackButton)
             }}
           </button>
         </ButtonStyled>
-        <ButtonStyled>
-          <button
-            :disabled="!isChanged"
-            @click="
-              () => {
-                loader = instance.loader
-                gameVersion = instance.game_version
-                resetLoaderVersionIndex()
-              }
-            "
-          >
-            <UndoIcon />
-            {{ formatMessage(messages.resetSelections) }}
-          </button>
-        </ButtonStyled>
-      </div>
-    </template>
-    <template v-else>
-      <template v-if="instance.linked_data && instance.linked_data.locked">
-        <h2 class="mt-4 mb-1 text-lg font-extrabold text-contrast block">
-          {{ formatMessage(messages.unlinkInstanceTitle) }}
-        </h2>
-        <p class="m-0">
-          {{ formatMessage(messages.unlinkInstanceDescription) }}
-        </p>
-        <ButtonStyled>
-          <button class="mt-2" @click="modalConfirmUnpair.show()">
-            <UnlinkIcon /> {{ formatMessage(messages.unlinkInstanceButton) }}
-          </button>
-        </ButtonStyled>
-        <template v-if="modpackProject">
-          <div>
-            <h2 class="m-0 mb-1 text-lg font-extrabold text-contrast block mt-4">
-              {{ formatMessage(messages.reinstallModpackTitle) }}
-            </h2>
-            <p class="m-0">
-              {{ formatMessage(messages.reinstallModpackDescription) }}
-            </p>
-          </div>
-          <ButtonStyled color="red" type="outlined">
-            <button
-              v-tooltip="
-                reinstalling
-                  ? formatMessage(messages.reinstallingModpackButton)
-                  : repairing
-                    ? formatMessage(messages.cannotWhileRepairing, {
-                        action: formatMessage(messages.reinstallAction),
-                      })
-                    : installing
-                      ? formatMessage(messages.cannotWhileInstalling, {
-                          action: formatMessage(messages.reinstallAction),
-                        })
-                      : offline
-                        ? formatMessage(messages.cannotWhileOffline, {
-                            action: formatMessage(messages.reinstallAction),
-                          })
-                        : null
-              "
-              class="mt-2"
-              :disabled="
-                changingVersion ||
-                repairing ||
-                installing ||
-                offline ||
-                fetching ||
-                !modpackVersions
-              "
-              @click="modalConfirmReinstall.show()"
-            >
-              <SpinnerIcon v-if="reinstalling" class="animate-spin" />
-              <DownloadIcon v-else />
-              {{
-                reinstalling
-                  ? formatMessage(messages.reinstallingModpackButton)
-                  : formatMessage(messages.reinstallModpackButton)
-              }}
-            </button>
-          </ButtonStyled>
-        </template>
       </template>
     </template>
   </div>

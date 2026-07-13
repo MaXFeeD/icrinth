@@ -10,16 +10,12 @@ import { handleError } from '@/store/notifications.js'
 /// Add instance
 /*
     name: String,           // the name of the modpack, and relative path to create
-    game_version: String,   // the game version of the modpack
-    modloader: ModLoader,   // the modloader to use
-    - ModLoader is an enum, with the following variants: Vanilla, Forge, Fabric, Quilt
-    loader_version: String, // the modloader version to use, set to "latest", "stable", or the ID of your chosen loader
     icon: Path,  // the icon for the modpack
     - icon is a path to an image file, which will be copied into the modpack directory
 */
 
 // eslint-disable-next-line no-unused-vars
-export async function create(title, gameVersion, modloader, loaderVersion, iconPath, skipInstall) {
+export async function create(title, iconPath, skipInstall) {
   // Trim string title to avoid "Unable to find directory"
   title = title.trim()
   return await invoke('plugin:modpack|create', {
