@@ -1,24 +1,25 @@
 <script setup>
+import ContextMenu from '@/components/ui/ContextMenu.vue'
 import Instance from '@/components/ui/Instance.vue'
-import { computed, ref } from 'vue'
+import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
+import { duplicate, remove } from '@/helpers/profile.js'
+import { handleError } from '@/store/notifications.js'
 import {
+  AlignLeftIcon,
   ClipboardCopyIcon,
+  EyeIcon,
   FolderOpenIcon,
   PlayIcon,
   PlusIcon,
-  TrashIcon,
-  StopCircleIcon,
-  EyeIcon,
   SearchIcon,
+  StopCircleIcon,
+  TextQuoteIcon,
+  TrashIcon,
   XIcon,
 } from '@icmods/assets'
 import { Button, DropdownSelect } from '@icmods/ui'
-import { formatCategoryHeader } from '@icmods/utils'
-import ContextMenu from '@/components/ui/ContextMenu.vue'
 import dayjs from 'dayjs'
-import { duplicate, remove } from '@/helpers/profile.js'
-import { handleError } from '@/store/notifications.js'
-import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   instances: {
@@ -134,12 +135,6 @@ const filteredResults = computed(() => {
     })
   }
 
-  if (sortBy.value === 'Game version') {
-    instances.sort((a, b) => {
-      return a.game_version.localeCompare(b.game_version)
-    })
-  }
-
   if (sortBy.value === 'Last played') {
     instances.sort((a, b) => {
       return dayjs(b.last_played ?? 0).diff(dayjs(a.last_played ?? 0))
@@ -160,24 +155,7 @@ const filteredResults = computed(() => {
 
   const instanceMap = new Map()
 
-  if (group.value === 'Loader') {
-    instances.forEach((instance) => {
-      const loader = formatCategoryHeader(instance.loader)
-      if (!instanceMap.has(loader)) {
-        instanceMap.set(loader, [])
-      }
-
-      instanceMap.get(loader).push(instance)
-    })
-  } else if (group.value === 'Game version') {
-    instances.forEach((instance) => {
-      if (!instanceMap.has(instance.game_version)) {
-        instanceMap.set(instance.game_version, [])
-      }
-
-      instanceMap.get(instance.game_version).push(instance)
-    })
-  } else if (group.value === 'Group') {
+  if (group.value === 'Group') {
     instances.forEach((instance) => {
       if (instance.groups.length === 0) {
         instance.groups.push('None')
@@ -231,23 +209,21 @@ const filteredResults = computed(() => {
       v-model="sortBy"
       name="Sort Dropdown"
       class="max-w-[16rem]"
-      :options="['Name', 'Last played', 'Date created', 'Date modified', 'Game version']"
+      :options="['Name', 'Last played', 'Date created', 'Date modified']"
       placeholder="Select..."
     >
       <span class="font-semibold text-primary">Sort by: </span>
       <span class="font-semibold text-secondary">{{ selected }}</span>
     </DropdownSelect>
-    <DropdownSelect
-      v-slot="{ selected }"
-      v-model="group"
-      class="max-w-[16rem]"
-      name="Group Dropdown"
-      :options="['Group', 'Loader', 'Game version', 'None']"
-      placeholder="Select..."
+    <Button
+      icon-only
+      class="h-[40px] w-[40px] shrink-0"
+      v-tooltip="group === 'Group' ? 'Ungroup' : 'Group by category'"
+      @click="group = group === 'Group' ? 'None' : 'Group'"
     >
-      <span class="font-semibold text-primary">Group by: </span>
-      <span class="font-semibold text-secondary">{{ selected }}</span>
-    </DropdownSelect>
+      <TextQuoteIcon v-if="group === 'Group'" class="w-5 h-5" />
+      <AlignLeftIcon v-else class="w-5 h-5" />
+    </Button>
   </div>
   <div
     v-for="instanceSection in Array.from(filteredResults, ([key, value]) => ({
