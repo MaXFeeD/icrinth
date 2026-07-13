@@ -14,7 +14,8 @@ function throwUnsupportedError(message) {
 
 export function execute(cmd, args = {}) {
   if (window.__ICMODS_BRIDGE__ != null) {
-    const payload = window.__ICMODS_BRIDGE__.execute(cmd, JSON.stringify(args))
+    const payloadJson = window.__ICMODS_BRIDGE__.execute(cmd, JSON.stringify(args))
+    const payload = JSON.parse(payloadJson)
     if (payload.error != null) {
       throw new Error(payload.error + ' (cmd=' + cmd + ')')
     }
