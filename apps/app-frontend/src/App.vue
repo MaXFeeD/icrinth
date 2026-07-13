@@ -55,14 +55,6 @@ const news = ref([])
 
 const urlModal = ref(null)
 
-const offline = ref(!navigator.onLine)
-window.addEventListener('offline', () => {
-  offline.value = true
-})
-window.addEventListener('online', () => {
-  offline.value = false
-})
-
 const showOnboarding = ref(false)
 
 const stateInitialized = ref(false)
@@ -308,7 +300,7 @@ function handleAuxClick(e) {
       <InstanceCreationModal ref="installationModal" />
     </Suspense>
     <div
-      class="app-grid-navbar bg-bg-raised flex flex-col p-[0.5rem] pt-0 gap-[0.375rem] w-[--left-bar-width]"
+      class="app-grid-navbar bg-bg-raised overflow-y-auto overflow-x-hidden flex flex-col p-[0.5rem] pt-0 gap-[0.375rem] w-[--left-bar-width]"
     >
       <NavButton v-tooltip.right="'Home'" to="/">
         <HomeIcon />
@@ -340,7 +332,6 @@ function handleAuxClick(e) {
       <NavButton
         v-tooltip.right="'Create new modpack'"
         :to="() => $refs.installationModal.show()"
-        :disabled="offline"
       >
         <PlusIcon />
       </NavButton>

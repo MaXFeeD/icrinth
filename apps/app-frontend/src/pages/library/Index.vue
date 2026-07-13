@@ -37,15 +37,21 @@ onUnmounted(() => {
 <template>
   <div class="p-6 flex flex-col gap-3">
     <h1 class="m-0 text-2xl hidden">Library</h1>
-    <NavTabs
-      :links="[
-        { label: 'All modpacks', href: `/library` },
-        { label: 'Downloaded', href: `/library/downloaded` },
-        { label: 'Custom', href: `/library/custom` },
-        { label: 'Shared with me', href: `/library/shared`, shown: false },
-        { label: 'Saved', href: `/library/saved`, shown: false },
-      ]"
-    />
+    <div class="category-container flex items-center gap-3">
+      <NavTabs
+        :links="[
+          { label: 'All modpacks', href: `/library` },
+          { label: 'Downloaded', href: `/library/downloaded` },
+          { label: 'Custom', href: `/library/custom` },
+          { label: 'Shared with me', href: `/library/shared`, shown: false },
+          { label: 'Saved', href: `/library/saved`, shown: false },
+        ]"
+      />
+      <Button color="primary" class="shrink-0" @click="$refs.installationModal.show()">
+        <PlusIcon />
+        <span class="create-text">Create modpack</span>
+      </Button>
+    </div>
     <template v-if="instances.length > 0">
       <RouterView :instances="instances" />
     </template>
@@ -54,16 +60,27 @@ onUnmounted(() => {
         <NewInstanceImage />
       </div>
       <h3>No modpacks found</h3>
-      <Button color="primary" :disabled="offline" @click="$refs.installationModal.show()">
+      <Button color="primary" @click="$refs.installationModal.show()">
         <PlusIcon />
         Create new modpack
       </Button>
-      <InstanceCreationModal ref="installationModal" />
     </div>
+
+    <InstanceCreationModal ref="installationModal" />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.category-container {
+  container-type: inline-size;
+}
+
+.create-text {
+  @container (max-width: 512px) {
+    display: none;
+  }
+}
+
 .no-instance {
   display: flex;
   flex-direction: column;
