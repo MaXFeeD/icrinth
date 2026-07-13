@@ -1,12 +1,11 @@
 <script setup>
-import { Button, Slider } from '@icmods/ui'
+import { Slider } from '@icmods/ui'
 import { ref, watch } from 'vue'
 import { get, set } from '@/helpers/settings.js'
 import { purge_cache_types } from '@/helpers/cache.js'
 import { handleError } from '@/store/notifications.js'
-import { BoxIcon, FolderSearchIcon, TrashIcon } from '@icmods/assets'
+import { TrashIcon } from '@icmods/assets'
 import ConfirmModalWrapper from '@/components/ui/modal/ConfirmModalWrapper.vue'
-import { selectFolder } from '@/helpers/intents'
 
 const settings = ref(await get())
 
@@ -14,11 +13,6 @@ watch(
   settings,
   async () => {
     const setSettings = JSON.parse(JSON.stringify(settings.value))
-
-    if (!setSettings.custom_dir) {
-      setSettings.custom_dir = null
-    }
-
     await set(setSettings)
   },
   { deep: true },
@@ -42,32 +36,9 @@ async function purgeCache() {
     'search_results',
   ]).catch(handleError)
 }
-
-async function findLauncherDir() {
-  const newDir = await selectFolder()
-  if (newDir) {
-    settings.value.custom_dir = newDir
-  }
-}
 </script>
 
 <template>
-  <h2 class="m-0 text-lg font-extrabold text-contrast">App directory</h2>
-  <p class="m-0 mt-1 mb-2 leading-tight text-secondary">
-    The directory where the launcher stores all of its files. Changes will be applied after
-    restarting the launcher.
-  </p>
-
-  <div class="m-1 my-2">
-    <div class="iconified-input w-full">
-      <BoxIcon />
-      <input id="appDir" v-model="settings.custom_dir" type="text" class="input" />
-      <Button class="r-btn" @click="findLauncherDir">
-        <FolderSearchIcon />
-      </Button>
-    </div>
-  </div>
-
   <div>
     <ConfirmModalWrapper
       ref="purgeCacheConfirmModal"
