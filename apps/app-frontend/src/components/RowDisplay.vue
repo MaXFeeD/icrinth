@@ -219,9 +219,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', calculateCardsPerRow)
-  if (resizeObserver.value) {
+  if (resizeObserver.value && rowContainer.value) {
     resizeObserver.value.unobserve(rowContainer.value)
-    resizeObserver = null
+    resizeObserver.value = null
   }
 })
 </script>
