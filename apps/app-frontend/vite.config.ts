@@ -8,7 +8,7 @@ const projectRootDir = resolve(__dirname)
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/',
   resolve: {
     alias: [
       {
