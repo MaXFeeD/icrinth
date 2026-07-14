@@ -18,14 +18,6 @@ breadcrumbs.setRootContext({ name: 'Library', link: route.path })
 
 const instances = shallowRef(await list().catch(handleError))
 
-const offline = ref(!navigator.onLine)
-window.addEventListener('offline', () => {
-  offline.value = true
-})
-window.addEventListener('online', () => {
-  offline.value = false
-})
-
 const unlistenProfile = profile_listener(async () => {
   instances.value = await list().catch(handleError)
 })
@@ -37,21 +29,16 @@ onUnmounted(() => {
 <template>
   <div class="p-6 flex flex-col gap-3">
     <h1 class="m-0 text-2xl hidden">Library</h1>
-    <div class="category-container flex items-center gap-3">
-      <NavTabs
-        :links="[
-          { label: 'All modpacks', href: `/library` },
-          { label: 'Downloaded', href: `/library/downloaded` },
-          { label: 'Custom', href: `/library/custom` },
-          { label: 'Shared with me', href: `/library/shared`, shown: false },
-          { label: 'Saved', href: `/library/saved`, shown: false },
-        ]"
-      />
-      <Button color="primary" class="shrink-0" @click="$refs.installationModal.show()">
-        <PlusIcon />
-        <span class="create-text">Create modpack</span>
-      </Button>
-    </div>
+    <NavTabs
+      :links="[
+        { label: 'All modpacks', href: `/library` },
+        { label: 'Downloaded', href: `/library/downloaded` },
+        { label: 'Custom', href: `/library/custom` },
+        { label: 'Archived', href: `/library/archived` },
+        { label: 'Shared with me', href: `/library/shared`, shown: false },
+        { label: 'Saved', href: `/library/saved`, shown: false },
+      ]"
+    />
     <template v-if="instances.length > 0">
       <RouterView :instances="instances" />
     </template>
@@ -71,16 +58,6 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.category-container {
-  container-type: inline-size;
-}
-
-.create-text {
-  @container (max-width: 512px) {
-    display: none;
-  }
-}
-
 .no-instance {
   display: flex;
   flex-direction: column;

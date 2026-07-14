@@ -12,6 +12,6 @@ defineProps({
   <GridDisplay
     v-if="instances.length > 0"
     label="Modpacks"
-    :instances="instances.filter((i) => i.linked_data)"
+    :instances="instances.filter((i) => i.install_stage === 'archived')"
   />
 </template>
