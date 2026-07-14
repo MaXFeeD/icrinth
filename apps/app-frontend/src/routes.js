@@ -49,6 +49,11 @@ export default new createRouter({
           name: 'Custom',
           component: Library.Custom,
         },
+        {
+          path: 'archived',
+          name: 'Archived',
+          component: Library.Archived,
+        },
       ],
     },
     {

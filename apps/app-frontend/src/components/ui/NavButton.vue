@@ -3,18 +3,19 @@
     v-if="typeof to === 'string'"
     :to="to"
     v-bind="$attrs"
+    draggable="false"
     :class="{
       'router-link-active': isPrimary && isPrimary(route),
       'subpage-active': isSubpage && isSubpage(route),
     }"
-    class="w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all bg-transparent hover:bg-button-bg hover:text-contrast"
+    class="w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all bg-transparent hover:bg-button-bg hover:text-contrast shrink-0"
   >
     <slot />
   </RouterLink>
   <button
     v-else
     v-bind="$attrs"
-    class="button-animation border-none text-primary cursor-pointer w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all bg-transparent hover:bg-button-bg hover:text-contrast"
+    class="button-animation border-none text-primary cursor-pointer w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all bg-transparent hover:bg-button-bg hover:text-contrast shrink-0"
     @click="to"
   >
     <slot />

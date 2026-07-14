@@ -177,6 +177,7 @@
         </ButtonStyled>
         <div v-else class="w-[36px]"></div>
         <Toggle
+          :id="'mod-' + (item.data.id || item.path) + '-toggle'"
           class="!mx-2"
           :model-value="!item.data.disabled"
           :checked="!item.data.disabled"
@@ -333,6 +334,8 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  playing: Boolean,
+  installed: Boolean
 })
 
 const isPackLocked = computed(() => {

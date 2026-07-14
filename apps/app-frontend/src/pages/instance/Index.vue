@@ -193,6 +193,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import ExportModal from '@/components/ui/ExportModal.vue'
 import InstanceSettingsModal from '@/components/ui/modal/InstanceSettingsModal.vue'
 
+const props = defineProps(['id'])
+
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
