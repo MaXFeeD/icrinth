@@ -1,6 +1,7 @@
 <script setup>
 import {
   ClipboardCopyIcon,
+  CopyIcon,
   FolderOpenIcon,
   PlayIcon,
   PlusIcon,
@@ -47,9 +48,7 @@ const actualInstances = computed(() =>
   props.instances.filter((x) => x && x.instances && x.instances[0]),
 )
 
-const modsRow = ref(null)
 const instanceOptions = ref(null)
-const instanceComponents = ref(null)
 const rows = ref(null)
 const deleteConfirmModal = ref(null)
 
@@ -68,12 +67,7 @@ async function duplicateProfile(p) {
 const handleInstanceRightClick = async (event, passedInstance) => {
   const baseOptions = [
     { name: 'add_content' },
-    { type: 'divider' },
-    { name: 'edit' },
     { name: 'duplicate' },
-    { name: 'open_folder' },
-    { name: 'copy_path' },
-    { type: 'divider' },
     {
       name: 'delete',
       color: 'danger',
@@ -108,7 +102,6 @@ const handleProjectClick = (event, passedInstance) => {
       name: 'install',
       color: 'primary',
     },
-    { type: 'divider' },
     {
       name: 'open_link',
     },
@@ -284,7 +277,7 @@ onUnmounted(() => {
     <template #edit> <EyeIcon /> View modpack </template>
     <template #delete> <TrashIcon /> Delete </template>
     <template #open_folder> <FolderOpenIcon /> Open folder </template>
-    <template #duplicate> <ClipboardCopyIcon /> Duplicate modpack</template>
+    <template #duplicate> <CopyIcon /> Duplicate modpack</template>
     <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #install> <DownloadIcon /> Install </template>
     <template #open_link> <GlobeIcon /> Open in browser <ExternalIcon /> </template>

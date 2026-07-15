@@ -3,7 +3,6 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   DownloadIcon,
-  GameIcon,
   PlayIcon,
   SpinnerIcon,
   StopCircleIcon,
@@ -20,7 +19,6 @@ import { handleSevereError } from '@/store/error.js'
 import { trackEvent } from '@/helpers/analytics'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatCategory } from '@icmods/utils'
 
 dayjs.extend(relativeTime)
 
@@ -230,16 +228,13 @@ onUnmounted(() => unlisten())
           </ButtonStyled>
         </div>
       </div>
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col gap-1 justify-center">
         <p class="m-0 text-md font-bold text-contrast leading-tight line-clamp-1">
           {{ instance.name }}
         </p>
-        <div class="flex items-center col-span-3 gap-1 text-secondary font-semibold mt-auto">
-          <GameIcon class="shrink-0" />
-          <span class="text-sm">
-            {{ formatCategory(instance.loader) }} {{ instance.game_version }}
-          </span>
-        </div>
+        <span v-if="instance.author" class="text-sm text-secondary font-semibold">
+          by {{ instance.author }}
+        </span>
       </div>
     </div>
   </div>

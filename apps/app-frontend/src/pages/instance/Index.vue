@@ -11,14 +11,10 @@
       <template #title>
         {{ instance.name }}
       </template>
-      <template #summary> </template>
+      <template #summary v-if="instance.description && instance.description.length > 0">
+        {{ instance.description }}
+      </template>
       <template #stats>
-        <div
-          class="flex items-center gap-2 font-semibold transform border-0 border-solid border-divider pr-4 md:border-r"
-        >
-          <GameIcon class="h-6 w-6 text-secondary" />
-          {{ formatCategory(instance.loader) }} {{ instance.game_version }}
-        </div>
         <div class="flex items-center gap-2 font-semibold">
           <TimerIcon class="h-6 w-6 text-secondary" />
           <template v-if="timePlayed > 0">
@@ -165,7 +161,6 @@ import {
   ExternalIcon,
   EyeIcon,
   FolderOpenIcon,
-  GameIcon,
   GlobeIcon,
   HashIcon,
   MoreVerticalIcon,
@@ -193,7 +188,6 @@ import NavTabs from '@/components/ui/NavTabs.vue'
 import { trackEvent } from '@/helpers/analytics'
 import { handleSevereError } from '@/store/error.js'
 import { get_project, get_version_many } from '@/helpers/cache.js'
-import { formatCategory } from '@icmods/utils'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'

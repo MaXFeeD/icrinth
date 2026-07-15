@@ -7,8 +7,7 @@ import { handleError } from '@/store/notifications.js'
 import {
   AlignLeftIcon,
   ClipboardCopyIcon,
-  EyeIcon,
-  FolderOpenIcon,
+  CopyIcon,
   PlayIcon,
   PlusIcon,
   SearchIcon,
@@ -57,7 +56,6 @@ const handleRightClick = (event, profilePathId) => {
   const baseOptions = [
     { name: 'add_content' },
     { name: 'duplicate' },
-    { name: 'copy' },
     {
       name: 'delete',
       color: 'danger',
@@ -103,7 +101,7 @@ const handleOptionsClick = async (args) => {
     case 'open':
       await args.item.openFolder()
       break
-    case 'copy':
+    case 'copy_path':
       await navigator.clipboard.writeText(args.item.instance.path)
       break
     case 'delete':
@@ -201,7 +199,7 @@ const filteredResults = computed(() => {
       v-slot="{ selected }"
       v-model="sortBy"
       name="Sort Dropdown"
-      class="max-w-[14rem]"
+      class="max-w-[15rem]"
       :options="['Name', 'Last played', 'Date created', 'Date modified']"
       placeholder="Select..."
     >
@@ -251,8 +249,8 @@ const filteredResults = computed(() => {
     <template #play> <PlayIcon /> Play </template>
     <template #stop> <StopCircleIcon /> Stop </template>
     <template #add_content> <PlusIcon /> Add content </template>
-    <template #duplicate> <ClipboardCopyIcon /> Duplicate modpack</template>
-    <template #copy> <ClipboardCopyIcon /> Copy path </template>
+    <template #duplicate> <CopyIcon /> Duplicate modpack</template>
+    <template #copy_path> <ClipboardCopyIcon /> Copy path </template>
     <template #delete> <TrashIcon /> Delete </template>
   </ContextMenu>
 </template>

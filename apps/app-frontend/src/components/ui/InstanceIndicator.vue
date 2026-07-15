@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { pathToUrl } from '@/helpers/utils'
-import { formatCategory } from '@icmods/utils'
-import { GameIcon, LeftArrowIcon } from '@icmods/assets'
+import { PackageIcon, LeftArrowIcon } from '@icmods/assets'
 import { Avatar, ButtonStyled } from '@icmods/ui'
 
 type Instance = {
   game_version: string
   loader: string
+  loader_version: string
   path: string
   install_stage: string
   icon_path?: string
@@ -25,19 +25,19 @@ defineProps<{
       tabindex="-1"
       class="flex flex-col gap-4 text-primary"
     >
-      <span class="flex items-center gap-2">
+      <span class="flex items-center gap-3">
         <Avatar
           :src="instance.icon_path ? pathToUrl(instance.icon_path) : undefined"
           :alt="instance.name"
           size="48px"
         />
-        <span class="flex flex-col gap-2">
+        <span class="flex flex-col gap-1">
           <span class="font-extrabold bold text-contrast">
             {{ instance.name }}
           </span>
           <span class="text-secondary flex items-center gap-2 font-semibold">
-            <GameIcon class="h-5 w-5 text-secondary" />
-            {{ formatCategory(instance.loader) }} {{ instance.game_version }}
+            <PackageIcon class="h-5 w-5 text-secondary" />
+            {{ instance.loader_version }}
           </span>
         </span>
       </span>

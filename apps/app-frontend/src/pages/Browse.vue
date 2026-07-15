@@ -416,7 +416,7 @@ await refreshSearch()
       <InstanceIndicator :instance="instance" />
       <h1 class="m-0 mb-1 text-xl">Install content to modpack</h1>
     </template>
-    <NavTabs v-if="selectableProjectTypes.length > 1" :links="selectableProjectTypes" />
+    <NavTabs :links="selectableProjectTypes" />
     <div class="iconified-input">
       <SearchIcon aria-hidden="true" class="text-lg" />
       <input

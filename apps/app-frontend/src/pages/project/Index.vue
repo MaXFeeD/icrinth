@@ -252,9 +252,6 @@ const handleRightClick = (event) => {
       name: 'install',
     },
     {
-      type: 'divider',
-    },
-    {
       name: 'open_link',
     },
     {
