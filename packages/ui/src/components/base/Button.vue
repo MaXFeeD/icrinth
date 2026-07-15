@@ -23,6 +23,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  toolbar: {
+    type: Boolean,
+    default: false,
+  },
   large: {
     type: Boolean,
     default: false,
@@ -53,6 +57,7 @@ const classes = computed(() => {
   const color = props.color
   return {
     'icon-only': props.iconOnly,
+    'btn-toolbar': props.toolbar,
     'btn-large': props.large,
     'btn-danger': color === 'danger',
     'btn-primary': color === 'primary',

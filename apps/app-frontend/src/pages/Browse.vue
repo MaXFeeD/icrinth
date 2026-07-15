@@ -281,23 +281,12 @@ watch(
 )
 
 const selectableProjectTypes = computed(() => {
-  let dataPacks = false,
-    mods = false,
+  let mods = false,
     modpacks = false
 
   if (instance.value) {
-    if (
-      availableGameVersions.value.findIndex((x) => x.version === instance.value.game_version) <=
-      availableGameVersions.value.findIndex((x) => x.version === '1.13')
-    ) {
-      dataPacks = true
-    }
-
-    if (instance.value.loader !== 'vanilla') {
-      mods = true
-    }
+    mods = true
   } else {
-    dataPacks = true
     mods = true
     modpacks = true
   }
@@ -427,7 +416,7 @@ await refreshSearch()
       <InstanceIndicator :instance="instance" />
       <h1 class="m-0 mb-1 text-xl">Install content to modpack</h1>
     </template>
-    <NavTabs :links="selectableProjectTypes" />
+    <NavTabs v-if="selectableProjectTypes.length > 1" :links="selectableProjectTypes" />
     <div class="iconified-input">
       <SearchIcon aria-hidden="true" class="text-lg" />
       <input

@@ -1,7 +1,6 @@
 <template>
   <div
     class="p-6 pr-2 pb-4"
-    @contextmenu.prevent.stop="(event) => handleRightClick(event, instance.path)"
   >
     <ExportModal ref="exportModal" :instance="instance" />
     <InstanceSettingsModal ref="settingsModal" :instance="instance" :offline="offline" />
@@ -86,6 +85,13 @@
                   id: 'export-mrpack',
                   action: () => $refs.exportModal.show(),
                 },
+                {
+                  id: 'copy-path',
+                  action: async () => {
+                    const fullPath = await get_full_path(instance.value.path)
+                    await navigator.clipboard.writeText(fullPath)
+                  },
+                },
               ]"
             >
               <MoreVerticalIcon />
@@ -93,6 +99,7 @@
               <template #host-a-server> <ServerIcon /> Create a server </template>
               <template #open-folder> <FolderOpenIcon /> Open folder </template>
               <template #export-mrpack> <PackageIcon /> Export modpack </template>
+              <template #copy-path> <ClipboardCopyIcon /> Copy path </template>
             </OverflowMenu>
           </ButtonStyled>
         </div>
@@ -310,36 +317,6 @@ const repairInstance = async () => {
   await finish_install(instance.value)
 }
 
-const handleRightClick = (event) => {
-  const baseOptions = [
-    { name: 'add_content' },
-    { type: 'divider' },
-    { name: 'edit' },
-    { name: 'open_folder' },
-    { name: 'copy_path' },
-  ]
-
-  options.value.showMenu(
-    event,
-    instance.value,
-    playing.value
-      ? [
-          {
-            name: 'stop',
-            color: 'danger',
-          },
-          ...baseOptions,
-        ]
-      : [
-          {
-            name: 'play',
-            color: 'primary',
-          },
-          ...baseOptions,
-        ],
-  )
-}
-
 const handleOptionsClick = async (args) => {
   switch (args.option) {
     case 'play':
@@ -350,14 +327,12 @@ const handleOptionsClick = async (args) => {
       break
     case 'add_content':
       await router.push({
-        path: `/browse/${instance.value.loader === 'vanilla' ? 'datapack' : 'mod'}`,
+        path: '/browse/mod',
         query: { i: route.params.id },
       })
       break
     case 'edit':
-      await router.push({
-        path: `/instance/${encodeURIComponent(route.params.id)}/options`,
-      })
+      settingsModal.value.show()
       break
     case 'open_folder':
       await showProfileInFolder(instance.value.path)

@@ -9,22 +9,25 @@
         top: top,
       }"
     >
-      <div v-for="(option, index) in options" :key="index" @click.stop="optionClicked(option.name)">
-        <hr v-if="option.type === 'divider'" class="divider" />
-        <div
+      <template v-for="(option, index) in options" :key="index">
+        <div v-if="option.type === 'divider'" class="h-px mx-3 my-2 bg-button-bg"></div>
+        <Button
           v-else-if="!(isLinkedData(item) && option.name === `add_content`)"
-          class="item clickable"
-          :class="[option.color ?? 'base']"
+          transparent
+          :color="option.color && option.color !== 'base' ? option.color : 'default'"
+          class="context-btn"
+          @click.stop="optionClicked(option.name)"
         >
           <slot :name="option.name" />
-        </div>
-      </div>
+        </Button>
+      </template>
     </div>
   </transition>
 </template>
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { Button } from '@icmods/ui'
 
 const emit = defineEmits(['menu-closed', 'option-clicked'])
 
@@ -114,53 +117,21 @@ onBeforeUnmount(() => {
   background-color: var(--color-raised-bg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-floating);
-  border: 1px solid var(--color-button-bg);
   margin: 0;
   position: fixed;
   z-index: 1000000;
   overflow: hidden;
   padding: var(--gap-sm);
 
-  .item {
-    align-items: center;
-    color: var(--color-base);
-    cursor: pointer;
-    display: flex;
-    gap: var(--gap-sm);
-    padding: var(--gap-sm);
-    border-radius: var(--radius-sm);
+  .context-btn {
+    white-space: nowrap;
+    width: 100%;
+    box-shadow: none;
+    justify-content: flex-start;
 
-    &:hover,
-    &:active {
-      &.base {
-        background-color: var(--color-button-bg);
-        color: var(--color-contrast);
-      }
-
-      &.primary {
-        background-color: var(--color-brand);
-        color: var(--color-accent-contrast);
-        font-weight: bold;
-      }
-
-      &.danger {
-        background-color: var(--color-red);
-        color: var(--color-accent-contrast);
-        font-weight: bold;
-      }
-
-      &.contrast {
-        background-color: var(--color-orange);
-        color: var(--color-accent-contrast);
-        font-weight: bold;
-      }
+    &:not(:last-child) {
+      margin-bottom: var(--gap-xs);
     }
-  }
-
-  .divider {
-    border: 1px solid var(--color-button-bg);
-    margin: var(--gap-sm);
-    pointer-events: none;
   }
 }
 

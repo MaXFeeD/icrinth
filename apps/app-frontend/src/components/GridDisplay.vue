@@ -56,12 +56,8 @@ const handleRightClick = (event, profilePathId) => {
   const item = instanceComponents.value.find((x) => x.instance.path === profilePathId)
   const baseOptions = [
     { name: 'add_content' },
-    { type: 'divider' },
-    { name: 'edit' },
     { name: 'duplicate' },
-    { name: 'open' },
     { name: 'copy' },
-    { type: 'divider' },
     {
       name: 'delete',
       color: 'danger',
@@ -99,9 +95,6 @@ const handleOptionsClick = async (args) => {
       break
     case 'add_content':
       await args.item.addContent()
-      break
-    case 'edit':
-      await args.item.seeInstance()
       break
     case 'duplicate':
       if (args.item.instance.install_stage == 'installed')
@@ -208,7 +201,7 @@ const filteredResults = computed(() => {
       v-slot="{ selected }"
       v-model="sortBy"
       name="Sort Dropdown"
-      class="max-w-[16rem]"
+      class="max-w-[14rem]"
       :options="['Name', 'Last played', 'Date created', 'Date modified']"
       placeholder="Select..."
     >
@@ -216,8 +209,7 @@ const filteredResults = computed(() => {
       <span class="font-semibold text-secondary">{{ selected }}</span>
     </DropdownSelect>
     <Button
-      icon-only
-      class="h-[40px] w-[40px] shrink-0"
+      icon-only toolbar
       v-tooltip="group === 'Group' ? 'Ungroup' : 'Group by category'"
       @click="group = group === 'Group' ? 'None' : 'Group'"
     >
@@ -259,11 +251,9 @@ const filteredResults = computed(() => {
     <template #play> <PlayIcon /> Play </template>
     <template #stop> <StopCircleIcon /> Stop </template>
     <template #add_content> <PlusIcon /> Add content </template>
-    <template #edit> <EyeIcon /> View modpack </template>
     <template #duplicate> <ClipboardCopyIcon /> Duplicate modpack</template>
-    <template #delete> <TrashIcon /> Delete </template>
-    <template #open> <FolderOpenIcon /> Open folder </template>
     <template #copy> <ClipboardCopyIcon /> Copy path </template>
+    <template #delete> <TrashIcon /> Delete </template>
   </ContextMenu>
 </template>
 <style lang="scss" scoped>
