@@ -370,7 +370,7 @@ const messages = defineMessages({
           </div>
         </div>
         <div class="flex gap-1">
-          <ButtonStyled color="orange" type="transparent" hover-color-fill="background">
+          <!-- ButtonStyled color="orange" type="transparent" hover-color-fill="background">
             <button
               v-tooltip="
                 repairing
@@ -396,7 +396,7 @@ const messages = defineMessages({
                   : formatMessage(messages.repairButton)
               }}
             </button>
-          </ButtonStyled>
+          </ButtonStyled -->
           <ButtonStyled v-if="modpackProject" hover-color-fill="background">
             <button
               v-tooltip="

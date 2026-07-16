@@ -210,23 +210,18 @@ const processedLogs = computed(() => {
 
 async function getLiveStdLog() {
   if (route.params.id) {
-    const processes = await get_by_profile_path(route.params.id).catch(handleError)
-    let returnValue
-    if (processes.length === 0) {
-      returnValue = emptyText.join('\n')
-    } else {
-      const logCursor = await get_latest_log_cursor(
-        props.instance.path,
-        currentLiveLogCursor.value,
-      ).catch(handleError)
-      if (logCursor.new_file) {
-        currentLiveLog.value = ''
-      }
-      currentLiveLog.value = currentLiveLog.value + logCursor.output
-      currentLiveLogCursor.value = logCursor.cursor
-      returnValue = currentLiveLog.value
+    const logCursor = await get_latest_log_cursor(
+      props.instance.path,
+      currentLiveLogCursor.value,
+    ).catch(handleError)
+    if (logCursor && logCursor.new_file) {
+      currentLiveLog.value = ''
     }
-    return { name: 'Live Log', stdout: returnValue, live: true }
+    if (logCursor) {
+      currentLiveLog.value = currentLiveLog.value + (logCursor.output || '')
+      currentLiveLogCursor.value = logCursor.cursor
+    }
+    return { name: 'Live Log', stdout: currentLiveLog.value || '', live: true }
   }
   return null
 }
@@ -288,11 +283,7 @@ watch(selectedLogIndex, async (newIndex) => {
   }
 })
 
-if (logs.value.length > 1 && !props.playing) {
-  selectedLogIndex.value = 1
-} else {
-  selectedLogIndex.value = 0
-}
+selectedLogIndex.value = 0
 
 const deleteLog = async () => {
   if (logs.value[selectedLogIndex.value] && selectedLogIndex.value !== 0) {
@@ -435,11 +426,8 @@ const unlistenProcesses = process_listener(async (e) => {
     selectedLogIndex.value = 0
   }
   if (e.event === 'finished') {
-    currentLiveLog.value = ''
-    currentLiveLogCursor.value = 0
     userScrolled.value = false
     await setLogs()
-    selectedLogIndex.value = 1
   }
 })
 

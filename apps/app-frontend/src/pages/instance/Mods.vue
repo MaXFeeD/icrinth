@@ -183,8 +183,8 @@
           :checked="!item.data.disabled"
           @update:model-value="toggleDisableMod(item.data)"
         />
-        <ButtonStyled type="transparent" circular>
-          <button v-tooltip="'Configure'" @click="">
+        <ButtonStyled v-if="item.data.has_config !== false" type="transparent" circular>
+          <button v-tooltip="'Configure'" @click="openProjectConfig(item)">
             <SettingsIcon />
           </button>
         </ButtonStyled>
@@ -226,6 +226,9 @@
       />
     </div>
   </template>
+  <div v-else-if="refreshingProjects" class="w-full flex flex-col items-center justify-center mt-6 p-8">
+    <LoadingIndicator />
+  </div>
   <div v-else class="w-full flex flex-col items-center justify-center mt-6 max-w-[48rem] mx-auto">
     <div class="top-box w-full">
       <div class="flex items-center gap-6 w-[32rem] mx-auto">
@@ -278,14 +281,16 @@ import {
   Button,
   ButtonStyled,
   ContentListPanel,
+  LoadingIndicator,
   OverflowMenu,
   Pagination,
   Toggle,
 } from '@icmods/ui'
 import { formatProjectType } from '@icmods/utils'
 import type { ComputedRef } from 'vue'
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, onUnmounted, ref, watch, onMounted } from 'vue'
 import { defineMessages, useVIntl } from '@vintl/vintl'
+import { useRouter } from 'vue-router'
 import {
   add_project_from_path,
   get_projects,
@@ -301,12 +306,6 @@ import { TextInputIcon } from '@/assets/icons'
 import ExportModal from '@/components/ui/ExportModal.vue'
 import ModpackVersionModal from '@/components/ui/ModpackVersionModal.vue'
 import AddContentButton from '@/components/ui/AddContentButton.vue'
-import {
-  get_organization_many,
-  get_project_many,
-  get_team_many,
-  get_version_many,
-} from '@/helpers/cache.js'
 import { profile_listener, drag_and_drop_listener } from '@/helpers/events'
 import ShareModalWrapper from '@/components/ui/modal/ShareModalWrapper.vue'
 import dayjs from 'dayjs'
@@ -330,13 +329,15 @@ const props = defineProps({
       return false
     },
   },
-  versions: {
-    type: Array,
-    required: true,
-  },
   playing: Boolean,
-  installed: Boolean
+  installed: Boolean,
+  projects: { type: Array, required: true },
+  versions: { type: Array, required: true },
+  setProjects: { type: Function, required: true },
+  refreshProjects: { type: Function, required: true }
 })
+
+const router = useRouter()
 
 const isPackLocked = computed(() => {
   return props.instance.linked_data && props.instance.linked_data.locked
@@ -347,100 +348,16 @@ const canUpdatePack = computed(() => {
 })
 const exportModal = ref(null)
 
-const projects = ref([])
 const selectedFiles = ref([])
 const selectedProjects = computed(() =>
-  projects.value.filter((x) => selectedFiles.value.includes(x.file_name)),
+  props.projects.filter((x) => selectedFiles.value.includes(x.file_name)),
 )
 
 const selectionMap = ref(new Map())
 
-const initProjects = async (cacheBehaviour?) => {
-  const newProjects = []
-
-  const profileProjects = await get_projects(props.instance.path, cacheBehaviour)
-  const fetchProjects = []
-  const fetchVersions = []
-
-  for (const value of Object.values(profileProjects)) {
-    if (value.metadata) {
-      fetchProjects.push(value.metadata.project_id)
-      fetchVersions.push(value.metadata.version_id)
-    }
-  }
-
-  const [icmodsProjects, icmodsVersions] = await Promise.all([
-    await get_project_many(fetchProjects).catch(handleError),
-    await get_version_many(fetchVersions).catch(handleError),
-  ])
-
-  const [icmodsTeams, icmodsOrganizations] = await Promise.all([
-    await get_team_many(icmodsProjects.map((x) => x.team)).catch(handleError),
-    await get_organization_many(icmodsProjects.map((x) => x.organization).filter((x) => !!x)).catch(
-      handleError,
-    ),
-  ])
-
-  for (const [path, file] of Object.entries(profileProjects)) {
-    if (file.metadata) {
-      const project = icmodsProjects.find((x) => file.metadata.project_id === x.id)
-      const version = icmodsVersions.find((x) => file.metadata.version_id === x.id)
-
-      if (project && version) {
-        const org = project.organization
-          ? icmodsOrganizations.find((x) => x.id === project.organization)
-          : null
-
-        const team = icmodsTeams.find((x) => x[0].team_id === project.team)
-
-        let owner
-
-        if (org) {
-          owner = org.name
-        } else if (team) {
-          owner = team.find((x) => x.is_owner).user.username
-        } else {
-          owner = null
-        }
-
-        newProjects.push({
-          path,
-          name: project.title,
-          slug: project.slug,
-          author: owner,
-          version: version.version_number,
-          file_name: file.file_name,
-          icon: project.icon_url,
-          disabled: file.file_name.endsWith('.disabled'),
-          updateVersion: file.update_version_id,
-          updated: dayjs(version.date_published),
-          outdated: !!file.update_version_id,
-          project_type: project.project_type,
-          id: project.id,
-        })
-      }
-
-      continue
-    }
-
-    newProjects.push({
-      path,
-      name: file.file_name.replace('.disabled', ''),
-      author: file.project_author || '',
-      version: file.project_version || null,
-      file_name: file.file_name,
-      icon: file.project_icon || null,
-      disabled: file.file_name.endsWith('.disabled'),
-      outdated: false,
-      updated: dayjs(0),
-      project_type: file.project_type === 'shaderpack' ? 'shader' : file.project_type,
-    })
-  }
-
-  projects.value = newProjects
-
+watch(() => props.projects, (newProjects) => {
   const newSelectionMap = new Map()
-  for (const project of projects.value) {
+  for (const project of newProjects) {
     newSelectionMap.set(
       project.path,
       selectionMap.value.get(project.path) ??
@@ -450,8 +367,15 @@ const initProjects = async (cacheBehaviour?) => {
     )
   }
   selectionMap.value = newSelectionMap
-}
-await initProjects()
+}, { immediate: true })
+
+onMounted(async () => {
+  if (props.projects.length === 0) {
+    refreshingProjects.value = true
+    await props.refreshProjects()
+    refreshingProjects.value = false
+  }
+})
 
 const modpackVersionModal = ref(null)
 const installing = computed(() => props.instance.install_stage !== 'installed')
@@ -478,7 +402,7 @@ const messages = defineMessages({
 const filterOptions: ComputedRef<FilterOption[]> = computed(() => {
   const options: FilterOption[] = []
 
-  const frequency = projects.value.reduce((map, item) => {
+  const frequency = props.projects.reduce((map, item) => {
     map[item.project_type] = (map[item.project_type] || 0) + 1
     return map
   }, {})
@@ -492,14 +416,14 @@ const filterOptions: ComputedRef<FilterOption[]> = computed(() => {
     })
   })
 
-  if (!isPackLocked.value && projects.value.some((m) => m.outdated)) {
+  if (!isPackLocked.value && props.projects.some((m) => m.outdated)) {
     options.push({
       id: 'updates',
       formattedName: formatMessage(messages.updatesAvailableFilter),
     })
   }
 
-  if (projects.value.some((m) => m.disabled)) {
+  if (props.projects.some((m) => m.disabled)) {
     options.push({
       id: 'disabled',
       formattedName: formatMessage(messages.disabledFilter),
@@ -518,7 +442,7 @@ const filteredProjects = computed(() => {
     (filter) => filter !== 'updates' && filter !== 'disabled',
   )
 
-  return projects.value.filter((project) => {
+  return props.projects.filter((project) => {
     return (
       (typeFilters.length === 0 || typeFilters.includes(project.project_type)) &&
       (!updatesFilter || project.outdated) &&
@@ -557,12 +481,12 @@ const selected = computed(() =>
       return args[1]
     })
     .map((args) => {
-      return projects.value.find((x) => x.path === args[0])
+      return props.projects.find((x) => x.path === args[0])
     }),
 )
 
 const functionValues = computed(() =>
-  selectedProjects.value.length > 0 ? selectedProjects.value : Array.from(projects.value.values()),
+  selectedProjects.value.length > 0 ? selectedProjects.value : Array.from(props.projects.values()),
 )
 
 const search = computed(() => {
@@ -598,7 +522,7 @@ const sortProjects = (filter) => {
 
 const updateAll = async () => {
   const setProjects = []
-  for (const [i, project] of projects.value.entries()) {
+  for (const [i, project] of props.projects.entries()) {
     if (project.outdated) {
       project.updating = true
       setProjects.push(i)
@@ -607,19 +531,21 @@ const updateAll = async () => {
 
   const paths = await update_all(props.instance.path).catch(handleError)
 
+  const newProjects = [...props.projects]
   for (const [oldVal, newVal] of Object.entries(paths)) {
-    const index = projects.value.findIndex((x) => x.path === oldVal)
-    projects.value[index].path = newVal
-    projects.value[index].outdated = false
+    const index = newProjects.findIndex((x) => x.path === oldVal)
+    newProjects[index].path = newVal
+    newProjects[index].outdated = false
 
-    if (projects.value[index].updateVersion) {
-      projects.value[index].version = projects.value[index].updateVersion.version_number
-      projects.value[index].updateVersion = null
+    if (newProjects[index].updateVersion) {
+      newProjects[index].version = newProjects[index].updateVersion.version_number
+      newProjects[index].updateVersion = null
     }
   }
   for (const project of setProjects) {
-    projects.value[project].updating = false
+    newProjects[project].updating = false
   }
+  props.setProjects(newProjects)
 
   trackEvent('InstanceUpdateAll', {
     loader: props.instance.loader,
@@ -683,7 +609,7 @@ const toggleDisableMod = async (mod) => {
 
 const removeMod = async (mod) => {
   await remove_project(props.instance.path, mod.path).catch(handleError)
-  projects.value = projects.value.filter((x) => mod.path !== x.path)
+  props.setProjects(props.projects.filter((x) => mod.path !== x.path))
 
   trackEvent('InstanceProjectRemove', {
     loader: props.instance.loader,
@@ -700,12 +626,22 @@ const copyModLink = async (mod) => {
   )
 }
 
+const openProjectConfig = (item) => {
+  router.push({
+    name: 'ProjectConfig',
+    params: {
+      id: props.instance.path,
+      projectPath: item.path,
+    },
+  })
+}
+
 const deleteSelected = async () => {
   for (const project of functionValues.value) {
     await remove_project(props.instance.path, project.path).catch(handleError)
   }
 
-  projects.value = projects.value.filter((x) => !x.selected)
+  props.setProjects(props.projects.filter((x) => !x.selected))
 }
 
 const shareNames = async () => {
@@ -777,7 +713,7 @@ watch(selectAll, () => {
 const refreshingProjects = ref(false)
 async function refreshProjects() {
   refreshingProjects.value = true
-  await initProjects('bypass')
+  await props.refreshProjects('bypass')
   refreshingProjects.value = false
 }
 

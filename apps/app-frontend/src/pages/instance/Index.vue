@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!isProjectRoute"
     class="p-6 pr-2 pb-4"
   >
     <ExportModal ref="exportModal" :instance="instance" />
@@ -102,7 +103,7 @@
       </template>
     </ContentPageHeader>
   </div>
-  <div class="px-6">
+  <div v-if="!isProjectRoute" class="px-6">
     <NavTabs :links="tabs" />
   </div>
   <div class="p-6 pt-4">
@@ -116,6 +117,9 @@
           <component
             :is="Component"
             :instance="instance"
+            :projects="projects"
+            :set-projects="(newProjects) => projects = newProjects"
+            :refresh-projects="initProjects"
             :options="options"
             :offline="offline"
             :playing="playing"
@@ -175,7 +179,7 @@ import {
   UserPlusIcon,
   XIcon,
 } from '@icmods/assets'
-import { finish_install, get, get_full_path, kill, run } from '@/helpers/profile'
+import { finish_install, get, get_full_path, kill, run, get_projects } from '@/helpers/profile'
 import { get_by_profile_path } from '@/helpers/process'
 import { process_listener, profile_listener } from '@/helpers/events'
 import { useRoute, useRouter } from 'vue-router'
@@ -187,7 +191,7 @@ import ContextMenu from '@/components/ui/ContextMenu.vue'
 import NavTabs from '@/components/ui/NavTabs.vue'
 import { trackEvent } from '@/helpers/analytics'
 import { handleSevereError } from '@/store/error.js'
-import { get_project, get_version_many } from '@/helpers/cache.js'
+import { get_project, get_version_many, get_team_many, get_organization_many, get_project_many } from '@/helpers/cache.js'
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -200,8 +204,10 @@ dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
 const route = useRoute()
-
 const router = useRouter()
+
+const isProjectRoute = computed(() => route.matched.some((r) => r.name === 'InstanceProject'))
+
 const breadcrumbs = useBreadcrumbs()
 
 const offline = ref(!navigator.onLine)
@@ -216,6 +222,81 @@ const instance = ref()
 const icmodsVersions = ref([])
 const playing = ref(false)
 const loading = ref(false)
+
+const projects = ref([])
+
+const initProjects = async (cacheBehaviour) => {
+  if (!instance.value) return
+  const newProjects = []
+  const profileProjects = await get_projects(instance.value.path, cacheBehaviour)
+  const fetchProjects = []
+  const fetchVersions = []
+  for (const value of Object.values(profileProjects)) {
+    if (value.metadata) {
+      fetchProjects.push(value.metadata.project_id)
+      fetchVersions.push(value.metadata.version_id)
+    }
+  }
+  const [icmodsProjects, icmodsVersions] = await Promise.all([
+    await get_project_many(fetchProjects).catch(handleError),
+    await get_version_many(fetchVersions).catch(handleError),
+  ])
+  const [icmodsTeams, icmodsOrganizations] = await Promise.all([
+    await get_team_many(icmodsProjects.map((x) => x.team)).catch(handleError),
+    await get_organization_many(icmodsProjects.map((x) => x.organization).filter((x) => !!x)).catch(handleError),
+  ])
+  for (const [path, file] of Object.entries(profileProjects)) {
+    if (file.metadata) {
+      const project = icmodsProjects.find((x) => file.metadata.project_id === x.id)
+      const version = icmodsVersions.find((x) => file.metadata.version_id === x.id)
+      if (project && version) {
+        const org = project.organization
+          ? icmodsOrganizations.find((x) => x.id === project.organization)
+          : null
+        const team = icmodsTeams.find((x) => x[0].team_id === project.team)
+        let owner
+        if (org) {
+          owner = org.name
+        } else if (team) {
+          owner = team.find((x) => x.is_owner).user.username
+        } else {
+          owner = null
+        }
+        newProjects.push({
+          path,
+          name: project.title,
+          slug: project.slug,
+          description: project.description,
+          author: owner,
+          version: version.version_number,
+          file_name: file.file_name,
+          icon: project.icon_url,
+          disabled: file.file_name.endsWith('.disabled'),
+          updateVersion: file.update_version_id,
+          updated: dayjs(version.date_published),
+          outdated: !!file.update_version_id,
+          project_type: project.project_type,
+          id: project.id,
+          data: project,
+        })
+      }
+      continue
+    }
+    newProjects.push({
+      path,
+      name: file.file_name.replace('.disabled', ''),
+      author: file.project_author || '',
+      version: file.project_version || null,
+      file_name: file.file_name,
+      icon: file.project_icon || null,
+      disabled: file.file_name.endsWith('.disabled'),
+      outdated: false,
+      updated: dayjs(0),
+      project_type: file.project_type === 'shaderpack' ? 'shader' : file.project_type,
+    })
+  }
+  projects.value = newProjects
+}
 
 async function fetchInstance() {
   instance.value = await get(route.params.id).catch(handleError)
@@ -259,6 +340,7 @@ const tabs = computed(() => [
   {
     label: 'Logs',
     href: `/instance/${encodeURIComponent(route.params.id)}/logs`,
+    shown: false,
   },
 ])
 

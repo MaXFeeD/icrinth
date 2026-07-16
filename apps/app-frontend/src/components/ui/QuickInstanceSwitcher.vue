@@ -22,11 +22,28 @@ const calculateMaxVisible = () => {
   const container = containerRef.value
   if (!navbar || !container) return
 
-  const navbarHeight = navbar.clientHeight
-  const otherElementsHeight = navbar.scrollHeight - container.clientHeight
-  const availableSpace = navbarHeight - otherElementsHeight
+  let usedSpace = 0
+  const computedStyle = window.getComputedStyle(navbar)
+  const paddingTop = parseFloat(computedStyle.paddingTop) || 0
+  const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0
+  const gap = parseFloat(computedStyle.rowGap) || 6
 
-  // 17px (margin) / 48px (button height) + 6px (gap) = 54px
+  usedSpace += paddingTop + paddingBottom
+
+  const children = Array.from(navbar.children)
+  for (const child of children) {
+    if (child === container) continue
+    const style = window.getComputedStyle(child)
+    usedSpace +=
+      child.getBoundingClientRect().height +
+      (parseFloat(style.marginTop) || 0) +
+      (parseFloat(style.marginBottom) || 0)
+  }
+  
+  usedSpace += (children.length - 1) * gap
+
+  const availableSpace = navbar.getBoundingClientRect().height - usedSpace
+
   const count = Math.floor((availableSpace - 17) / 54)
   maxVisible.value = Math.max(0, count)
 }

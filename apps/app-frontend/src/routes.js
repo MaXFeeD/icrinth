@@ -138,6 +138,28 @@ export default new createRouter({
             breadcrumb: [{ name: '?Instance', link: '/instance/{id}/' }, { name: 'Logs' }],
           },
         },
+        {
+          path: 'project/:projectPath',
+          name: 'InstanceProject',
+          component: Instance.Project.Index,
+          props: true,
+          children: [
+            {
+              path: 'config',
+              name: 'ProjectConfig',
+              component: Instance.Project.Config,
+              props: true,
+              meta: {
+                useRootContext: true,
+                breadcrumb: [
+                  { name: '?Instance', link: '/instance/{id}/' }, 
+                  { name: '?InstanceProject' }, 
+                  { name: 'Config' }
+                ],
+              },
+            }
+          ]
+        },
       ],
     },
   ],
